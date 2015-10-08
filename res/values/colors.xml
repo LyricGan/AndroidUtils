@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffffff</color>
+    <color name="white_light">#ffdddddd</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="black">#ff000000</color>
+    <color name="light_gray">#ffdddddd</color>
+    <color name="dark_gray">#ffaaaaaa</color>
+    <color name="vw_guide_bg">#ffd2f0ff</color>
+    <color name="base_text">#ff666666</color>
+    <color name="choose_area_item_press_color">#fff4f4f4</color>
+    <color name="default_bg">#fff6f6f6</color>
+    <color name="transparent">#00000000</color>
+    <color name="text_default">#ff545454</color>
+    <color name="layout_collect">#55cccccc</color>
+    <color name="title_bar_bg">#ff4dbfa5</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="light_white">#DCDCDC</color>
+    
+    <!-- drop down list header font color -->
+    <color name="drop_down_list_header_font_color">#000000</color>
+    <!-- drop down list header second font color -->
+    <color name="drop_down_list_header_second_font_color">#000000</color>
+    <!-- drop down list footer font color -->
+    <color name="drop_down_list_footer_font_color">#000000</color>
+
+</resources>
