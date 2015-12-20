@@ -1,4 +1,4 @@
-package com.lrc.baseand.entity;
+package com.lrc.baseand.utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +11,10 @@ import android.text.TextUtils;
  * @author ganyu
  *
  */
-public abstract class JsonHelper {
+public class JsonUtils {
+
+	private JsonUtils() {
+	}
 	
 	/**
 	 * 判断字符串是否为JSONObject
@@ -72,7 +75,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optString(String, String)}
 	 * @return
 	 */
-	public static String newString(JSONObject jsonObject, String key, String defaultValue) {
+	public static String getString(JSONObject jsonObject, String key, String defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return defaultValue;
 		}
@@ -87,7 +90,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optInt(String, int)}
 	 * @return
 	 */
-	public static int newInt(JSONObject jsonObject, String key, int defaultValue) {
+	public static int getInt(JSONObject jsonObject, String key, int defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return defaultValue;
 		}
@@ -102,7 +105,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optLong(String, long)}
 	 * @return
 	 */
-	public static long newLong(JSONObject jsonObject, String key, long defaultValue) {
+	public static long getLong(JSONObject jsonObject, String key, long defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return defaultValue;
 		}
@@ -117,7 +120,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optBoolean(String, boolean)}
 	 * @return
 	 */
-	public static boolean newBoolean(JSONObject jsonObject, String key, boolean defaultValue) {
+	public static boolean getBoolean(JSONObject jsonObject, String key, boolean defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return defaultValue;
 		}
@@ -132,7 +135,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optDouble(String, double)}
 	 * @return
 	 */
-	public static double newDouble(JSONObject jsonObject, String key, double defaultValue) {
+	public static double getDouble(JSONObject jsonObject, String key, double defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return defaultValue;
 		}
@@ -146,7 +149,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optJSONObject(String)}
 	 * @return JSON对象
 	 */
-	public static JSONObject newJsonObject(JSONObject jsonObject, String key) {
+	public static JSONObject getJsonObject(JSONObject jsonObject, String key) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return null;
 		}
@@ -160,7 +163,7 @@ public abstract class JsonHelper {
 	 * @see {@link JSONObject#optJSONArray(String)}
 	 * @return JSON数组
 	 */
-	public static JSONArray newJsonArray(JSONObject jsonObject, String key) {
+	public static JSONArray getJsonArray(JSONObject jsonObject, String key) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
 			return null;
 		}

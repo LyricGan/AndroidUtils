@@ -23,7 +23,7 @@ public class FileUtils {
 	 * 删除缓存文件
 	 * @param dir 文件目录
 	 * @param lastModified 时间戳
-	 * @return
+	 * @return 被删除文件数量
 	 */
 	public static int clearCacheFolder(File dir, long lastModified) {
 		int deletedFiles = 0;

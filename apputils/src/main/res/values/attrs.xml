@@ -40,6 +40,7 @@
         <attr name="textBackground" format="color|reference" />
         <attr name="isPassword" format="boolean" />
     </declare-styleable>
+    <!-- SlidingMenu -->
     <declare-styleable name="SlidingMenu">
         <attr name="mode">
             <enum name="left" value="0" />
@@ -65,7 +66,7 @@
         <attr name="selectorEnabled" format="boolean" />
         <attr name="selectorDrawable" format="reference" />
     </declare-styleable>
-    
+    <!-- RoundedImageView -->
     <declare-styleable name="RoundedImageView">
         <attr name="riv_corner_radius" format="dimension" />
         <attr name="riv_corner_radius_top_left" format="dimension" />
@@ -93,7 +94,7 @@
             <enum name="mirror" value="2" />
         </attr>
     </declare-styleable>
-    
+    <!-- MaterialMenuView -->
     <declare-styleable name="MaterialMenuView">
         <attr name="mm_color" format="color" />
         <attr name="mm_scale" format="integer" />

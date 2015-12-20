@@ -6,8 +6,11 @@ import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
 
-public class CloseUtils {
-    
+public class CloseIOUtils {
+
+	private CloseIOUtils() {
+	}
+
     /**
      * 关闭输入流
      * @param inputStream

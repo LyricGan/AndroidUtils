@@ -1,4 +1,4 @@
-package com.lrc.baseand.view.list;
+package com.lrc.baseand.view.listview;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

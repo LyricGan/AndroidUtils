@@ -25,7 +25,11 @@ public class MusicProvider {
 	
 	public static MusicProvider getInstance(Context context) {
 		if (mInstance == null) {
-			mInstance = new MusicProvider(context);
+			synchronized (MusicProvider.class) {
+				if (mInstance == null) {
+					mInstance = new MusicProvider(context);
+				}
+			}
 		}
 		return mInstance;
 	}

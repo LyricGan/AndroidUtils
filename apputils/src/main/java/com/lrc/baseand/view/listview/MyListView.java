@@ -1,4 +1,4 @@
-package com.lrc.baseand.view.list;
+package com.lrc.baseand.view.listview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
