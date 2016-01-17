@@ -7,9 +7,10 @@ package com.lrc.baseand.preference;
  */
 public class PreferenceDispatcher extends Thread {
     private boolean mCancel = false;
+    private PreferenceType mType;
 
-    public PreferenceDispatcher() {
-
+    public PreferenceDispatcher(PreferenceType type) {
+        this.mType = type;
     }
 
     public void cancel() {
@@ -22,8 +23,16 @@ public class PreferenceDispatcher extends Thread {
         super.run();
         while (true) {
             try {
-                //
+                // judge preference type
+                if (PreferenceType.READ == mType) {
 
+                } else if (PreferenceType.WRITE == mType) {
+
+                } else if (PreferenceType.REMOVE == mType) {
+
+                } else if (PreferenceType.CLEAR == mType) {
+
+                }
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
