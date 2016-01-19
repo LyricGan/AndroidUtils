@@ -58,22 +58,11 @@ public class PackageUtils {
 
     /** 应用安装返回码：安装成功 */
     public static final int INSTALL_SUCCEEDED = 1;
-    /**
-     * Installation return code<br/>
-     * the package is already installed.
-     */
+    /** 应用安装返回码：应用已存在 */
     public static final int INSTALL_FAILED_ALREADY_EXISTS = -1;
-
-    /**
-     * Installation return code<br/>
-     * the package archive file is invalid.
-     */
+    /** 应用安装返回码：无效的APK */
     public static final int INSTALL_FAILED_INVALID_APK = -2;
-
-    /**
-     * Installation return code<br/>
-     * the URI passed in is invalid.
-     */
+    /** 应用安装返回码：无效的URI */
     public static final int INSTALL_FAILED_INVALID_URI = -3;
 
     /**
