@@ -1,1 +1,1 @@
-include ':apputils'
+include ':library', ':app'
