@@ -16,7 +16,6 @@ import java.util.List;
  */
 public abstract class ListAdapter<T> extends BaseAdapter {
 	protected Context mContext;
-	/** 数据列表 */
 	protected List<T> mDataList;
 	
 	public ListAdapter(Context context, List<T> dataList) {
@@ -42,10 +41,6 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 	@Override
 	public abstract View getView(int position, View convertView, ViewGroup parent);
 	
-	/**
-	 * 移除指定索引的列表项
-	 * @param position 列表索引
-	 */
 	public void remove(int position) {
 		if (mDataList == null || position >= mDataList.size()) {
 			return;
@@ -54,10 +49,6 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
-	/**
-	 * 添加列表项
-	 * @param object
-	 */
 	public void add(T object) {
 		if (mDataList == null || object == null) {
 			return;
@@ -70,11 +61,6 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
-	/**
-	 * 在指定索引添加列表项
-	 * @param position 索引
-	 * @param object
-	 */
 	public void add(int position, T object) {
 		if (mDataList == null || position < 0 || object == null) {
 			return;
@@ -82,5 +68,4 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 		mDataList.add(position, object);
 		notifyDataSetChanged();
 	}
-
 }
