@@ -12,7 +12,7 @@ import com.lyric.android.library.log.MultiLog;
  * 
  */
 public class BaseApplication extends Application {
-	public static Context sContext;
+	private static Context sContext;
 
 	@Override
 	public void onCreate() {
