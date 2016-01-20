@@ -1,133 +1,63 @@
 package com.lyric.android.library.utils;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
-
-import java.util.Stack;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 
 /**
- * Activity管理类：用于Activity管理和应用程序退出
- * 
  * @author ganyu
- * @created 2014-8-6
- * 
+ * @description
+ * @time 2016/1/20 14:41
  */
 public class ActivityUtils {
-	private static Stack<Activity> mActivityStack;
-	private static ActivityUtils mInstance;
+    
+    private ActivityUtils() {
+    }
 
-	private ActivityUtils() {
-	}
+    public static void openActivity(Activity activity, Class<?> cls) {
+        openActivity(activity, cls, null);
+    }
 
-	/**
-	 * 单实例 , UI无需考虑多线程同步问题
-	 */
-	public static ActivityUtils init() {
-		if (mInstance == null) {
-			mInstance = new ActivityUtils();
-		}
-		return mInstance;
-	}
+    public static void openActivity(Activity activity, Class<?> cls, Bundle bundle) {
+        openActivity(activity, cls, bundle, 0);
+    }
 
-	/**
-	 * 添加Activity到栈
-	 */
-	public void addActivity(Activity activity) {
-		if (mActivityStack == null) {
-			mActivityStack = new Stack<Activity>();
-		}
-		mActivityStack.add(activity);
-	}
+    public static void openActivityForResult(Activity activity, Class<?> cls, int requestCode) {
+        openActivity(activity, cls, null, requestCode);
+    }
 
-	/**
-	 * 获取当前Activity（栈顶Activity）
-	 */
-	public Activity getCurrentActivity() {
-		if (mActivityStack == null || mActivityStack.isEmpty()) {
-			return null;
-		}
-		Activity activity = mActivityStack.lastElement();
-		return activity;
-	}
+    public static void openActivityForResult(Activity activity, Class<?> cls, Bundle bundle, int requestCode) {
+        openActivity(activity, cls, bundle, requestCode);
+    }
 
-	/**
-	 * 获取当前Activity（栈顶Activity） 没有找到则返回null
-	 */
-	public Activity findActivity(Class<?> cls) {
-		Activity activity = null;
-		for (Activity aty : mActivityStack) {
-			if (aty.getClass().equals(cls)) {
-				activity = aty;
-				break;
-			}
-		}
-		return activity;
-	}
+    public static void openActivity(Activity activity, Class<?> cls, Bundle bundle, int requestCode) {
+        Intent intent = new Intent(activity, cls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        if (requestCode == 0) {
+            activity.startActivity(intent);
+        } else {
+            activity.startActivityForResult(intent, requestCode);
+        }
+    }
 
-	/**
-	 * 结束当前Activity（栈顶Activity）
-	 */
-	public void finishActivity() {
-		Activity activity = mActivityStack.lastElement();
-		finishActivity(activity);
-	}
+    public static void openActivity(Activity activity, String action) {
+        Intent intent = new Intent(action);
+        activity.startActivity(intent);
+    }
 
-	/**
-	 * 结束指定的Activity(重载)
-	 */
-	public void finishActivity(Activity activity) {
-		if (activity != null) {
-			mActivityStack.remove(activity);
-			activity.finish();
-			activity = null;
-		}
-	}
+    public static void openActivity(Activity activity, String action, Uri uri) {
+        Intent intent = new Intent(action, uri);
+        activity.startActivity(intent);
+    }
 
-	/**
-	 * 结束指定的Activity(重载)
-	 */
-	public void finishActivity(Class<?> cls) {
-		for (Activity activity : mActivityStack) {
-			if (activity.getClass().equals(cls)) {
-				finishActivity(activity);
-			}
-		}
-	}
-
-	/**
-	 * 关闭除了指定activity以外的全部activity 如果cls不存在于栈中，则栈全部清空
-	 * @param cls
-	 */
-	public void finishOthersActivity(Class<?> cls) {
-		for (Activity activity : mActivityStack) {
-			if (!(activity.getClass().equals(cls))) {
-				finishActivity(activity);
-			}
-		}
-	}
-
-	/**
-	 * 结束所有Activity
-	 */
-	public void finishAllActivity() {
-		for (int i = 0, size = mActivityStack.size(); i < size; i++) {
-			if (null != mActivityStack.get(i)) {
-				mActivityStack.get(i).finish();
-			}
-		}
-		mActivityStack.clear();
-	}
-
-	/**
-	 * 退出应用程序
-	 * @param context
-	 */
-	public void exit(Context context) {
-		finishAllActivity();
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		activityManager.killBackgroundProcesses(context.getPackageName());
-		System.exit(0);
-	}
-	
+    public static void openActivity(Activity activity, String action, Bundle bundle) {
+        Intent intent = new Intent(action);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        activity.startActivity(intent);
+    }
 }
