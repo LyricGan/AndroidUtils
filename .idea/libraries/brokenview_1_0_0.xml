@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="brokenview-1.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.zys/brokenview/1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.zys/brokenview/1.0.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zys/brokenview/1.0.0/5386918935155667df28c6d3501da6b327a927de/brokenview-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

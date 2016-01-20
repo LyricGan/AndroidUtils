@@ -3,7 +3,7 @@ package com.lyric.android.app;
 import android.app.Application;
 import android.content.Context;
 
-import com.lyric.android.library.log.MultiLog;
+import com.lyric.android.library.log.AdvanceLogger;
 
 /**
  * extends Application {@link Application}
@@ -19,7 +19,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		sContext = this;
 		
-		MultiLog.setDebug(true);
+		AdvanceLogger.setDebug(true);
 	}
 
 	public static Context getContext() {

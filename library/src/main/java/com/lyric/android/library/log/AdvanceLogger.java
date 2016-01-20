@@ -9,21 +9,21 @@ import java.util.Hashtable;
  * @description log utils
  * @time 2016/1/19 18:13
  */
-public class MultiLog {
-    private static final String TAG = MultiLog.class.getSimpleName();
+public class AdvanceLogger {
+    private static final String TAG = AdvanceLogger.class.getSimpleName();
     private static boolean sDebug = false;
     private static int sLevel = Log.VERBOSE;
     private String mClassName;
-    private static Hashtable<String, MultiLog> mLoggerTable = new Hashtable<>();
+    private static Hashtable<String, AdvanceLogger> mLoggerTable = new Hashtable<>();
 
-    private MultiLog(String name) {
+    private AdvanceLogger(String name) {
         this.mClassName = name;
     }
 
-    private static MultiLog getInstance(String className) {
-        MultiLog classLogger = mLoggerTable.get(className);
+    private static AdvanceLogger getInstance(String className) {
+        AdvanceLogger classLogger = mLoggerTable.get(className);
         if (classLogger == null) {
-            classLogger = new MultiLog(className);
+            classLogger = new AdvanceLogger(className);
             mLoggerTable.put(className, classLogger);
         }
         return classLogger;

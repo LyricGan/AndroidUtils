@@ -16,7 +16,7 @@ public class ObjectUtils {
      *         </ul>
      */
     public static boolean isEquals(Object actual, Object expected) {
-        return actual == expected || (actual == null ? expected == null : actual.equals(expected));
+        return actual == expected || (actual != null && actual.equals(expected));
     }
 
     /**
