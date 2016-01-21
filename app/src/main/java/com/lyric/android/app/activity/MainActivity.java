@@ -46,6 +46,22 @@ public class MainActivity extends BaseActivity {
         lv_index_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+
+                    }
+                        break;
+                    case 1: {// db
+
+                    }
+                        break;
+                    case 2: {
+
+                    }
+                        break;
+                    default:
+                        break;
+                }
                 if (position == INDEX_ARRAY.length - 1) {
                     BrokenView brokenView = BrokenView.add2Window(MainActivity.this);
                     BrokenTouchListener listener = new BrokenTouchListener.Builder(brokenView)

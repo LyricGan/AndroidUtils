@@ -37,8 +37,8 @@ public abstract class BaseActivity extends Activity implements OnClickListener, 
 
     @Override
     protected void onResume() {
-        super.onResume();
         mDestroy = false;
+        super.onResume();
     }
 
     @Override
@@ -53,8 +53,8 @@ public abstract class BaseActivity extends Activity implements OnClickListener, 
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mDestroy = true;
+        super.onDestroy();
     }
 
     protected boolean isDestroy() {
