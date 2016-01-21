@@ -10,7 +10,7 @@ import com.lyric.android.app.R;
 
 /**
  * @author ganyu
- * @description
+ * @description title bar
  * @time 2016/1/20 14:21
  */
 public class TitleBar extends FrameLayout {
