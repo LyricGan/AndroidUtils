@@ -6,7 +6,7 @@ import io.realm.RealmResults;
 
 /**
  * @author ganyu
- * @description
+ * @description 资讯信息持久化数据管理类
  * @time 2016/1/21 17:18
  */
 public class NewsManager extends AbstractManager<NewsEntity> {

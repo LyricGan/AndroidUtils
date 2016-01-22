@@ -2,16 +2,16 @@ package com.lyric.android.app.db.manager;
 
 import com.lyric.android.app.BaseApplication;
 import com.lyric.android.app.db.DbHelper;
-import com.lyric.android.app.entity.BaseEntity;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 
 /**
  * @author ganyu
- * @description 数据库本地管理类，抽象类、泛型。
+ * @description 本地持久化数据管理类，抽象类、泛型。
  * @time 2016/1/21 17:21
  */
-public abstract class AbstractManager<E extends BaseEntity> {
+public abstract class AbstractManager<E extends RealmObject> {
     protected Realm mRealm;
 
     public AbstractManager() {

@@ -1,11 +1,18 @@
 package com.lyric.android.app.entity;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * @author ganyu
- * @description 新闻信息实体类
+ * @description 资讯信息实体类
  * @time 2016/1/21 17:16
  */
-public class NewsEntity extends BaseEntity {
+public class NewsEntity extends RealmObject {
+    @PrimaryKey
+    private long id;
+    @Required
     private String title;
     private String intro;
     private long addTime;
@@ -13,6 +20,14 @@ public class NewsEntity extends BaseEntity {
     private String source;
     private String coverUrl;
     private String detailsUrl;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getAddTime() {
         return addTime;
