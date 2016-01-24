@@ -1,87 +1,69 @@
 package com.lyric.android.app.entity;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author ganyu
  * @description 资讯信息实体类
  * @time 2016/1/21 17:16
  */
-public class NewsEntity extends RealmObject {
-    @PrimaryKey
-    private long id;
-    @Required
-    private String title;
-    private String intro;
-    private long addTime;
-    private String author;
-    private String source;
-    private String coverUrl;
-    private String detailsUrl;
+public class NewsEntity extends Entity<RealmNewsEntity> {
+    @SerializedName("id")
+    @Expose
+    public long id;
+    @SerializedName("title")
+    @Expose
+    public String title;
+    @SerializedName("intro")
+    @Expose
+    public String intro;
+    @SerializedName("add_time")
+    @Expose
+    public long addTime;
+    @SerializedName("author")
+    @Expose
+    public String author;
+    @SerializedName("source")
+    @Expose
+    public String source;
+    @SerializedName("cover_url")
+    @Expose
+    public String coverUrl;
+    @SerializedName("details_url")
+    @Expose
+    public String detailsUrl;
 
-    public long getId() {
-        return id;
+    @Override
+    public RealmNewsEntity transformToRealm() {
+        RealmNewsEntity realmNewsEntity = new RealmNewsEntity();
+        realmNewsEntity.setId(id);
+        realmNewsEntity.setTitle(title);
+        realmNewsEntity.setIntro(intro);
+        realmNewsEntity.setAddTime(addTime);
+        realmNewsEntity.setAuthor(author);
+        realmNewsEntity.setSource(source);
+        realmNewsEntity.setCoverUrl(coverUrl);
+        realmNewsEntity.setDetailsUrl(detailsUrl);
+        return realmNewsEntity;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    @Override
+    public Entity transformFromRealm(RealmNewsEntity realm) {
+        NewsEntity newsEntity = new NewsEntity();
+        newsEntity.id = realm.getId();
+        newsEntity.title = realm.getTitle();
+        newsEntity.intro = realm.getIntro();
+        newsEntity.addTime = realm.getAddTime();
+        newsEntity.author = realm.getAuthor();
+        newsEntity.source = realm.getSource();
+        newsEntity.coverUrl = realm.getCoverUrl();
+        newsEntity.detailsUrl = realm.getDetailsUrl();
+        return newsEntity;
     }
 
-    public long getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(long addTime) {
-        this.addTime = addTime;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getCoverUrl() {
-        return coverUrl;
-    }
-
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
-    }
-
-    public String getDetailsUrl() {
-        return detailsUrl;
-    }
-
-    public void setDetailsUrl(String detailsUrl) {
-        this.detailsUrl = detailsUrl;
-    }
-
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public Class getRealmClass() {
+        return RealmNewsEntity.class;
     }
 }
