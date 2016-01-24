@@ -2,6 +2,8 @@ package com.lyric.android.app.db.manager;
 
 import com.lyric.android.app.db.DbHelper;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 
@@ -19,5 +21,11 @@ public abstract class AbstractManager<E extends RealmObject> {
 
     public abstract void add(E object);
 
+    public abstract void delete(long id);
+
     public abstract void delete();
+
+    public abstract E query(long id);
+
+    public abstract List<E> query();
 }
