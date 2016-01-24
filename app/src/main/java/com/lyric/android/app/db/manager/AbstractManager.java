@@ -1,6 +1,5 @@
 package com.lyric.android.app.db.manager;
 
-import com.lyric.android.app.BaseApplication;
 import com.lyric.android.app.db.DbHelper;
 
 import io.realm.Realm;
@@ -15,7 +14,7 @@ public abstract class AbstractManager<E extends RealmObject> {
     protected Realm mRealm;
 
     public AbstractManager() {
-        mRealm = DbHelper.getHelper(BaseApplication.getContext()).getRealm();
+        mRealm = DbHelper.getRealm();
     }
 
     public abstract void add(E object);

@@ -1,6 +1,6 @@
 package com.lyric.android.app.db;
 
-import android.content.Context;
+import com.lyric.android.app.BaseApplication;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -12,38 +12,19 @@ import io.realm.RealmConfiguration;
  */
 public class DbHelper {
     private static final String DB_NAME = "db_utils";
-    private static DbHelper mInstance = new DbHelper();
     private static Realm mRealm;
 
     DbHelper() {
     }
 
-    public synchronized static DbHelper getHelper(Context context) {
+    public synchronized static Realm getRealm() {
         if (mRealm == null) {
-            mRealm = Realm.getInstance(new RealmConfiguration.Builder(context).name(DB_NAME).build());
+            mRealm = Realm.getInstance(new RealmConfiguration.Builder(BaseApplication.getContext()).name(DB_NAME).build());
         }
-        return mInstance;
-    }
-
-    public Realm getRealm() {
         return mRealm;
     }
 
     public String getDbName() {
         return DB_NAME;
-    }
-
-    public String getPath() {
-        if (mRealm == null) {
-            throw new NullPointerException("Realm can not be null");
-        }
-        return mRealm.getPath();
-    }
-
-    public void close() {
-        if (mRealm == null) {
-            throw new NullPointerException("Realm can not be null");
-        }
-        mRealm.close();
     }
 }
