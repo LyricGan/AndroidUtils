@@ -42,9 +42,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RequestQueue {
 
     /** Callback interface for completed requests. */
-    public static interface RequestFinishedListener<T> {
+    public interface RequestFinishedListener<T> {
         /** Called when a request has finished processing. */
-        public void onRequestFinished(Request<T> request);
+        void onRequestFinished(Request<T> request);
     }
     /** Used for generating monotonically-increasing sequence numbers for requests. */
     private AtomicInteger mSequenceGenerator = new AtomicInteger();

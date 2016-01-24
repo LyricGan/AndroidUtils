@@ -181,5 +181,4 @@ public class StringRequest extends Request<String> {
             return parseCharset(headers, HTTP.DEFAULT_CONTENT_CHARSET);
         }
     }
-    
 }

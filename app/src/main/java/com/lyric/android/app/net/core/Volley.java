@@ -68,6 +68,5 @@ public class Volley {
     public static RequestQueue newRequestQueue(Context context) {
         return newRequestQueue(context, null);
     }
-
 }
 

@@ -21,7 +21,7 @@ public class Response<T> {
     	 * 响应回调方法
     	 * @param response 响应数据
     	 */
-        public void onResponse(T response);
+        void onResponse(T response);
     }
 
     /** 响应错误回调接口 */
@@ -30,7 +30,7 @@ public class Response<T> {
     	 * 响应错误回调方法
     	 * @param error 错误信息，包括错误码和可选的用户可读信息
     	 */
-        public void onErrorResponse(RequestError error);
+        void onErrorResponse(RequestError error);
     }
     
     /**
@@ -80,5 +80,4 @@ public class Response<T> {
     public boolean isSuccess() {
         return error == null;
     }
-    
 }

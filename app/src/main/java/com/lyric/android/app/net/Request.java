@@ -146,7 +146,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     }
 
     /**
-     * @return this request's {@link com.android.volley.Response.ErrorListener}.
+     * @return this request's Response.ErrorListener
      */
     public Response.ErrorListener getErrorListener() {
         return mErrorListener;
@@ -446,7 +446,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     /**
      * Returns the socket timeout in milliseconds per retry attempt. (This value can be changed
      * per retry attempt if a backoff is specified via backoffTimeout()). If there are no retry
-     * attempts remaining, this will cause delivery of a {@link TimeoutError} error.
+     * attempts remaining, this will cause delivery of a TimeoutError error.
      */
     public final int getTimeoutMs() {
         return mRetryPolicy.getCurrentTimeout();
