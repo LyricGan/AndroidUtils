@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 import android.net.TrafficStats;
 import android.net.Uri;
@@ -23,7 +23,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
-import com.lyric.android.app.net.VolleyLog.MarkerLog;
+import com.lyric.android.app.api.net.VolleyLog.MarkerLog;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

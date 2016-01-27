@@ -1,9 +1,9 @@
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
-import com.lyric.android.app.net.Cache;
-import com.lyric.android.app.net.NetworkResponse;
-import com.lyric.android.app.net.Request;
-import com.lyric.android.app.net.Response;
+import com.lyric.android.app.api.net.Cache;
+import com.lyric.android.app.api.net.NetworkResponse;
+import com.lyric.android.app.api.net.Request;
+import com.lyric.android.app.api.net.Response;
 
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;

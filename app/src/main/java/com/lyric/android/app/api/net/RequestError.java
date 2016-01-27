@@ -1,4 +1,4 @@
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 /**
  * 网络请求异常封装类，继承 {@link Exception}

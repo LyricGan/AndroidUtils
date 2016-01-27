@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 import android.os.Handler;
 import android.os.Looper;
 
-import com.lyric.android.app.net.Cache;
-import com.lyric.android.app.net.NetworkResponse;
-import com.lyric.android.app.net.Request;
-import com.lyric.android.app.net.Response;
+import com.lyric.android.app.api.net.Cache;
+import com.lyric.android.app.api.net.NetworkResponse;
+import com.lyric.android.app.api.net.Request;
+import com.lyric.android.app.api.net.Response;
 
 
 /**

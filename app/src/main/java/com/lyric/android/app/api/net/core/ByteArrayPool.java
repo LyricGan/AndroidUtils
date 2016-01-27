@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 import java.util.ArrayList;
 import java.util.Collections;

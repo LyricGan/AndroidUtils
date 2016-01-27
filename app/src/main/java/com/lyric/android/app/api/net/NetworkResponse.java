@@ -1,4 +1,4 @@
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 import org.apache.http.HttpStatus;
 

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 import android.os.SystemClock;
 
-import com.lyric.android.app.net.Cache;
-import com.lyric.android.app.net.VolleyLog;
+import com.lyric.android.app.api.net.Cache;
+import com.lyric.android.app.api.net.VolleyLog;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;

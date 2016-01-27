@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 import android.annotation.TargetApi;
 import android.net.TrafficStats;
@@ -22,7 +22,7 @@ import android.os.Build;
 import android.os.Process;
 import android.os.SystemClock;
 
-import com.lyric.android.app.net.core.Network;
+import com.lyric.android.app.api.net.core.Network;
 
 import java.util.concurrent.BlockingQueue;
 

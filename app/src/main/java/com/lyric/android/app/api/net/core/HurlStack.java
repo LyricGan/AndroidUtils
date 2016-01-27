@@ -1,8 +1,8 @@
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 
-import com.lyric.android.app.net.Request;
-import com.lyric.android.app.net.RequestError;
+import com.lyric.android.app.api.net.Request;
+import com.lyric.android.app.api.net.RequestError;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;

@@ -1,4 +1,4 @@
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 /**
  * 响应解析交付封装类，泛型

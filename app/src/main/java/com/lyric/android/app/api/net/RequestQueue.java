@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 import android.os.Handler;
 import android.os.Looper;
 
-import com.lyric.android.app.net.core.Network;
+import com.lyric.android.app.api.net.core.Network;
 
 import java.util.ArrayList;
 import java.util.HashMap;

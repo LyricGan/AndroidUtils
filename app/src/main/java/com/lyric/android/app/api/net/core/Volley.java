@@ -1,8 +1,8 @@
-package com.lyric.android.app.net.core;
+package com.lyric.android.app.api.net.core;
 
 import android.content.Context;
 
-import com.lyric.android.app.net.RequestQueue;
+import com.lyric.android.app.api.net.RequestQueue;
 
 import java.io.File;
 

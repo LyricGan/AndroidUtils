@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.net;
+package com.lyric.android.app.api.net;
 
 import java.util.Collections;
 import java.util.Map;
