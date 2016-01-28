@@ -54,7 +54,7 @@ public class ExecutorsTest {
         @Override
         public void run() {
             try {
-                AdvanceLogger.e(TAG, "add thread run");
+                AdvanceLogger.e(TAG, "add thread run:" + Thread.currentThread().getName());
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
