@@ -21,12 +21,12 @@ public class ExecutorsTest {
 //        executorService = Executors.newCachedThreadPool();
 //        executorService = Executors.newSingleThreadExecutor();
 
-//        Thread thread1 = new AddThread();
-//        Thread thread2 = new AddThread();
-//        Thread thread3 = new AddThread();
-//        Thread thread4 = new AddThread();
-//        Thread thread5 = new AddThread();
-//        Thread thread6 = new AddThread();
+//        Thread thread1 = new AddThread("thread1");
+//        Thread thread2 = new AddThread("thread2");
+//        Thread thread3 = new AddThread("thread3");
+//        Thread thread4 = new AddThread("thread4");
+//        Thread thread5 = new AddThread("thread5");
+//        Thread thread6 = new AddThread("thread6");
 //
 //        executorService.execute(thread1);
 //        executorService.execute(thread2);
@@ -37,7 +37,7 @@ public class ExecutorsTest {
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 5, 5, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
         for (int i = 0; i < 20; i++) {
-            threadPoolExecutor.execute(new AddThread());
+            threadPoolExecutor.execute(new AddThread("thread" + i));
 
             if (i == 19) {
                 threadPoolExecutor.shutdown();
@@ -50,12 +50,17 @@ public class ExecutorsTest {
     }
 
     class AddThread extends Thread {
+        private String name;
+
+        public AddThread(String name) {
+            this.name = name;
+        }
 
         @Override
         public void run() {
             try {
-                AdvanceLogger.e(TAG, "add thread run:" + Thread.currentThread().getName());
-                Thread.sleep(100);
+                AdvanceLogger.e(TAG, "add thread run:" + name);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

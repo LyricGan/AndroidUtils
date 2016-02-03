@@ -10,6 +10,7 @@ import com.joanzapata.android.QuickAdapter;
 import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.BaseApplication;
 import com.lyric.android.app.R;
+import com.lyric.android.app.test.ExecutorSortTest;
 import com.lyric.android.app.test.ExecutorsTest;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.ToastUtils;
@@ -112,6 +113,8 @@ public class MainActivity extends BaseActivity {
         });
 
         ExecutorsTest.start();
+
+        ExecutorSortTest executorSortTest = new ExecutorSortTest();
     }
 
     @Override
