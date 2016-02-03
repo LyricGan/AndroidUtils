@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 /**
- * 
-* @ClassName: DatasUtil 
-* @Description: TODO(这里用一句话描述这个类的作用) 
-* @author yiw
-* @date 2015-12-28 下午4:16:21 
-*
+ * @ClassName: DatasUtil
+ * @Description: TODO(这里用一句话描述这个类的作用)
+ * @author yiw
+ * @date 2015-12-28 下午4:16:21
  */
 public class DatasUtil {
 	public static final String[] CONTENTS = { "", "哈哈", "今天是个好日子", "呵呵", "图不错",

@@ -1,11 +1,5 @@
 package com.yiw.circledemo.bean;
 
-/**
- * @author yiw
- * @ClassName: User
- * @Description:
- * @date 2015-12-28 下午3:45:04
- */
 public class User {
     private String id;
     private String name;

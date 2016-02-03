@@ -2,12 +2,7 @@ package com.yiw.circledemo.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-/**
-* @ClassName: DensityUtil 
-* @Description: TODO(这里用一句话描述这个类的作用) 
-* @author yiw
-* @date 2015-12-28 下午4:17:01 
- */
+
 public class DensityUtil {
 	
 	public static int dip2px(Context context, float dpValue) {

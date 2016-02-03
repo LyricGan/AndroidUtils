@@ -2,12 +2,6 @@ package com.yiw.circledemo.bean;
 
 import java.io.Serializable;
 
-/**
- * @author yiw
- * @ClassName: FavortItem
- * @Description: TODO(这里用一句话描述这个类的作用)
- * @date 2015-12-28 下午3:44:56
- */
 public class FavortItem implements Serializable {
     private static final long serialVersionUID = 1L;
     private String id;
@@ -28,5 +22,4 @@ public class FavortItem implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
 }

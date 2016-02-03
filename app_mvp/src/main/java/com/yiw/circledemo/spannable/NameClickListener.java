@@ -6,12 +6,7 @@ import android.widget.Toast;
 import com.yiw.circledemo.MyApplication;
 
 /**
- *
- * @ClassName: NameClickListener
- * @Description: 点赞和评论中人名的点击事件
- * @author yiw
- * @date 2015-01-02 下午3:42:21
- *
+ * 点赞和评论中人名的点击事件
  */
 public class NameClickListener implements ISpanClick {
     private SpannableString userName;

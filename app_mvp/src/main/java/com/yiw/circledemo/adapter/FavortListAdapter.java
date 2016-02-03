@@ -16,13 +16,7 @@ import com.yiw.circledemo.widgets.FavortListView;
 
 import java.util.List;
 
-/**
- * @author yiw
- * @Description:
- * @date 16/1/2 18:51
- */
 public class FavortListAdapter {
-
     private FavortListView mListView;
     private List<FavortItem> datas;
 
@@ -38,7 +32,6 @@ public class FavortListAdapter {
     public void bindListView(FavortListView listview){
         mListView = listview;
     }
-
 
     public int getCount() {
         if(datas != null && datas.size() > 0){

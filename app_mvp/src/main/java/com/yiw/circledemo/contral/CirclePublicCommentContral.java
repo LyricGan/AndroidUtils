@@ -74,9 +74,6 @@ public class CirclePublicCommentContral {
      * @param mCirclePosition
      * @param commentType      0:发布评论   1：回复评论
      * @param replyUser
-     * @return void    返回类型
-     * @throws
-     * @Title: editTextBodyVisible
      * @Description: 评论时显示发布布局，评论完隐藏，根据不同位置调节listview的滑动
      */
     public void editTextBodyVisible(int visibility, CirclePresenter mCirclePresenter, int mCirclePosition, int commentType, User replyUser, int commentPosition) {

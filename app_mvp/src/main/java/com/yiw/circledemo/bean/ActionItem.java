@@ -4,12 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 /**
- * 
-* @ClassName: ActionItem 
-* @Description: 弹窗内部子类项（绘制标题和图标） 
-* @author yiw
-* @date 2015-12-28 下午3:43:30 
-*
+ * 弹窗内部子类项（绘制标题和图标）
  */
 public class ActionItem {
 	// 定义图片对象

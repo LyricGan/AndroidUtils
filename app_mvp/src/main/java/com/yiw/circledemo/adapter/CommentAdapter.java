@@ -29,19 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName: CommentAdapter
- * @Description: 评论的adapter
- * @author yiw
- * @date 2015-12-28 下午3:40:29
+ * 评论列表适配器
  */
 public class CommentAdapter extends BaseAdapter {
-
     private List<CommentItem> datasource = new ArrayList<CommentItem>();
     private Context mContext;
     private ICommentItemClickListener commentItemClickListener;// 评论点击事件
 
-    public void setCommentClickListener(
-            ICommentItemClickListener commentItemClickListener) {
+    public void setCommentClickListener(ICommentItemClickListener commentItemClickListener) {
         this.commentItemClickListener = commentItemClickListener;
     }
 
@@ -49,10 +44,8 @@ public class CommentAdapter extends BaseAdapter {
         mContext = context;
     }
 
-    /**
-     * @param context
-     */
     public CommentAdapter(Activity context, List<CommentItem> datasource) {
+        mContext = context;
         this.datasource = datasource;
     }
 
@@ -73,16 +66,13 @@ public class CommentAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(mContext,
-                    R.layout.im_social_item_comment, null);
+            convertView = View.inflate(mContext, R.layout.im_social_item_comment, null);
             holder.commentTv = (TextView) convertView.findViewById(R.id.commentTv);
-            holder.circleMovementMethod = new CircleMovementMethod(R.color.name_selector_color,
-                    R.color.name_selector_color);
+            holder.circleMovementMethod = new CircleMovementMethod(R.color.name_selector_color, R.color.name_selector_color);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         final CommentItem bean = datasource.get(position);
         String name = bean.getUser().getName();
         String id = bean.getId();
@@ -90,17 +80,15 @@ public class CommentAdapter extends BaseAdapter {
         if (bean.getToReplyUser() != null) {
             toReplyName = bean.getToReplyUser().getName();
         }
-
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(setClickableSpan(name, 0));
 
         if (!TextUtils.isEmpty(toReplyName)) {
-
             builder.append(" 回复 ");
             builder.append(setClickableSpan(toReplyName, 1));
         }
         builder.append(": ");
-        //转换表情字符
+        // 转换表情字符
         String contentBodyStr = bean.getContent();
         //SpannableString contentSpanText = new SpannableString(contentBodyStr);
         //contentSpanText.setSpan(new UnderlineSpan(), 0, contentSpanText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -112,7 +100,7 @@ public class CommentAdapter extends BaseAdapter {
         holder.commentTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (circleMovementMethod.isPassToTv()) {
+                if (circleMovementMethod.isPassToTv() && commentItemClickListener != null) {
                     commentItemClickListener.onItemClick(position);
                 }
             }
@@ -123,9 +111,8 @@ public class CommentAdapter extends BaseAdapter {
     @NonNull
     private SpannableString setClickableSpan(String textStr, int position) {
         SpannableString subjectSpanText = new SpannableString(textStr);
-        subjectSpanText.setSpan(new NameClickable(new NameClickListener(
-                        subjectSpanText, ""), position), 0, subjectSpanText.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        subjectSpanText.setSpan(new NameClickable(new NameClickListener( subjectSpanText, ""), position), 0,
+                subjectSpanText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return subjectSpanText;
     }
 
@@ -150,7 +137,6 @@ public class CommentAdapter extends BaseAdapter {
 
     public interface ICommentItemClickListener {
 
-        public void onItemClick(int position);
+        void onItemClick(int position);
     }
-
 }
