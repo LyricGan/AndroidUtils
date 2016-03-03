@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Application</string>
+    <string name="full_text">全文</string>
+    <string name="pack_up">收起</string>
 </resources>
