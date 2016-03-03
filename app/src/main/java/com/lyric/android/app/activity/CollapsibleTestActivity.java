@@ -17,33 +17,37 @@ import java.util.List;
 
 public class CollapsibleTestActivity extends BaseActivity {
     private ListView lv_text_list;
-    private List<String> stringList;
-    private TextExpendEntity textExpendEntity;
+    private List<TestDataEntity> textDataEntityList;
 
     @Override
     public void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_collapsible_test);
 
         lv_text_list = (ListView) findViewById(R.id.lv_text_list);
-        stringList = new ArrayList<>();
+        textDataEntityList = new ArrayList<>();
         for (int i = 0; i < 20; i ++) {
-            String value = "iii" + i + "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView";
-            stringList.add(value);
+            String value = "iii" + i + "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，" +
+                    "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，" +
+                    "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView。";
+            TestDataEntity testDataEntity = new TestDataEntity();
+            testDataEntity.setValue(value);
+            textDataEntityList.add(testDataEntity);
         }
         TextAdapter adapter = new TextAdapter();
         lv_text_list.setAdapter(adapter);
     }
 
     class TextAdapter extends BaseAdapter {
+        TextExpendEntity textExpendEntity;
 
         @Override
         public int getCount() {
-            return stringList.size();
+            return textDataEntityList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return stringList.get(position);
+            return textDataEntityList.get(position);
         }
 
         @Override
@@ -62,11 +66,18 @@ public class CollapsibleTestActivity extends BaseActivity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.view_collapsible.setText(stringList.get(position), 4, textExpendEntity);
+            textExpendEntity = textDataEntityList.get(position).getTextExpendEntity();
+            if (position % 2 == 0) {
+                viewHolder.view_collapsible.setText(textDataEntityList.get(position).getValue(), 3, textExpendEntity);
+            } else {
+                viewHolder.view_collapsible.setText(textDataEntityList.get(position).getValue(), 5, textExpendEntity);
+            }
             viewHolder.view_collapsible.setOnTextLayoutChangedListener(new OnTextLayoutChangedListener() {
                 @Override
                 public void onChanged(boolean firstLoad, boolean flag, boolean clicked, int status) {
-                    textExpendEntity = new TextExpendEntity();
+                    if (textExpendEntity == null) {
+                        textExpendEntity = new TextExpendEntity();
+                    }
                     textExpendEntity.setFirstLoad(firstLoad);
                     textExpendEntity.setFlag(flag);
                     textExpendEntity.setClicked(clicked);
@@ -80,6 +91,27 @@ public class CollapsibleTestActivity extends BaseActivity {
 
     static class ViewHolder {
         private CollapsibleTextView view_collapsible;
+    }
+
+    class TestDataEntity {
+        private String value;
+        private TextExpendEntity textExpendEntity;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public TextExpendEntity getTextExpendEntity() {
+            return textExpendEntity;
+        }
+
+        public void setTextExpendEntity(TextExpendEntity textExpendEntity) {
+            this.textExpendEntity = textExpendEntity;
+        }
     }
 
 }
