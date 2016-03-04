@@ -1,6 +1,6 @@
 package com.lyric.android.app.test;
 
-import com.lyric.android.library.log.AdvanceLogger;
+import com.lyric.android.library.log.Loggers;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,7 +59,7 @@ public class ExecutorsTest {
         @Override
         public void run() {
             try {
-                AdvanceLogger.e(TAG, "add thread run:" + name);
+                Loggers.e(TAG, "add thread run:" + name);
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -5,10 +5,12 @@ import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
+import com.lyric.android.library.log.Loggers;
 
 /**
  * 可折叠显示文字，全文、收起
@@ -59,6 +61,15 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
 
         tv_text_status.setVisibility(View.GONE);
         tv_text_status.setOnClickListener(this);
+        ViewTreeObserver viewTreeObserver = tv_text_content.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                int lineCount = tv_text_content.getLineCount();
+                Loggers.e("ganyu", "lineCount:" + lineCount);
+                return true;
+            }
+        });
     }
 
     public void setText(CharSequence text, int maxLines, TextExpendEntity textExpendEntity) {
@@ -114,9 +125,9 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
             } else {
                 post(mInnerRunnable);
             }
-            if (mOnTextLayoutChangedListener != null) {
-                mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
-            }
+        }
+        if (mOnTextLayoutChangedListener != null) {
+            mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
         }
     }
 

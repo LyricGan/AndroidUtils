@@ -18,27 +18,32 @@ public class TitleBar extends FrameLayout {
 
     public TitleBar(Context context) {
         super(context);
-        init();
+        initialize();
     }
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initialize();
     }
 
     public TitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        initialize();
     }
 
-    private void init() {
+    private void initialize() {
         View view = View.inflate(getContext(), R.layout.view_title_bar, this);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
 
-        tv_title.setText("Android_Utils");
+        tv_title.setText("AndroidUtils");
     }
 
     public void setTitle(String title) {
         tv_title.setText(title);
     }
+
+    public void setTitle(int titleResId) {
+        tv_title.setText(titleResId);
+    }
+
 }

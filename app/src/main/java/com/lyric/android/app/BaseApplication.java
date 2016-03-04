@@ -3,7 +3,7 @@ package com.lyric.android.app;
 import android.app.Application;
 import android.content.Context;
 
-import com.lyric.android.library.log.AdvanceLogger;
+import com.lyric.android.library.log.Loggers;
 
 /**
  * extends Application {@link Application}
@@ -19,7 +19,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		sContext = this;
 		
-		AdvanceLogger.setDebug(true);
+		Loggers.setDebug(true);
 	}
 
 	public static Context getContext() {

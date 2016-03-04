@@ -9,21 +9,21 @@ import java.util.Hashtable;
  * @description log utils
  * @time 2016/1/19 18:13
  */
-public class AdvanceLogger {
-    private static final String TAG = AdvanceLogger.class.getSimpleName();
+public class Loggers {
+    private static final String TAG = Loggers.class.getSimpleName();
     private static boolean sDebug = false;
     private static int sLevel = Log.VERBOSE;
     private String mClassName;
-    private static Hashtable<String, AdvanceLogger> mLoggerTable = new Hashtable<>();
+    private static Hashtable<String, Loggers> mLoggerTable = new Hashtable<>();
 
-    private AdvanceLogger(String name) {
+    private Loggers(String name) {
         this.mClassName = name;
     }
 
-    private static AdvanceLogger getInstance(String className) {
-        AdvanceLogger classLogger = mLoggerTable.get(className);
+    private static Loggers getInstance(String className) {
+        Loggers classLogger = mLoggerTable.get(className);
         if (classLogger == null) {
-            classLogger = new AdvanceLogger(className);
+            classLogger = new Loggers(className);
             mLoggerTable.put(className, classLogger);
         }
         return classLogger;

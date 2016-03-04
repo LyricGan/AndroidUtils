@@ -29,6 +29,12 @@ public class CollapsibleTestActivity extends BaseActivity {
             String value = "iii" + i + "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，" +
                     "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，" +
                     "如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView，如何写一个可以展开的TextView。";
+            if (i % 2 == 0) {
+                value = "iii" + i + "通过自定义View组合封装，通过自定义View组合封装，通过自定义View组合封装，通过自定义View组合封装，通过自定义View组合封装，通过自定义View组合封装，通过自定义View组合封装。";
+            } else if (i % 3 == 0) {
+                value = "iii" + i + "自定义MoreTextView并获取这些属性的值，自定义MoreTextView并获取这些属性的值，自定义MoreTextView并获取这些属性的值，" +
+                        "自定义MoreTextView并获取这些属性的值，自定义MoreTextView并获取这些属性的值，自定义MoreTextView并获取这些属性的值，自定义MoreTextView并获取这些属性的值。";
+            }
             TestDataEntity testDataEntity = new TestDataEntity();
             testDataEntity.setValue(value);
             textDataEntityList.add(testDataEntity);
@@ -38,7 +44,6 @@ public class CollapsibleTestActivity extends BaseActivity {
     }
 
     class TextAdapter extends BaseAdapter {
-        TextExpendEntity textExpendEntity;
 
         @Override
         public int getCount() {
@@ -56,7 +61,7 @@ public class CollapsibleTestActivity extends BaseActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
@@ -66,7 +71,7 @@ public class CollapsibleTestActivity extends BaseActivity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            textExpendEntity = textDataEntityList.get(position).getTextExpendEntity();
+            TextExpendEntity textExpendEntity = textDataEntityList.get(position).getTextExpendEntity();
             if (position % 2 == 0) {
                 viewHolder.view_collapsible.setText(textDataEntityList.get(position).getValue(), 3, textExpendEntity);
             } else {
@@ -75,13 +80,12 @@ public class CollapsibleTestActivity extends BaseActivity {
             viewHolder.view_collapsible.setOnTextLayoutChangedListener(new OnTextLayoutChangedListener() {
                 @Override
                 public void onChanged(boolean firstLoad, boolean flag, boolean clicked, int status) {
-                    if (textExpendEntity == null) {
-                        textExpendEntity = new TextExpendEntity();
-                    }
+                    TextExpendEntity textExpendEntity = new TextExpendEntity();
                     textExpendEntity.setFirstLoad(firstLoad);
                     textExpendEntity.setFlag(flag);
                     textExpendEntity.setClicked(clicked);
                     textExpendEntity.setStatus(status);
+                    textDataEntityList.get(position).setTextExpendEntity(textExpendEntity);
                 }
             });
             return convertView;
