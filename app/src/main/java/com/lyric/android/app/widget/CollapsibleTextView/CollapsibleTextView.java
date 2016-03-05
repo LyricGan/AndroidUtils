@@ -5,12 +5,10 @@ import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.library.log.Loggers;
 
 /**
  * 可折叠显示文字，全文、收起
@@ -61,15 +59,6 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
 
         tv_text_status.setVisibility(View.GONE);
         tv_text_status.setOnClickListener(this);
-        ViewTreeObserver viewTreeObserver = tv_text_content.getViewTreeObserver();
-        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                int lineCount = tv_text_content.getLineCount();
-                Loggers.e("ganyu", "lineCount:" + lineCount);
-                return true;
-            }
-        });
     }
 
     public void setText(CharSequence text, int maxLines, TextExpendEntity textExpendEntity) {
@@ -82,9 +71,9 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
             this.mClicked = false;
             this.mStatus = STATE_NONE;
         } else {
-            this.mFirstLoad = textExpendEntity.isFirstLoad();
-            this.mFlag = textExpendEntity.isFlag();
-            this.mClicked = textExpendEntity.isClicked();
+            this.mFirstLoad = true;
+            this.mFlag = false;
+            this.mClicked = false;
             this.mStatus = textExpendEntity.getStatus();
         }
         if (STATE_NONE == mStatus) {
@@ -126,9 +115,6 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
                 post(mInnerRunnable);
             }
         }
-        if (mOnTextLayoutChangedListener != null) {
-            mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
-        }
     }
 
     public int getStatus() {
@@ -136,6 +122,9 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
     }
 
     public void setStatus(int status) {
+        if (mStatus != status && mOnTextLayoutChangedListener != null) {
+            mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
+        }
         this.mStatus = status;
     }
 
@@ -157,13 +146,13 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
         if (getStatus() == STATE_OPEN) {
             tv_text_content.setMaxLines(Integer.MAX_VALUE);
             tv_text_status.setVisibility(View.VISIBLE);
-            tv_text_status.setText(R.string.pack_up);
+            tv_text_status.setText(R.string.status_collapse);
 
             setStatus(STATE_CLOSE);
         } else if (getStatus() == STATE_CLOSE) {
             tv_text_content.setMaxLines(mMaxLines);
             tv_text_status.setVisibility(View.VISIBLE);
-            tv_text_status.setText(R.string.full_text);
+            tv_text_status.setText(R.string.status_expand);
 
             setStatus(STATE_OPEN);
         }
