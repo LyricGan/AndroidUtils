@@ -290,7 +290,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         public boolean willChangeBounds( ) {
             return true;
         }
-    };
+    }
 
     public interface OnExpandStateChangeListener {
         /**

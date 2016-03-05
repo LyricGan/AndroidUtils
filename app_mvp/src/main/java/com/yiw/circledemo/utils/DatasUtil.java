@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Random;
 /**
  * @ClassName: DatasUtil
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description:
  * @author yiw
  * @date 2015-12-28 下午4:16:21
  */
 public class DatasUtil {
-	public static final String[] CONTENTS = { "", "哈哈", "今天是个好日子", "呵呵", "图不错",
-			"我勒个去" };
+	public static final String[] CONTENTS = { "", "哈哈", "今天是个好日子,今天是个好日子", "呵呵,今天是个好日子,今天是个好日子", "图不错",
+			"我勒个去", "这里用一句话描述这个类的作用,这里用一句话描述这个类的作用,这里用一句话描述这个类的作用,这里用一句话描述这个类的作用" };
 	public static final String[] PHOTOS = {
 			"http://f.hiphotos.baidu.com/image/pic/item/faf2b2119313b07e97f760d908d7912396dd8c9c.jpg",
 			"http://g.hiphotos.baidu.com/image/pic/item/4b90f603738da977c76ab6fab451f8198718e39e.jpg",
@@ -61,7 +61,7 @@ public class DatasUtil {
 	static {
 		User user1 = new User("1", "张三", HEADIMG[1]);
 		User user2 = new User("2", "李四", HEADIMG[2]);
-		User user3 = new User("3", "隔壁老王", HEADIMG[3]);
+		User user3 = new User("3", "王五", HEADIMG[3]);
 		User user4 = new User("4", "赵六", HEADIMG[4]);
 		User user5 = new User("5", "田七", HEADIMG[5]);
 		User user6 = new User("6", "Naoki", HEADIMG[6]);
