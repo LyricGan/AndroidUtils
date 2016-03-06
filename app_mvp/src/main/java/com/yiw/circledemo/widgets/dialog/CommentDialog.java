@@ -17,24 +17,20 @@ import com.yiw.circledemo.mvp.presenter.CirclePresenter;
 import com.yiw.circledemo.utils.DatasUtil;
 /**
  * 
-* @ClassName: CommentDialog 
-* @Description: 评论长按对话框，保护复制和删除 
-* @author yiw
-* @date 2015-12-28 下午3:36:39 
-*
+ * @ClassName: CommentDialog
+ * @Description: 评论长按对话框，保护复制和删除
+ * @author yiw
+ * @date 2015-12-28 下午3:36:39
  */
-public class CommentDialog extends Dialog implements
-		android.view.View.OnClickListener {
-
+public class CommentDialog extends Dialog implements android.view.View.OnClickListener {
 	private Context mContext;
 	private CirclePresenter mPresenter;
 	private CommentItem mCommentItem;
 	private int mCirclePosition;
 
-	public CommentDialog(Context context, CirclePresenter presenter,
-			CommentItem commentItem, int circlePosition) {
+	public CommentDialog(Context context, CirclePresenter presenter, CommentItem commentItem, int circlePosition) {
 		super(context, R.style.comment_dialog);
-		mContext = context;
+		this.mContext = context;
 		this.mPresenter = presenter;
 		this.mCommentItem = commentItem;
 		this.mCirclePosition = circlePosition;
@@ -51,8 +47,7 @@ public class CommentDialog extends Dialog implements
 	private void initWindowParams() {
 		Window dialogWindow = getWindow();
 		// 获取屏幕宽、高用
-		WindowManager wm = (WindowManager) mContext
-				.getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 		lp.width = (int) (display.getWidth() * 0.65); // 宽度设置为屏幕的0.65
@@ -65,9 +60,7 @@ public class CommentDialog extends Dialog implements
 		TextView copyTv = (TextView) findViewById(R.id.copyTv);
 		copyTv.setOnClickListener(this);
 		TextView deleteTv = (TextView) findViewById(R.id.deleteTv);
-		if (mCommentItem != null
-				&& DatasUtil.curUser.getId().equals(
-						mCommentItem.getUser().getId())) {
+		if (mCommentItem != null && DatasUtil.curUser.getId().equals(mCommentItem.getUser().getId())) {
 			deleteTv.setVisibility(View.VISIBLE);
 		} else {
 			deleteTv.setVisibility(View.GONE);
@@ -95,5 +88,4 @@ public class CommentDialog extends Dialog implements
 			break;
 		}
 	}
-
 }

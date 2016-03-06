@@ -8,7 +8,6 @@ import android.view.ViewConfiguration;
 import android.widget.ListView;
 
 public class AppNoScrollerListView extends ListView {
-
 	private static final int INVALID_POINTER = -1;
 	private int mActivePointerId;
 	private float mInitialMotionY;
@@ -24,7 +23,6 @@ public class AppNoScrollerListView extends ListView {
 
 	public AppNoScrollerListView(Context context) {
 		this(context, null);
-
 	}
 
 	public AppNoScrollerListView(Context context, AttributeSet attrs) {
@@ -124,6 +122,6 @@ public class AppNoScrollerListView extends ListView {
 	}
 
 	public interface OnHorizonalTouchEventListener {
-		public void onHorizonalTouchEvent();
+        void onHorizonalTouchEvent();
 	}
 }

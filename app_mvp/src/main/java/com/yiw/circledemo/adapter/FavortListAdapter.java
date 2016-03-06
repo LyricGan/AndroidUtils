@@ -29,19 +29,19 @@ public class FavortListAdapter {
     }
 
     @NonNull
-    public void bindListView(FavortListView listview){
+    public void bindListView(FavortListView listview) {
         mListView = listview;
     }
 
     public int getCount() {
-        if(datas != null && datas.size() > 0){
+        if (datas != null && datas.size() > 0) {
             return datas.size();
         }
         return 0;
     }
 
     public Object getItem(int position) {
-        if(datas != null && datas.size() > position){
+        if (datas != null && datas.size() > position) {
             return datas.get(position);
         }
         return null;
@@ -51,23 +51,22 @@ public class FavortListAdapter {
         return position;
     }
 
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        if(datas != null && datas.size() > 0){
-            //添加点赞图标
+        if (datas != null && datas.size() > 0) {
+            // 添加点赞图标
             builder.append(setImageSpan());
-            //builder.append("  ");
-            FavortItem item = null;
-            for (int i=0; i<datas.size(); i++){
+            // builder.append("  ");
+            FavortItem item;
+            for (int i = 0; i < datas.size(); i++) {
                 item = datas.get(i);
-                if(item != null){
+                if (item != null) {
                     builder.append(setClickableSpan(item.getUser().getName(), i));
-                    if(i != datas.size()-1){
+                    if (i != datas.size() - 1) {
                         builder.append(", ");
                     }
                 }
             }
-
         }
         mListView.setText(builder);
         mListView.setMovementMethod(new CircleMovementMethod(R.color.name_selector_color));
@@ -81,11 +80,11 @@ public class FavortListAdapter {
         return subjectSpanText;
     }
 
-    private SpannableString setImageSpan(){
+    private SpannableString setImageSpan() {
         String text = "  ";
         SpannableString imgSpanText = new SpannableString(text);
         imgSpanText.setSpan(new ImageSpan(MyApplication.getContext(), R.drawable.im_ic_dig_tips, DynamicDrawableSpan.ALIGN_BASELINE),
-                0 , 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return imgSpanText;
     }
 }

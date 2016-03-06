@@ -1,10 +1,5 @@
 package com.yiw.circledemo.adapter;
 
-/*
- Suneee Android Client, NoticeItemAdapter
- Copyright (c) 2014 Suneee Tech Company Limited
- */
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;

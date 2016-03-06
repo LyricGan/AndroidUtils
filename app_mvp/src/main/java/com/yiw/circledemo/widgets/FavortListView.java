@@ -12,14 +12,15 @@ import com.yiw.circledemo.spannable.ISpanClick;
  * @Description:
  * @date 16/1/2 18:47
  */
-public class FavortListView extends TextView{
+public class FavortListView extends TextView {
     private ISpanClick mSpanClickListener;
 
-    public void setSpanClickListener(ISpanClick listener){
+    public void setSpanClickListener(ISpanClick listener) {
         mSpanClickListener = listener;
     }
-    public ISpanClick getSpanClickListener(){
-        return  mSpanClickListener;
+
+    public ISpanClick getSpanClickListener() {
+        return mSpanClickListener;
     }
 
     public FavortListView(Context context) {
@@ -34,8 +35,7 @@ public class FavortListView extends TextView{
         super(context, attrs, defStyle);
     }
 
-    public void setAdapter(FavortListAdapter adapter){
+    public void setAdapter(FavortListAdapter adapter) {
         adapter.bindListView(this);
     }
-
 }

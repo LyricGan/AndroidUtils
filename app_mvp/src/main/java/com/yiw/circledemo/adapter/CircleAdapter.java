@@ -57,7 +57,7 @@ public class CircleAdapter extends BaseAdapter implements ICircleViewUpdate {
     private CirclePublicCommentContral mCirclePublicCommentContral;
     private List<CircleItem> datas = new ArrayList<CircleItem>();
 
-    public void setmCirclePublicCommentContral(CirclePublicCommentContral circlePublicCommentContral) {
+    public void setCirclePublicCommentContral(CirclePublicCommentContral circlePublicCommentContral) {
         this.mCirclePublicCommentContral = circlePublicCommentContral;
     }
 

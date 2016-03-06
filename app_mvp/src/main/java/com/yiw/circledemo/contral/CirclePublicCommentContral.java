@@ -26,7 +26,6 @@ public class CirclePublicCommentContral {
     private static final String TAG = CirclePublicCommentContral.class.getSimpleName();
     private View mEditTextBody;
     private EditText mEditText;
-    private View mSendBt;
     private CirclePresenter mCirclePresenter;
     private int mCirclePosition;
     private int mCommentType;
@@ -43,7 +42,7 @@ public class CirclePublicCommentContral {
      */
     private int mSelectCommentItemBottom;
 
-    public ListView getmListView() {
+    public ListView getListView() {
         return mListView;
     }
 
@@ -55,12 +54,11 @@ public class CirclePublicCommentContral {
         mContext = context;
         mEditTextBody = editTextBody;
         mEditText = editText;
-        mSendBt = sendBt;
-        mSendBt.setOnClickListener(new OnClickListener() {
+        sendBt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mCirclePresenter != null) {
-                    //发布评论
+                    // 发布评论
                     mCirclePresenter.addComment(mCirclePosition, mCommentType, mReplyUser);
                 }
                 editTextBodyVisible(View.GONE);
@@ -69,16 +67,16 @@ public class CirclePublicCommentContral {
     }
 
     /**
-     * @param visibility
-     * @param mCirclePresenter
-     * @param mCirclePosition
-     * @param commentType      0:发布评论   1：回复评论
-     * @param replyUser
+     * @param visibility visibile
+     * @param circlePresenter circle presenter
+     * @param mCirclePosition circle position
+     * @param commentType 0:发布评论   1：回复评论
+     * @param replyUser reply user
      * @Description: 评论时显示发布布局，评论完隐藏，根据不同位置调节listview的滑动
      */
-    public void editTextBodyVisible(int visibility, CirclePresenter mCirclePresenter, int mCirclePosition, int commentType, User replyUser, int commentPosition) {
+    public void editTextBodyVisible(int visibility, CirclePresenter circlePresenter, int mCirclePosition, int commentType, User replyUser, int commentPosition) {
         this.mCirclePosition = mCirclePosition;
-        this.mCirclePresenter = mCirclePresenter;
+        this.mCirclePresenter = circlePresenter;
         this.mCommentType = commentType;
         this.mReplyUser = replyUser;
         this.mCommentPosition = commentPosition;
@@ -93,11 +91,11 @@ public class CirclePublicCommentContral {
             View selectCircleItem = mListView.getChildAt(mCirclePosition - firstPosition);
             mSelectCircleItemH = selectCircleItem.getHeight();
 
-            if (commentType == ICircleViewUpdate.TYPE_REPLY_COMMENT) {//回复评论的情况
+            if (commentType == ICircleViewUpdate.TYPE_REPLY_COMMENT) {// 回复评论的情况
                 AppNoScrollerListView commentLv = (AppNoScrollerListView) selectCircleItem.findViewById(R.id.commentList);
                 if (commentLv != null) {
                     int firstCommentPosition = commentLv.getFirstVisiblePosition();
-                    //找到要回复的评论view,计算出该view距离所属动态底部的距离
+                    // 找到要回复的评论view,计算出该view距离所属动态底部的距离
                     View selectCommentItem = commentLv.getChildAt(mCommentPosition - firstCommentPosition);
                     if (selectCommentItem != null) {
                         mSelectCommentItemBottom = 0;
@@ -116,9 +114,9 @@ public class CirclePublicCommentContral {
     }
 
     public void handleListViewScroll() {
-        int keyH = MyApplication.mKeyBoardH;//键盘的高度
-        int editTextBodyH = ((MainActivity) mContext).getEditTextBodyHeight();//整个EditTextBody的高度
-        int screenlH = ((MainActivity) mContext).getScreenHeight();//整个应用屏幕的高度
+        int keyH = MyApplication.mKeyBoardH;// 键盘的高度
+        int editTextBodyH = ((MainActivity) mContext).getEditTextBodyHeight();// 整个EditTextBody的高度
+        int screenlH = ((MainActivity) mContext).getScreenHeight();// 整个应用屏幕的高度
         int listviewOffset = screenlH - mSelectCircleItemH - keyH - editTextBodyH;
         Log.d(TAG, "offset=" + listviewOffset + " &mSelectCircleItemH=" + mSelectCircleItemH + " &keyH=" + keyH + " &editTextBodyH=" + editTextBodyH);
         if (mCommentType == ICircleViewUpdate.TYPE_REPLY_COMMENT) {
@@ -127,7 +125,6 @@ public class CirclePublicCommentContral {
         if (mListView != null) {
             mListView.setSelectionFromTop(mCirclePosition, listviewOffset);
         }
-
     }
 
     public void editTextBodyVisible(int visibility) {
@@ -135,11 +132,10 @@ public class CirclePublicCommentContral {
             mEditTextBody.setVisibility(visibility);
             if (View.VISIBLE == visibility) {
                 mEditText.requestFocus();
-                //弹出键盘
+                // 弹出键盘
                 CommonUtils.showSoftInput(mEditText.getContext(), mEditText);
-
             } else if (View.GONE == visibility) {
-                //隐藏键盘
+                // 隐藏键盘
                 CommonUtils.hideSoftInput(mEditText.getContext(), mEditText);
             }
         }
@@ -158,5 +154,4 @@ public class CirclePublicCommentContral {
             mEditText.setText("");
         }
     }
-
 }
