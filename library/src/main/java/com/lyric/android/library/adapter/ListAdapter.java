@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ import java.util.List;
 public abstract class ListAdapter<T> extends BaseAdapter {
 	protected Context mContext;
 	protected List<T> mDataList;
+
+    public ListAdapter(Context context) {
+        this(context, new ArrayList<T>());
+    }
 	
 	public ListAdapter(Context context, List<T> dataList) {
 		this.mContext = context;
@@ -40,32 +45,57 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public abstract View getView(int position, View convertView, ViewGroup parent);
-	
-	public void remove(int position) {
-		if (mDataList == null || position >= mDataList.size()) {
-			return;
-		}
-		mDataList.remove(position);
-		notifyDataSetChanged();
-	}
-	
-	public void add(T object) {
-		if (mDataList == null || object == null) {
-			return;
-		}
-		int position = 0;
-		if (mDataList.size() > 0) {
-			position = mDataList.size() - 1;
-		}
-		mDataList.add(position, object);
-		notifyDataSetChanged();
-	}
-	
-	public void add(int position, T object) {
-		if (mDataList == null || position < 0 || object == null) {
-			return;
-		}
-		mDataList.add(position, object);
-		notifyDataSetChanged();
-	}
+
+    public void setDataList(List<T> dataList) {
+        this.mDataList = dataList;
+    }
+
+    public List<T> getDataList() {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+        }
+        return mDataList;
+    }
+
+    public void add(T object) {
+        this.add(this.mDataList.size(), object);
+    }
+
+    public void add(int location, T object) {
+        if (location < 0 || location > this.mDataList.size()) {
+            return;
+        }
+        if (object != null) {
+            this.mDataList.add(location, object);
+            this.notifyDataSetChanged();
+        }
+    }
+
+    public void add(List<T> dataList) {
+        if (dataList != null && dataList.size() > 0) {
+            this.mDataList.addAll(dataList);
+            this.notifyDataSetChanged();
+        }
+    }
+
+    public void remove(T object) {
+        if (object != null) {
+            this.mDataList.remove(object);
+            this.notifyDataSetChanged();
+        }
+    }
+
+    public void remove(int location) {
+        if (location < 0 || location >= this.mDataList.size()) {
+            return;
+        }
+        this.mDataList.remove(location);
+        this.notifyDataSetChanged();
+    }
+
+    public void clear() {
+        this.mDataList.clear();
+        this.notifyDataSetChanged();
+    }
+
 }

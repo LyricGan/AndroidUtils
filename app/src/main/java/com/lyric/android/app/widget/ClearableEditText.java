@@ -132,4 +132,5 @@ public class ClearableEditText extends AutoCompleteTextView implements View.OnFo
         translateAnimation.setDuration(1000);
         return translateAnimation;
     }
+
 }
