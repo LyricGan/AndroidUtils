@@ -1,15 +1,12 @@
 package com.lyric.android.library.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.text.Selection;
 import android.text.Spannable;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,11 +39,11 @@ public class ViewUtils {
 
     /**
      * 获取GridView垂直间距
-     * @param gridView
-     * @return
+     * @param gridView GridView
+     * @return int
      */
     public static int getGridViewVerticalSpacing(GridView gridView) {
-		Class<?> cls = null;
+		Class<?> cls;
 		int verticalSpacing = 0;
 		try {
 			cls = Class.forName(CLASS_NAME_GRID_VIEW);
@@ -62,7 +59,7 @@ public class ViewUtils {
 
 	/**
 	 * 设置视图及其子视图可用
-	 * @param view
+	 * @param view View
 	 */
 	public static void setViewEnabled(View view) {
 		setViewEnabled(view, true);
@@ -70,7 +67,7 @@ public class ViewUtils {
 	
 	/**
 	 * 设置视图及其子视图不可用
-	 * @param view
+	 * @param view View
 	 */
 	public static void setViewUnabled(View view) {
 		setViewEnabled(view, false);
@@ -79,7 +76,7 @@ public class ViewUtils {
 	/**
 	 * 设置视图及其子视图是否可用
 	 * @param view 视图对象
-	 * @param enabled
+	 * @param enabled boolean
 	 */
 	public static void setViewEnabled(View view, boolean enabled) {
 		if (view instanceof ViewGroup) {
@@ -100,8 +97,8 @@ public class ViewUtils {
 	
 	/**
 	 * 设置视图及其子视图点击时间
-	 * @param view
-	 * @param listener
+	 * @param view View
+	 * @param listener OnClickListener
 	 */
 	public static void setSearchViewOnClickListener(View view, OnClickListener listener) {
         if (view instanceof ViewGroup) {
@@ -123,22 +120,18 @@ public class ViewUtils {
 	
 	/**
 	 * 设置视图高度
-	 * @param view
-	 * @param height
+	 * @param view View
+	 * @param height height
 	 * @see {@link View}
 	 */
 	public static void setViewHeight(View view, int height) {
-        if (view == null) {
-            return;
-        }
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = height;
     }
 	
 	/**
      * 设置ListView高度，{@link # getListViewHeightBasedOnChildren(ListView)}
-     * @param view
-     * @return
+     * @param view ListView
      */
     public static void setListViewHeightBasedOnChildren(ListView view) {
         setViewHeight(view, getListViewHeightBasedOnChildren(view));
@@ -146,8 +139,8 @@ public class ViewUtils {
 
 	/**
 	 * 获取ListView的高度，通过计算 {@link ListView}
-	 * @param view
-	 * @return
+	 * @param view ListView
+	 * @return int
 	 */
 	public static int getListViewHeightBasedOnChildren(ListView view) {
         int height = getAbsListViewHeightBasedOnChildren(view);
@@ -161,8 +154,7 @@ public class ViewUtils {
 	
 	/**
      * 设置AbsListView的高度，通过计算 {@link # getAbsListViewHeightBasedOnChildren(AbsListView)}
-     * @param view
-     * @return
+     * @param view AbsListView
      */
     public static void setAbsListViewHeightBasedOnChildren(AbsListView view) {
         setViewHeight(view, getAbsListViewHeightBasedOnChildren(view));
@@ -170,8 +162,8 @@ public class ViewUtils {
 	
 	/**
      * 获取AbsListView高度，{@link AbsListView}
-     * @param view
-     * @return
+     * @param view AbsListView
+     * @return int
      */
     public static int getAbsListViewHeightBasedOnChildren(AbsListView view) {
         ListAdapter adapter;
@@ -191,49 +183,10 @@ public class ViewUtils {
         return height;
     }
     
-    /**
-	 * 将dip转换为px
-	 * @param context 上下文对象
-	 * @param dipValue dip
-	 * @return
-	 */
-	public static int dip2px(Context context, float dipValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (dipValue * scale + 0.5f * (dipValue >= 0 ? 1 : -1));
-	}
-	
-	/**
-	 * 将px转换为dip
-	 * @param context 上下文对象
-	 * @param pxValue px
-	 * @return
-	 */
-	public static int px2dip(Context context, float pxValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (pxValue / scale + 0.5f * (pxValue >= 0 ? 1 : -1));
-	}
-	
-	/**
-	 * 以数组的形式返回屏幕分辨率
-	 * @param context 上下文对象
-	 * @return
-	 */
-	public static int[] getDisplay(Context context) {
-		if (context == null) {
-			return null;
-		}
-		DisplayMetrics metrics = new DisplayMetrics();
-		((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		int[] display = new int[2];
-		display[0] = metrics.widthPixels;
-		display[1] = metrics.heightPixels;
-		return display;
-	}
-	
 	/**
 	 * 隐藏软键盘
-	 * @param context
-	 * @param editText
+	 * @param context Context
+	 * @param editText EditText
 	 */
 	public static void hideInputMethod(Context context, EditText editText) {
 		InputMethodManager inputMethodManager = null;
@@ -249,8 +202,8 @@ public class ViewUtils {
 	
 	/**
 	 * 显示软键盘
-	 * @param context
-	 * @param editText
+	 * @param context Context
+     * @param editText EditText
 	 */
 	public static void showInputMethod(Context context, EditText editText) {
 		InputMethodManager inputMethodManager = null;
@@ -269,8 +222,8 @@ public class ViewUtils {
 	
 	/**
 	 * 设置输入框光标停留在文字后面
-	 * @param context
-	 * @param editText
+	 * @param context Context
+     * @param editText EditText
 	 */
 	public static void setTextCursor(Context context, EditText editText) {
 		CharSequence text = editText.getText();
@@ -282,8 +235,8 @@ public class ViewUtils {
 	
 	/**
 	 * 对ScrollView截图
-	 * @param scrollView
-	 * @return
+	 * @param scrollView ScrollView
+	 * @return Bitmap
 	 */
 	public static Bitmap getBitmap(ScrollView scrollView) {
 		int height = 0;
@@ -300,8 +253,8 @@ public class ViewUtils {
 	
 	/**
 	 * 对WebView截图
-	 * @param webView
-	 * @return
+	 * @param webView WebView
+	 * @return Bitmap
 	 */
 	@SuppressWarnings("deprecation")
 	public static Bitmap getBitmap(WebView webView) {
@@ -313,21 +266,10 @@ public class ViewUtils {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		final byte[] bytes = stream.toByteArray();
-		if (bitmap != null && !bitmap.isRecycled()) {
+		if (!bitmap.isRecycled()) {
 			bitmap.recycle();
 		}
 		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 	}
-	
-	/**
-	 * 设置文本样式
-	 * @param textView
-	 */
-	public static void setTextUnderline(TextView textView) {
-		// 中间加横线
-		textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-		// 底部加横线：
-//		textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-	}
-	
+
 }

@@ -1,5 +1,7 @@
 package com.lyric.android.library.utils;
 
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -297,5 +299,125 @@ public class StringUtils {
 		}
 		return fileName;
 	}
+
+    /**
+     * 对EditText字数的限制
+     *
+     * @param charCount 输入限定字符数
+     * @return InputFilter[]
+     */
+    public static InputFilter[] lengthFilter(final int charCount) {
+        return new InputFilter[]{ new InputFilter.LengthFilter(50) {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                String text = dest.toString() + source.toString();
+                try {
+                    if (text.getBytes("GBK").length > charCount) {
+                        int destBytesLength = dest.toString().getBytes("GBK").length;
+                        // 截取source
+                        return source.toString().substring(0, (charCount - destBytesLength + 1) / 2);
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return source;
+            }
+        }};
+    }
+
+    /**
+     * 判断字符串是否为手机号
+     *
+     * @param str 字符串
+     * @return 是否为手机号
+     */
+    public static boolean isMobile(String str) {
+        return str.matches("^((1[358][0-9])|(14[57])|(17[0678]))\\d{8}$");
+    }
+
+    /**
+     * 判断是否为密码，不能包含特殊字符，空格、制表符、中文
+     *
+     * @param value 字符串，不能包含特殊字符，空格、制表符、中文
+     * @return 是否为密码
+     */
+    public static boolean isPassword(String value) {
+        if (TextUtils.isEmpty(value)) {
+            return false;
+        }
+        if ((value.contains(" ") || value.contains("\t") || value.contains("\n") || value.contains("\r")) || hasChineseChar(value)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isEmail(String email) {
+        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(email);
+
+        return m.matches();
+    }
+
+    /**
+     * 隐藏手机号中间四位
+     *
+     * @param number 手机号码
+     * @return String
+     */
+    public static String buildHiddenMobile(String number) {
+        if (null == number || number.length() < 11) {
+            return number;
+        }
+        return number.substring(0, 3) + "****" + number.substring(7, number.length());
+    }
+
+    /**
+     * 获取字符串长度
+     *
+     * @param value 字符串
+     * @return 字符串长度
+     */
+    public static int getCharLength(String value) {
+        if (TextUtils.isEmpty(value)) {
+            return 0;
+        }
+        int valueLength = 0;
+        String chineseChar = "[\u0391-\uFFE5]";
+        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
+        for (int i = 0; i < value.length(); i++) {
+            // 获取一个字符
+            String temp = value.substring(i, i + 1);
+            // 判断是否为中文字符
+            if (temp.matches(chineseChar)) {
+                // 中文字符长度为2
+                valueLength += 2;
+            } else {
+                // 非中文字符长度为1
+                valueLength += 1;
+            }
+        }
+        return valueLength;
+    }
+
+    /**
+     * 判断字符串是否包含中文
+     *
+     * @param value 字符串
+     * @return boolean
+     */
+    public static boolean hasChineseChar(String value) {
+        if (TextUtils.isEmpty(value)) {
+            return false;
+        }
+        String chineseChar = "[\u0391-\uFFE5]";
+        for (int i = 0; i < value.length(); i++) {
+            String temp = value.substring(i, i + 1);
+            if (temp.matches(chineseChar)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
