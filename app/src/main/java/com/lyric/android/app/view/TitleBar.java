@@ -35,7 +35,7 @@ public class TitleBar extends FrameLayout {
         View view = View.inflate(getContext(), R.layout.view_title_bar, this);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
 
-        tv_title.setText("AndroidUtils");
+        tv_title.setText(R.string.app_name);
     }
 
     public void setTitle(String title) {

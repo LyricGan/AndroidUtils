@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="#3F51B5">
+                android:background="#009eff">
 
     <TextView
         android:id="@+id/tv_title"
@@ -12,4 +12,5 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white"
         android:textSize="18sp"/>
+
 </RelativeLayout>

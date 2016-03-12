@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,6 +28,11 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 		this.mContext = context;
 		this.mDataList = dataList;
 	}
+
+    public ListAdapter(Context context, T[] arrays) {
+        this.mContext = context;
+        this.mDataList = Arrays.asList(arrays);
+    }
 	
 	@Override
 	public int getCount() {

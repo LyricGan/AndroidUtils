@@ -15,23 +15,23 @@ public class ActivityUtils {
     private ActivityUtils() {
     }
 
-    public static void openActivity(Activity activity, Class<? extends Activity> cls) {
-        openActivity(activity, cls, null);
+    public static void toActivity(Activity activity, Class<? extends Activity> cls) {
+        toActivity(activity, cls, null);
     }
 
-    public static void openActivity(Activity activity, Class<? extends Activity> cls, Bundle bundle) {
-        openActivity(activity, cls, bundle, 0);
+    public static void toActivity(Activity activity, Class<? extends Activity> cls, Bundle bundle) {
+        toActivity(activity, cls, bundle, 0);
     }
 
-    public static void openActivityForResult(Activity activity, Class<? extends Activity> cls, int requestCode) {
-        openActivity(activity, cls, null, requestCode);
+    public static void toActivityForResult(Activity activity, Class<? extends Activity> cls, int requestCode) {
+        toActivity(activity, cls, null, requestCode);
     }
 
-    public static void openActivityForResult(Activity activity, Class<? extends Activity> cls, Bundle bundle, int requestCode) {
-        openActivity(activity, cls, bundle, requestCode);
+    public static void toActivityForResult(Activity activity, Class<? extends Activity> cls, Bundle bundle, int requestCode) {
+        toActivity(activity, cls, bundle, requestCode);
     }
 
-    public static void openActivity(Activity activity, Class<? extends Activity> cls, Bundle bundle, int requestCode) {
+    public static void toActivity(Activity activity, Class<? extends Activity> cls, Bundle bundle, int requestCode) {
         Intent intent = new Intent(activity, cls);
         if (bundle != null) {
             intent.putExtras(bundle);
@@ -43,17 +43,17 @@ public class ActivityUtils {
         }
     }
 
-    public static void openActivity(Activity activity, String action) {
+    public static void toActivity(Activity activity, String action) {
         Intent intent = new Intent(action);
         activity.startActivity(intent);
     }
 
-    public static void openActivity(Activity activity, String action, Uri uri) {
+    public static void toActivity(Activity activity, String action, Uri uri) {
         Intent intent = new Intent(action, uri);
         activity.startActivity(intent);
     }
 
-    public static void openActivity(Activity activity, String action, Bundle bundle) {
+    public static void toActivity(Activity activity, String action, Bundle bundle) {
         Intent intent = new Intent(action);
         if (bundle != null) {
             intent.putExtras(bundle);

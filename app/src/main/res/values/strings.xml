@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Application</string>
+    <string name="app_name">AndroidUtils</string>
     <string name="status_expand">展开</string>
     <string name="status_collapse">收起</string>
 </resources>
