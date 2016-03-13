@@ -14,20 +14,18 @@ import org.json.JSONObject;
  */
 public class JsonUtils {
 
-	private JsonUtils() {
+    JsonUtils() {
 	}
 	
 	/**
 	 * 判断字符串是否为JSONObject
 	 * @param json 字符串
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean isJsonObject(String json) {
 		try {
-			JSONObject jsonObject = new JSONObject(json);
-			if (jsonObject != null) {
-				return true;
-			}
+			new JSONObject(json);
+            return true;
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -37,14 +35,12 @@ public class JsonUtils {
 	/**
 	 * 判断字符串是否为JSONArray
 	 * @param json 字符串
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean isJsonArray(String json) {
 		try {
-			JSONArray jsonArray = new JSONArray(json);
-			if (jsonArray != null) {
-				return true;
-			}
+			new JSONArray(json);
+            return true;
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -53,13 +49,13 @@ public class JsonUtils {
 	
 	/**
 	 * 判断字符串是否为JSONArray，数组非空
-	 * @param json
-	 * @return
+	 * @param json String
+	 * @return boolean
 	 */
 	public static boolean isJsonArrayOrEmpty(String json) {
 		try {
 			JSONArray jsonArray = new JSONArray(json);
-			if (jsonArray != null && jsonArray.length() > 0) {
+			if (jsonArray.length() > 0) {
 				return true;
 			}
 		} catch (JSONException e) {
@@ -67,6 +63,10 @@ public class JsonUtils {
 		}
 		return false;
 	}
+
+    public static String getString(JSONObject jsonObject, String key) {
+        return getString(jsonObject, key, "");
+    }
 	
 	/**
 	 * 解析JSON字符串中指定的值
@@ -74,7 +74,7 @@ public class JsonUtils {
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，字符串
 	 * @see {@link JSONObject#optString(String, String)}
-	 * @return
+	 * @return String
 	 */
 	public static String getString(JSONObject jsonObject, String key, String defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
@@ -82,6 +82,10 @@ public class JsonUtils {
 		}
 		return jsonObject.optString(key, defaultValue);
 	}
+
+    public static int getInt(JSONObject jsonObject, String key) {
+        return getInt(jsonObject, key, 0);
+    }
 	
 	/**
 	 * 解析JSON字符串中指定的值
@@ -97,6 +101,10 @@ public class JsonUtils {
 		}
 		return jsonObject.optInt(key, defaultValue);
 	}
+
+    public static long getLong(JSONObject jsonObject, String key) {
+        return getLong(jsonObject, key, 0L);
+    }
 	
 	/**
 	 * 解析JSON字符串中指定的值
@@ -104,7 +112,7 @@ public class JsonUtils {
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，长整型值
 	 * @see {@link JSONObject#optLong(String, long)}
-	 * @return
+	 * @return long
 	 */
 	public static long getLong(JSONObject jsonObject, String key, long defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
@@ -112,14 +120,18 @@ public class JsonUtils {
 		}
 		return jsonObject.optLong(key, defaultValue);
 	}
-	
+
+    public static boolean getBoolean(JSONObject jsonObject, String key) {
+        return getBoolean(jsonObject, key, false);
+    }
+
 	/**
 	 * 解析JSON字符串中指定的值
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，Boolean值
 	 * @see {@link JSONObject#optBoolean(String, boolean)}
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean getBoolean(JSONObject jsonObject, String key, boolean defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
@@ -127,6 +139,10 @@ public class JsonUtils {
 		}
 		return jsonObject.optBoolean(key, defaultValue);
 	}
+
+    public static double getDouble(JSONObject jsonObject, String key) {
+        return getDouble(jsonObject, key, 0);
+    }
 	
 	/**
 	 * 解析JSON字符串中指定的值
@@ -134,7 +150,7 @@ public class JsonUtils {
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，Double值
 	 * @see {@link JSONObject#optDouble(String, double)}
-	 * @return
+	 * @return double
 	 */
 	public static double getDouble(JSONObject jsonObject, String key, double defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {

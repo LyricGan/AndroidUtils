@@ -25,8 +25,19 @@ public class BaseView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public void layout(int l, int t, int r, int b) {
+        super.layout(l, t, r, b);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         // 基础绘制共6步
         super.onDraw(canvas);
     }
+
 }
