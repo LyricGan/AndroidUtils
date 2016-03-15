@@ -31,6 +31,10 @@
             android:name=".activity.SpannableTestActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.ViewTestActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

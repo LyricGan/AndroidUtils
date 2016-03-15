@@ -4,5 +4,6 @@
         <item>CollapsibleTest</item>
         <item>SpannableTest</item>
         <item>BrokenViewTest</item>
+        <item>ViewTest</item>
     </string-array>
 </resources>

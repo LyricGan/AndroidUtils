@@ -48,6 +48,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 showBrokenView(view);
             }
                 break;
+            case 3: {// ViewTest
+                ActivityUtils.toActivity(this, ViewTestActivity.class);
+            }
+                break;
             default:
                 break;
         }
