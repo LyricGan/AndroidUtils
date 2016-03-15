@@ -92,7 +92,42 @@ public class MovedCircleView extends View {
                 invalidate();
             }
                 break;
+            case MotionEvent.ACTION_CANCEL: {
+            }
+                break;
+            default:
+                break;
         }
         return super.dispatchTouchEvent(event);
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+            }
+                break;
+            case MotionEvent.ACTION_MOVE: {
+            }
+                break;
+            case MotionEvent.ACTION_UP: {
+            }
+                break;
+            case MotionEvent.ACTION_CANCEL: {
+            }
+                break;
+            default:
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private class OnViewTouchListener implements OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return false;
+        }
+    }
+
 }
