@@ -35,11 +35,6 @@ public class DensityUtils {
         return context.getResources().getDisplayMetrics().scaledDensity;
     }
 
-    /**
-     * 以数组的形式返回屏幕分辨率
-     * @param context 上下文对象
-     * @return int[]
-     */
     public static int[] getDisplay(Context context) {
         checkContext(context);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();

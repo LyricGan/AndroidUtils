@@ -2,6 +2,7 @@ package com.lyric.android.library.utils;
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 
 import java.util.regex.Matcher;
@@ -26,6 +27,11 @@ public class KeywordUtils {
         return matcherIn(s, keyword, color);
     }
 
+    public static SpannableString matcherText(String text, String keyword, int color, CharacterStyle characterStyle) {
+        SpannableString s = new SpannableString(text);
+        return matcherIn(s, keyword, color, characterStyle);
+    }
+
     /**
      * 多个关键字高亮变色
      * @param text    文字
@@ -41,14 +47,30 @@ public class KeywordUtils {
         return s;
     }
 
-    private static SpannableString matcherIn(SpannableString s, String keyword, int color) {
-        Pattern p = Pattern.compile(keyword);
-        Matcher m = p.matcher(s);
-        while (m.find()) {
-            int start = m.start();
-            int end = m.end();
-            s.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    public static SpannableString matcherText(String text, String[] keywords, int color, CharacterStyle characterStyle) {
+        SpannableString s = new SpannableString(text);
+        for (String keyword: keywords) {
+            s = matcherIn(s, keyword, color, characterStyle);
         }
         return s;
     }
+
+    private static SpannableString matcherIn(SpannableString s, String keyword, int color) {
+        return matcherIn(s, keyword, color, null);
+    }
+
+    private static SpannableString matcherIn(SpannableString s, String keyword, int color, CharacterStyle characterStyle) {
+        Pattern p = Pattern.compile(keyword);
+        Matcher m = p.matcher(s);
+        if (characterStyle == null) {
+            characterStyle = new ForegroundColorSpan(color);
+        }
+        while (m.find()) {
+            int start = m.start();
+            int end = m.end();
+            s.setSpan(characterStyle, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return s;
+    }
+
 }
