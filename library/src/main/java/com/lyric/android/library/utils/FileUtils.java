@@ -14,7 +14,7 @@ public class FileUtils {
 	
 	/**
 	 * 删除缓存文件
-	 * @param context
+	 * @param context Context
 	 */
 	public static void clearCacheFolder(Context context) {
 		clearCacheFolder(context.getCacheDir(), System.currentTimeMillis());

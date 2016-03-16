@@ -272,4 +272,21 @@ public class ViewUtils {
 		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 	}
 
+    private static long sLastClickTime;
+    private static final long MAX_DELAY_TIME = 500L;
+
+    /**
+     * 判断是否对视图快速点击
+     * @return boolean
+     */
+    public static boolean isFastClicked() {
+        long time = System.currentTimeMillis();
+        long dis = time - sLastClickTime;
+        if (0 < dis && dis < MAX_DELAY_TIME) {
+            return true;
+        }
+        sLastClickTime = time;
+        return false;
+    }
+
 }

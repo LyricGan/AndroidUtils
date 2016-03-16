@@ -6,14 +6,14 @@ import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
 
-public class CloseIOUtils {
+public class CloseUtils {
 
-	private CloseIOUtils() {
+	private CloseUtils() {
 	}
 
     /**
      * 关闭输入流
-     * @param inputStream
+     * @param inputStream InputStream
      */
     public static void close(InputStream inputStream) {
     	if (inputStream != null) {
@@ -27,7 +27,7 @@ public class CloseIOUtils {
 
     /**
      * 关闭输出流
-     * @param outputStream
+     * @param outputStream OutputStream
      */
 	public static void close(OutputStream outputStream) {
 		if (outputStream != null) {
@@ -41,7 +41,7 @@ public class CloseIOUtils {
 
 	/**
 	 * 关闭RandomAccessFile
-	 * @param randomAccessFile
+	 * @param randomAccessFile RandomAccessFile
 	 */
     public static void close(RandomAccessFile randomAccessFile) {
         if (randomAccessFile != null) {
@@ -55,7 +55,7 @@ public class CloseIOUtils {
     
     /**
      * 关闭Writer
-     * @param writer
+     * @param writer Writer
      */
     public static void close(Writer writer) {
         if (writer != null) {
@@ -69,7 +69,7 @@ public class CloseIOUtils {
 
     /**
      * 关闭Reader
-     * @param reader
+     * @param reader Reader
      */
     public static void close(Reader reader) {
         if (reader != null) {
@@ -80,4 +80,5 @@ public class CloseIOUtils {
 			}
         }
     }
+
 }

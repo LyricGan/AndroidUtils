@@ -10,6 +10,11 @@ import android.util.DisplayMetrics;
  */
 public class DensityUtils {
 
+    public static float getDensity(Context context) {
+        checkContext(context);
+        return context.getResources().getDisplayMetrics().density;
+    }
+
     public static int dip2px(Context context, float dpValue) {
         float scale = getDensity(context);
         return (int) (dpValue * scale + 0.5f);
@@ -18,11 +23,6 @@ public class DensityUtils {
     public static int px2dip(Context context, float pxValue) {
         float scale = getDensity(context);
         return (int) (pxValue / scale + 0.5f);
-    }
-
-    public static float getDensity(Context context) {
-        checkContext(context);
-        return context.getResources().getDisplayMetrics().density;
     }
 
     public static int getDensityDpi(Context context) {

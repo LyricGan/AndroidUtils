@@ -31,7 +31,7 @@ public class ImageUtils {
 	/**
 	 * 从字节数组中获取图片
 	 * @param bytes 字节数组
-	 * @return
+	 * @return Bitmap
 	 */
 	public static Bitmap bytesToBitmap(byte[] bytes) {
 		if (bytes == null || bytes.length == 0) {
@@ -42,8 +42,8 @@ public class ImageUtils {
 	
 	/**
 	 * 将Bitmap转换为字节数组
-	 * @param bitmap 
-	 * @return
+	 * @param bitmap Bitmap
+	 * @return byte[]
 	 */
 	public static byte[] bitmapToBytes(Bitmap bitmap) {
         if (bitmap == null) {
@@ -56,8 +56,8 @@ public class ImageUtils {
 	
 	/**
 	 * 从Drawable中获取图片
-	 * @param drawable
-	 * @return
+	 * @param drawable Drawable
+	 * @return Bitmap
 	 */
 	public static Bitmap drawableToBitmap(Drawable drawable) {
 		if (drawable == null) {
@@ -68,8 +68,8 @@ public class ImageUtils {
 	
 	/**
 	 * 将Bitmap转换为Drawable
-	 * @param bitmap
-	 * @return
+	 * @param bitmap Bitmap
+	 * @return Drawable
 	 */
 	@SuppressWarnings("deprecation")
 	public static Drawable bitmapToDrawable(Bitmap bitmap) {
@@ -78,9 +78,9 @@ public class ImageUtils {
 	
 	/**
 	 * 将Bitmap转换为Drawable
-	 * @param context
-	 * @param bitmap
-	 * @return
+	 * @param context Context
+	 * @param bitmap Bitmap
+	 * @return Drawable
 	 */
 	public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
 		if (context == null) {
@@ -91,8 +91,8 @@ public class ImageUtils {
 	
 	/**
 	 * 将Drawable转换为字节数组
-	 * @param drawable
-	 * @return
+	 * @param drawable Drawable
+	 * @return byte[]
 	 */
 	public static byte[] drawableToBytes(Drawable drawable) {
         return bitmapToBytes(drawableToBitmap(drawable));
@@ -100,8 +100,8 @@ public class ImageUtils {
 	
 	/**
 	 * 将字节数组转换为Drawable
-	 * @param bytes
-	 * @return
+	 * @param bytes byte[]
+	 * @return Drawable
 	 */
 	public static Drawable bytesToDrawable(byte[] bytes) {
         return bitmapToDrawable(bytesToBitmap(bytes));
@@ -110,7 +110,7 @@ public class ImageUtils {
 	/**
 	 * 从视图中获取图片
 	 * @param view 视图
-	 * @return
+	 * @return Bitmap
 	 */
 	public static Bitmap getBitmap(View view) {
 		int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
@@ -128,10 +128,10 @@ public class ImageUtils {
 	
 	/**
 	 * 按宽高缩放图片
-	 * @param bitmap
+	 * @param bitmap Bitmap
 	 * @param newWidth 指定宽度
 	 * @param newHeight 指定高度
-	 * @return
+	 * @return Bitmap
 	 */
 	public static Bitmap scale(Bitmap bitmap, int newWidth, int newHeight) {
 		return scale(bitmap, (float) newWidth / bitmap.getWidth(), (float) newHeight / bitmap.getHeight());
@@ -139,10 +139,10 @@ public class ImageUtils {
 
 	/**
 	 * 按宽高缩放图片
-	 * @param bitmap
+	 * @param bitmap Bitmap
 	 * @param scaleWidth 缩放宽度
 	 * @param scaleHeight 缩放高度
-	 * @return
+	 * @return Bitmap
 	 */
 	public static Bitmap scale(Bitmap bitmap, float scaleWidth, float scaleHeight) {
 		if (bitmap == null) {
@@ -196,12 +196,11 @@ public class ImageUtils {
 		final Paint paint = new Paint();
 		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		final RectF rectF = new RectF(rect);
-		final float roundPx = pixels;
-		
+
 		paint.setAntiAlias(true);
 		canvas.drawARGB(0, 0, 0, 0);
 		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		canvas.drawRoundRect(rectF, pixels, pixels, paint);
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		
@@ -210,8 +209,8 @@ public class ImageUtils {
 	
 	/**
 	 * 获取图片（Bitmap）所占内存
-	 * @param bitmap
-	 * @return
+	 * @param bitmap Bitmap
+	 * @return long
 	 */
 	public static long getBitmapMemory(Bitmap bitmap) {
 		if (bitmap == null || bitmap.isRecycled()) {
@@ -222,7 +221,7 @@ public class ImageUtils {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		if (config == Config.ALPHA_8) {
-			size = width * height * 1;
+			size = width * height;
 		} else if (config == Config.ARGB_4444) {
 			size = width * height * 2;
 		} else if (config == Config.ARGB_8888) {

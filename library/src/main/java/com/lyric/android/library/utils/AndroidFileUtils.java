@@ -21,8 +21,8 @@ public class AndroidFileUtils {
 	
 	/**
 	 * 打开文件
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent openFile(String filePath) {
     	// 获取扩展名
@@ -59,8 +59,8 @@ public class AndroidFileUtils {
     
     /**
 	 * Android获取用于打开所有文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getAllIntent(String filePath) {
 		Intent intent = new Intent();
@@ -73,8 +73,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开APK文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getApkFileIntent(String filePath) {
         Intent intent = new Intent();
@@ -87,8 +87,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开VIDEO文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getVideoFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -102,8 +102,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开AUDIO文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getAudioFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -117,8 +117,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开HTML文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getHtmlFileIntent(String filePath) {
         Uri uri = Uri.parse(filePath).buildUpon().encodedAuthority("com.android.htmlfileprovider")
@@ -130,8 +130,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开图片文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getImageFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -144,8 +144,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开PPT文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getPptFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -158,8 +158,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开Excel文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getExcelFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -172,8 +172,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开Word文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getWordFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -186,8 +186,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开CHM文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getChmFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -200,8 +200,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开文本文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getTextFileIntent(String filePath, boolean paramBoolean) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -219,8 +219,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开PDF文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getPdfFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -233,8 +233,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开ZIP文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getZipFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -247,8 +247,8 @@ public class AndroidFileUtils {
 
     /**
 	 * Android获取用于打开RAR文件的Intent
-	 * @filePath filePath 文件路径
-	 * @return
+	 * @param filePath 文件路径
+	 * @return Intent
 	 */
     public static Intent getRarFileIntent(String filePath) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -263,7 +263,7 @@ public class AndroidFileUtils {
      * 判断Intent是否可用
      * @param context 上下文对象
      * @param intent 意图
-     * @return
+     * @return boolean
      */
     public static boolean isIntentAvailable(Context context, Intent intent) {
         final PackageManager packageManager = context.getPackageManager();
@@ -273,8 +273,8 @@ public class AndroidFileUtils {
 
     /**
      * 判断文件是否存在
-     * @filePath filePath 文件路径
-     * @return
+     * @param filePath 文件路径
+     * @return boolean
      */
     public static boolean isFileExists(String filePath) {
     	if (!TextUtils.isEmpty(filePath)) {

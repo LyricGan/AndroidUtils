@@ -12,7 +12,7 @@ public class DeviceUtils {
 
 	/**
 	 * 判断设备是否具备root权限
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean isRoot() {
 		final String[] suPathArray = { "/system/bin/", "/system/xbin/", "/system/sbin/", "/sbin/", "/vendor/bin/" };
