@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.lyric.android.library.utils.ActivityStackUtils;
-
 public abstract class BaseActivity extends Activity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		ActivityStackUtils.init().addActivity(this);
-		
 		onInitView(savedInstanceState);
 	}
 

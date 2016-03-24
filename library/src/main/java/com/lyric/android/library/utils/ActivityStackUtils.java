@@ -40,6 +40,12 @@ public class ActivityStackUtils {
 		mActivityStack.add(activity);
 	}
 
+    public void remove(Activity activity) {
+        if (mActivityStack != null) {
+            mActivityStack.remove(activity);
+        }
+    }
+
 	/**
 	 * 获取当前Activity（栈顶Activity）
 	 */
@@ -47,8 +53,7 @@ public class ActivityStackUtils {
 		if (mActivityStack == null || mActivityStack.isEmpty()) {
 			return null;
 		}
-		Activity activity = mActivityStack.lastElement();
-		return activity;
+		return mActivityStack.lastElement();
 	}
 
 	/**
@@ -80,7 +85,6 @@ public class ActivityStackUtils {
 		if (activity != null) {
 			mActivityStack.remove(activity);
 			activity.finish();
-			activity = null;
 		}
 	}
 
@@ -97,7 +101,7 @@ public class ActivityStackUtils {
 
 	/**
 	 * 关闭除了指定activity以外的全部activity 如果cls不存在于栈中，则栈全部清空
-	 * @param cls
+	 * @param cls Class
 	 */
 	public void finishOthersActivity(Class<?> cls) {
 		for (Activity activity : mActivityStack) {
@@ -121,7 +125,7 @@ public class ActivityStackUtils {
 
 	/**
 	 * 退出应用程序
-	 * @param context
+	 * @param context Context
 	 */
 	public void exit(Context context) {
 		finishAllActivity();

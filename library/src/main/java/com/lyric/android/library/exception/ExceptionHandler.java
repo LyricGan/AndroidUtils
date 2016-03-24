@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.lyric.android.library.log.Loggers;
+import com.lyric.android.library.utils.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -94,9 +94,9 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
             public void run() {
                 Looper.prepare();
                 if (TextUtils.isEmpty(name)) {
-                    Loggers.e(TAG, "handleException:" + msg);
+                    LogUtils.e(TAG, "handleException:" + msg);
                 } else {
-                    Loggers.e(TAG, "handleException:" + name + "-" + msg);
+                    LogUtils.e(TAG, "handleException:" + name + "-" + msg);
                 }
                 Looper.loop();
             }

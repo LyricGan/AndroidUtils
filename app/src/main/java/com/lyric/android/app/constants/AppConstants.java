@@ -7,6 +7,10 @@ package com.lyric.android.app.constants;
  * 
  */
 public interface AppConstants {
+    boolean DEBUG = true;
+    boolean LEAK_DEBUG = false;
+
+
 	/**
 	 * 编码格式
 	 */

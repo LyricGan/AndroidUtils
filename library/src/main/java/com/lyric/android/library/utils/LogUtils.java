@@ -1,4 +1,4 @@
-package com.lyric.android.library.log;
+package com.lyric.android.library.utils;
 
 import android.util.Log;
 
@@ -9,21 +9,21 @@ import java.util.Hashtable;
  * @description log utils
  * @time 2016/1/19 18:13
  */
-public class Loggers {
-    private static final String TAG = Loggers.class.getSimpleName();
+public class LogUtils {
+    private static final String TAG = LogUtils.class.getSimpleName();
     private static boolean sDebug = false;
     private static int sLevel = Log.VERBOSE;
     private String mClassName;
-    private static Hashtable<String, Loggers> mLoggerTable = new Hashtable<>();
+    private static Hashtable<String, LogUtils> mLoggerTable = new Hashtable<>();
 
-    private Loggers(String name) {
+    private LogUtils(String name) {
         this.mClassName = name;
     }
 
-    private static Loggers getInstance(String className) {
-        Loggers classLogger = mLoggerTable.get(className);
+    private static LogUtils getInstance(String className) {
+        LogUtils classLogger = mLoggerTable.get(className);
         if (classLogger == null) {
-            classLogger = new Loggers(className);
+            classLogger = new LogUtils(className);
             mLoggerTable.put(className, classLogger);
         }
         return classLogger;

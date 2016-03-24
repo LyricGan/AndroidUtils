@@ -10,7 +10,7 @@ public class SortTest {
     /**
      * 冒泡排序
      * @param array 排序数组
-     * @return
+     * @return int[]
      */
     public static int[] bubbleSort(int[] array) {
         if (array == null || array.length == 0) {
@@ -35,7 +35,7 @@ public class SortTest {
      * @param array 排序数组
      * @param min 数组最小索引
      * @param max 数组最大索引
-     * @return
+     * @return int[]
      */
     public static int[] bubbleSort(int[] array, int min, int max) {
         if (array == null || array.length == 0) {
@@ -69,7 +69,7 @@ public class SortTest {
      * @param array 排序数组
      * @param low 数组最小索引
      * @param high 数组最大索引
-     * @return
+     * @return int[]
      */
     public static int[] quickSort(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
@@ -88,7 +88,7 @@ public class SortTest {
      * @param array 排序数组
      * @param low 数组最小索引
      * @param high 数组最大索引
-     * @return
+     * @return int
      */
     public static int partition(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
@@ -114,7 +114,7 @@ public class SortTest {
      * 二分查找
      * @param array 查找的数组
      * @param value 查找的值
-     * @return
+     * @return int
      */
     public static int binarySearch(int[] array, int value) {
         if (array == null || array.length == 0) {
@@ -134,4 +134,5 @@ public class SortTest {
         }
         return -1;
     }
+
 }

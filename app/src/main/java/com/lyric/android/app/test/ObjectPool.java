@@ -11,7 +11,7 @@ import java.util.Vector;
 public class ObjectPool {
     private int numObjects = 10; // 对象池的大小
     private int maxObjects = 50; // 对象池最大的大小
-    private Vector objects = null; //存放对象池中对象的向量( PooledObject类型)
+    private Vector objects = null; // 存放对象池中对象的向量(PooledObject类型)
 
     public ObjectPool() {
     }
@@ -20,7 +20,7 @@ public class ObjectPool {
      * 创建一个对象池
      */
     public synchronized void createPool() {
-        // 确保对象池没有创建。如果创建了，保存对象的向量 objects 不会为空
+        // 确保对象池没有创建。如果创建了，保存对象的向量objects不会为空
         if (objects != null) {
             return; // 如果己经创建，则返回
         }
@@ -38,24 +38,23 @@ public class ObjectPool {
     public synchronized Object getObject() {
         // 确保对象池己被创建
         if (objects == null) {
-            return null; // 对象池还没创建，则返回 null
+            return null;// 对象池还没创建，则返回null
         }
         Object conn = getFreeObject(); // 获得一个可用的对象
         // 如果目前没有可以使用的对象，即所有的对象都在使用中
         while (conn == null) {
             wait(250);
-            conn = getFreeObject(); // 重新再试，直到获得可用的对象，如果
-            // getFreeObject() 返回的为 null，则表明创建一批对象后也不可获得可用对象
+            conn = getFreeObject(); // 重新再试，直到获得可用的对象，如果getFreeObject()返回的为null，则表明创建一批对象后也不可获得可用对象
         }
         return conn;// 返回获得的可用的对象
     }
 
     private void createObjects() {
-        // 创建保存对象的向量 , 初始时有0个元素
+        // 创建保存对象的向量，初始时有0个元素
         if (objects == null) {
             objects = new Vector();
         }
-        // 根据 numObjects 中设置的值，循环创建指定数目的对象
+        // 根据numObjects中设置的值，循环创建指定数目的对象
         for (int x = 0; x < numObjects; x++) {
             if (this.objects.size() < this.maxObjects) {
                 Object obj = new Object();
@@ -73,8 +72,7 @@ public class ObjectPool {
         // 从对象池中获得一个可用的对象
         Object obj = findFreeObject();
         if (obj == null) {
-            createObjects();     //如果目前对象池中没有可用的对象，创建一些对象
-
+            createObjects();// 如果目前对象池中没有可用的对象，创建一些对象
             // 重新从池中查找是否有可用对象
             obj = findFreeObject();
             // 如果创建对象后仍获得不到可用的对象，则返回 null
@@ -103,7 +101,7 @@ public class ObjectPool {
                 pObj.setBusy(true);
             }
         }
-        return obj;// 返回找到到的可用对象
+        return obj;// 返回找到的可用对象
     }
 
     /**
@@ -122,7 +120,7 @@ public class ObjectPool {
             pObj = (PooledObject) enumerate.nextElement();
             // 先找到对象池中的要返回的对象对象
             if (obj == pObj.getObject()) {
-                // 找到了 , 设置此对象为空闲状态
+                // 找到了，设置此对象为空闲状态
                 pObj.setBusy(false);
                 break;
             }

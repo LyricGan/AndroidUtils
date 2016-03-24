@@ -35,6 +35,13 @@
             android:name=".activity.ViewTestActivity"
             android:screenOrientation="portrait" >
         </activity>
+
+        <receiver android:name=".recevier.SystemReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.intent.action.app.start" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
