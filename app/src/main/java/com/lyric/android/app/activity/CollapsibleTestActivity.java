@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.R;
-import com.lyric.android.app.widget.ExpandableTextView;
+import com.lyric.android.app.widget.TextView.ExpandableTextView;
 
 import java.util.ArrayList;
 import java.util.List;

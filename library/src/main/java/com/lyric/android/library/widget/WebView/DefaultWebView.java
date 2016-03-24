@@ -1,4 +1,4 @@
-package com.lyric.android.library.widget;
+package com.lyric.android.library.widget.WebView;
 
 import android.annotation.TargetApi;
 import android.content.Context;

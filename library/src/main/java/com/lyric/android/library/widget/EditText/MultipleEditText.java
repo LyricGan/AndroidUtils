@@ -1,4 +1,4 @@
-package com.lyric.android.library.widget;
+package com.lyric.android.library.widget.EditText;
 
 import android.annotation.TargetApi;
 import android.content.Context;

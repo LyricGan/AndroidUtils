@@ -2,4 +2,6 @@
     <string name="app_name">AndroidUtils</string>
     <string name="status_expand">展开</string>
     <string name="status_collapse">收起</string>
+    <string name="collapse_pack_up">收起</string>
+    <string name="collapse_full_text">全文</string>
 </resources>

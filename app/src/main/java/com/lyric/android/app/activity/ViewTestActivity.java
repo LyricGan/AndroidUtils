@@ -29,4 +29,12 @@ public class ViewTestActivity extends BaseActivity {
 
         setContentView(linearLayout);
     }
+
+    public void getMemory() {
+        long maxMemory = Runtime.getRuntime().maxMemory();
+        long totalMemory = Runtime.getRuntime().totalMemory();
+        long freeMemory = Runtime.getRuntime().freeMemory();
+        long currentMemory = totalMemory - freeMemory;
+        System.gc();
+    }
 }
