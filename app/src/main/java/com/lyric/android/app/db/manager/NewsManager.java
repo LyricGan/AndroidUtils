@@ -1,5 +1,7 @@
 package com.lyric.android.app.db.manager;
 
+import android.content.Context;
+
 import com.lyric.android.app.entity.RealmNewsEntity;
 
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ import io.realm.RealmResults;
  */
 public class NewsManager extends AbstractManager<RealmNewsEntity> {
 
-    public NewsManager() {
-        super();
+    public NewsManager(Context context) {
+        super(context);
     }
 
     @Override

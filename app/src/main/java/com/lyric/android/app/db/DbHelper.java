@@ -1,6 +1,6 @@
 package com.lyric.android.app.db;
 
-import com.lyric.android.app.BaseApplication;
+import android.content.Context;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -17,9 +17,9 @@ public class DbHelper {
     DbHelper() {
     }
 
-    public synchronized static Realm getRealm() {
+    public synchronized static Realm getRealm(Context context) {
         if (mRealm == null) {
-            mRealm = Realm.getInstance(new RealmConfiguration.Builder(BaseApplication.getContext()).name(DB_NAME).build());
+            mRealm = Realm.getInstance(new RealmConfiguration.Builder(context).name(DB_NAME).build());
         }
         return mRealm;
     }
