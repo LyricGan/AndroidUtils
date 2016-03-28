@@ -1,4 +1,4 @@
-package com.lyric.android.library.exception;
+package com.lyric.android.library.handler;
 
 /**
  * @author ganyu

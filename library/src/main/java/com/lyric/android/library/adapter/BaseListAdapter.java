@@ -16,22 +16,23 @@ import java.util.List;
  * @created 2015-4-20
  * 
  */
-public abstract class ListAdapter<T> extends BaseAdapter {
+public abstract class BaseListAdapter<T> extends BaseAdapter {
 	protected Context mContext;
 	protected List<T> mDataList;
+    private int mLayoutId;
 
-    public ListAdapter(Context context) {
-        this(context, new ArrayList<T>());
+    public BaseListAdapter(Context context, int layoutId) {
+        this(context, new ArrayList<T>(), layoutId);
     }
 	
-	public ListAdapter(Context context, List<T> dataList) {
-		this.mContext = context;
-		this.mDataList = dataList;
-	}
+    public BaseListAdapter(Context context, T[] arrays, int layoutId) {
+        this(context, Arrays.asList(arrays), layoutId);
+    }
 
-    public ListAdapter(Context context, T[] arrays) {
+    public BaseListAdapter(Context context, List<T> dataList, int layoutId) {
         this.mContext = context;
-        this.mDataList = Arrays.asList(arrays);
+        this.mDataList = dataList;
+        this.mLayoutId = layoutId;
     }
 	
 	@Override
@@ -50,7 +51,13 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 	}
 
 	@Override
-	public abstract View getView(int position, View convertView, ViewGroup parent);
+	public View getView(int position, View convertView, ViewGroup parent) {
+        BaseViewHolder viewHolder = BaseViewHolder.get(convertView, parent, mLayoutId);
+        convert(viewHolder, position, getItem(position));
+        return viewHolder.getConvertView();
+    }
+
+    public abstract void convert(BaseViewHolder viewHolder, int position, T item);
 
     public void setDataList(List<T> dataList) {
         this.mDataList = dataList;
