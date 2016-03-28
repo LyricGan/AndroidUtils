@@ -64,12 +64,12 @@ public class BundleUtils {
         return mBundle;
     }
 
-    public <T extends Fragment> T into(T fragment) {
+    public <T extends Fragment> T setArguments(T fragment) {
         fragment.setArguments(getBundle());
         return fragment;
     }
 
-    public <T extends android.app.Fragment> T into(T fragment) {
+    public <T extends android.app.Fragment> T setArguments(T fragment) {
         fragment.setArguments(getBundle());
         return fragment;
     }
