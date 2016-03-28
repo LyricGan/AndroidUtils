@@ -3,7 +3,6 @@ package com.lyric.android.library.bitmap;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.TextUtils;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -24,10 +23,6 @@ public class ImageBuilder {
 
     public Bitmap getBitmap(String fileName) {
         Bitmap bitmap = null;
-
-        if (TextUtils.isEmpty(fileName)) {
-            return bitmap;
-        }
         try {
             FileInputStream fileInputStream = new FileInputStream(fileName);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
