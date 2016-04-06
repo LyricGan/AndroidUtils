@@ -10,6 +10,9 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+/**
+ * BaseActivity
+ */
 public abstract class BaseActivity extends Activity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
 
