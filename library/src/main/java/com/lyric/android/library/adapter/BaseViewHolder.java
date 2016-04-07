@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 /**
  * @author lyric
- * @description
+ * @description ViewHolder
  * @time 16/3/10
  */
 public class BaseViewHolder {

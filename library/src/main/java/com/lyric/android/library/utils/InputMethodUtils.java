@@ -22,18 +22,26 @@ public class InputMethodUtils {
     InputMethodUtils() {
     }
 
+    private static InputMethodManager from(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) {
+            throw new AssertionError("InputMethodManager is null.");
+        }
+        return imm;
+    }
+
     public static void show(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(view.getContext());
         imm.showSoftInput(view, SHOW_IMPLICIT);
     }
 
     public static void show(View view, int flags) {
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(view.getContext());
         imm.showSoftInput(view, flags);
     }
 
     public static void hide(EditText editText) {
-        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(editText.getContext());
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
@@ -42,17 +50,17 @@ public class InputMethodUtils {
         if (view == null) {
             return;
         }
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(activity);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void toggle(Context context) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(context);
         imm.toggleSoftInput(0, HIDE_NOT_ALWAYS);
     }
 
     public static boolean isActive(EditText editText) {
-        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = from(editText.getContext());
         return imm.isActive();
     }
 

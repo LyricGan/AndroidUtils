@@ -1,4 +1,4 @@
-package com.lyric.android.library.cache.core;
+package com.lyric.android.library.cache;
 
 /**
  * @author ganyu
