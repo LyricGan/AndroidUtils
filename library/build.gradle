@@ -14,24 +14,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.jfrog.artifactory-upload'
 
-group = GROUP
-
-// Both the artifactory and bintray plugins depend on this singular
-// global `version` variable. As such, we need to configure it based
-// on which task we're running.
-//
-// The solution here is brittle; it just checks whether 'bintrayUpload'
-// was called for execution, otherwise it assumes SNAPSHOT. If we
-// were to wait until the task graph was built, we'd be too late
-// (the plugins would already have used `version`).
-boolean isReleaseBuild = gradle.startParameter.taskNames.contains('bintrayUpload')
-version = isReleaseBuild ? VERSION_NAME : "$VERSION_NAME-SNAPSHOT"
-logger.info("library using version=$project.version")
+version = "1.0.0"                                                              // #CONFIG# // project version
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
+    // resourcePrefix "less_"                                                  // #CONFIG# // please remove this if you don't known it
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
@@ -46,99 +34,80 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
 }
 
-// Create source/javadoc artifacts for publishing
-apply from: "$rootDir/gradle/artifacts.gradle"
+def siteUrl = 'https://github.com/lyricgan/android-utils'                        // #CONFIG# // project homepage
+def gitUrl = 'https://github.com/lyricgan/android-utils.git'                     // #CONFIG# // project git
+group = "com.lyric.android.library"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
 
-// Configure android-maven-gradle-plugin
 install {
-    repositories.mavenInstaller.pom.project {
-        name POM_NAME
-        description POM_DESCRIPTION
-        packaging POM_PACKAGING
-        url POM_URL
-
-        licenses {
-            license {
-                name POM_LICENCE_NAME
-                url POM_LICENCE_URL
-                distribution POM_LICENCE_DIST
-            }
-        }
-
-        scm {
-            url POM_SCM_URL
-            connection POM_SCM_CONNECTION
-            developerConnection POM_SCM_DEV_CONNECTION
-        }
-
-        developers {
-            developer {
-                id 'lyricgan'
-                name 'Gan Yu'
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name 'android-utils'                                   // #CONFIG# // project title
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'lyricgan'                                           // #CONFIG# // your user id (you can write your nickname)
+                        name 'Gan Yu'                                       // #CONFIG# // your user name
+                        email 'lyricgan88@163.com'                               // #CONFIG# // your email
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
             }
         }
     }
 }
 
-// Configure artifactory (for publishing snapshots)
-//
-// Based on NebulaOJOPublishingPlugin (from nebula-bintray-plugin)
-artifactory {
-    contextUrl = 'https://oss.jfrog.org'
-
-    publish {
-        repository {
-            repoKey = 'oss-snapshot-local'
-
-            if (project.hasProperty('bintrayUser')) {
-                username = project.property('bintrayUser')
-                password = project.property('bintrayKey')
-            }
-        }
-
-        defaults {
-            publishConfigs('archives')
-        }
-    }
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
-// Configure gradle-bintray-plugin (for publishing releases)
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
-
-    publish = true
-
     pkg {
-        repo = 'android-utils'
-        name = 'library'
-        userOrg = 'lyric'
-        licenses = ['Apache-2.0']
-        labels = ['android-utils', 'library']
-        websiteUrl = 'https://github.com/lyricgan/android-utils'
-        issueTrackerUrl = 'https://github.com/lyricgan/android-utils/issues'
-        vcsUrl = 'https://github.com/lyricgan/android-utils.git'
+        repo = "maven"
+        name = "android-utils"                                                 // #CONFIG# project name in jcenter
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
     }
-}
-
-if (project.hasProperty('bintrayUser') && project.hasProperty('bintrayKey')) {
-    bintray.user = project.bintrayUser
-    bintray.key = project.bintrayKey
-}
-
-if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')) {
-    def sync = bintray.pkg.version.mavenCentralSync
-    sync.sync = true
-    sync.user = project.sonatypeUsername
-    sync.password = project.sonatypePassword
 }
