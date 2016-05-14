@@ -1,5 +1,9 @@
 package com.lyric.android.library.utils;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
 import java.io.File;
 
 /**
@@ -9,6 +13,9 @@ import java.io.File;
  * 
  */
 public class DeviceUtils {
+
+    DeviceUtils() {
+    }
 
 	/**
 	 * 判断设备是否具备root权限
@@ -31,4 +38,15 @@ public class DeviceUtils {
 		return false;
 	}
 
+    public static int getAppUid(Context context, String packageName) {
+        int uid = 0;
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_ACTIVITIES);
+            uid = appInfo.uid;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return uid;
+    }
 }

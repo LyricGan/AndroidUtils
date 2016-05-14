@@ -10,13 +10,15 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.lyric.android.library.utils.DensityUtils;
+import com.lyric.android.library.utils.LogUtils;
 
 /**
  * @author lyric
  * @description
  * @time 2016/3/15 15:07
  */
-public class MovedCircleView extends View {
+public class MovedCircleView extends View implements View.OnTouchListener {
+    private static final String TAG = MovedCircleView.class.getSimpleName();
     private TextPaint mPaint = new TextPaint();
     private int mDefaultRadius = 0;
     private float mStartX;
@@ -44,16 +46,9 @@ public class MovedCircleView extends View {
 
     private void initialize(Context context) {
         mDefaultRadius = DensityUtils.dip2px(context, 50);
-    }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
+        LogUtils.e(TAG, "mDefaultRadius:" + mDefaultRadius);
+        setOnTouchListener(this);
     }
 
     @Override
@@ -61,20 +56,20 @@ public class MovedCircleView extends View {
         super.onDraw(canvas);
         mPaint.setColor(0xff007eff);
         if (mCurrentX == 0 || mCurrentY == 0) {
-            canvas.drawCircle(mDefaultRadius * 3, mDefaultRadius * 5, mDefaultRadius, mPaint);
+            canvas.drawCircle(mDefaultRadius * 3.5f, mDefaultRadius * 5, mDefaultRadius, mPaint);
         } else {
             canvas.drawCircle(mCurrentX, mCurrentY, mDefaultRadius, mPaint);
         }
+        canvas.restore();
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+    public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 mStartX = event.getX();
                 mStartY = event.getY();
+                LogUtils.e(TAG, "mStartX:" + mStartX + ",mStartY:" + mStartY);
                 mPaint.setColor(0x88007eff);
                 invalidate();
             }
@@ -82,38 +77,10 @@ public class MovedCircleView extends View {
             case MotionEvent.ACTION_MOVE: {
                 mCurrentX = event.getX();
                 mCurrentY = event.getY();
-                if (Math.abs(mCurrentX - mStartX) > 50 || Math.abs(mCurrentY - mStartY) > 50) {
+                LogUtils.e(TAG, "mCurrentX:" + mCurrentX + ",mCurrentY:" + mCurrentY);
+                if (Math.abs(mCurrentX - mStartX) > 0 || Math.abs(mCurrentY - mStartY) > 0) {
                     invalidate();
                 }
-            }
-                break;
-            case MotionEvent.ACTION_UP: {
-                mPaint.setColor(0xff007eff);
-                invalidate();
-            }
-                break;
-            case MotionEvent.ACTION_CANCEL: {
-            }
-                break;
-            default:
-                break;
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-            }
-                break;
-            case MotionEvent.ACTION_MOVE: {
-            }
-                break;
-            case MotionEvent.ACTION_UP: {
-            }
-                break;
-            case MotionEvent.ACTION_CANCEL: {
             }
                 break;
             default:
@@ -121,13 +88,4 @@ public class MovedCircleView extends View {
         }
         return super.onTouchEvent(event);
     }
-
-    private class OnViewTouchListener implements OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return false;
-        }
-    }
-
 }

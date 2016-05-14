@@ -1,7 +1,5 @@
 package com.lyric.android.app.activity;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,9 +50,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 break;
             case 3: {// ViewTest
                 ActivityUtils.toActivity(this, ViewTestActivity.class);
-
-                final String packageName = "net.medlinker.medlinker";
-                ToastUtils.showLong(BaseApplication.getContext(), String.valueOf(getAppUid(packageName)));
             }
                 break;
             default:
@@ -105,17 +100,4 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         });
         view.setOnTouchListener(listener);
     }
-
-    public int getAppUid(String packageName) {
-        int uid = 0;
-        PackageManager pm = getPackageManager();
-        try {
-            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_ACTIVITIES);
-            uid = appInfo.uid;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return uid;
-    }
-
 }
