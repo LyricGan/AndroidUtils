@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidUtils.iml" filepath="$PROJECT_DIR$/AndroidUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/onekeyshare/onekeyshare.iml" filepath="$PROJECT_DIR$/onekeyshare/onekeyshare.iml" />
     </modules>
   </component>
 </project>
