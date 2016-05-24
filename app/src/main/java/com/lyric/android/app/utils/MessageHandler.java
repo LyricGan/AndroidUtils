@@ -6,8 +6,7 @@ import com.lyric.android.app.activity.SplashActivity;
 import com.lyric.android.library.handler.WeakHandler;
 
 /**
- * @author <a href="mailto:ganyu@medlinker.net">ganyu</a>
- * @version 3.0
+ * @author lyric
  * @description 自定义Handler，处理异步消息
  * @time 2015/11/19 20:41
  */
