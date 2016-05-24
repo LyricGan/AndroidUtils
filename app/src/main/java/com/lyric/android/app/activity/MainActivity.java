@@ -23,7 +23,7 @@ import com.zys.brokenview.BrokenView;
 public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @Override
-    public void onInitView(Bundle savedInstanceState) {
+    public void onViewCreated(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ListView lv_index_list = (ListView) findViewById(R.id.lv_index_list);
 

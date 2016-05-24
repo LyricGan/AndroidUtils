@@ -15,13 +15,13 @@ public interface IBaseListener {
 	 * 初始化布局界面
 	 * @param savedInstanceState bundles
 	 */
-	void onInitView(Bundle savedInstanceState);
+	void onViewCreated(Bundle savedInstanceState);
 
 	/**
 	 * 组件点击事件处理
 	 * @param v view
 	 */
-	void onWidgetClick(View v);
+	void onViewClick(View v);
 	
 	/**
 	 * 响应网络请求

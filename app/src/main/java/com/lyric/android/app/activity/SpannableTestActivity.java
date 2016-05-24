@@ -29,7 +29,7 @@ import com.lyric.android.library.utils.KeywordUtils;
 public class SpannableTestActivity extends BaseActivity {
 
     @Override
-    public void onInitView(Bundle savedInstanceState) {
+    public void onViewCreated(Bundle savedInstanceState) {
         setContentView(R.layout.activity_spannable_test);
         TextView tv_spannable = (TextView) findViewById(R.id.tv_spannable);
         TextView tv_spannable_keywords = (TextView) findViewById(R.id.tv_spannable_keywords);

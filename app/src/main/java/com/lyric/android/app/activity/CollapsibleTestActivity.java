@@ -18,7 +18,7 @@ public class CollapsibleTestActivity extends BaseActivity {
     private List<String> mStringList;
 
     @Override
-    public void onInitView(Bundle savedInstanceState) {
+    public void onViewCreated(Bundle savedInstanceState) {
         setContentView(R.layout.activity_collapsible_test);
 
         ListView lv_text_list = (ListView) findViewById(R.id.lv_text_list);

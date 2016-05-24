@@ -10,23 +10,20 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-/**
- * BaseActivity
- */
 public abstract class BaseActivity extends Activity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onInitView(savedInstanceState);
+        onViewCreated(savedInstanceState);
     }
 
     @Override
-    public abstract void onInitView(Bundle savedInstanceState);
+    public abstract void onViewCreated(Bundle savedInstanceState);
 
     @Override
-    public void onWidgetClick(View v) {
+    public void onViewClick(View v) {
     }
 
     @Override
@@ -35,23 +32,13 @@ public abstract class BaseActivity extends Activity implements OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        onWidgetClick(v);
+        onViewClick(v);
     }
 
     @Override
     protected void onResume() {
         mDestroy = false;
         super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     @Override
