@@ -34,7 +34,7 @@ public class ViewTestActivity extends BaseCompatActivity {
     }
 
     @Override
-    public void updateTitleBar(TitleBar titleBar) {
+    public void onTitleCreated(TitleBar titleBar) {
         titleBar.setText("ViewTest");
     }
 }

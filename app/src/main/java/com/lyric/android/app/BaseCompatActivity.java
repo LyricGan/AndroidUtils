@@ -24,7 +24,7 @@ public abstract class BaseCompatActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-        update(mTitleBar);
+        initialize(mTitleBar);
         super.onCreate(savedInstanceState);
     }
 
@@ -42,9 +42,9 @@ public abstract class BaseCompatActivity extends BaseActivity {
         super.setContentView(layout);
     }
 
-    private void update(TitleBar titleBar) {
-        updateTitleBar(titleBar);
+    private void initialize(TitleBar titleBar) {
+        onTitleCreated(titleBar);
     }
 
-    public abstract void updateTitleBar(TitleBar titleBar);
+    public abstract void onTitleCreated(TitleBar titleBar);
 }

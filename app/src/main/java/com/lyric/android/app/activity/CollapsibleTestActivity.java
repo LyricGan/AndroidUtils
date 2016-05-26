@@ -41,7 +41,7 @@ public class CollapsibleTestActivity extends BaseCompatActivity {
     }
 
     @Override
-    public void updateTitleBar(TitleBar titleBar) {
+    public void onTitleCreated(TitleBar titleBar) {
         titleBar.setText("CollapsibleTest");
     }
 
