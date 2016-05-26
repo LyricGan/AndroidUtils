@@ -165,5 +165,4 @@ public class ContactsUtils {
             this.phoneNumber = phoneNumber;
         }
     }
-
 }

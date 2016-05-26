@@ -1,6 +1,7 @@
 package com.lyric.android.library.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.File;
 
@@ -11,12 +12,15 @@ import java.io.File;
  * @version 2015-9-14
  */
 public class FileUtils {
+
+    private FileUtils() {
+    }
 	
 	/**
 	 * 删除缓存文件
 	 * @param context Context
 	 */
-	public static void clearCacheFolder(Context context) {
+	public static void deleteCacheFolder(Context context) {
 		clearCacheFolder(context.getCacheDir(), System.currentTimeMillis());
 	}
 	
@@ -27,24 +31,34 @@ public class FileUtils {
 	 * @return 被删除文件数量
 	 */
 	public static int clearCacheFolder(File dir, long lastModified) {
-		int deletedFiles = 0;
+		int deletedFileCount = 0;
 		if (dir != null && dir.isDirectory()) {
-			try {
-				for (File child : dir.listFiles()) {
-					if (child.isDirectory()) {
-						deletedFiles += clearCacheFolder(child, lastModified);
-					}
-					if (child.lastModified() < lastModified) {
-						if (child.delete()) {
-							deletedFiles++;
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+            for (File file : dir.listFiles()) {
+                if (file.isDirectory()) {
+                    deletedFileCount += clearCacheFolder(file, lastModified);
+                }
+                if (file.lastModified() < lastModified) {
+                    if (file.delete()) {
+                        deletedFileCount++;
+                    }
+                }
+            }
 		}
-		return deletedFiles;
+		return deletedFileCount;
 	}
-	
+
+    /**
+     * 判断文件是否存在
+     * @param filePath 文件路径
+     * @return boolean
+     */
+    public static boolean isFileExists(String filePath) {
+        if (!TextUtils.isEmpty(filePath)) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

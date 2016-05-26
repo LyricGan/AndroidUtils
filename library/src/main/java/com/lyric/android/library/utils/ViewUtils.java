@@ -227,7 +227,7 @@ public class ViewUtils {
 	 */
 	public static void setTextCursor(Context context, EditText editText) {
 		CharSequence text = editText.getText();
-		if (text instanceof Spannable) {
+		if (text != null) {
 			Spannable spanText = (Spannable) text;
 			Selection.setSelection(spanText, text.length());
 		}
@@ -289,4 +289,11 @@ public class ViewUtils {
         return false;
     }
 
+    /**
+     * 解决ScrollView嵌套导致的高度计算问题
+     * @return the measure specification based on size and mode
+     */
+    public static int getExpandSpec() {
+        return View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
+    }
 }

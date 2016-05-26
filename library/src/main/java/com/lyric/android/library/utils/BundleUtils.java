@@ -73,5 +73,4 @@ public class BundleUtils {
         fragment.setArguments(getBundle());
         return fragment;
     }
-
 }

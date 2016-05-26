@@ -133,5 +133,4 @@ public class ActivityStackUtils {
 		activityManager.killBackgroundProcesses(context.getPackageName());
 		System.exit(0);
 	}
-	
 }

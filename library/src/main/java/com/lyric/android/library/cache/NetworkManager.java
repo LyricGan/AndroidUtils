@@ -10,7 +10,7 @@ import com.lyric.android.library.network.Api;
 public class NetworkManager {
     private static Api mInstance;
 
-    NetworkManager() {
+    private NetworkManager() {
     }
 
     public static synchronized Api getApi() {

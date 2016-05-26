@@ -270,20 +270,4 @@ public class AndroidFileUtils {
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
         return list.size() > 0;
     }
-
-    /**
-     * 判断文件是否存在
-     * @param filePath 文件路径
-     * @return boolean
-     */
-    public static boolean isFileExists(String filePath) {
-    	if (!TextUtils.isEmpty(filePath)) {
-    		File file = new File(filePath);
-            if (file.exists()) {
-                return true;
-            }
-    	}
-        return false;
-    }
-    
 }

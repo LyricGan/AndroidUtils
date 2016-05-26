@@ -37,11 +37,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0: {// CollapsibleTest
-                ActivityUtils.toActivity(this, CollapsibleTestActivity.class);
+                ActivityUtils.jumpActivity(this, CollapsibleTestActivity.class);
             }
                 break;
             case 1: {// SpannableTest
-                ActivityUtils.toActivity(this, SpannableTestActivity.class);
+                ActivityUtils.jumpActivity(this, SpannableTestActivity.class);
             }
                 break;
             case 2: {// BrokenViewTest
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
             }
                 break;
             case 3: {// ViewTest
-                ActivityUtils.toActivity(this, ViewTestActivity.class);
+                ActivityUtils.jumpActivity(this, ViewTestActivity.class);
             }
                 break;
             default:

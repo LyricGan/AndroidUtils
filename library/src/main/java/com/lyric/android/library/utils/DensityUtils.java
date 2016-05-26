@@ -35,7 +35,7 @@ public class DensityUtils {
         return context.getResources().getDisplayMetrics().scaledDensity;
     }
 
-    public static int[] getDisplay(Context context) {
+    public static int[] getScreenDisplay(Context context) {
         checkContext(context);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int[] display = new int[2];
@@ -45,12 +45,12 @@ public class DensityUtils {
         return display;
     }
 
-    public static int getWidthPixels(Context context) {
+    public static int getScreenWidth(Context context) {
         checkContext(context);
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
-    public static int getHeightPixels(Context context) {
+    public static int getScreenHeight(Context context) {
         checkContext(context);
         return context.getResources().getDisplayMetrics().heightPixels;
     }
@@ -70,5 +70,4 @@ public class DensityUtils {
             throw new NullPointerException("context can not be null.");
         }
     }
-
 }

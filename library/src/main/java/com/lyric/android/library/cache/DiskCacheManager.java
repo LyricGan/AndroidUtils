@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class DiskCacheManager<T> {
     private static DiskCacheManager mInstance;
 
-    DiskCacheManager() {
+    private DiskCacheManager() {
     }
 
     public static DiskCacheManager build() {

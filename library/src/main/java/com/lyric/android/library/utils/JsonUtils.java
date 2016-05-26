@@ -14,7 +14,7 @@ import org.json.JSONObject;
  */
 public class JsonUtils {
 
-    JsonUtils() {
+    private JsonUtils() {
 	}
 	
 	/**
@@ -186,5 +186,4 @@ public class JsonUtils {
 		}
 		return jsonObject.optJSONArray(key);
 	}
-	
 }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.test.span.SpanTextUtils;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.KeywordUtils;
 
@@ -34,6 +35,7 @@ public class SpannableTestActivity extends BaseCompatActivity {
         setContentView(R.layout.activity_spannable_test);
         TextView tv_spannable = (TextView) findViewById(R.id.tv_spannable);
         TextView tv_spannable_keywords = (TextView) findViewById(R.id.tv_spannable_keywords);
+        TextView tv_spannable_keywords2 = (TextView) findViewById(R.id.tv_spannable_keywords2);
 
         // 创建一个SpannableString对象
         SpannableString spannableString = new SpannableString("字体测试字体大小一半两倍前景色背景色正常粗体斜体粗斜体下划线删除线x1x2电话邮件网站短信彩信地图X轴综合/bot/bot");
@@ -99,6 +101,9 @@ public class SpannableTestActivity extends BaseCompatActivity {
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
         tv_spannable_keywords.setText(KeywordUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
+
+        tv_spannable_keywords2.setText(SpanTextUtils.buildString(this, "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
+        tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override

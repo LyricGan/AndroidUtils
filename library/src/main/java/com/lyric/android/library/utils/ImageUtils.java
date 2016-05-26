@@ -1,6 +1,8 @@
 package com.lyric.android.library.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -15,6 +17,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.MeasureSpec;
 
@@ -158,7 +162,7 @@ public class ImageUtils {
 	 * @param bitmap 传入的图片
 	 * @return 去色后的图片
 	 */
-	public static Bitmap toGrayscale(Bitmap bitmap) {
+	public static Bitmap toGrayScale(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		Bitmap grayBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -179,8 +183,8 @@ public class ImageUtils {
     * @param pixels 圆角弧度
     * @return 修改后的图片
     */
-   public static Bitmap toGrayscale(Bitmap bitmap, int pixels) {
-       return toRoundCorner(toGrayscale(bitmap), pixels);
+   public static Bitmap toGrayScale(Bitmap bitmap, int pixels) {
+       return toRoundCorner(toGrayScale(bitmap), pixels);
    }
    
    /**
@@ -232,4 +236,42 @@ public class ImageUtils {
 		return size;
 	}
 
+    /**
+     * 备注：android:scaleType用来控制图片进行resized/moved来匹配ImageView的size
+     * CENTER/center 按图片的原来size居中显示，当图片长/宽超过View的长/宽，则截取图片的居中部分显示
+     * CENTER_CROP/centerCrop 按比例扩大图片的size居中显示，使得图片长(宽)等于或大于View的长(宽)
+     * CENTER_INSIDE/centerInside 将图片的内容完整居中显示，通过按比例缩小或原来的size使得图片长/宽等于或小于View的长/宽
+     * FIT_CENTER/fitCenter 把图片按比例扩大/缩小到View的宽度，居中显示
+     * FIT_END/fitEnd 把图片按比例扩大/缩小到View的宽度，显示在View的下部分位置
+     * FIT_START/fitStart 把图片按比例扩大/缩小到View的宽度，显示在View的上部分位置
+     * FIT_XY/fitXY 把图片 不按比例 扩大/缩小到View的大小显示
+     * MATRIX/matrix 用矩阵来绘制，动态缩小放大图片来显示
+     * @param activity Activity
+     * @param uri Uri
+     * @param outputX 裁剪宽度
+     * @param outputY 裁剪高度
+     * @param requestCode If >= 0, this code will be returned in onActivityResult() when the activity exits.
+     */
+    public static void takePicture(Activity activity, Uri uri, int outputX, int outputY, int requestCode){
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 2);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);// 不进行人脸检测
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static Bitmap decodeBitmap(Context context, int drawableId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(context.getResources().openRawResource(drawableId), new Rect(), options);
+    }
 }

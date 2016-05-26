@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- MaterialMenuView -->
     <declare-styleable name="MaterialMenuView">
         <attr name="mm_color" format="color" />
         <attr name="mm_scale" format="integer" />
@@ -9,6 +8,21 @@
         <attr name="mm_pressedDuration" format="integer" />
         <attr name="mm_strokeWidth" format="integer" />
         <attr name="mm_rtlEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ColumnLayout">
+        <attr name="childLayout" format="reference" />
+        <attr name="column" format="integer" />
+        <attr name="rowDivider" format="reference|color" />
+        <attr name="rowDividerHeight" format="dimension" />
+        <attr name="childDivider" format="reference|color" />
+        <attr name="childDividerWidth" format="dimension" />
+        <attr name="childPadding" format="dimension" />
+        <attr name="childPaddingTop" format="dimension" />
+        <attr name="childPaddingBottom" format="dimension" />
+        <attr name="autoHeight" format="boolean" />
+        <attr name="showFinalBottomLine" format="boolean" />
+        <attr name="showFirstDividerLine" format="boolean" />
     </declare-styleable>
 
 </resources>

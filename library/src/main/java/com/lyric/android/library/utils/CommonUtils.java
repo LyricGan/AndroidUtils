@@ -8,23 +8,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Environment;
-import android.provider.Settings.Secure;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -214,45 +205,6 @@ public abstract class CommonUtils {
 	}
 	
 	/**
-	 * 将应用语言设置为简体中文
-	 * 
-	 * @param context
-	 */
-	public static void setLanguageChinese(Context context) {
-		Locale locale = new Locale("zh");
-		Locale.setDefault(locale);
-		Configuration config = context.getResources().getConfiguration();
-		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-		config.locale = Locale.SIMPLIFIED_CHINESE;
-		context.getResources().updateConfiguration(config, metrics);
-	}
-
-	/**
-	 * 将应用语言设置为英文
-	 * 
-	 * @param context
-	 */
-	public static void setLanguageEnglish(Context context) {
-		Locale locale = new Locale("english");
-		Locale.setDefault(locale);
-		Configuration config = context.getResources().getConfiguration();
-		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-		config.locale = Locale.ENGLISH;
-		context.getResources().updateConfiguration(config, metrics);
-	}
-
-	/**
-	 * 获得应用当前语言
-	 * 
-	 * @param context
-	 * @return cn--中文 en-英文
-	 */
-	public static String getCurrentLanguage(Context context) {
-		Configuration config = context.getResources().getConfiguration();
-		return config.locale.toString().equals(Locale.SIMPLIFIED_CHINESE.toString()) ? "cn" : "en";
-	}
-	
-	/**
 	 * 检查是否有新的版本
 	 * @param appVersion 当前应用版本
 	 * @param newVersion 服务器最新版本
@@ -282,33 +234,4 @@ public abstract class CommonUtils {
 		}
 		return 0;
 	}
-	
-	/**
-	 * 以JSON格式返回mac地址和设备ID
-	 * @param context
-	 * @return
-	 */
-	public static String getDeviceInfo(Context context) {
-		try {
-			JSONObject json = new JSONObject();
-			TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-			String device_id = tm.getDeviceId();
-			WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-			String mac = wifi.getConnectionInfo().getMacAddress();
-			json.put("mac", mac);
-			if (TextUtils.isEmpty(device_id)) {
-				device_id = mac;
-			}
-			if (TextUtils.isEmpty(device_id)) {
-				device_id = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
-			}
-			json.put("device_id", device_id);
-			
-			return json.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 }

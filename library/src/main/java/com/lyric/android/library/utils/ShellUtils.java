@@ -21,11 +21,8 @@ import java.util.List;
  * <li>{@link ShellUtils#execCommand(String[], boolean)}</li>
  * <li>{@link ShellUtils#execCommand(String[], boolean, boolean)}</li>
  * </ul>
- * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-5-16
  */
 public class ShellUtils {
-
     public static final String COMMAND_SU       = "su";
     public static final String COMMAND_SH       = "sh";
     public static final String COMMAND_EXIT     = "exit\n";
@@ -119,13 +116,11 @@ public class ShellUtils {
         if (commands == null || commands.length == 0) {
             return new CommandResult(result, null, null);
         }
-
         Process process = null;
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
         StringBuilder successMsg = null;
         StringBuilder errorMsg = null;
-
         DataOutputStream os = null;
         try {
             process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
@@ -134,7 +129,6 @@ public class ShellUtils {
                 if (command == null) {
                     continue;
                 }
-
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 os.write(command.getBytes());
                 os.writeBytes(COMMAND_LINE_END);
@@ -193,11 +187,8 @@ public class ShellUtils {
      * <li>{@link CommandResult#successMsg} means success message of command result</li>
      * <li>{@link CommandResult#errorMsg} means error message of command result</li>
      * </ul>
-     * 
-     * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-5-16
      */
     public static class CommandResult {
-
         /** result of command **/
         public int    result;
         /** success message of command result **/

@@ -814,7 +814,7 @@ public class PackageUtils {
 	/**
 	 * get params for pm install location
 	 * 
-	 * @return
+	 * @return String
 	 */
 	private static String getInstallLocationParams() {
 		int location = getInstallLocation();
@@ -829,7 +829,7 @@ public class PackageUtils {
 
 	/**
 	 * start InstalledAppDetails Activity
-	 * @param context
+	 * @param context Context
 	 * @param packageName
 	 */
 	public static void startInstalledAppDetails(Context context, String packageName) {
@@ -846,6 +846,4 @@ public class PackageUtils {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
-
-
 }

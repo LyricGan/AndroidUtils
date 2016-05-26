@@ -34,12 +34,13 @@ public class TimeUtils extends CommonUtils {
 	public static final String TEMPLATE_TIME = "yyyy-MM-dd HH:mm";
 	/** 日期格式 {@code yyyy-MM-dd E HH:mm} */
 	public static final String TEMPLATE_WEEK = "yyyy-MM-dd E HH:mm";
+    /** 默认日期格式 {@code yyyy-MM-dd HH:mm:ss} */
 	public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	
 	/**
 	 * 获取当前时间
 	 * @param template 时间格式
-	 * @return
+	 * @return String
 	 */
 	public static String getCurrentTime(String template) {
 		if (TextUtils.isEmpty(template)) {
@@ -53,7 +54,7 @@ public class TimeUtils extends CommonUtils {
 	 * 获取时间
 	 * @param milliseconds 时间戳
 	 * @param template 时间格式
-	 * @return
+	 * @return String
 	 */
 	public static String getTime(long milliseconds, String template) {
 		if (TextUtils.isEmpty(template)) {
@@ -67,7 +68,7 @@ public class TimeUtils extends CommonUtils {
 	 * 获取指定时间
 	 * @param milliseconds 时间戳
 	 * @param template 时间格式
-	 * @return
+	 * @return String
 	 */
 	public static String getSpecificTime(long milliseconds, String template) {
 		if (TextUtils.isEmpty(template)) {
@@ -100,7 +101,7 @@ public class TimeUtils extends CommonUtils {
 	 * 获取中文星期名称
 	 * @param milliseconds 毫秒
 	 * @param template 日期格式
-	 * @return
+	 * @return String
 	 */
 	public static String getWeekCn(long milliseconds, String template) {
 		String week = null;
@@ -139,7 +140,7 @@ public class TimeUtils extends CommonUtils {
 	 * 获取英文星期名称
 	 * @param milliseconds 毫秒
 	 * @param template 日期格式
-	 * @return
+	 * @return String
 	 */
 	public static String getWeekEn(long milliseconds, String template) {
 		String week = null;
@@ -178,7 +179,7 @@ public class TimeUtils extends CommonUtils {
 	 * 获取日历
 	 * @param milliseconds 毫秒
 	 * @param template 日期格式
-	 * @return
+	 * @return Calendar
 	 */
 	private static Calendar getCalendar(long milliseconds, String template) {
 		if (TextUtils.isEmpty(template)) {
@@ -200,7 +201,7 @@ public class TimeUtils extends CommonUtils {
      * 将时间戳转换为字符串
      * @param timeInMillis
      * @param dateFormat
-     * @return
+     * @return String
      */
     public static String getTime(long timeInMillis, SimpleDateFormat dateFormat) {
         return dateFormat.format(new Date(timeInMillis));
@@ -209,7 +210,7 @@ public class TimeUtils extends CommonUtils {
     /**
      * 将时间戳转换为固定格式的字符串, 格式 {@link #DEFAULT_DATE_FORMAT}
      * @param timeInMillis
-     * @return
+     * @return String
      */
     public static String getTime(long timeInMillis) {
         return getTime(timeInMillis, DEFAULT_DATE_FORMAT);
@@ -217,7 +218,7 @@ public class TimeUtils extends CommonUtils {
 
     /**
      * 返回当前时间，格式为时间戳
-     * @return
+     * @return String
      */
     public static long getCurrentTimeInLong() {
         return System.currentTimeMillis();
@@ -226,7 +227,7 @@ public class TimeUtils extends CommonUtils {
     /**
      * 返回当前时间, 格式为 {@link #DEFAULT_DATE_FORMAT}
      * 
-     * @return
+     * @return String
      */
     public static String getCurrentTimeInString() {
         return getTime(getCurrentTimeInLong());
@@ -234,10 +235,9 @@ public class TimeUtils extends CommonUtils {
 
     /**
      * 返回当前时间，格式自定义
-     * @return
+     * @return String
      */
     public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
         return getTime(getCurrentTimeInLong(), dateFormat);
     }
-	
 }

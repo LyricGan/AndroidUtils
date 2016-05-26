@@ -117,5 +117,4 @@ public class ToastUtils extends CommonUtils {
 			mToast.cancel();
 		}
 	}
-	
 }
