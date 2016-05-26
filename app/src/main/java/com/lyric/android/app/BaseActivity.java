@@ -1,16 +1,16 @@
 package com.lyric.android.app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-public abstract class BaseActivity extends Activity implements OnClickListener, IBaseListener {
+public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
 
     @Override
@@ -24,10 +24,6 @@ public abstract class BaseActivity extends Activity implements OnClickListener, 
 
     @Override
     public void onViewClick(View v) {
-    }
-
-    @Override
-    public void onResponse(int flag, String response) {
     }
 
     @Override

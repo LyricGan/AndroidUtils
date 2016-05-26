@@ -22,11 +22,4 @@ public interface IBaseListener {
 	 * @param v view
 	 */
 	void onViewClick(View v);
-	
-	/**
-	 * 响应网络请求
-	 * @param flag 请求标识
-	 * @param response 响应字符串
-	 */
-	void onResponse(int flag, String response);
 }

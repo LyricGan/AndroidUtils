@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
-import com.lyric.android.app.BaseActivity;
+import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.app.widget.MovedCircleView;
 
 /**
@@ -12,7 +13,7 @@ import com.lyric.android.app.widget.MovedCircleView;
  * @description
  * @time 2016/3/15 15:12
  */
-public class ViewTestActivity extends BaseActivity {
+public class ViewTestActivity extends BaseCompatActivity {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
@@ -30,5 +31,10 @@ public class ViewTestActivity extends BaseActivity {
         rootLayout.addView(movedCircleView);
 
         setContentView(rootLayout);
+    }
+
+    @Override
+    public void updateTitleBar(TitleBar titleBar) {
+        titleBar.setText("ViewTest");
     }
 }

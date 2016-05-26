@@ -12,14 +12,5 @@
         android:id="@+id/lv_index_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/editText"
         android:layout_below="@+id/view_title_bar"/>
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:hint=""/>
-
 </RelativeLayout>

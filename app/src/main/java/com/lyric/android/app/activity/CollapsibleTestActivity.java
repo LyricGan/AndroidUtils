@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.lyric.android.app.BaseActivity;
+import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.app.widget.TextView.ExpandableTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollapsibleTestActivity extends BaseActivity {
+public class CollapsibleTestActivity extends BaseCompatActivity {
     private List<String> mStringList;
 
     @Override
@@ -37,6 +38,11 @@ public class CollapsibleTestActivity extends BaseActivity {
         }
         TextAdapter adapter = new TextAdapter();
         lv_text_list.setAdapter(adapter);
+    }
+
+    @Override
+    public void updateTitleBar(TitleBar titleBar) {
+        titleBar.setText("CollapsibleTest");
     }
 
     class TextAdapter extends BaseAdapter {

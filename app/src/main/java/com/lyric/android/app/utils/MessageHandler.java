@@ -27,18 +27,13 @@ public class MessageHandler extends WeakHandler<Object> {
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
-        switch (msg.what) {
-            case MessageCode.ACTIVITY_START: {// 首页启动
-                Object object = get();
-                if (object instanceof SplashActivity) {
-                    SplashActivity activity = (SplashActivity) object;
-                    activity.start();
-                }
+        int code = msg.what;
+        if (MessageCode.ACTIVITY_START == code) {// 首页启动
+            Object object = get();
+            if (object instanceof SplashActivity) {
+                SplashActivity activity = (SplashActivity) object;
+                activity.start();
             }
-                break;
-            default:
-                break;
         }
     }
-
 }

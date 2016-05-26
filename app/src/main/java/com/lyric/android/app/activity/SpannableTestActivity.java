@@ -22,11 +22,12 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.widget.TextView;
 
-import com.lyric.android.app.BaseActivity;
+import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.KeywordUtils;
 
-public class SpannableTestActivity extends BaseActivity {
+public class SpannableTestActivity extends BaseCompatActivity {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
@@ -100,4 +101,8 @@ public class SpannableTestActivity extends BaseActivity {
         tv_spannable_keywords.setText(KeywordUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
     }
 
+    @Override
+    public void updateTitleBar(TitleBar titleBar) {
+        titleBar.setText("SpannableTest");
+    }
 }

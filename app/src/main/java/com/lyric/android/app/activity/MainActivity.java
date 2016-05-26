@@ -9,11 +9,11 @@ import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.BaseApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.TestListAdapter;
+import com.lyric.android.app.widget.brokenview.BrokenCallback;
+import com.lyric.android.app.widget.brokenview.BrokenTouchListener;
+import com.lyric.android.app.widget.brokenview.BrokenView;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.ToastUtils;
-import com.zys.brokenview.BrokenCallback;
-import com.zys.brokenview.BrokenTouchListener;
-import com.zys.brokenview.BrokenView;
 
 /**
  * @author ganyu
