@@ -75,4 +75,21 @@ public class ActivityUtils {
         }
         context.startActivity(intent);
     }
+
+    public static void jumpActivity(Context context, Intent intent) {
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void jumpMainActivity(Context context, Class<? extends Activity> cls, Bundle bundle) {
+        Intent intent = new Intent(context, cls);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
 }
