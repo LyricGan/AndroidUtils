@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <com.lyric.android.app.widget.loadingindicator.LoadingIndicatorView
+        <com.lyric.android.app.widget.dialog.LoadingView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
