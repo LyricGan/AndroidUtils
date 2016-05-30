@@ -5,6 +5,7 @@
         <item>SpannableTest</item>
         <item>BrokenViewTest</item>
         <item>ViewTest</item>
+        <item>LoadingTest</item>
     </string-array>
 
     <string-array name="share_platform">

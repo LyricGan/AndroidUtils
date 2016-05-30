@@ -1,6 +1,7 @@
 package com.lyric.android.app.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import com.lyric.android.app.adapter.TestListAdapter;
 import com.lyric.android.app.widget.brokenview.BrokenCallback;
 import com.lyric.android.app.widget.brokenview.BrokenTouchListener;
 import com.lyric.android.app.widget.brokenview.BrokenView;
+import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.ToastUtils;
 
@@ -52,6 +54,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 ActivityUtils.jumpActivity(this, ViewTestActivity.class);
             }
                 break;
+            case 4: {// LoadingTest
+                ActivityUtils.jumpActivity(this, LoadingActivity.class);
+            }
+                break;
             default:
                 break;
         }
@@ -81,6 +87,16 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 super.onFalling(v);
 
                 ToastUtils.showLong(BaseApplication.getContext(), "falling...");
+
+                final LoadingDialog dialog = new LoadingDialog(MainActivity.this);
+                dialog.setMessage("正在加载...");
+                dialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.cancel();
+                    }
+                }, 5000);
             }
 
             @Override

@@ -39,6 +39,10 @@
             android:name=".activity.ViewTestActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <receiver android:name=".recevier.SystemReceiver"
             android:exported="false">
