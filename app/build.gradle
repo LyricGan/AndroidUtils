@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.lyric.android.app"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -22,29 +22,33 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile project(':library')
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:support-v4:23.2.0'
-    compile 'com.nineoldandroids:library:2.4.0'
-    //    compile 'com.jakewharton:disklrucache:2.0.2'
-    //    compile 'com.cesarferreira.quickutils:library:2.+'
-//    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'io.realm:realm-android:0.87.2'
-    compile 'com.squareup.picasso:picasso:2.3.2'
-//    compile 'com.github.bumptech.glide:glide:3.6.1'
-//    compile 'com.facebook.fresco:fresco:0.9.0'
-    compile 'de.greenrobot:eventbus:2.4.0'
-//    compile 'io.reactivex:rxandroid:1.1.0'
-//    compile 'io.reactivex:rxjava:1.1.0'
-//    compile 'com.daimajia.swipelayout:library:1.2.0'
-//    compile 'com.google.guava:guava:19.0'
-//    compile 'cn.trinea.android.common:trinea-android-common:4.2.15'
-//    compile 'org.xutils:xutils:3.3.22'
-//    compile 'com.koushikdutta.ion:ion:2.1.7'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-//    compile 'com.android.databinding:compiler:1.0-rc5'
+
+    Map<String, String> dependencies = rootProject.ext.dependencies;
+    compile dependencies.appCompat
+    compile dependencies.cardView
+    compile dependencies.recyclerView
+    compile dependencies.support
+    compile dependencies.gson
+    compile dependencies.realm
+    compile dependencies.picasso
+//    compile dependencies.glide
+//    compile dependencies.fresco
+    compile dependencies.rxAndroid
+    compile dependencies.rxJava
+//    compile dependencies.nineoldandroids
+    compile dependencies.eventbus
+//    compile dependencies.swipelayout
+//    compile dependencies.guava
+//    compile dependencies.androidcommon
+//    compile dependencies.xutils
+//    compile dependencies.ion
+//    compile dependencies.quickutils
+//    compile dependencies.retrofit
+//    compile dependencies.disklrucache
+
+    testCompile dependencies.jUnit
+
+    debugCompile dependencies.leakcanarydebug
+    releaseCompile dependencies.leakcanaryrelease
 }
