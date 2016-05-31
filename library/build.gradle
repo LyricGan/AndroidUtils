@@ -17,12 +17,12 @@ apply plugin: 'com.jfrog.artifactory-upload'
 version = "1.0.0"                                                              // #CONFIG# // project version
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     // resourcePrefix "less_"                                                  // #CONFIG# // please remove this if you don't known it
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -36,8 +36,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
+
+    Map<String, String> dependencies = rootProject.ext.dependencies;
+    compile dependencies.recyclerView
+    compile dependencies.support
 }
 
 def siteUrl = 'https://github.com/lyricgan/android-utils'                        // #CONFIG# // project homepage
