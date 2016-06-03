@@ -1,7 +1,6 @@
 package com.lyric.android.app;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.lyric.android.app.constants.Constants;
 import com.lyric.android.library.utils.LogUtils;
@@ -13,14 +12,14 @@ import com.lyric.android.library.utils.LogUtils;
  * 
  */
 public class BaseApplication extends Application {
-	private static Context sContext;
+    private static BaseApplication sApplication;
 //    private static RefWatcher mRefWatcher;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		sContext = this;
-		
+        sApplication = this;
+
 		LogUtils.setDebug(Constants.DEBUG);
 
 //        if (Constants.LEAK_DEBUG) {
@@ -30,8 +29,8 @@ public class BaseApplication extends Application {
 //        }
 	}
 
-	public static Context getContext() {
-		return sContext;
+	public static BaseApplication getContext() {
+		return sApplication;
 	}
 
 //    public static RefWatcher getRefWatcher() {
