@@ -1,15 +1,14 @@
 package com.lyric.android.library.network;
 
 /**
- * @author <a href="mailto:ganyu@medlinker.net">ganyu</a>
- * @version 3.1
+ * @author lyric
  * @description 网络接口
  * @time 2016/4/7 13:59
  */
-public class Api {
+public class Api implements BaseApi {
     private static Api mInstance;
 
-    Api() {
+    private Api() {
     }
 
     public static synchronized Api build() {

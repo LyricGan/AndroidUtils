@@ -21,5 +21,4 @@ public class TestListAdapter extends BaseListAdapter<String> {
     public void convert(BaseViewHolder viewHolder, int position, String item) {
         viewHolder.setText(R.id.tv_title, item);
     }
-
 }

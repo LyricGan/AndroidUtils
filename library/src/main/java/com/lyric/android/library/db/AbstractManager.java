@@ -1,8 +1,6 @@
-package com.lyric.android.app.db.manager;
+package com.lyric.android.library.db;
 
 import android.content.Context;
-
-import com.lyric.android.app.db.DbHelper;
 
 import java.util.List;
 

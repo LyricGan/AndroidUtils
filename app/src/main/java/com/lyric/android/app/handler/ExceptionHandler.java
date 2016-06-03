@@ -1,4 +1,4 @@
-package com.lyric.android.library.handler;
+package com.lyric.android.app.handler;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

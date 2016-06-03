@@ -10,6 +10,7 @@ import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.BaseApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.TestListAdapter;
+import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.widget.brokenview.BrokenCallback;
 import com.lyric.android.app.widget.brokenview.BrokenTouchListener;
 import com.lyric.android.app.widget.brokenview.BrokenView;
@@ -56,6 +57,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 break;
             case 4: {// LoadingTest
                 ActivityUtils.jumpActivity(this, LoadingActivity.class);
+            }
+                break;
+            case 5: {// LoginTest
+                ActivityUtils.jumpActivity(this, LoginActivity.class);
             }
                 break;
             default:

@@ -3,7 +3,7 @@ package com.lyric.android.app.utils;
 import android.os.Message;
 
 import com.lyric.android.app.activity.SplashActivity;
-import com.lyric.android.library.handler.WeakHandler;
+import com.lyric.android.app.handler.WeakHandler;
 
 /**
  * @author lyric

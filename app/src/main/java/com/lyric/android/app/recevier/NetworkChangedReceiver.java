@@ -1,4 +1,4 @@
-package com.lyric.android.library.receiver;
+package com.lyric.android.app.recevier;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,10 +17,10 @@ import java.util.List;
  * @description
  * @time 2016/5/14 16:00
  */
-public class NetworkReceiver extends BroadcastReceiver {
-    private static final String TAG = NetworkReceiver.class.getSimpleName();
+public class NetworkChangedReceiver extends BroadcastReceiver {
+    private static final String TAG = NetworkChangedReceiver.class.getSimpleName();
     public static IntentFilter sIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    private static NetworkReceiver mInstance;
+    private static NetworkChangedReceiver mInstance;
     private List<NetStateChangedListener> mListeners;
 
     /**
@@ -35,13 +35,13 @@ public class NetworkReceiver extends BroadcastReceiver {
         void onNetStateChanged(NetState state);
     }
 
-    private NetworkReceiver() {
+    private NetworkChangedReceiver() {
         mListeners = new ArrayList<NetStateChangedListener>();
     }
 
-    public static NetworkReceiver getInstance() {
+    public static NetworkChangedReceiver getInstance() {
         if (mInstance == null) {
-            mInstance = new NetworkReceiver();
+            mInstance = new NetworkChangedReceiver();
         }
         return mInstance;
     }

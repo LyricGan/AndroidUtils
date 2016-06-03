@@ -6,10 +6,9 @@ package com.lyric.android.app.constants;
  * @created 2015-4-20
  * 
  */
-public interface AppConstants {
+public interface Constants {
     boolean DEBUG = true;
     boolean LEAK_DEBUG = false;
-
 
 	/**
 	 * 编码格式

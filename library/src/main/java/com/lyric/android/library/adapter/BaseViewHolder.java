@@ -25,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.lyric.android.library.image.ImageLoader;
+
 /**
  * @author lyric
  * @description ViewHolder
@@ -179,8 +181,7 @@ public class BaseViewHolder {
 
     public BaseViewHolder setImageUrl(int viewId, String imageUrl) {
         ImageView imageView = getView(viewId);
-        // 加载图片
-
+        ImageLoader.load(getContext(), imageUrl, imageView);
         return this;
     }
 
@@ -300,5 +301,4 @@ public class BaseViewHolder {
         ((RecyclerView) getView(viewId)).setAdapter(adapter);
         return this;
     }
-
 }

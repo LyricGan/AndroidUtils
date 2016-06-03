@@ -1,4 +1,4 @@
-package com.lyric.android.app.db;
+package com.lyric.android.library.db;
 
 import android.content.Context;
 
@@ -24,7 +24,7 @@ public class DbHelper {
         return mRealm;
     }
 
-    public String getDbName() {
+    public String getName() {
         return DB_NAME;
     }
 }

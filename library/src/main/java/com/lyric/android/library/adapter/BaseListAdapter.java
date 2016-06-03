@@ -110,5 +110,4 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         this.mDataList.clear();
         this.notifyDataSetChanged();
     }
-
 }

@@ -5,7 +5,7 @@ package com.lyric.android.app.mvvm.viewmodel;
  * @description
  * @time 2016/5/31 16:31
  */
-public abstract class ViewModel {
+public interface ViewModel {
 
-    public abstract void destroy();
+    void destroy();
 }

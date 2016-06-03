@@ -12,7 +12,7 @@ import com.lyric.android.app.api.net.RequestQueue;
 import com.lyric.android.app.api.net.Response;
 import com.lyric.android.app.api.net.core.StringRequest;
 import com.lyric.android.app.api.net.core.Volley;
-import com.lyric.android.app.constants.AppConstants;
+import com.lyric.android.app.constants.Constants;
 import com.lyric.android.library.utils.MD5Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @description API接口
  * @time 2016/1/27 15:28
  */
-public abstract class Api implements ApiPath, AppConstants {
+public abstract class Api implements ApiPath, Constants {
     protected RequestQueue mRequestQueue;
 
     public Api() {

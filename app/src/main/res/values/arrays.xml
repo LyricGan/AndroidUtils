@@ -6,6 +6,7 @@
         <item>BrokenViewTest</item>
         <item>ViewTest</item>
         <item>LoadingTest</item>
+        <item>LoginTest</item>
     </string-array>
 
     <string-array name="share_platform">

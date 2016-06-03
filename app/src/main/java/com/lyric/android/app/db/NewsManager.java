@@ -1,8 +1,9 @@
-package com.lyric.android.app.db.manager;
+package com.lyric.android.app.db;
 
 import android.content.Context;
 
 import com.lyric.android.app.entity.RealmNewsEntity;
+import com.lyric.android.library.db.AbstractManager;
 
 import java.util.ArrayList;
 import java.util.List;

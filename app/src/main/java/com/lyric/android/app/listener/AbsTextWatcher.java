@@ -1,4 +1,4 @@
-package com.lyric.android.library.listener;
+package com.lyric.android.app.listener;
 
 import android.text.Editable;
 import android.text.TextWatcher;

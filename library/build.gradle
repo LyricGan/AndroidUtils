@@ -39,7 +39,12 @@ dependencies {
 
     Map<String, String> dependencies = rootProject.ext.dependencies;
     compile dependencies.recyclerView
-    compile dependencies.support
+    compile dependencies.supportv4
+    compile dependencies.retrofit
+    compile dependencies.realm
+//    compile dependencies.picasso
+    compile dependencies.glide
+//    compile dependencies.fresco
 }
 
 def siteUrl = 'https://github.com/lyricgan/android-utils'                        // #CONFIG# // project homepage

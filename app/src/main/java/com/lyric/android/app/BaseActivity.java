@@ -10,8 +10,11 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.lyric.android.app.widget.dialog.LoadingDialog;
+
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,24 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 
     protected boolean isDestroy() {
         return mDestroy;
+    }
+
+    protected void showLoadingDialog() {
+        showLoadingDialog("");
+    }
+
+    protected void showLoadingDialog(CharSequence message) {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this);
+        }
+        mLoadingDialog.setMessage(message);
+        mLoadingDialog.show();
+    }
+
+    protected void hideLoadingDialog() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dismiss();
+        }
     }
 
     @Override

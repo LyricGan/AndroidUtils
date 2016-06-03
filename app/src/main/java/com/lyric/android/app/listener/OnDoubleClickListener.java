@@ -1,4 +1,4 @@
-package com.lyric.android.library.listener;
+package com.lyric.android.app.listener;
 
 import android.view.View;
 import android.view.ViewConfiguration;
