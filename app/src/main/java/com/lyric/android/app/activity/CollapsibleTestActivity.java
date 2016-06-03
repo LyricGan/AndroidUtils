@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.app.widget.TextView.ExpandableTextView;

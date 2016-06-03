@@ -41,8 +41,9 @@ dependencies {
     compile dependencies.recyclerView
     compile dependencies.supportv4
     compile dependencies.retrofit
+    compile dependencies.retrofitConverterGson
     compile dependencies.realm
-//    compile dependencies.picasso
+    compile dependencies.picasso
     compile dependencies.glide
 //    compile dependencies.fresco
 }

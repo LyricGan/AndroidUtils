@@ -30,7 +30,7 @@ dependencies {
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
-    compile dependencies.gson
+//    compile dependencies.gson
 //    compile dependencies.rxAndroid
 //    compile dependencies.rxJava
     compile dependencies.nineoldandroids
@@ -41,9 +41,6 @@ dependencies {
 //    compile dependencies.xutils
 //    compile dependencies.ion
 //    compile dependencies.quickutils
-//    compile dependencies.retrofit
-//    compile dependencies.retrofitConverterGson
-//    compile dependencies.retrofitAdapterRxJava
 //    compile dependencies.disklrucache
 
 //    debugCompile dependencies.leakcanarydebug

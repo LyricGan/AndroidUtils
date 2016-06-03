@@ -4,7 +4,7 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import com.lyric.android.app.BaseApplication;
+import com.lyric.android.app.base.BaseApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.library.utils.ResourceUtils;
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
-import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.app.widget.MovedCircleView;
 

@@ -14,7 +14,7 @@ public class DbHelper {
     private static final String DB_NAME = "db_utils";
     private static Realm mRealm;
 
-    DbHelper() {
+    private DbHelper() {
     }
 
     public synchronized static Realm getRealm(Context context) {
@@ -24,7 +24,7 @@ public class DbHelper {
         return mRealm;
     }
 
-    public String getName() {
+    public static String getName() {
         return DB_NAME;
     }
 }

@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.lyric.android.app.BaseActivity;
-import com.lyric.android.app.BaseApplication;
+import com.lyric.android.app.base.BaseActivity;
+import com.lyric.android.app.base.BaseApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.TestListAdapter;
 import com.lyric.android.app.mvvm.view.LoginActivity;

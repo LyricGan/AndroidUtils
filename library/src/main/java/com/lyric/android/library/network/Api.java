@@ -1,20 +1,22 @@
 package com.lyric.android.library.network;
 
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+
 /**
  * @author lyric
- * @description 网络接口
- * @time 2016/4/7 13:59
+ * @description
+ * @time 2016/6/3 11:41
  */
-public class Api implements BaseApi {
-    private static Api mInstance;
+public interface Api {
 
-    private Api() {
-    }
-
-    public static synchronized Api build() {
-        if (mInstance == null) {
-            mInstance = new Api();
+    class Factory {
+        public static <T> T getInstance(String baseUrl, Class<T> cls) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            return retrofit.create(cls);
         }
-        return mInstance;
     }
 }

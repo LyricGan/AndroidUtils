@@ -13,10 +13,14 @@ import io.realm.RealmObject;
  * @time 2016/1/21 17:21
  */
 public abstract class AbstractManager<E extends RealmObject> {
-    protected Realm mRealm;
+    private Realm mRealm;
 
     public AbstractManager(Context context) {
         mRealm = DbHelper.getRealm(context);
+    }
+
+    public Realm getRealm() {
+        return mRealm;
     }
 
     public abstract void add(E object);

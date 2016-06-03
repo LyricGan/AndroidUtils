@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.lyric.android.app.BaseApplication;
-import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.BaseCompatActivity;
+import com.lyric.android.app.mvvm.model.User;
 import com.lyric.android.app.mvvm.viewmodel.LoginViewModel;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.ToastUtils;
@@ -32,19 +33,21 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     }
 
     @Override
-    public void showLoading() {
+    public void startLogin() {
         showLoadingDialog("正在登录...");
     }
 
     @Override
-    public void loginSuccess() {
-        ToastUtils.showShort(BaseApplication.getContext(), "登录成功");
+    public void loginSuccess(User user) {
+        hideLoadingDialog();
+        ToastUtils.showShort(BaseApplication.getContext(), "登录成功" + user.toString());
         finish();
     }
 
     @Override
-    public void dismissLoading() {
+    public void loginFailed() {
         hideLoadingDialog();
+        ToastUtils.showShort(BaseApplication.getContext(), "登录失败");
     }
 
     @Override

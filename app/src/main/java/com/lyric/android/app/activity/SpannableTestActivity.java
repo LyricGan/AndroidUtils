@@ -22,7 +22,7 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.widget.TextView;
 
-import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.test.span.SpanTextUtils;
 import com.lyric.android.app.view.TitleBar;

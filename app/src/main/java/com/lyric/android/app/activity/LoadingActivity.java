@@ -2,7 +2,7 @@ package com.lyric.android.app.activity;
 
 import android.os.Bundle;
 
-import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.view.TitleBar;
 
