@@ -98,12 +98,20 @@ public abstract class ServiceApi implements ApiPath, Constants {
         return defaultParams;
     }
 
-    public void request(String url, Map<String, String> params, int flag, Handler handler) {
+    public void get(String url, Map<String, String> params, int flag, Handler handler) {
         this.request(url, Request.Method.GET, params, flag, handler);
     }
 
-    public void request(String url, Map<String, String> params, int flag, Handler handler, boolean shouldCache) {
+    public void get(String url, Map<String, String> params, int flag, Handler handler, boolean shouldCache) {
         this.request(url, Request.Method.GET, params, flag, handler, shouldCache);
+    }
+
+    public void post(String url, Map<String, String> params, int flag, Handler handler) {
+        this.request(url, Request.Method.POST, params, flag, handler);
+    }
+
+    public void post(String url, Map<String, String> params, int flag, Handler handler, boolean shouldCache) {
+        this.request(url, Request.Method.POST, params, flag, handler, shouldCache);
     }
 
     public void request(String url, int method, Map<String, String> params, int flag, Handler handler) {

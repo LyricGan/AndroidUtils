@@ -22,7 +22,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.MeasureSpec;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * 图片工具类
@@ -273,5 +276,144 @@ public class ImageUtils {
         options.inSampleSize = 2;
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeStream(context.getResources().openRawResource(drawableId), new Rect(), options);
+    }
+
+    /**
+     * 解析本地图片
+     * @param filePath 文件路径
+     * @return Bitmap
+     */
+    public static Bitmap decodeBitmap(String filePath) {
+        Bitmap bitmap = null;
+        File file = new File(filePath);
+        // 判断文件是否存在
+        if (file.exists()) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 1;
+            options.inPreferredConfig = Config.RGB_565;
+            try {
+                bitmap = BitmapFactory.decodeFile(filePath, options);
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+            }
+        }
+        return bitmap;
+    }
+
+    /**
+     * 压缩图片大小
+     * @param bitmap Bitmap
+     * @param kbSize 图片大小KB
+     * @return Bitmap
+     */
+    public static Bitmap compressBitmap(Bitmap bitmap, int kbSize) {
+        if (bitmap == null || kbSize < 0) {
+            return null;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int options = 90;
+        while (baos.toByteArray().length / 1024 > kbSize) {
+            baos.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            options -= 10;
+        }
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        return BitmapFactory.decodeStream(bais, null, null);
+    }
+
+    /**
+     * 压缩图片
+     * @param bitmap 图片
+     * @param kbSize 图片占内存大小
+     * @return Bitmap
+     */
+    public static Bitmap compress(Bitmap bitmap, int kbSize) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        if (baos.toByteArray().length / 1024 > 1024) {
+            baos.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        }
+        ByteArrayInputStream byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        newOpts.inJustDecodeBounds = true;
+        Bitmap newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
+        newOpts.inJustDecodeBounds = false;
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+        float hh = 800f;
+        float ww = 480f;
+        int be = 1;
+        if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩放
+            be = (int) (newOpts.outWidth / ww);
+        } else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩放
+            be = (int) (newOpts.outHeight / hh);
+        }
+        if (be <= 0) {
+            be = 1;
+        }
+        newOpts.inSampleSize = be;
+        byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
+        newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
+        return compressBitmap(newBitmap, kbSize);
+    }
+
+    /**
+     * 获取压缩后的本地图片
+     * @param imagePath 本地图片地址
+     * @param width 图片宽度
+     * @param height 图片高度
+     * @return Bitmap
+     */
+    public static Bitmap getCompressBitmap(String imagePath, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(imagePath, options);
+    }
+
+    /**
+     * 计算图片的缩放值
+     * @param options BitmapFactory.Options
+     * @param width 图片的宽
+     * @param height 图片的高
+     * @return inSampleSize
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int width, int height) {
+        int outWidth = options.outWidth;
+        int outHeight = options.outHeight;
+        int inSampleSize = 1;
+        if (outWidth > width || outHeight > height) {
+            final int widthRatio = Math.round((float) outWidth / (float) width);
+            final int heightRatio = Math.round((float) outHeight / (float) height);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
+    }
+
+    /**
+     * 获取图片
+     * @param context 上下文对象
+     * @param uri 图片URI
+     * @return Bitmap
+     */
+    public static Bitmap getBitmap(Context context, Uri uri) {
+        if (null == context || uri == null) {
+            return null;
+        }
+        Bitmap bitmap;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Config.RGB_565;
+            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
     }
 }

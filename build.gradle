@@ -56,6 +56,7 @@ ext {
             retrofit: "com.squareup.retrofit:retrofit:$retrofitVersion",
             retrofitConverterGson: "com.squareup.retrofit:converter-gson:$retrofitVersion",
             retrofitAdapterRxJava: "com.squareup.retrofit:adapter-rxjava:$retrofitVersion",
-            disklrucache: 'com.jakewharton:disklrucache:2.0.2'
+            disklrucache: 'com.jakewharton:disklrucache:2.0.2',
+            okhttp: 'com.squareup.okhttp3:okhttp:3.3.1'
     ]
 }
