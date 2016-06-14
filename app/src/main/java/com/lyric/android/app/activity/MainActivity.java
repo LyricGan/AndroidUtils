@@ -63,6 +63,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 ActivityUtils.jumpActivity(this, LoginActivity.class);
             }
                 break;
+            case 6: {// CircleProgressBar
+                ActivityUtils.jumpActivity(this, CircleProgressBarActivity.class);
+            }
+                break;
             default:
                 break;
         }

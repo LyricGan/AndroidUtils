@@ -7,6 +7,7 @@
         <item>ViewTest</item>
         <item>LoadingTest</item>
         <item>LoginTest</item>
+        <item>CircleProgressBar</item>
     </string-array>
 
     <string-array name="share_platform">

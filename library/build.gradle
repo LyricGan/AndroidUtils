@@ -38,6 +38,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     Map<String, String> dependencies = rootProject.ext.dependencies;
+    testCompile dependencies.jUnit
     compile dependencies.recyclerView
     compile dependencies.supportv4
     compile dependencies.retrofit

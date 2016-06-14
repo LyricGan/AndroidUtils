@@ -7,4 +7,5 @@
     <string name="skip">跳过</string>
 
     <string name="more_item_delete">删除</string>
+    <string name="progress_text_format_pattern">t %d ps</string>
 </resources>

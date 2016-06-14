@@ -2,4 +2,6 @@
 <resources>
     <!-- DrawerLayout -->
     <dimen name="mm_up_arrow_margin">-16dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="progress_text_size">15sp</dimen>
 </resources>
