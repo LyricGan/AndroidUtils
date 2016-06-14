@@ -6,8 +6,10 @@
 /captures
 *.iml
 /.idea
-/app/app.iml
 /.idea/gradle.xml
+/.idea/modules.xml
+/.idea/misc.xml
+/app/app.iml
 /app/build
 /library/build
 /library/library.iml
