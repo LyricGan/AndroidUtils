@@ -22,7 +22,7 @@ public class BaseFragmentActivity extends BaseActivity {
     }
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_base_fragment);
         setupViews();
     }

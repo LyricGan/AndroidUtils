@@ -15,7 +15,7 @@ public interface IBaseListener {
 	 * 初始化布局界面
 	 * @param savedInstanceState bundles
 	 */
-	void onViewCreated(Bundle savedInstanceState);
+	void onViewCreate(Bundle savedInstanceState);
 
 	/**
 	 * 组件点击事件处理

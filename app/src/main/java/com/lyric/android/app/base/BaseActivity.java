@@ -19,11 +19,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onViewCreated(savedInstanceState);
+        onViewCreate(savedInstanceState);
     }
 
     @Override
-    public abstract void onViewCreated(Bundle savedInstanceState);
+    public abstract void onViewCreate(Bundle savedInstanceState);
 
     @Override
     public void onViewClick(View v) {

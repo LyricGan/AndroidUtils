@@ -29,7 +29,7 @@ public class CircleProgressBarActivity extends BaseCompatActivity {
     }
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_circle_progress_bar);
         mLineProgressBar = (CircleProgressBar) findViewById(R.id.line_progress);
         mSolidProgressBar = (CircleProgressBar) findViewById(R.id.solid_progress);

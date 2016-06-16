@@ -26,7 +26,7 @@ import com.lyric.android.library.utils.ToastUtils;
 public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ListView lv_index_list = (ListView) findViewById(R.id.lv_index_list);
 

@@ -19,7 +19,7 @@ public class LoadingActivity extends BaseCompatActivity {
     }
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_loading);
     }
 }

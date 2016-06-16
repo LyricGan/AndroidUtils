@@ -16,7 +16,7 @@ import com.lyric.android.app.widget.MovedCircleView;
 public class ViewTestActivity extends BaseCompatActivity {
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         LinearLayout rootLayout = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);

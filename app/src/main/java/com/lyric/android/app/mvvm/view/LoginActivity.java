@@ -21,7 +21,7 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     private LoginViewModel mLoginViewModel;
 
     @Override
-    public void onViewCreated(Bundle savedInstanceState) {
+    public void onViewCreate(Bundle savedInstanceState) {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_login, null);
         setContentView(view);
         mLoginViewModel = new LoginViewModel(view, this);
