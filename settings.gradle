@@ -1,2 +1,2 @@
-include ':app', ':photopicker', ':videoplayer'
-include ':library'
+include ':app', ':appdesign'
+include ':library', ':photopicker', ':videoplayer'

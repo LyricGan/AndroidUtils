@@ -30,6 +30,7 @@ dependencies {
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
+    compile dependencies.design
 //    compile dependencies.gson
 //    compile dependencies.rxAndroid
 //    compile dependencies.rxJava
