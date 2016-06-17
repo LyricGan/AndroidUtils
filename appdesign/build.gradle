@@ -24,4 +24,5 @@ dependencies {
     testCompile rootProject.ext.dependencies.jUnit
     compile rootProject.ext.dependencies.appCompat
     compile rootProject.ext.dependencies.design
+    compile rootProject.ext.dependencies.cardView
 }
