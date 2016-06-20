@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Environment;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -234,4 +235,12 @@ public abstract class CommonUtils {
 		}
 		return 0;
 	}
+
+    /**
+     * 判断是否在主线程
+     * @return boolean
+     */
+    public static boolean isMainThread() {
+        return (Looper.myLooper() == Looper.getMainLooper());
+    }
 }

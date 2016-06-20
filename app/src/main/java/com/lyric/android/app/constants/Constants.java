@@ -9,6 +9,7 @@ package com.lyric.android.app.constants;
 public interface Constants {
     boolean DEBUG = true;
     boolean LEAK_DEBUG = false;
+    String TAG_LOG = "AndroidUtils";
 
 	/**
 	 * 编码格式
