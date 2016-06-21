@@ -41,7 +41,7 @@ dependencies {
 //    compile dependencies.androidcommon
 //    compile dependencies.xutils
 //    compile dependencies.ion
-//    compile dependencies.quickutils
+    compile dependencies.quickutils
 //    compile dependencies.disklrucache
 
 //    debugCompile dependencies.leakcanarydebug

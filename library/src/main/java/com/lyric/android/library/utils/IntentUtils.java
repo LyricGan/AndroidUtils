@@ -10,7 +10,7 @@ import android.text.TextUtils;
  * @description
  * @time 2016/6/6 14:14
  */
-public class IntentUtils {
+public class IntentUtils extends FileIntentUtils {
 
     private IntentUtils() {
     }

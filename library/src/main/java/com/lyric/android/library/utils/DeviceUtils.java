@@ -23,7 +23,7 @@ import java.util.Locale;
  */
 public class DeviceUtils {
 
-    DeviceUtils() {
+    private DeviceUtils() {
     }
 
 	/**

@@ -17,11 +17,6 @@ import java.lang.reflect.Method;
  */
 public class DisplayUtils {
 
-    public static float getDensity(Context context) {
-        checkContext(context);
-        return context.getResources().getDisplayMetrics().density;
-    }
-
     public static int dip2px(Context context, float dpValue) {
         float scale = getDensity(context);
         return (int) (dpValue * scale + 0.5f);
@@ -32,18 +27,23 @@ public class DisplayUtils {
         return (int) (pxValue / scale + 0.5f);
     }
 
+    private static float getDensity(Context context) {
+        CheckUtils.checkContext(context);
+        return context.getResources().getDisplayMetrics().density;
+    }
+
     public static int getDensityDpi(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().densityDpi;
     }
 
     public static float getScaledDensity(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().scaledDensity;
     }
 
     public static int[] getScreenDisplay(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int[] display = new int[2];
         display[0] = metrics.widthPixels;
@@ -53,29 +53,23 @@ public class DisplayUtils {
     }
 
     public static int getScreenWidth(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
     public static int getScreenHeight(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
     public static float getXdpi(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().xdpi;
     }
 
     public static float getYdpi(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics().ydpi;
-    }
-
-    private static void checkContext(Context context) {
-        if (context == null) {
-            throw new NullPointerException("context can not be null.");
-        }
     }
 
     /**
@@ -86,7 +80,7 @@ public class DisplayUtils {
      * @return a pair to return the width and height
      */
     public static Pair<Integer, Integer> getResolution(Context context) {
-        checkContext(context);
+        CheckUtils.checkContext(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return getRealResolution(context);
         } else {

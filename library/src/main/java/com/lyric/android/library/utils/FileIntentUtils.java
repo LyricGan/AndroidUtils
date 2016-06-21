@@ -17,7 +17,7 @@ import java.util.Locale;
  * @author ganyu
  *
  */
-public class AndroidFileUtils {
+class FileIntentUtils {
 	
 	/**
 	 * 打开文件
