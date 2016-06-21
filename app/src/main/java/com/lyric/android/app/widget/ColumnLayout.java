@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
-import com.lyric.android.library.utils.DensityUtils;
+import com.lyric.android.library.utils.DisplayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,10 +132,10 @@ public class ColumnLayout extends LinearLayout implements View.OnClickListener {
                     LayoutParams leafLayoutParams = new LayoutParams(0, height, 1);
                     child.setLayoutParams(leafLayoutParams);
                     if (mAutoHeight) {
-                        child.setMinimumHeight((DensityUtils.getScreenWidth(getContext()) - getPaddingLeft() - getPaddingRight()) / mColumns);
+                        child.setMinimumHeight((DisplayUtils.getScreenWidth(getContext()) - getPaddingLeft() - getPaddingRight()) / mColumns);
                     }
-                    child.setPadding(DensityUtils.dip2px(getContext(), childPadding), DensityUtils.dip2px(getContext(), childPaddingTop),
-                            DensityUtils.dip2px(getContext(), childPadding), DensityUtils.dip2px(getContext(), childPaddingBottom));
+                    child.setPadding(DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingTop),
+                            DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingBottom));
                     layout.addView(child);
                     int index = temp++;
                     if (index < childCount) {
@@ -191,12 +191,12 @@ public class ColumnLayout extends LinearLayout implements View.OnClickListener {
 
     private int getChildDividerWidth() {
         int dividerWidth = (int) mChildDividerWidth;
-        return (dividerWidth <= 0 ? DensityUtils.dip2px(getContext(), 0.5f) : dividerWidth);
+        return (dividerWidth <= 0 ? DisplayUtils.dip2px(getContext(), 0.5f) : dividerWidth);
     }
 
     private int getDividerHeight() {
         int dividerHeight = (int) mDividerHeight;
-        return (dividerHeight <= 0 ? DensityUtils.dip2px(getContext(), 0.5f) : dividerHeight);
+        return (dividerHeight <= 0 ? DisplayUtils.dip2px(getContext(), 0.5f) : dividerHeight);
     }
 
     private void cacheViews() {

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lyric.android.library.utils.DensityUtils;
+import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
 
 /**
@@ -45,7 +45,7 @@ public class MovedCircleView extends View implements View.OnTouchListener {
     }
 
     private void initialize(Context context) {
-        mDefaultRadius = DensityUtils.dip2px(context, 50);
+        mDefaultRadius = DisplayUtils.dip2px(context, 50);
 
         LogUtils.e(TAG, "mDefaultRadius:" + mDefaultRadius);
         setOnTouchListener(this);
