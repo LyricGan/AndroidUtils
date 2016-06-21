@@ -1,4 +1,7 @@
 package com.lyric.android.app.constants;
+
+import com.lyric.android.app.BuildConfig;
+
 /**
  * 应用常量接口
  * 
@@ -7,7 +10,7 @@ package com.lyric.android.app.constants;
  * 
  */
 public interface Constants {
-    boolean DEBUG = true;
+    boolean DEBUG = BuildConfig.LOG_DEBUG;
     boolean LEAK_DEBUG = false;
     String TAG_LOG = "AndroidUtils";
 
