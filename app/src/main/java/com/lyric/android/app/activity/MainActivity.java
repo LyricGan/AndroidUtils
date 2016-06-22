@@ -10,12 +10,17 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.TestListAdapter;
 import com.lyric.android.app.base.BaseActivity;
 import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.constants.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
+import com.lyric.android.app.network.ResponseCallback;
+import com.lyric.android.app.network.ResponseError;
+import com.lyric.android.app.network.TestApi;
 import com.lyric.android.app.widget.brokenview.BrokenCallback;
 import com.lyric.android.app.widget.brokenview.BrokenTouchListener;
 import com.lyric.android.app.widget.brokenview.BrokenView;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.ActivityUtils;
+import com.lyric.android.library.utils.LogUtils;
 import com.lyric.android.library.utils.ToastUtils;
 
 /**
@@ -32,6 +37,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
         TestListAdapter adapter = new TestListAdapter(this, getResources().getStringArray(R.array.test_array));
         lv_index_list.setAdapter(adapter);
+
+        getNews();
 
         lv_index_list.setOnItemClickListener(this);
     }
@@ -124,5 +131,19 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
             }
         });
         view.setOnTouchListener(listener);
+    }
+
+    private void getNews() {
+        TestApi.getInstance().queryNews("shehui", new ResponseCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                LogUtils.e(Constants.TAG_LOG, "response:" + response);
+            }
+
+            @Override
+            public void onFailed(ResponseError error) {
+
+            }
+        });
     }
 }

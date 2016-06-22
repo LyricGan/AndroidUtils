@@ -2,16 +2,18 @@ package com.lyric.android.app.handler;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
 /**
  * @author lyric
- * @description
+ * @description Handler
  * @time 2016/3/28 16:21
  */
 public class WeakHandler<T> extends Handler {
     private final WeakReference<T> mReferenceObject;
+    private OnMessageCallback mCallback;
 
     public WeakHandler(T object) {
         this.mReferenceObject = new WeakReference<T>(object);
@@ -26,4 +28,19 @@ public class WeakHandler<T> extends Handler {
         return mReferenceObject.get();
     }
 
+    public void setCallback(OnMessageCallback callback) {
+        this.mCallback = callback;
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        if (mCallback != null) {
+            mCallback.callback(msg);
+        }
+    }
+
+    public interface OnMessageCallback {
+        void callback(Message msg);
+    }
 }
