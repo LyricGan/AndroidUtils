@@ -25,8 +25,8 @@ public class ParamsUtils {
         if (params == null || params.isEmpty()) {
             return "";
         }
-        StringBuilder builder = new StringBuilder();
         try {
+            StringBuilder builder = new StringBuilder();
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
@@ -39,11 +39,11 @@ public class ParamsUtils {
                     builder.append(key).append("=").append(URLEncoder.encode(value, encode)).append("&");
                 }
             }
+            builder.deleteCharAt(builder.length() - 1);
+            return builder.toString();
         } catch (UnsupportedEncodingException e) {
             return "";
         }
-        builder.deleteCharAt(builder.length() - 1);
-        return builder.toString();
     }
 
     public static String buildGetUrl(String url, Map<String, String> params, String encode) {
@@ -60,17 +60,15 @@ public class ParamsUtils {
         return url;
     }
 
-    public static String buildSpecialGetUrl(String url, Map<String, String> params, String encode) {
-        String requestParams = "";
-        if (params == null || params.isEmpty()) {
-            return url;
+    public static String encodeSpecialParams(Map<String, String> params, String encode) {
+        if (TextUtils.isEmpty(encode)) {
+            encode = HttpConstants.UTF_8;
         }
-        if (TextUtils.isEmpty(url)) {
-            LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
+        if (params == null || params.isEmpty()) {
             return "";
         }
-        StringBuilder builder = new StringBuilder();
         try {
+            StringBuilder builder = new StringBuilder();
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
@@ -83,11 +81,23 @@ public class ParamsUtils {
                     builder.append(key).append("/").append(URLEncoder.encode(value, encode)).append("/");
                 }
             }
+            builder.deleteCharAt(builder.length() - 1);
+            return builder.toString();
         } catch (UnsupportedEncodingException e) {
             return "";
         }
-        builder.deleteCharAt(builder.length() - 1);
-        requestParams = builder.toString();
+    }
+
+    public static String buildSpecialGetUrl(String url, Map<String, String> params, String encode) {
+        String requestParams = "";
+        if (params == null || params.isEmpty()) {
+            return url;
+        }
+        if (TextUtils.isEmpty(url)) {
+            LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
+            return "";
+        }
+        requestParams = encodeSpecialParams(params, encode);
         // 判断传递参数是否为空
         if (!TextUtils.isEmpty(requestParams)) {
             if ("/".equals(url.substring(url.length() - 1))) {
