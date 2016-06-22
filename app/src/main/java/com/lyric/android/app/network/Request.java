@@ -47,7 +47,7 @@ public class Request<T> implements WeakHandler.OnMessageCallback {
                 } else if (Method.POST == mMethod) {
                     responseEntity = HttpUtils.doPost(mUrl, mParams);
                 } else {
-                    throw new IllegalArgumentException("Request method can not be null.");
+                    throw new IllegalArgumentException("Request method error.");
                 }
                 processResponse(responseEntity);
             }

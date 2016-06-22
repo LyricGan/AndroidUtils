@@ -4,10 +4,10 @@ import android.text.TextUtils;
 
 import com.lyric.android.library.utils.LogUtils;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -40,7 +40,6 @@ public class HttpUtils {
         url = ParamsUtils.buildGetUrl(url, params, encode);
         responseEntity.url = url;
         HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
         try {
             URL requestUrl = new URL(url);
             urlConnection = (HttpURLConnection) requestUrl.openConnection();
@@ -51,12 +50,7 @@ public class HttpUtils {
 
             String response;
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                for (String line; (line = reader.readLine()) != null;) {
-                    builder.append(line);
-                }
-                response = builder.toString();
+                response = process(urlConnection.getInputStream());
             } else {
                 response = "Request failed.";
             }
@@ -68,13 +62,6 @@ public class HttpUtils {
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
-            }
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return responseEntity;
@@ -96,12 +83,13 @@ public class HttpUtils {
         responseEntity.params = requestParams;
         HttpURLConnection urlConnection = null;
         Writer writer = null;
-        BufferedReader reader = null;
         try {
             URL requestUrl = new URL(url);
             urlConnection = (HttpURLConnection) requestUrl.openConnection();
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setUseCaches(false);
             urlConnection.setConnectTimeout(HttpConstants.CONNECTION_TIMEOUT);
             urlConnection.setReadTimeout(HttpConstants.SOCKET_TIMEOUT);
 
@@ -112,12 +100,7 @@ public class HttpUtils {
 
             String response;
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                for (String line; (line = reader.readLine()) != null;) {
-                    builder.append(line);
-                }
-                response = builder.toString();
+                response = process(urlConnection.getInputStream());
             } else {
                 response = "Request failed.";
             }
@@ -134,13 +117,23 @@ public class HttpUtils {
                 if (writer != null) {
                     writer.close();
                 }
-                if (reader != null) {
-                    reader.close();
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return responseEntity;
+    }
+
+    private static String process(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, len);
+        }
+        inputStream.close();
+        String response = outputStream.toString();
+        outputStream.close();
+        return response;
     }
 }

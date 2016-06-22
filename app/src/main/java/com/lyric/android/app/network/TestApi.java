@@ -25,7 +25,8 @@ public class TestApi {
     public DataLoader queryNews(String keys, ResponseCallback<String> callback) {
         Map<String, String> params = BaseApi.getInstance().buildDefaultParams();
         params.put("type", keys);
-        DataLoader dataLoader = new DataLoader<>(Method.GET, TEST_URL, params, String.class, callback);
+        DataLoader dataLoader = new DataLoader<>(Method.POST, TEST_URL, params, String.class, callback);
+//        DataLoader dataLoader = new DataLoader<>(Method.GET, TEST_URL, params, String.class, callback);
         dataLoader.load();
         return dataLoader;
     }
