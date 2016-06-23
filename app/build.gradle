@@ -28,26 +28,25 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
-
-    Map<String, String> dependencies = rootProject.ext.dependencies;
+    Map<String, String> dependencies = rootProject.ext.dependencies
     testCompile dependencies.jUnit
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
     compile dependencies.design
-//    compile dependencies.gson
-//    compile dependencies.rxAndroid
-//    compile dependencies.rxJava
+    //    compile dependencies.gson
+    //    compile dependencies.rxAndroid
+    //    compile dependencies.rxJava
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
-//    compile dependencies.swipelayout
-//    compile dependencies.guava
-//    compile dependencies.androidcommon
-//    compile dependencies.xutils
-//    compile dependencies.ion
+    //    compile dependencies.swipelayout
+    //    compile dependencies.guava
+    //    compile dependencies.androidcommon
+    //    compile dependencies.xutils
+    //    compile dependencies.ion
     compile dependencies.quickutils
-//    compile dependencies.disklrucache
-
-//    debugCompile dependencies.leakcanarydebug
-//    releaseCompile dependencies.leakcanaryrelease
+    //    compile dependencies.disklrucache
+    //    debugCompile dependencies.leakcanarydebug
+    //    releaseCompile dependencies.leakcanaryrelease
+    compile files('libs/universal-image-loader-1.9.1.jar')
 }
