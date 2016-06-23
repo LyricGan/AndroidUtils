@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.view.TitleBar;
-import com.lyric.android.app.widget.DefaultWebLayout;
+import com.lyric.android.app.widget.webview.DefaultWebLayout;
 
 /**
  * @author lyric

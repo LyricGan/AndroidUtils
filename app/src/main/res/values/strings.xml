@@ -8,4 +8,5 @@
 
     <string name="more_item_delete">删除</string>
     <string name="progress_text_format_pattern">t %d ps</string>
+    <string name="viewpager_indicator">%1$d/%2$d</string>
 </resources>
