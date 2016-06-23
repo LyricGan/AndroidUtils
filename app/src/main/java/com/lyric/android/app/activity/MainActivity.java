@@ -38,8 +38,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         TestListAdapter adapter = new TestListAdapter(this, getResources().getStringArray(R.array.test_array));
         lv_index_list.setAdapter(adapter);
 
-        getNews();
-
         lv_index_list.setOnItemClickListener(this);
     }
 
@@ -72,6 +70,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 break;
             case 6: {// CircleProgressBar
                 ActivityUtils.jumpActivity(this, CircleProgressBarActivity.class);
+            }
+                break;
+            case 7: {// WebActivity
+                ActivityUtils.jumpActivity(this, WebActivity.class);
             }
                 break;
             default:

@@ -8,6 +8,7 @@
         <item>LoadingTest</item>
         <item>LoginTest</item>
         <item>CircleProgressBar</item>
+        <item>WebActivity</item>
     </string-array>
 
     <string-array name="share_platform">

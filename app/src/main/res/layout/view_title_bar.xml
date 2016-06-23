@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="#f2f2f2">
+                android:background="#007eff">
 
     <ImageView
         android:id="@+id/iv_title_bar_left"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#007eff"
+        android:textColor="#ffffff"
         android:textSize="18sp"/>
 
 </RelativeLayout>
