@@ -33,25 +33,34 @@ public class Request<T> implements WeakHandler.OnMessageCallback {
         this.mHandler.setCallback(this);
     }
 
+    public ResponseEntity executeSync() {
+        return executeSync(true);
+    }
+
+    public ResponseEntity executeSync(boolean isRefresh) {
+        ResponseEntity responseEntity;
+        if (Method.GET == mMethod) {
+            responseEntity = HttpUtils.get(mUrl, mParams, isRefresh);
+        } else if (Method.POST == mMethod) {
+            responseEntity = HttpUtils.post(mUrl, mParams, isRefresh);
+        } else {
+            throw new IllegalArgumentException("Request method error.");
+        }
+        return responseEntity;
+    }
+
     public void execute() {
         execute(true);
     }
 
-    public void execute(boolean isRefresh) {
+    public void execute(final boolean isRefresh) {
+        String threadName = "execute_net_thread_" + System.currentTimeMillis();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ResponseEntity responseEntity;
-                if (Method.GET == mMethod) {
-                    responseEntity = HttpUtils.doGet(mUrl, mParams);
-                } else if (Method.POST == mMethod) {
-                    responseEntity = HttpUtils.doPost(mUrl, mParams);
-                } else {
-                    throw new IllegalArgumentException("Request method error.");
-                }
-                processResponse(responseEntity);
+                processResponse(executeSync(isRefresh));
             }
-        }, "execute_net").start();
+        }, threadName).start();
     }
 
     private void processResponse(ResponseEntity responseEntity) {

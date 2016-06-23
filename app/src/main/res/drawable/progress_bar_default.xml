@@ -4,6 +4,7 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:toDegrees="1080">
+    <!-- 其中fromDegrees与toDegrees之差要是360的倍数，不然中间转的时候会跳一下，另外，这个差越大就转得越快 -->
     <shape
         android:shape="ring"
         android:thickness="3dp"

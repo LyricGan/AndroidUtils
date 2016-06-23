@@ -25,18 +25,17 @@ public class HttpUtils {
     private HttpUtils() {
     }
 
-    public static ResponseEntity doGet(String url, Map<String, String> params) {
-        return doGet(url, params, HttpConstants.UTF_8);
+    public static ResponseEntity get(String url, Map<String, String> params, boolean isRefresh) {
+        return get(url, params, HttpConstants.UTF_8, isRefresh);
     }
 
-    public static ResponseEntity doGet(String url, Map<String, String> params, String encode) {
+    public static ResponseEntity get(String url, Map<String, String> params, String encode, boolean isRefresh) {
         ResponseEntity responseEntity = new ResponseEntity();
         if (TextUtils.isEmpty(url)) {
             LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
             responseEntity.responseCode = HttpConstants.URL_NULL;
             return responseEntity;
         }
-//        url = ParamsUtils.buildSpecialGetUrl(url, params, encode);
         url = ParamsUtils.buildGetUrl(url, params, encode);
         responseEntity.url = url;
         HttpURLConnection urlConnection = null;
@@ -67,11 +66,11 @@ public class HttpUtils {
         return responseEntity;
     }
 
-    public static ResponseEntity doPost(String url, Map<String, String> params) {
-        return doPost(url, params, HttpConstants.UTF_8);
+    public static ResponseEntity post(String url, Map<String, String> params, boolean isRefresh) {
+        return post(url, params, HttpConstants.UTF_8, isRefresh);
     }
 
-    public static ResponseEntity doPost(String url, Map<String, String> params, String encode) {
+    public static ResponseEntity post(String url, Map<String, String> params, String encode, boolean isRefresh) {
         ResponseEntity responseEntity = new ResponseEntity();
         if (TextUtils.isEmpty(url)) {
             LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
@@ -126,7 +125,7 @@ public class HttpUtils {
 
     private static String process(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[1024 * 2];// 2k
         int len;
         while ((len = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, len);
