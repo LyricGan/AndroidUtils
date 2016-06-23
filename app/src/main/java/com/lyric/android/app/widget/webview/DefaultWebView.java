@@ -5,14 +5,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ZoomButtonsController;
 
 import com.lyric.android.app.constants.Constants;
+
+import java.lang.reflect.Field;
 
 /**
  * @author lyric
@@ -157,30 +161,30 @@ public class DefaultWebView extends WebView {
     // 测试WebSettings
     void justWebSettings() {
         WebSettings webSettings = getSettings();
+        webSettings.setJavaScriptEnabled(true);
         webSettings.setUserAgentString(webSettings.getUserAgentString());
         webSettings.setAllowFileAccess(true);
-
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
         }
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            webSettings.setDisplayZoomControls(false);
+        } else {
+            setDisplayZoomControlsGone(this);
+        }
         webSettings.setUseWideViewPort(true);
-        webSettings.setSupportMultipleWindows(false);
         webSettings.setLoadWithOverviewMode(true);
-
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
-        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportMultipleWindows(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setLoadsImagesAutomatically(true);
 
         webSettings.setAppCacheEnabled(true);
         webSettings.setAppCacheMaxSize(Long.MAX_VALUE);
         webSettings.setAppCachePath(getContext().getDir("appcache", 0).getPath());
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -194,6 +198,21 @@ public class DefaultWebView extends WebView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 方便WebView在chrome调试
             WebView.setWebContentsDebuggingEnabled(Constants.DEBUG);
+        }
+    }
+
+    private void setDisplayZoomControlsGone(View view) {
+        Class classType;
+        Field field;
+        try {
+            classType = WebView.class;
+            field = classType.getDeclaredField("mZoomButtonsController");
+            field.setAccessible(true);
+            ZoomButtonsController controller = new ZoomButtonsController(view);
+            controller.getZoomControls().setVisibility(View.GONE);
+            field.set(view, controller);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
