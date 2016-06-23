@@ -1,7 +1,6 @@
-package com.lyric.android.app.widget.CollapsibleTextView;
+package com.lyric.android.app.widget.text;
 
 import android.content.Context;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,14 @@ import android.widget.TextView;
 import com.lyric.android.app.R;
 
 /**
- * 可折叠显示文字，全文、收起
+ * @author lyric
+ * @description 可折叠显示文字，全文、收起
+ * @time 2016/2/23 15:45
  */
 public class CollapsibleTextView extends RelativeLayout implements View.OnClickListener {
+    private static final String TAG = CollapsibleTextView.class.getSimpleName();
+    // 默认最大行数
+    private static final int DEFAULT_MAX_LINE_COUNT = 3;
     // 默认不显示
     private static final int STATE_NONE = 0;
     // 展开状态
@@ -25,17 +29,21 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
     private TextView tv_text_status;
 
     // 实际展示的行数
-    private int mMaxLines = 3;
-    // 是否初始化标识
-    private boolean mFirstLoad;
+    private int mMaxLines = DEFAULT_MAX_LINE_COUNT;
+    // 状态标识
+    private int mStatus = STATE_NONE;
+    private OnTextStatusChangedListener mOnTextStatusChangedListener;
     // 标识位
     private boolean mFlag;
     // 是否点击标识
     private boolean mClicked;
-    // 状态标识
-    private int mStatus = STATE_NONE;
+    // 是否初始化标识
+    private boolean mInitFlag;
 
-    private OnTextLayoutChangedListener mOnTextLayoutChangedListener;
+    public interface OnTextStatusChangedListener {
+
+        void onChanged(int status);
+    }
 
     public CollapsibleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -61,49 +69,40 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
         tv_text_status.setOnClickListener(this);
     }
 
-    public void setText(CharSequence text, int maxLines, TextExpendEntity textExpendEntity) {
-        tv_text_content.setMovementMethod(LinkMovementMethod.getInstance());
-        tv_text_content.setText(text, TextView.BufferType.NORMAL);
+    public void setText(CharSequence text, int maxLines, int status) {
         this.mMaxLines = maxLines;
-        if (textExpendEntity == null) {
-            this.mFirstLoad = true;
-            this.mFlag = false;
-            this.mClicked = false;
-            this.mStatus = STATE_NONE;
-        } else {
-            this.mFirstLoad = true;
-            this.mFlag = false;
-            this.mClicked = false;
-            this.mStatus = textExpendEntity.getStatus();
-        }
+        this.mStatus = status;
+        mFlag = false;
+        mClicked = false;
+        mInitFlag = true;
         if (STATE_NONE == mStatus) {
             mStatus = STATE_CLOSE;
         }
         setStatus(mStatus);
-        requestLayout();
+        tv_text_content.setText(text);
     }
 
     public void setText(CharSequence text) {
         tv_text_status.setVisibility(View.GONE);
         tv_text_content.setMaxLines(Integer.MAX_VALUE);
-        tv_text_content.setText(text, TextView.BufferType.NORMAL);
+        tv_text_content.setText(text);
     }
 
-    public void setOnTextLayoutChangedListener(OnTextLayoutChangedListener listener) {
-        this.mOnTextLayoutChangedListener = listener;
+    public void setOnTextStatusChangedListener(OnTextStatusChangedListener listener) {
+        mOnTextStatusChangedListener = listener;
     }
 
     @Override
     public void onClick(View v) {
-        mClicked = true;
-        mFirstLoad = false;
         mFlag = false;
+        mClicked = true;
+        mInitFlag = false;
         requestLayout();
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (!mFlag) {
             mFlag = true;
             if (tv_text_content.getLineCount() <= mMaxLines) {
@@ -112,6 +111,8 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
 
                 setStatus(STATE_NONE);
             } else {
+                tv_text_content.setMaxLines(mMaxLines);
+                tv_text_status.setVisibility(View.VISIBLE);
                 post(mInnerRunnable);
             }
         }
@@ -122,37 +123,34 @@ public class CollapsibleTextView extends RelativeLayout implements View.OnClickL
     }
 
     public void setStatus(int status) {
-        if (mStatus != status && mOnTextLayoutChangedListener != null) {
-            mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
+        if (mStatus != status) {
+            if (mOnTextStatusChangedListener != null) {
+                mOnTextStatusChangedListener.onChanged(mStatus);
+            }
         }
         this.mStatus = status;
     }
-
-    private InnerRunnable mInnerRunnable = new InnerRunnable();
-
-    private class InnerRunnable implements Runnable {
+    private Runnable mInnerRunnable = new Runnable() {
         @Override
         public void run() {
-            if (mFirstLoad && !mClicked) {
+            if (mInitFlag && !mClicked) {
                 updateType();
             } else if (mClicked) {
                 updateType();
                 mClicked = !mClicked;
             }
         }
-    }
+    };
 
     private void updateType() {
         if (getStatus() == STATE_OPEN) {
             tv_text_content.setMaxLines(Integer.MAX_VALUE);
-            tv_text_status.setVisibility(View.VISIBLE);
-            tv_text_status.setText(R.string.status_collapse);
+            tv_text_status.setText(R.string.collapse_pack_up);
 
             setStatus(STATE_CLOSE);
         } else if (getStatus() == STATE_CLOSE) {
             tv_text_content.setMaxLines(mMaxLines);
-            tv_text_status.setVisibility(View.VISIBLE);
-            tv_text_status.setText(R.string.status_expand);
+            tv_text_status.setText(R.string.collapse_full_text);
 
             setStatus(STATE_OPEN);
         }

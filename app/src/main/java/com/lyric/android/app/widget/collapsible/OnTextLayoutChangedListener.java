@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.CollapsibleTextView;
+package com.lyric.android.app.widget.collapsible;
 
 /**
  * 文本状态变化监听事件

@@ -10,7 +10,7 @@ import android.widget.ListView;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.view.TitleBar;
-import com.lyric.android.app.widget.TextView.ExpandableTextView;
+import com.lyric.android.app.widget.text.ExpandableTextView;
 
 import java.util.ArrayList;
 import java.util.List;

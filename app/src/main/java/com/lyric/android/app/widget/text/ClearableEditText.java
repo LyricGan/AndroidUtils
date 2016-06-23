@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.EditText;
+package com.lyric.android.app.widget.text;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

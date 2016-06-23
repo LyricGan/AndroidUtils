@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.webview;
 
 /*
  * Copyright (c) delight.im <info@delight.im>
