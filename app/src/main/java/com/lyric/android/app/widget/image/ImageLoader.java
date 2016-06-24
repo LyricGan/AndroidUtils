@@ -1,4 +1,4 @@
-package com.lyric.android.library.image;
+package com.lyric.android.app.widget.image;
 
 import android.app.Activity;
 import android.content.Context;

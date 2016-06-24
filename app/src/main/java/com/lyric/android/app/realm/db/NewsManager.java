@@ -1,8 +1,8 @@
 package com.lyric.android.app.realm.db;
 
 import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.realm.AbstractManager;
 import com.lyric.android.app.realm.entity.RealmNewsEntity;
-import com.lyric.android.library.db.AbstractManager;
 
 import java.util.ArrayList;
 import java.util.List;

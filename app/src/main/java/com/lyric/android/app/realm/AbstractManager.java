@@ -1,4 +1,4 @@
-package com.lyric.android.library.db;
+package com.lyric.android.app.realm;
 
 import android.content.Context;
 

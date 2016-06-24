@@ -48,5 +48,12 @@ dependencies {
     //    compile dependencies.disklrucache
     //    debugCompile dependencies.leakcanarydebug
     //    releaseCompile dependencies.leakcanaryrelease
+    compile dependencies.supportv4
+    compile dependencies.retrofit
+    compile dependencies.retrofitConverterGson
+    compile dependencies.realm
+    compile dependencies.picasso
+    compile dependencies.glide
+//    compile dependencies.fresco
     compile files('libs/universal-image-loader-1.9.1.jar')
 }

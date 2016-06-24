@@ -1,11 +1,11 @@
-package com.lyric.android.app.network;
+package com.lyric.android.library.network;
 
 /**
  * @author lyric
  * @description 网络请求常量类
  * @time 2016/6/22 16:50
  */
-public interface HttpConstants {
+interface HttpConstants {
     String HTTP_TAG = "http_tag";
     String UTF_8 = "UTF-8";
     /** 请求超时时间 */

@@ -1,5 +1,9 @@
 package com.lyric.android.app.network;
 
+import com.lyric.android.library.network.DataLoader;
+import com.lyric.android.library.network.Method;
+import com.lyric.android.library.network.ResponseCallback;
+
 import java.util.Map;
 
 /**

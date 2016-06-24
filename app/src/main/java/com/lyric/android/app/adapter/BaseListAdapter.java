@@ -1,4 +1,4 @@
-package com.lyric.android.library.adapter;
+package com.lyric.android.app.adapter;
 
 import android.content.Context;
 import android.view.View;

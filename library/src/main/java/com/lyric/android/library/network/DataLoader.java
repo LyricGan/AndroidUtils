@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.library.network;
 
 import java.lang.reflect.Type;
 import java.util.Map;

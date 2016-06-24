@@ -3,8 +3,6 @@ package com.lyric.android.app.adapter;
 import android.content.Context;
 
 import com.lyric.android.app.R;
-import com.lyric.android.library.adapter.BaseListAdapter;
-import com.lyric.android.library.adapter.BaseViewHolder;
 
 /**
  * @author lyric

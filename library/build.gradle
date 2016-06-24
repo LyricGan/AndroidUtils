@@ -41,12 +41,7 @@ dependencies {
     testCompile dependencies.jUnit
     compile dependencies.recyclerView
     compile dependencies.supportv4
-    compile dependencies.retrofit
-    compile dependencies.retrofitConverterGson
-    compile dependencies.realm
-    compile dependencies.picasso
-    compile dependencies.glide
-//    compile dependencies.fresco
+    compile dependencies.gson
 }
 
 def siteUrl = 'https://github.com/lyricgan/android-utils'                        // #CONFIG# // project homepage

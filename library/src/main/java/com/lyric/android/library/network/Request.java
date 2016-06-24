@@ -1,9 +1,8 @@
-package com.lyric.android.app.network;
+package com.lyric.android.library.network;
 
 import android.os.Message;
 
 import com.google.gson.Gson;
-import com.lyric.android.app.handler.WeakHandler;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -13,14 +12,14 @@ import java.util.Map;
  * @description
  * @time 2016/6/22 13:40
  */
-public class Request<T> implements WeakHandler.OnMessageCallback {
+public class Request<T> implements HttpHandler.OnMessageCallback {
     private static final int MESSAGE_SUCCESS = 0x01 << 2;
     private static final int MESSAGE_FAILED = 0x02 << 2;
     private Method mMethod;
     private String mUrl;
     private Map<String, String> mParams;
     private ResponseCallback<T> mCallback;
-    private WeakHandler mHandler = new WeakHandler<>(this);
+    private HttpHandler mHandler = new HttpHandler<>(this);
     private Gson mGson = new Gson();
     private Type mType;
 
@@ -53,6 +52,7 @@ public class Request<T> implements WeakHandler.OnMessageCallback {
         execute(true);
     }
 
+    // 未实现线程池管理,待优化
     public void execute(final boolean isRefresh) {
         String threadName = "execute_net_thread_" + System.currentTimeMillis();
         new Thread(new Runnable() {

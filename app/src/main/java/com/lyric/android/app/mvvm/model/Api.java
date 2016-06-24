@@ -1,4 +1,4 @@
-package com.lyric.android.library.network;
+package com.lyric.android.app.mvvm.model;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;

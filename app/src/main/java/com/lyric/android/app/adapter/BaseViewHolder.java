@@ -1,4 +1,4 @@
-package com.lyric.android.library.adapter;
+package com.lyric.android.app.adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -25,7 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.lyric.android.library.image.ImageLoader;
+import com.lyric.android.app.widget.image.ImageLoader;
 
 /**
  * @author lyric
