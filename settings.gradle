@@ -1,2 +1,2 @@
-include ':app', ':appdesign'
+include ':app'
 include ':library', ':photopicker', ':videoplayer'

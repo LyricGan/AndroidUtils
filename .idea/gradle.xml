@@ -10,7 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appdesign" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/photopicker" />
             <option value="$PROJECT_DIR$/videoplayer" />
@@ -20,7 +19,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appdesign" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/photopicker" />
             <option value="$PROJECT_DIR$/videoplayer" />

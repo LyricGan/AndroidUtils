@@ -33,4 +33,7 @@ public interface Constants {
 		/** 响应失败 */
 		public static final int ERROR = -1;
 	}
+
+    /** 消息标识：首页启动 */
+    int ACTIVITY_START = 0x1011;
 }

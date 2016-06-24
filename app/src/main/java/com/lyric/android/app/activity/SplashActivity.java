@@ -9,21 +9,18 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.utils.MessageHandler;
+import com.lyric.android.app.constants.Constants;
+import com.lyric.android.app.handler.WeakHandler;
 
 /**
- * @author <a href="mailto:ganyu@medlinker.net">ganyu</a>
- * @version 3.0
+ * @author lyric
  * @description 启动界面
  * @time 2015/11/2 10:57
  */
-public class SplashActivity extends Activity implements View.OnClickListener {
+public class SplashActivity extends Activity implements View.OnClickListener, WeakHandler.OnMessageCallback {
     // 延迟加载时间
-    private static final int DELAY_MILLIS = 2000;
-
-    private Button btn_skip;
-
-    private final MessageHandler mHandler = new MessageHandler(this);
+    private static final int DELAY_MILLIS = 1000;
+    private final WeakHandler mHandler = new WeakHandler<>(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +31,17 @@ public class SplashActivity extends Activity implements View.OnClickListener {
             return;
         }
         setContentView(R.layout.activity_splash);
-        btn_skip = (Button) findViewById(R.id.btn_skip);
+        Button btn_skip = (Button) findViewById(R.id.btn_skip);
 
-        initialize();
-    }
-
-    private void initialize() {
         btn_skip.setOnClickListener(this);
+        mHandler.setCallback(this);
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_skip: {// 跳过
-                start();
+                startActivity();
             }
                 break;
             default:
@@ -56,10 +49,7 @@ public class SplashActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    /**
-     * 跳转界面
-     */
-    public void start() {
+    private void startActivity() {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivity(intent);
@@ -70,7 +60,7 @@ public class SplashActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         // 发送延时消息
-        Message msg = mHandler.obtainMessage(MessageHandler.MessageCode.ACTIVITY_START);
+        Message msg = mHandler.obtainMessage(Constants.ACTIVITY_START);
         mHandler.sendMessageDelayed(msg, DELAY_MILLIS);
     }
 
@@ -78,12 +68,12 @@ public class SplashActivity extends Activity implements View.OnClickListener {
     public void onPause() {
         super.onPause();
         // 移除延时消息
-//        removeInnerMessage();
+        removeInnerMessage();
     }
 
     private void removeInnerMessage() {
-        if (mHandler.hasMessages(MessageHandler.MessageCode.ACTIVITY_START)) {
-            mHandler.removeMessages(MessageHandler.MessageCode.ACTIVITY_START);
+        if (mHandler.hasMessages(Constants.ACTIVITY_START)) {
+            mHandler.removeMessages(Constants.ACTIVITY_START);
         }
     }
 
@@ -97,4 +87,10 @@ public class SplashActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
     }
 
+    @Override
+    public void callback(Message msg) {
+        if (Constants.ACTIVITY_START == msg.what) {// 首页启动
+            startActivity();
+        }
+    }
 }

@@ -6,6 +6,7 @@
     <color name="white">#ffffff</color>
     <color name="color_007eff">#007eff</color>
     <color name="color_title_bar_bg">#007eff</color>
+    <color name="window_background">#FFF5F5F5</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>

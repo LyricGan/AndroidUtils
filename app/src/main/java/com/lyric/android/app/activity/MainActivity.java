@@ -1,150 +1,138 @@
 package com.lyric.android.app.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.adapter.TestListAdapter;
-import com.lyric.android.app.base.BaseActivity;
-import com.lyric.android.app.base.BaseApplication;
-import com.lyric.android.app.constants.Constants;
+import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.mvvm.view.LoginActivity;
-import com.lyric.android.app.network.ResponseCallback;
-import com.lyric.android.app.network.ResponseError;
-import com.lyric.android.app.network.TestApi;
-import com.lyric.android.app.widget.brokenview.BrokenCallback;
-import com.lyric.android.app.widget.brokenview.BrokenTouchListener;
-import com.lyric.android.app.widget.brokenview.BrokenView;
-import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.ActivityUtils;
-import com.lyric.android.library.utils.LogUtils;
-import com.lyric.android.library.utils.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ganyu
  * @description
  * @time 2016/1/19 17:47
  */
-public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
+    private DrawerLayout mDrawerLayout;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView lv_index_list = (ListView) findViewById(R.id.lv_index_list);
 
-        TestListAdapter adapter = new TestListAdapter(this, getResources().getStringArray(R.array.test_array));
-        lv_index_list.setAdapter(adapter);
-
-        lv_index_list.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            case 0: {// CollapsibleTest
-                ActivityUtils.jumpActivity(this, CollapsibleTestActivity.class);
-            }
-                break;
-            case 1: {// SpannableTest
-                ActivityUtils.jumpActivity(this, SpannableTestActivity.class);
-            }
-                break;
-            case 2: {// BrokenViewTest
-                showBrokenView(view);
-            }
-                break;
-            case 3: {// ViewTest
-                ActivityUtils.jumpActivity(this, ViewTestActivity.class);
-            }
-                break;
-            case 4: {// LoadingTest
-                ActivityUtils.jumpActivity(this, LoadingActivity.class);
-            }
-                break;
-            case 5: {// LoginTest
-                ActivityUtils.jumpActivity(this, LoginActivity.class);
-            }
-                break;
-            case 6: {// CircleProgressBar
-                ActivityUtils.jumpActivity(this, CircleProgressBarActivity.class);
-            }
-                break;
-            case 7: {// WebActivity
-                ActivityUtils.jumpActivity(this, WebActivity.class);
-            }
-                break;
-            default:
-                break;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    private void showBrokenView(View view) {
-        BrokenView brokenView = BrokenView.add2Window(MainActivity.this);
-        BrokenTouchListener listener = new BrokenTouchListener.Builder(brokenView)
-                .setComplexity(12)
-                .setBreakDuration(700)
-                .setFallDuration(2000)
-                .setPaint(null)
-                .build();
-        brokenView.setCallback(new BrokenCallback() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nv_main_navigation);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancel(View v) {
-                super.onCancel(v);
-            }
-
-            @Override
-            public void onCancelEnd(View v) {
-                super.onCancelEnd(v);
-            }
-
-            @Override
-            public void onFalling(View v) {
-                super.onFalling(v);
-
-                ToastUtils.showLong(BaseApplication.getContext(), "falling...");
-
-                final LoadingDialog dialog = new LoadingDialog(MainActivity.this);
-                dialog.setMessage("正在加载...");
-                dialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.cancel();
-                    }
-                }, 5000);
-            }
-
-            @Override
-            public void onFallingEnd(View v) {
-                super.onFallingEnd(v);
-            }
-
-            @Override
-            public void onRestart(View v) {
-                super.onRestart(v);
-            }
-
-            @Override
-            public void onStart(View v) {
-                super.onStart(v);
+            public void onClick(View view) {
+                Snackbar.make(view, "Snackbar comes out", Snackbar.LENGTH_LONG)
+                        .setAction("Action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(
+                                        MainActivity.this,
+                                        "Toast comes out",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
             }
         });
-        view.setOnTouchListener(listener);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager();
     }
 
-    private void getNews() {
-        TestApi.getInstance().queryNews("shehui", new ResponseCallback<String>() {
-            @Override
-            public void onSuccess(String response) {
-                LogUtils.e(Constants.TAG_LOG, "response:" + response);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_overaction, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                mDrawerLayout.openDrawer(GravityCompat.START);
             }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void setupViewPager() {
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        List<String> titles = new ArrayList<>();
+        titles.add("Page One");
+        titles.add("Page Two");
+        titles.add("Page Three");
+        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new ListFragment());
+        fragments.add(new ListFragment());
+        fragments.add(new ListFragment());
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabsFromPagerAdapter(adapter);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onFailed(ResponseError error) {
-
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_login: {
+                        ActivityUtils.jumpActivity(MainActivity.this, LoginActivity.class);
+                    }
+                        break;
+                    case R.id.nav_loading: {// LoadingTest
+                        ActivityUtils.jumpActivity(MainActivity.this, LoadingActivity.class);
+                    }
+                        break;
+                    case R.id.nav_progress: {// CircleProgressBar
+                        ActivityUtils.jumpActivity(MainActivity.this, CircleProgressBarActivity.class);
+                    }
+                        break;
+                    case R.id.nav_web: {// WebActivity
+                        ActivityUtils.jumpActivity(MainActivity.this, WebActivity.class);
+                    }
+                        break;
+                }
+                return true;
             }
         });
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@mipmap/mine_indiana"
+            android:title="登录"/>
+        <item
+            android:id="@+id/nav_loading"
+            android:icon="@mipmap/mine_master_gift"
+            android:title="Loading"/>
+        <item
+            android:id="@+id/nav_progress"
+            android:icon="@mipmap/mine_red_package"
+            android:title="CircleProgressBar"/>
+        <item
+            android:id="@+id/nav_web"
+            android:icon="@mipmap/mine_vip"
+            android:title="WebView"/>
+    </group>
+
+    <item android:title="Version">
+        <menu>
+            <item
+                android:icon="@mipmap/ic_mine_recommend"
+                android:title="Android"/>
+            <item
+                android:icon="@mipmap/mine_setting"
+                android:title="iOS"/>
+        </menu>
+    </item>
+
+</menu>
