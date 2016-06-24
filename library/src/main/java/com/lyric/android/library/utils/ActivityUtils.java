@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * @author ganyu
@@ -21,7 +22,7 @@ public class ActivityUtils {
     }
 
     public static void jumpActivity(Context context, Class<? extends Activity> cls, Bundle bundle) {
-        jumpActivity(context, cls, bundle, 0);
+        jumpActivity(context, cls, bundle, -1);
     }
 
     public static void jumpActivityForResult(Context context, Class<? extends Activity> cls, int requestCode) {
@@ -37,13 +38,15 @@ public class ActivityUtils {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        if (requestCode == 0) {
+        if (requestCode == -1) {
             if (!(context instanceof Activity)) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             context.startActivity(intent);
         } else {
-            if (context instanceof Activity) {
+            if (context instanceof FragmentActivity) {
+                ((FragmentActivity) context).startActivityForResult(intent, requestCode);
+            } else if (context instanceof Activity) {
                 ((Activity) context).startActivityForResult(intent, requestCode);
             }
         }

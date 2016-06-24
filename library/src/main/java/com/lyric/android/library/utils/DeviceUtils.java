@@ -60,7 +60,7 @@ public class DeviceUtils {
     }
 
     /**
-     * 以JSON格式返回mac地址和设备ID
+     * 以JSON格式返回mac地址和设备ID，需要添加权限{@link android.Manifest.permission#ACCESS_WIFI_STATE}
      * @param context Context
      * @return mac地址和设备ID
      */

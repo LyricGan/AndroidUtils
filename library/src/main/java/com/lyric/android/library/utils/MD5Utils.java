@@ -11,17 +11,20 @@ import java.util.Locale;
  * @created 2014-1-11
  * 
  */
-public class MD5Utils extends CommonUtils {
+public class MD5Utils {
 	/** 大写标记 */
 	public static final int CASE_UPPER = 1;
 	/** 小写标记 */
 	public static final int CASE_LOWER = 2;
+
+    private MD5Utils() {
+    }
 	
 	/**
 	 * 获取字符串MD5值
-	 * @param str
+	 * @param str 字符串
 	 * @param caseFlag 大小写标记
-	 * @return
+	 * @return 转换过的字符串
 	 */
 	public static String getMD5(String str, int caseFlag) {
 		if (str == null) {

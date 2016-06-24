@@ -27,7 +27,7 @@ public class StringUtils {
      * isEmpty(&quot;  &quot;) = false;
      * </pre>
      * 
-     * @param str
+     * @param str String
      * @return if string is null or its size is 0, return true, else return false.
      */
     public static boolean isEmpty(String str) {
@@ -47,7 +47,7 @@ public class StringUtils {
      * isBlank(&quot;a b&quot;) = false;
      * </pre>
      * 
-     * @param str
+     * @param str String
      * @return if string is null or its size is 0 or it is made by space, return true, else return false.
      */
     public static boolean isBlank(String str) {
@@ -56,11 +56,11 @@ public class StringUtils {
     
     /**
      * 返回字符串是否为空或者为'null'
-     * @param str
-     * @return
+     * @param str String
+     * @return if string is null or "null" or its size is 0
      */
     public static boolean isNull(String str) {
-    	return (isEmpty(str) || "null".equals(str));
+    	return (isEmpty(str) || "NULL".equalsIgnoreCase(str));
     }
     
     /**
@@ -98,7 +98,6 @@ public class StringUtils {
         if (isEmpty(str)) {
             return str;
         }
-
         char c = str.charAt(0);
         return (!Character.isLetter(c) || Character.isUpperCase(c)) ? str : new StringBuilder(str.length())
                 .append(Character.toUpperCase(c)).append(str.substring(1)).toString();
@@ -418,5 +417,25 @@ public class StringUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 判断字符串是否为数字
+     * @param str 字符串
+     * @return 字符串是否为数字
+     */
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        return pattern.matcher(str).matches();
+    }
+
+    /**
+     * 判断字符串是否为浮点数
+     * @param str 字符串
+     * @return 字符串是否为浮点数
+     */
+    public static boolean isFloat(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*(\\.?)[0-9]*");
+        return pattern.matcher(str).matches();
     }
 }

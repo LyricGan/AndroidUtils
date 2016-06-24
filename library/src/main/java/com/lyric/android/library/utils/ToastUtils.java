@@ -12,15 +12,18 @@ import android.widget.Toast;
  * @created 2014-3-4
  * 
  */
-public class ToastUtils extends CommonUtils {
+public class ToastUtils {
 	private static Handler mHandler = new Handler(Looper.getMainLooper());
 	private static Toast mToast = null;
-	private static Object mSynObject = new Object();
+	private static final Object mSynObject = new Object();
+
+    private ToastUtils() {
+    }
 
 	/**
 	 * Toast发送消息，默认Toast.LENGTH_SHORT
-	 * @param context
-	 * @param message
+	 * @param context Context
+	 * @param message 消息
 	 */
 	public static void showShort(final Context context, final String message) {
 		showMessage(context, message, Toast.LENGTH_SHORT);
@@ -28,8 +31,8 @@ public class ToastUtils extends CommonUtils {
 
 	/**
 	 * Toast发送消息，默认Toast.LENGTH_LONG
-	 * @param context
-	 * @param message
+	 * @param context Context
+     * @param message 消息
 	 */
 	public static void showLong(final Context context, final String message) {
 		showMessage(context, message, Toast.LENGTH_LONG);
@@ -37,8 +40,8 @@ public class ToastUtils extends CommonUtils {
 
 	/**
 	 * Toast发送消息，默认Toast.LENGTH_SHORT
-	 * @param context
-	 * @param messageId
+	 * @param context Context
+	 * @param messageId 消息文本资源ID
 	 */
 	public static void showShort(final Context context, final int messageId) {
 		showMessage(context, messageId, Toast.LENGTH_SHORT);
@@ -46,8 +49,8 @@ public class ToastUtils extends CommonUtils {
 
 	/**
 	 * Toast发送消息，默认Toast.LENGTH_LONG
-	 * @param context
-	 * @param messageId
+	 * @param context Context
+     * @param messageId 消息文本资源ID
 	 */
 	public static void showLong(final Context context, final int messageId) {
 		showMessage(context, messageId, Toast.LENGTH_LONG);
@@ -55,9 +58,9 @@ public class ToastUtils extends CommonUtils {
 
 	/**
 	 * Toast发送消息
-	 * @param context
-	 * @param messageId
-	 * @param duration
+	 * @param context Context
+     * @param messageId 消息文本资源ID
+	 * @param duration 持续时间
 	 */
 	private static void showMessage(final Context context, final int messageId, final int duration) {
 		new Thread(new Runnable() {
@@ -83,9 +86,9 @@ public class ToastUtils extends CommonUtils {
 
 	/**
 	 * Toast发送消息
-	 * @param context
-	 * @param message
-	 * @param duration
+	 * @param context Context
+	 * @param message 消息
+	 * @param duration 持续时间
 	 */
 	private static void showMessage(final Context context, final String message, final int duration) {
 		new Thread(new Runnable() {

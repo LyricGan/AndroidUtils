@@ -15,7 +15,7 @@ import java.util.Locale;
  * @created 2014-3-7
  * 
  */
-public class TimeUtils extends CommonUtils {
+public class TimeUtils {
 	/** 一分钟的毫秒值 */
 	public static final long ONE_MINUTE = 60 * 1000;
 	/** 一小时的毫秒值 */
@@ -32,10 +32,15 @@ public class TimeUtils extends CommonUtils {
 	public static final String TEMPLATE_DATE = "yyyy-MM-dd";
 	/** 日期格式 {@code yyyy-MM-dd HH:mm} */
 	public static final String TEMPLATE_TIME = "yyyy-MM-dd HH:mm";
-	/** 日期格式 {@code yyyy-MM-dd E HH:mm} */
-	public static final String TEMPLATE_WEEK = "yyyy-MM-dd E HH:mm";
+    /** 日期格式 {@code yyyy-MM-dd E HH:mm} */
+    public static final String TEMPLATE_WEEK = "yyyy-MM-dd E HH:mm";
+    /** 日期格式 {@code HH:mm} */
+    public static final String TEMPLATE_HH_MM = "HH:mm";
     /** 默认日期格式 {@code yyyy-MM-dd HH:mm:ss} */
-	public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+	public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(TEMPLATE_DEFAULT, Locale.getDefault());
+
+    private TimeUtils() {
+    }
 	
 	/**
 	 * 获取当前时间
@@ -199,8 +204,8 @@ public class TimeUtils extends CommonUtils {
 	
 	/**
      * 将时间戳转换为字符串
-     * @param timeInMillis
-     * @param dateFormat
+     * @param timeInMillis 时间戳
+     * @param dateFormat 日期格式
      * @return String
      */
     public static String getTime(long timeInMillis, SimpleDateFormat dateFormat) {
@@ -209,7 +214,7 @@ public class TimeUtils extends CommonUtils {
 
     /**
      * 将时间戳转换为固定格式的字符串, 格式 {@link #DEFAULT_DATE_FORMAT}
-     * @param timeInMillis
+     * @param timeInMillis 日期格式
      * @return String
      */
     public static String getTime(long timeInMillis) {

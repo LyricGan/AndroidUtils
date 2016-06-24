@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @description 本地缓存工具类
  * @time 2015/11/4 18:12
  */
-public class DiskCacheUtils {
+public class DiskCacheUtils extends FileUtils {
     /** 默认缓存大小 */
     public static final String DEFAULT_CACHE_SIZE = "0M";
 
