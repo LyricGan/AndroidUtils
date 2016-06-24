@@ -10,7 +10,11 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.lyric.android.app.R;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
+import com.lyric.android.library.utils.BuildVersionUtils;
+import com.lyric.android.library.utils.ResourceUtils;
+import com.lyric.android.library.utils.ViewUtils;
 
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
@@ -20,6 +24,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onViewCreate(savedInstanceState);
+        injectStatusBar();
     }
 
     @Override
@@ -47,6 +52,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     protected boolean isDestroy() {
+        if (BuildVersionUtils.hasJellyBean()) {
+            return isDestroyed();
+        }
         return mDestroy;
     }
 
@@ -66,6 +74,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         if (mLoadingDialog != null) {
             mLoadingDialog.dismiss();
         }
+    }
+
+    protected void injectStatusBar() {
+        ViewUtils.setStatusBarColor(this, ResourceUtils.getColor(BaseApplication.getContext(), R.color.color_title_bar_bg));
     }
 
     @Override

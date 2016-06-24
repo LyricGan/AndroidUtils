@@ -1,15 +1,19 @@
 package com.lyric.android.library.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.Selection;
 import android.text.Spannable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AbsListView;
@@ -295,5 +299,77 @@ public class ViewUtils {
      */
     public static int getExpandSpec() {
         return View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
+    }
+
+    /**
+     * 获取状态栏高度
+     * @param context Context
+     * @return 状态栏高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        int statusBarHeight = 0;
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+            Object obj = clazz.newInstance();
+            Field field = clazz.getField("status_bar_height");
+            int height = Integer.parseInt(field.get(obj).toString());
+            statusBarHeight = context.getResources().getDimensionPixelSize(height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return statusBarHeight;
+    }
+
+    public static void setStatusBarColor(Activity activity, int color) {
+        setStatusBarColor(activity, color, false);
+    }
+
+    /**
+     * 设置状态栏颜色，需要在style文件加上<item name="android:fitsSystemWindows">true</item>
+     * @param activity Activity
+     * @param color 状态栏颜色
+     * @param isInjectNavigation 是否影响虚拟导航栏
+     */
+    public static void setStatusBarColor(Activity activity, int color, boolean isInjectNavigation) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (isInjectNavigation) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
+            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            tintManager.setStatusBarTintColor(color);
+            tintManager.setStatusBarTintEnabled(true);
+            if (isInjectNavigation) {
+                tintManager.setNavigationBarTintColor(color);
+                tintManager.setNavigationBarTintEnabled(true);
+            }
+        }
+    }
+
+    public static void setStatusBarOverlay(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
+    }
+
+    public static void hideSystemUI(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    public static void showSystemUI(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 }
