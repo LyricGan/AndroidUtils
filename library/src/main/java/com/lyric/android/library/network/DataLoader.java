@@ -16,6 +16,10 @@ public class DataLoader<T> {
     private ResponseCallback<T> mCallback;
     private Request<T> mRequest;
 
+    public DataLoader(String url, Map<String, String> params, Type type, ResponseCallback<T> callback) {
+        this(Method.POST, url, params, type, callback);
+    }
+
     public DataLoader(Method method, String url, Map<String, String> params, Type type, ResponseCallback<T> callback) {
         this.mMethod = method;
         this.mUrl = url;

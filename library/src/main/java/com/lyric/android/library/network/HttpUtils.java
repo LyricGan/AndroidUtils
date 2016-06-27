@@ -41,11 +41,8 @@ public class HttpUtils {
         HttpURLConnection urlConnection = null;
         try {
             URL requestUrl = new URL(url);
-            urlConnection = (HttpURLConnection) requestUrl.openConnection();
+            urlConnection = openConnection(requestUrl);
             urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.setConnectTimeout(HttpConstants.CONNECTION_TIMEOUT);
-            urlConnection.setReadTimeout(HttpConstants.SOCKET_TIMEOUT);
 
             String response;
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -84,13 +81,10 @@ public class HttpUtils {
         Writer writer = null;
         try {
             URL requestUrl = new URL(url);
-            urlConnection = (HttpURLConnection) requestUrl.openConnection();
+            urlConnection = openConnection(requestUrl);
             urlConnection.setRequestMethod("POST");
-            urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setUseCaches(false);
-            urlConnection.setConnectTimeout(HttpConstants.CONNECTION_TIMEOUT);
-            urlConnection.setReadTimeout(HttpConstants.SOCKET_TIMEOUT);
 
             OutputStream outputStream = urlConnection.getOutputStream();
             writer = new BufferedWriter(new OutputStreamWriter(outputStream));
@@ -121,6 +115,18 @@ public class HttpUtils {
             }
         }
         return responseEntity;
+    }
+
+    private static HttpURLConnection createConnection(URL url) throws IOException {
+        return (HttpURLConnection) url.openConnection();
+    }
+
+    private static HttpURLConnection openConnection(URL requestUrl) throws IOException {
+        HttpURLConnection urlConnection = createConnection(requestUrl);
+        urlConnection.setDoOutput(true);
+        urlConnection.setConnectTimeout(HttpConstants.CONNECTION_TIMEOUT);
+        urlConnection.setReadTimeout(HttpConstants.SOCKET_TIMEOUT);
+        return urlConnection;
     }
 
     private static String process(InputStream inputStream) throws IOException {

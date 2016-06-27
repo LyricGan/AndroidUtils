@@ -22,6 +22,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     useLibrary 'org.apache.http.legacy'
 }
 
@@ -46,8 +53,8 @@ dependencies {
     //    compile dependencies.ion
     compile dependencies.quickutils
     //    compile dependencies.disklrucache
-    //    debugCompile dependencies.leakcanarydebug
-    //    releaseCompile dependencies.leakcanaryrelease
+    debugCompile dependencies.leakcanarydebug
+    releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
     compile dependencies.retrofit
     compile dependencies.retrofitConverterGson
@@ -55,5 +62,8 @@ dependencies {
     compile dependencies.picasso
     compile dependencies.glide
 //    compile dependencies.fresco
+    compile dependencies.stetho
+    compile dependencies.stetho_okhttp
+    compile dependencies.stetho_urlconnection
     compile files('libs/universal-image-loader-1.9.1.jar')
 }

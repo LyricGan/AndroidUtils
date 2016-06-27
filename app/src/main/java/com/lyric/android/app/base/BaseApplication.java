@@ -1,8 +1,10 @@
 package com.lyric.android.app.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.facebook.stetho.Stetho;
 import com.lyric.android.app.R;
 import com.lyric.android.app.constants.Constants;
 import com.lyric.android.library.utils.LogUtils;
@@ -14,6 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.io.File;
 
@@ -24,34 +28,37 @@ import java.io.File;
  * 
  */
 public class BaseApplication extends Application {
-    private static BaseApplication sApplication;
-//    private static RefWatcher mRefWatcher;
+    private static BaseApplication mContext;
+    private static RefWatcher mRefWatcher;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        sApplication = this;
+        mContext = this;
 
-		LogUtils.setDebug(Constants.DEBUG);
-
-//        if (Constants.LEAK_DEBUG) {
-//            mRefWatcher = LeakCanary.install(this);
-//        } else {
-//            mRefWatcher = RefWatcher.DISABLED;
-//        }
-
-        initImageLoader();
+        initImageLoader(this);
+        LogUtils.setDebug(Constants.DEBUG);
+        initRefWatcher(Constants.LEAK_DEBUG);
+        initializeStetho(Constants.DEBUG);
 	}
 
 	public static BaseApplication getContext() {
-		return sApplication;
+		return mContext;
 	}
 
-//    public static RefWatcher getRefWatcher() {
-//        return mRefWatcher;
-//    }
+    public static RefWatcher getRefWatcher() {
+        return mRefWatcher;
+    }
 
-    private void initImageLoader() {
+    private void initRefWatcher(boolean isDebug) {
+        if (isDebug) {
+            mRefWatcher = LeakCanary.install(this);
+        } else {
+            mRefWatcher = RefWatcher.DISABLED;
+        }
+    }
+
+    private void initImageLoader(Context context) {
         // 初始化图片加载类
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.mipmap.merch_cover_default)
@@ -62,11 +69,10 @@ public class BaseApplication extends Application {
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-
         // 设置图片文件缓存路径
-        String imageDirectory = "/Android/data/" + getApplicationContext().getPackageName() + "/cache/image_loader_cache";
-        File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), imageDirectory);
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        String imageDirectory = "/Android/data/" + context.getPackageName() + "/cache/image_loader_cache";
+        File cacheDir = StorageUtils.getOwnCacheDirectory(context, imageDirectory);
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(3)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
@@ -74,8 +80,15 @@ public class BaseApplication extends Application {
                 .memoryCache(new WeakMemoryCache())
                 .discCache(new UnlimitedDiscCache(cacheDir))
                 .defaultDisplayImageOptions(defaultOptions)
-//			.writeDebugLogs()
+			    .writeDebugLogs()
                 .build();
         ImageLoader.getInstance().init(config);
+    }
+
+    private void initializeStetho(boolean isDebug) {
+        if (!isDebug) {
+            return;
+        }
+        Stetho.initializeWithDefaults(this);
     }
 }
