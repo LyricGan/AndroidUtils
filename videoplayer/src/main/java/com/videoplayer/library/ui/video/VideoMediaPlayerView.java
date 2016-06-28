@@ -137,23 +137,24 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
 
     private List<RelateVideoInfo> mRelateVideoInfo_list;
     private RelateVideoInfo mRelateVideoInfo;
+    private String mVideoUrl = null;
 
     public VideoMediaPlayerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
-        init(context, attrs, defStyle);
+        initialize(context, attrs, defStyle);
     }
 
     public VideoMediaPlayerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        init(context, attrs, -1);
+        initialize(context, attrs, -1);
     }
 
     public VideoMediaPlayerView(Context context) {
         super(context);
         mContext = context;
-        init(context, null, -1);
+        initialize(context, null, -1);
     }
 
     public boolean hasPlayPermission() {
@@ -168,10 +169,7 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
         Log.e(Constants.LOG_TAG, "无播放权限");
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyle) throws IllegalArgumentException, NullPointerException {
-        if (null == context) {
-            throw new NullPointerException("Context can not be null !");
-        }
+    private void initialize(Context context, AttributeSet attrs, int defStyle) throws IllegalArgumentException {
         registerPowerReceiver();
         setPowerStateListener(this);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PlayerView);
@@ -303,7 +301,7 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
                     mMediaPlayerSmallControllerView.hide();
                     mMediaPlayerLoadingView.show();
                     mMediaPlayerVideoView.release(true);
-                    mMediaPlayerVideoView.setVideoPath(url);
+                    mMediaPlayerVideoView.setVideoPath(mVideoUrl);
                 }
             }
 
@@ -468,8 +466,6 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
         mLayoutParamFullScreenMode = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
-    protected String url = null;
-
     private void setPowerStateListener(IPowerStateListener powerStateListener) {
         this.mPowerStateListener = powerStateListener;
     }
@@ -483,19 +479,22 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
     }
 
     public void setVideoUrl(String url) {
-        this.url = url;
+        this.mVideoUrl = url;
+    }
+
+    public String getVideoUrl() {
+        return this.mVideoUrl;
     }
 
     public void play() {
-        if (!TextUtils.isEmpty(this.url)) {
-            play(url);
+        if (!TextUtils.isEmpty(this.mVideoUrl)) {
+            play(mVideoUrl);
         }
     }
 
     public void play(String path) {
         if (this.mMediaPlayerVideoView != null) {
-            Log.d(Constants.LOG_TAG, "play() path =" + path);
-            url = path;
+            mVideoUrl = path;
             this.mMediaPlayerVideoView.setVideoPath(path);
         }
     }
@@ -914,9 +913,6 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
                     mMediaPlayerVideoView.setNeedPauseAfterLeave(false);
                 }
             }
-            //             mMediaPlayerEventActionView.updateEventMode(
-            //             MediaPlayerEventActionView.EVENT_ACTION_VIEW_MODE_WAIT,
-            //             null);
             mVideoReady = true;
             if (mPlayerViewCallback != null) {
                 mPlayerViewCallback.onPrepared();
@@ -928,13 +924,10 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
 
         @Override
         public void onCompletion(MediaPlayer mp) {
-            Log.i(Constants.LOG_TAG, "================onCompletion============");
             if (mRecyclePlay) {
-                Log.i(Constants.LOG_TAG, "==replay==");
                 mMediaPlayerEventActionView.hide();
                 mMediaPlayerController.start();
             } else {
-                completeChangeRecord();
                 mIsComplete = true;
                 mMediaPlayerLargeControllerView.updateVideoPlaybackState(false);
                 mMediaPlayerSmallControllerView.updateVideoPlaybackState(false);
@@ -1271,7 +1264,7 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
     }
 
     public void reopen() {
-        mMediaPlayerVideoView.setVideoPath(url);
+        mMediaPlayerVideoView.setVideoPath(mVideoUrl);
     }
 
     public void setPlayerViewTitleOption(PlayerViewTitleOption listener) {
@@ -1281,15 +1274,6 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
     public void updateTitle(String title) {
         mMediaPlayerLargeControllerView.updateVideoTitle(title);
     }
-
-    //    @Override
-    //    public boolean onKeyDown(int keyCode, KeyEvent event) {
-    //        if (keyCode == KeyEvent.KEYCODE_BACK) {
-    //            mMediaPlayerController.onBackPress(getPlayMode());
-    //            return true;
-    //        }
-    //        return super.onKeyDown(keyCode, event);
-    //    }
 
     protected void setQuality(List<MediaQualityBean> lst, MediaQualityBean curr) {
         mMediaPlayerLargeControllerView.setQuality(lst, curr);
@@ -1314,9 +1298,4 @@ public abstract class VideoMediaPlayerView extends RelativeLayout implements IPo
     protected MediaPlayerVideoView getPlayerVideoView() {
         return mMediaPlayerVideoView;
     }
-
-    /**
-     * 当视频播放完成的时候，改变播放记录
-     */
-    public abstract void completeChangeRecord();
 }

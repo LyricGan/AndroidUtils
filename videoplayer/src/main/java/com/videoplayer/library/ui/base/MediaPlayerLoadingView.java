@@ -48,7 +48,7 @@ public class MediaPlayerLoadingView extends RelativeLayout {
         if (loadingTip == null) {
             loadingTip = "";
         }
-//        mLoadingTipTextView.setText(loadingTip);
+        mLoadingTitleTextView.setText(loadingTip);
     }
 
     public void show() {
