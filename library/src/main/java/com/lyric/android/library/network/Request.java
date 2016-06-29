@@ -48,10 +48,6 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         return responseEntity;
     }
 
-    public void execute() {
-        execute(true);
-    }
-
     // 未实现线程池管理,待优化
     public void execute(final boolean isRefresh) {
         String threadName = "execute_net_thread_" + System.currentTimeMillis();
@@ -97,5 +93,9 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
             error.message = responseEntity.response;
             mCallback.onFailed(error);
         }
+    }
+
+    public void cancel() {
+        // 待实现...
     }
 }

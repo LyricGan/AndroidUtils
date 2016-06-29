@@ -29,10 +29,27 @@ public class DataLoader<T> {
     }
 
     public void load() {
+        load(true);
+    }
+
+    public void load(boolean isRefresh) {
         mRequest = new Request<>(mMethod, mUrl, mParams, mType, mCallback);
-        mRequest.execute();
+        mRequest.execute(isRefresh);
     }
 
     public void cancel() {
+        mRequest.cancel();
+    }
+
+    public Method getMethod() {
+        return this.mMethod;
+    }
+
+    public String getUrl() {
+        return this.mUrl;
+    }
+
+    public Map<String, String> getParams() {
+        return this.mParams;
     }
 }
