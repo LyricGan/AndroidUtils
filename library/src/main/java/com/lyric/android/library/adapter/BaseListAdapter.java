@@ -1,4 +1,4 @@
-package com.lyric.android.app.adapter;
+package com.lyric.android.library.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -52,12 +52,14 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        BaseViewHolder viewHolder = BaseViewHolder.get(convertView, parent, mLayoutId);
-        convert(viewHolder, position, getItem(position));
-        return viewHolder.getView();
+        BaseListAdapterHelper helper = BaseListAdapterHelper.get(convertView, parent, mLayoutId);
+        T object = getItem(position);
+        helper.setAssociatedObject(object);
+        convert(helper, position, object);
+        return helper.getView();
     }
 
-    public abstract void convert(BaseViewHolder viewHolder, int position, T item);
+    public abstract void convert(BaseListAdapterHelper helper, int position, T item);
 
     public void setDataList(List<T> dataList) {
         this.mDataList = dataList;
