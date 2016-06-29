@@ -61,6 +61,7 @@ ext {
             retrofitConverterGson: "com.squareup.retrofit:converter-gson:$retrofitVersion",
             retrofitAdapterRxJava: "com.squareup.retrofit:adapter-rxjava:$retrofitVersion",
             retrofit2: 'com.squareup.retrofit2:retrofit:2.1.0',
+            retrofit2ConverterGson: 'com.squareup.retrofit2:converter-gson:2.1.0',
             stetho: "com.facebook.stetho:stetho:$stethoVersion",
             stetho_okhttp: "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
             stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$stethoVersion"

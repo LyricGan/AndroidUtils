@@ -89,6 +89,9 @@ public class BaseApplication extends Application {
         if (!isDebug) {
             return;
         }
-        Stetho.initializeWithDefaults(this);
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build());
     }
 }

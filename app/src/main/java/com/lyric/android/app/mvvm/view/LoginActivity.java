@@ -1,7 +1,6 @@
 package com.lyric.android.app.mvvm.view;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.lyric.android.app.R;
@@ -22,7 +21,7 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
 
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_login, null);
+        View view = View.inflate(this, R.layout.activity_login, null);
         setContentView(view);
         mLoginViewModel = new LoginViewModel(view, this);
     }
@@ -40,7 +39,7 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     @Override
     public void loginSuccess(User user) {
         hideLoadingDialog();
-        ToastUtils.showShort(BaseApplication.getContext(), "登录成功" + user.toString());
+        ToastUtils.showShort(BaseApplication.getContext(), "登录成功，欢迎回来 " + user.name);
         finish();
     }
 

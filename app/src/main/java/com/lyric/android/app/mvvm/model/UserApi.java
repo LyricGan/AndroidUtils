@@ -1,13 +1,11 @@
 package com.lyric.android.app.mvvm.model;
 
-import com.lyric.android.app.constants.ApiPath;
-
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Url;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 /**
  * @author lyric
@@ -21,10 +19,4 @@ public interface UserApi {
 
     @GET
     Call<User> getUserDetails(@Url String userUrl);
-
-    class Factory {
-        public static UserApi getInstance() {
-            return Api.Factory.getInstance(ApiPath.BASE_URL, UserApi.class);
-        }
-    }
 }

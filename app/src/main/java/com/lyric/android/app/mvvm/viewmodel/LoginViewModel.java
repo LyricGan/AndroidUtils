@@ -9,16 +9,16 @@ import android.widget.EditText;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.mvvm.model.Api;
 import com.lyric.android.app.mvvm.model.Repository;
 import com.lyric.android.app.mvvm.model.User;
-import com.lyric.android.app.mvvm.model.UserApi;
 import com.lyric.android.library.utils.LogUtils;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author lyric
@@ -71,33 +71,54 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
     private void login(String userName, String password) {
         mActionListener.startLogin();
         LogUtils.d(TAG, "userName:" + userName + ",password:" + password);
-        UserApi userApi = UserApi.Factory.getInstance();
-        userApi.getRepositoryList(userName).enqueue(new Callback<List<Repository>>() {
+        userName = "lyricgan";
+        Api.getUserApi().getRepositoryList(userName).enqueue(new Callback<List<Repository>>() {
             @Override
-            public void onResponse(Response<List<Repository>> response, Retrofit retrofit) {
+            public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                 List<Repository> repositoryList = response.body();
                 if (repositoryList != null && !repositoryList.isEmpty()) {
                     Repository repository = repositoryList.get(0);
-                    mActionListener.loginSuccess(repository.owner);
+                    if (repository.owner != null) {
+                        onProcessUser(repository.owner);
+                    }
                 } else {
                     mActionListener.loginFailed();
                 }
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<Repository>> call, Throwable t) {
                 mActionListener.loginFailed();
             }
         });
     }
 
-    @Override
-    public void destroy() {
+    private void onProcessUser(User user) {
+        Api.getUserApi().getUserDetails(user.url).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User data = response.body();
+                if (data != null) {
+                    mActionListener.loginSuccess(data);
+                }  else {
+                    mActionListener.loginFailed();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                mActionListener.loginFailed();
+            }
+        });
     }
 
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) BaseApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edit_user_name.getWindowToken(), 0);
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

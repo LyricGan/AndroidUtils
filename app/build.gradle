@@ -51,13 +51,13 @@ dependencies {
     //    compile dependencies.androidcommon
     //    compile dependencies.xutils
     //    compile dependencies.ion
-    compile dependencies.quickutils
+//    compile dependencies.quickutils
     //    compile dependencies.disklrucache
     debugCompile dependencies.leakcanarydebug
     releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
-    compile dependencies.retrofit
-    compile dependencies.retrofitConverterGson
+    compile dependencies.retrofit2
+    compile dependencies.retrofit2ConverterGson
     compile dependencies.realm
     compile dependencies.picasso
     compile dependencies.glide

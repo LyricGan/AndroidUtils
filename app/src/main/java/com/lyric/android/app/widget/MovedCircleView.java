@@ -17,7 +17,7 @@ import com.lyric.android.library.utils.LogUtils;
  * @description
  * @time 2016/3/15 15:07
  */
-public class MovedCircleView extends View implements View.OnTouchListener {
+public class MovedCircleView extends View {
     private static final String TAG = MovedCircleView.class.getSimpleName();
     private TextPaint mPaint = new TextPaint();
     private int mDefaultRadius = 0;
@@ -48,7 +48,6 @@ public class MovedCircleView extends View implements View.OnTouchListener {
         mDefaultRadius = DisplayUtils.dip2px(context, 50);
 
         LogUtils.e(TAG, "mDefaultRadius:" + mDefaultRadius);
-        setOnTouchListener(this);
     }
 
     @Override
@@ -64,7 +63,12 @@ public class MovedCircleView extends View implements View.OnTouchListener {
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 mStartX = event.getX();

@@ -1,22 +1,63 @@
 package com.lyric.android.app.mvvm.model;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.lyric.android.app.constants.ApiPath;
+import com.lyric.android.app.constants.Constants;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author lyric
  * @description
  * @time 2016/6/3 11:41
  */
-public interface Api {
+public class Api {
+    private static Api mInstance;
+    private static Retrofit mRetrofit;
 
-    class Factory {
-        public static <T> T getInstance(String baseUrl, Class<T> cls) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            return retrofit.create(cls);
+    private Api() {
+        initialize(ApiPath.BASE_URL);
+    }
+
+    private static synchronized Api getInstance() {
+        if (mInstance == null) {
+            mInstance = new Api();
         }
+        return mInstance;
+    }
+
+    private void initialize(String baseUrl) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.retryOnConnectionFailure(true);
+        if (Constants.DEBUG) {
+            builder.addNetworkInterceptor(new StethoInterceptor());
+        }
+        OkHttpClient okHttpClient = builder.build();
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    private Retrofit getRetrofit() {
+        return mRetrofit;
+    }
+
+    private <T> T build(Class<T> cls) {
+        if (getRetrofit() == null) {
+            throw new NullPointerException("initialized failed.");
+        }
+        return getRetrofit().create(cls);
+    }
+
+    public static UserApi getUserApi() {
+        return Api.getInstance().build(UserApi.class);
     }
 }
