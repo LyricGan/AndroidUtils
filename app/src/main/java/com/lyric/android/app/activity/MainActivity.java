@@ -60,10 +60,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(
-                                        MainActivity.this,
-                                        "Toast comes out",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Toast comes out", Toast.LENGTH_SHORT).show();
                             }
                         }).show();
             }

@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_login"
             android:icon="@mipmap/mine_indiana"
-            android:title="登录"/>
+            android:title="Login"/>
         <item
             android:id="@+id/nav_loading"
             android:icon="@mipmap/mine_master_gift"
