@@ -54,7 +54,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
         BaseViewHolder viewHolder = BaseViewHolder.get(convertView, parent, mLayoutId);
         convert(viewHolder, position, getItem(position));
-        return viewHolder.getConvertView();
+        return viewHolder.getView();
     }
 
     public abstract void convert(BaseViewHolder viewHolder, int position, T item);

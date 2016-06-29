@@ -52,6 +52,10 @@ public class BaseViewHolder {
         }
     }
 
+    public View getView() {
+        return mConvertView;
+    }
+
     public <T extends View> T getView(int viewId) {
         View view = mViewArray.get(viewId);
         if (view == null) {
@@ -59,10 +63,6 @@ public class BaseViewHolder {
             mViewArray.put(viewId, view);
         }
         return (T) view;
-    }
-
-    public View getConvertView() {
-        return mConvertView;
     }
 
     public void clear() {
@@ -272,13 +272,28 @@ public class BaseViewHolder {
         return this;
     }
 
+    public BaseViewHolder setOnClickListener(View.OnClickListener listener) {
+        getView().setOnClickListener(listener);
+        return this;
+    }
+
     public BaseViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         getView(viewId).setOnClickListener(listener);
         return this;
     }
 
+    public BaseViewHolder setOnLongClickListener(View.OnLongClickListener listener) {
+        getView().setOnLongClickListener(listener);
+        return this;
+    }
+
     public BaseViewHolder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         getView(viewId).setOnLongClickListener(listener);
+        return this;
+    }
+
+    public BaseViewHolder setOnTouchListener(View.OnTouchListener listener) {
+        getView().setOnTouchListener(listener);
         return this;
     }
 
