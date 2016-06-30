@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.api;
 
 import com.lyric.android.library.network.DataLoader;
 import com.lyric.android.library.network.ResponseCallback;

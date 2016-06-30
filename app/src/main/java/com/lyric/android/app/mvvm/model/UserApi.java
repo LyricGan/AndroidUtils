@@ -2,10 +2,10 @@ package com.lyric.android.app.mvvm.model;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
+import rx.Observable;
 
 /**
  * @author lyric
@@ -15,8 +15,10 @@ import retrofit2.http.Url;
 public interface UserApi {
 
     @GET("users/{username}/repos")
-    Call<List<Repository>> getRepositoryList(@Path("username") String username);
+//    Call<List<Repository>> getRepositoryList(@Path("username") String username);
+    Observable<List<Repository>> getRepositoryList(@Path("username") String username);
 
     @GET
-    Call<User> getUserDetails(@Url String userUrl);
+//    Call<User> getUserDetails(@Url String userUrl);
+    Observable<User> getUserDetails(@Url String userUrl);
 }

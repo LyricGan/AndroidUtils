@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +14,6 @@ import android.widget.EditText;
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.BuildVersionUtils;
-import com.lyric.android.library.utils.ResourceUtils;
 import com.lyric.android.library.utils.ViewUtils;
 
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
@@ -77,7 +77,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ResourceUtils.getColor(BaseApplication.getContext(), R.color.color_title_bar_bg));
+        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(BaseApplication.getContext(), R.color.color_title_bar_bg));
     }
 
     @Override

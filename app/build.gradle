@@ -41,11 +41,9 @@ dependencies {
     compile dependencies.cardView
     compile dependencies.recyclerView
     compile dependencies.design
-    //    compile dependencies.gson
-    //    compile dependencies.rxAndroid
-    //    compile dependencies.rxJava
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
+    compile dependencies.rxAndroid
     //    compile dependencies.swipelayout
     //    compile dependencies.guava
     //    compile dependencies.androidcommon
@@ -58,6 +56,7 @@ dependencies {
     compile dependencies.supportv4
     compile dependencies.retrofit2
     compile dependencies.retrofit2ConverterGson
+    compile dependencies.retrofit2AdapterRxJava
     compile dependencies.realm
     compile dependencies.picasso
     compile dependencies.glide

@@ -372,4 +372,28 @@ public class ViewUtils {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
+
+    public static void setVisibility(View view, boolean visibility) {
+        if (view == null) {
+            return;
+        }
+        if (visibility) {
+            if (view.getVisibility() != View.VISIBLE) {
+                view.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (view.getVisibility() == View.VISIBLE) {
+                view.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public static void setVisibility(View view, int visibility) {
+        if (view == null || (visibility != View.VISIBLE && visibility != View.INVISIBLE && visibility != View.GONE)) {
+            return;
+        }
+        if (visibility != view.getVisibility()) {
+            view.setVisibility(visibility);
+        }
+    }
 }

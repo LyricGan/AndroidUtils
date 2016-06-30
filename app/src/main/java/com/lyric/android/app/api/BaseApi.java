@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.api;
 
 import java.util.HashMap;
 import java.util.Map;

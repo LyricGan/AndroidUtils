@@ -16,9 +16,11 @@ import com.lyric.android.library.utils.LogUtils;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author lyric
@@ -56,9 +58,11 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
                 String userName = edit_user_name.getText().toString().trim();
                 String password = edit_password.getText().toString().trim();
                 if (TextUtils.isEmpty(userName)) {
+                    edit_user_name.requestFocus();
                     break;
                 }
                 if (TextUtils.isEmpty(password)) {
+                    edit_password.requestFocus();
                     break;
                 }
                 hideSoftKeyboard();
@@ -72,45 +76,84 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
         mActionListener.startLogin();
         LogUtils.d(TAG, "userName:" + userName + ",password:" + password);
         userName = "lyricgan";
-        Api.getUserApi().getRepositoryList(userName).enqueue(new Callback<List<Repository>>() {
-            @Override
-            public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
-                List<Repository> repositoryList = response.body();
-                if (repositoryList != null && !repositoryList.isEmpty()) {
-                    Repository repository = repositoryList.get(0);
-                    if (repository.owner != null) {
-                        onProcessUser(repository.owner);
+
+        Api.getUserApi().getRepositoryList(userName)
+                .flatMap(new Func1<List<Repository>, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(List<Repository> repositories) {
+                        if (repositories != null && !repositories.isEmpty()) {
+                            Repository repository = repositories.get(0);
+                            if (repository.owner != null) {
+                                return Api.getUserApi().getUserDetails(repository.owner.url);
+                            }
+                        }
+                        return null;
                     }
-                } else {
-                    mActionListener.loginFailed();
-                }
-            }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        LogUtils.e(TAG, "onCompleted()");
+                    }
 
-            @Override
-            public void onFailure(Call<List<Repository>> call, Throwable t) {
-                mActionListener.loginFailed();
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        mActionListener.loginFailed();
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        if (user != null) {
+                            mActionListener.loginSuccess(user);
+                        }  else {
+                            mActionListener.loginFailed();
+                        }
+                    }
+                });
     }
 
-    private void onProcessUser(User user) {
-        Api.getUserApi().getUserDetails(user.url).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User data = response.body();
-                if (data != null) {
-                    mActionListener.loginSuccess(data);
-                }  else {
-                    mActionListener.loginFailed();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                mActionListener.loginFailed();
-            }
-        });
-    }
+//    private void onProcessRepository(String userName) {
+//        Api.getUserApi().getRepositoryList(userName).enqueue(new Callback<List<Repository>>() {
+//            @Override
+//            public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
+//                List<Repository> repositoryList = response.body();
+//                if (repositoryList != null && !repositoryList.isEmpty()) {
+//                    Repository repository = repositoryList.get(0);
+//                    if (repository.owner != null) {
+//                        onProcessUser(repository.owner);
+//                    }
+//                } else {
+//                    mActionListener.loginFailed();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Repository>> call, Throwable t) {
+//                mActionListener.loginFailed();
+//            }
+//        });
+//    }
+//
+//    private void onProcessUser(User user) {
+//        Api.getUserApi().getUserDetails(user.url).enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User> call, Response<User> response) {
+//                User data = response.body();
+//                if (data != null) {
+//                    mActionListener.loginSuccess(data);
+//                }  else {
+//                    mActionListener.loginFailed();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//                mActionListener.loginFailed();
+//            }
+//        });
+//    }
 
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) BaseApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

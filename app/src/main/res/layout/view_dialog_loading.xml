@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            app:indicator_color="#FFE75764"/>
+            app:indicator_color="@color/color_007eff"/>
 
         <TextView
             android:id="@+id/tv_message"

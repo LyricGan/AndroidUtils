@@ -2,7 +2,6 @@ package com.lyric.android.app.widget.dialog;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ public class LoadingDialog extends AlertDialog {
 
     public LoadingDialog(Context context) {
         super(context);
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_dialog_loading, null);
+        View view = View.inflate(getContext(), R.layout.view_dialog_loading, null);
         tv_message = (TextView) view.findViewById(R.id.tv_message);
         setView(view);
     }

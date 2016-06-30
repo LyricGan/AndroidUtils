@@ -1,12 +1,12 @@
 package com.lyric.android.app.test.span;
 
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import com.lyric.android.app.base.BaseApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.library.utils.ResourceUtils;
+import com.lyric.android.app.base.BaseApplication;
 
 /**
  * @author lyric
@@ -32,7 +32,7 @@ public class TextClickableSpan extends ClickableSpan implements View.OnClickList
     @Override
     public void updateDrawState(TextPaint ds) {
         super.updateDrawState(ds);
-        ds.setColor(ResourceUtils.getColor(BaseApplication.getContext(), R.color.color_007eff));
+        ds.setColor(ContextCompat.getColor(BaseApplication.getContext(), R.color.color_007eff));
         ds.setUnderlineText(false);
         ds.clearShadowLayer();
     }

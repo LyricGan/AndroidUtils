@@ -11,8 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.widget.loadingindicator.indicator.BallPulseIndicator;
 import com.lyric.android.app.widget.loadingindicator.indicator.BaseIndicatorController;
-import com.lyric.android.app.widget.loadingindicator.indicator.LineSpinFadeLoaderIndicator;
 
 /**
  * @author lyric
@@ -58,9 +58,7 @@ public class LoadingView extends View {
     }
 
     private void applyIndicator() {
-//        mIndicatorController = new BallPulseIndicator();
-//        mIndicatorController = new BallSpinFadeLoaderIndicator();
-        mIndicatorController = new LineSpinFadeLoaderIndicator();
+        mIndicatorController = new BallPulseIndicator();
         mIndicatorController.setTarget(this);
     }
 
