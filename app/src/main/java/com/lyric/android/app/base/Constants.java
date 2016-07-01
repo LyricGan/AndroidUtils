@@ -1,4 +1,4 @@
-package com.lyric.android.app.constants;
+package com.lyric.android.app.base;
 
 import com.lyric.android.app.BuildConfig;
 

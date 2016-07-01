@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 
 import com.facebook.stetho.Stetho;
 import com.lyric.android.app.R;
-import com.lyric.android.app.constants.Constants;
 import com.lyric.android.library.utils.LogUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;

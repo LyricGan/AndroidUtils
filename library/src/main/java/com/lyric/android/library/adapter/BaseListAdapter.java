@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 列表适配器基类，泛型，继承 {@link BaseAdapter}
  * 
- * @author ganyu
+ * @author lyricgan
  * @created 2015-4-20
  * 
  */
@@ -52,14 +52,14 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        BaseListAdapterHelper helper = BaseListAdapterHelper.get(convertView, parent, mLayoutId);
+        ViewHelper helper = ViewHelper.get(convertView, parent, mLayoutId);
         T object = getItem(position);
         helper.setAssociatedObject(object);
         convert(helper, position, object);
         return helper.getView();
     }
 
-    public abstract void convert(BaseListAdapterHelper helper, int position, T item);
+    public abstract void convert(ViewHelper helper, int position, T item);
 
     public void setDataList(List<T> dataList) {
         this.mDataList = dataList;

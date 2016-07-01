@@ -125,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
                         ActivityUtils.jumpActivity(MainActivity.this, WebActivity.class);
                     }
                         break;
+                    case R.id.menu_item_about: {// 关于
+                        ActivityUtils.jumpActivity(MainActivity.this, ViewTestActivity.class);
+                    }
+                        break;
+                    case R.id.menu_item_exit: {// 退出
+                        finish();
+                    }
+                        break;
                 }
                 return true;
             }

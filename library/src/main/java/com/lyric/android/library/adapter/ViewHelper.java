@@ -26,28 +26,28 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
- * @author lyric
- * @description BaseListAdapter helper
+ * @author lyricgan
+ * @description view helper
  * @time 16/3/10
  */
-public class BaseListAdapterHelper {
+public class ViewHelper {
     private Context mContext;
     private SparseArray<View> mViewArray;
     private View mConvertView;
     private Object mAssociatedObject;
 
-    public BaseListAdapterHelper(ViewGroup parent, int layoutId) {
+    public ViewHelper(ViewGroup parent, int layoutId) {
         this.mContext = parent.getContext();
         this.mViewArray = new SparseArray<View>();
         this.mConvertView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
         this.mConvertView.setTag(this);
     }
 
-    public static BaseListAdapterHelper get(View convertView, ViewGroup parent, int layoutId) {
+    public static ViewHelper get(View convertView, ViewGroup parent, int layoutId) {
         if (convertView == null) {
-            return new BaseListAdapterHelper(parent, layoutId);
+            return new ViewHelper(parent, layoutId);
         } else {
-            return (BaseListAdapterHelper) convertView.getTag();
+            return (ViewHelper) convertView.getTag();
         }
     }
 
@@ -86,12 +86,12 @@ public class BaseListAdapterHelper {
         return itemChanged;
     }
 
-    public BaseListAdapterHelper setVisibility(int viewId, int visibility) {
+    public ViewHelper setVisibility(int viewId, int visibility) {
         getView(viewId).setVisibility(visibility);
         return this;
     }
 
-    public BaseListAdapterHelper toggleVisibility(int viewId) {
+    public ViewHelper toggleVisibility(int viewId) {
         View view = getView(viewId);
         if (View.VISIBLE == view.getVisibility()) {
             view.setVisibility(View.GONE);
@@ -101,22 +101,22 @@ public class BaseListAdapterHelper {
         return this;
     }
 
-    public BaseListAdapterHelper setEnabled(int viewId, boolean enabled) {
+    public ViewHelper setEnabled(int viewId, boolean enabled) {
         getView(viewId).setEnabled(enabled);
         return this;
     }
 
-    public BaseListAdapterHelper setText(int viewId, int textId) {
+    public ViewHelper setText(int viewId, int textId) {
         return setText(viewId, mContext.getString(textId));
     }
 
-    public BaseListAdapterHelper setText(int viewId, String text) {
+    public ViewHelper setText(int viewId, String text) {
         TextView textView = getView(viewId);
         textView.setText(text);
         return this;
     }
 
-    public BaseListAdapterHelper setTextAppearance(int viewId, int redId) {
+    public ViewHelper setTextAppearance(int viewId, int redId) {
         TextView textView = getView(viewId);
         if (Build.VERSION.SDK_INT >= 23) {
             textView.setTextAppearance(redId);
@@ -126,47 +126,47 @@ public class BaseListAdapterHelper {
         return this;
     }
 
-    public BaseListAdapterHelper setTextColor(int viewId, int textColor) {
+    public ViewHelper setTextColor(int viewId, int textColor) {
         TextView textView = getView(viewId);
         textView.setTextColor(textColor);
         return this;
     }
 
-    public BaseListAdapterHelper setTextColor(int viewId, ColorStateList colorList) {
+    public ViewHelper setTextColor(int viewId, ColorStateList colorList) {
         TextView textView = getView(viewId);
         textView.setTextColor(colorList);
         return this;
     }
 
-    public BaseListAdapterHelper setTextColorResource(int viewId, int textColorResId) {
+    public ViewHelper setTextColorResource(int viewId, int textColorResId) {
         return setTextColor(viewId, textColorResId);
     }
 
-    public BaseListAdapterHelper setTextColorStateListRes(int viewId, int textColorStateListResId) {
+    public ViewHelper setTextColorStateListRes(int viewId, int textColorStateListResId) {
         return setTextColor(viewId, textColorStateListResId);
     }
 
-    public BaseListAdapterHelper setTextSizeDp(int viewId, float size) {
+    public ViewHelper setTextSizeDp(int viewId, float size) {
         ((TextView) getView(viewId)).setTextSize(size);
         return this;
     }
 
-    public BaseListAdapterHelper setTextSize(int viewId, float size) {
+    public ViewHelper setTextSize(int viewId, float size) {
         ((TextView) getView(viewId)).setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
         return this;
     }
 
-    public BaseListAdapterHelper setBackgroundColor(int viewId, int color) {
+    public ViewHelper setBackgroundColor(int viewId, int color) {
         getView(viewId).setBackgroundColor(color);
         return this;
     }
 
-    public BaseListAdapterHelper setBackgroundResource(int viewId, int backgroundResource) {
+    public ViewHelper setBackgroundResource(int viewId, int backgroundResource) {
         getView(viewId).setBackgroundResource(backgroundResource);
         return this;
     }
 
-    public BaseListAdapterHelper setBackgroundDrawable(int viewId, Drawable background) {
+    public ViewHelper setBackgroundDrawable(int viewId, Drawable background) {
         if (Build.VERSION.SDK_INT >= 16) {
             getView(viewId).setBackground(background);
         } else {
@@ -175,36 +175,36 @@ public class BaseListAdapterHelper {
         return this;
     }
 
-    public BaseListAdapterHelper setImageResource(int viewId, int resourceId) {
+    public ViewHelper setImageResource(int viewId, int resourceId) {
         ImageView imageView = getView(viewId);
         imageView.setImageResource(resourceId);
         return this;
     }
 
-    public BaseListAdapterHelper setImageBitmap(int viewId, Bitmap bitmap) {
+    public ViewHelper setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView imageView = getView(viewId);
         imageView.setImageBitmap(bitmap);
         return this;
     }
 
-    public BaseListAdapterHelper setImageDrawable(int viewId, Drawable d) {
+    public ViewHelper setImageDrawable(int viewId, Drawable d) {
         ((ImageView) getView(viewId)).setImageDrawable(d);
         return this;
     }
 
-    public BaseListAdapterHelper setImageUrl(int viewId, String imageUrl) {
+    public ViewHelper setImageUrl(int viewId, String imageUrl) {
         ImageView imageView = getView(viewId);
 //        ImageLoader.load(getContext(), imageUrl, imageView);
         return this;
     }
 
-    public BaseListAdapterHelper setChecked(int viewId, boolean checked) {
+    public ViewHelper setChecked(int viewId, boolean checked) {
         CheckBox checkBox = getView(viewId);
         checkBox.setChecked(checked);
         return this;
     }
 
-    public BaseListAdapterHelper setAlpha(int viewId, float alpha) {
+    public ViewHelper setAlpha(int viewId, float alpha) {
         View view = getView(viewId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             view.setAlpha(alpha);
@@ -217,115 +217,115 @@ public class BaseListAdapterHelper {
         return this;
     }
 
-    public BaseListAdapterHelper linkify(int viewId) {
+    public ViewHelper linkify(int viewId) {
         Linkify.addLinks((TextView) getView(viewId), Linkify.ALL);
         return this;
     }
 
-    public BaseListAdapterHelper linkify(int viewId, int mask) {
+    public ViewHelper linkify(int viewId, int mask) {
         Linkify.addLinks((TextView) getView(viewId), mask);
         return this;
     }
 
-    public BaseListAdapterHelper setTypeface(int viewId, Typeface typeface) {
+    public ViewHelper setTypeface(int viewId, Typeface typeface) {
         TextView view = getView(viewId);
         view.setTypeface(typeface);
         view.setPaintFlags(view.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG);
         return this;
     }
 
-    public BaseListAdapterHelper setTypeface(Typeface typeface, int... viewIds) {
+    public ViewHelper setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             setTypeface(viewId, typeface);
         }
         return this;
     }
 
-    public BaseListAdapterHelper setProgress(int viewId, int progress) {
+    public ViewHelper setProgress(int viewId, int progress) {
         ((ProgressBar) getView(viewId)).setProgress(progress);
         return this;
     }
 
-    public BaseListAdapterHelper setProgress(int viewId, int progress, int max) {
+    public ViewHelper setProgress(int viewId, int progress, int max) {
         ProgressBar progressBar = getView(viewId);
         progressBar.setProgress(progress);
         progressBar.setMax(max);
         return this;
     }
 
-    public BaseListAdapterHelper setProgressMax(int viewId, int max) {
+    public ViewHelper setProgressMax(int viewId, int max) {
         ((ProgressBar) getView(viewId)).setMax(max);
         return this;
     }
 
-    public BaseListAdapterHelper setRating(int viewId, float rating) {
+    public ViewHelper setRating(int viewId, float rating) {
         ((RatingBar) getView(viewId)).setRating(rating);
         return this;
     }
 
-    public BaseListAdapterHelper setRating(int viewId, float rating, int max) {
+    public ViewHelper setRating(int viewId, float rating, int max) {
         RatingBar ratingBar = getView(viewId);
         ratingBar.setRating(rating);
         ratingBar.setMax(max);
         return this;
     }
 
-    public BaseListAdapterHelper setTag(int viewId, Object tag) {
+    public ViewHelper setTag(int viewId, Object tag) {
         getView(viewId).setTag(tag);
         return this;
     }
 
-    public BaseListAdapterHelper setTag(int viewId, int key, Object tag) {
+    public ViewHelper setTag(int viewId, int key, Object tag) {
         getView(viewId).setTag(key, tag);
         return this;
     }
 
-    public BaseListAdapterHelper setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
+    public ViewHelper setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
         ((CompoundButton) getView(viewId)).setOnCheckedChangeListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnClickListener(View.OnClickListener listener) {
+    public ViewHelper setOnClickListener(View.OnClickListener listener) {
         getView().setOnClickListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnClickListener(int viewId, View.OnClickListener listener) {
+    public ViewHelper setOnClickListener(int viewId, View.OnClickListener listener) {
         getView(viewId).setOnClickListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnLongClickListener(View.OnLongClickListener listener) {
+    public ViewHelper setOnLongClickListener(View.OnLongClickListener listener) {
         getView().setOnLongClickListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
+    public ViewHelper setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         getView(viewId).setOnLongClickListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnTouchListener(View.OnTouchListener listener) {
+    public ViewHelper setOnTouchListener(View.OnTouchListener listener) {
         getView().setOnTouchListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper setOnTouchListener(int viewId, View.OnTouchListener listener) {
+    public ViewHelper setOnTouchListener(int viewId, View.OnTouchListener listener) {
         getView(viewId).setOnTouchListener(listener);
         return this;
     }
 
-    public BaseListAdapterHelper addTextChangedListener(int viewId, TextWatcher watcher){
+    public ViewHelper addTextChangedListener(int viewId, TextWatcher watcher){
         ((TextView) getView(viewId)).addTextChangedListener(watcher);
         return this;
     }
 
-    public BaseListAdapterHelper setAdapter(int viewId, Adapter adapter) {
+    public ViewHelper setAdapter(int viewId, Adapter adapter) {
         ((AdapterView) getView(viewId)).setAdapter(adapter);
         return this;
     }
 
-    public BaseListAdapterHelper setRecyclerAdapter(int viewId, RecyclerView.Adapter adapter) {
+    public ViewHelper setRecyclerAdapter(int viewId, RecyclerView.Adapter adapter) {
         ((RecyclerView) getView(viewId)).setAdapter(adapter);
         return this;
     }

@@ -5,8 +5,8 @@
 
     <Button
         android:id="@+id/btn_skip"
-        android:layout_width="72dp"
-        android:layout_height="36dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -14,7 +14,7 @@
         android:background="@drawable/btn_default_selector"
         android:text="@string/skip"
         android:textColor="@color/white"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
     <ProgressBar
         style="?android:progressBarStyle"

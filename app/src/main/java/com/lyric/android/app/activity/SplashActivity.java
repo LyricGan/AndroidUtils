@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.constants.Constants;
+import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.handler.WeakHandler;
 
 /**
