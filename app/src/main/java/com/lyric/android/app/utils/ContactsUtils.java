@@ -1,4 +1,4 @@
-package com.lyric.android.library.utils;
+package com.lyric.android.app.utils;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -12,32 +12,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lyric
+ * @author lyricgan
  * @description 联系人工具类
  * @time 2015/11/12 16:10
  */
 public class ContactsUtils {
     private static ContactsUtils mInstance;
+    private Context mContext;
 
-    public static synchronized ContactsUtils getInstance() {
+    private ContactsUtils(Context context) {
+        this.mContext = context.getApplicationContext();
+    }
+
+    public static synchronized ContactsUtils getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new ContactsUtils();
+            mInstance = new ContactsUtils(context);
         }
         return mInstance;
     }
 
     /**
      * 读取手机联系人列表
-     * @param ctx Context
      * @return List<ContactsEntity>
      */
-    public List<ContactsEntity> readContactsList(Context ctx) {
-        final Context context = ctx.getApplicationContext();
-        if (!checkContactPermission(context)) {
+    public List<ContactsEntity> readContactsList() {
+        if (!checkContactPermission(mContext)) {
             return null;
         }
         List<ContactsEntity> contactsEntityList = new ArrayList<>();
-        Cursor cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+        Cursor cursor = mContext.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
         int contactIdIndex;
         int nameIndex;
@@ -50,7 +53,7 @@ public class ContactsUtils {
                 String contactId = cursor.getString(contactIdIndex);
                 String name = cursor.getString(nameIndex);
                 // 查找联系人的电话信息
-                phoneCursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                phoneCursor = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
                 int phoneIndex;
                 if (phoneCursor != null && phoneCursor.getCount() > 0) {
@@ -88,16 +91,14 @@ public class ContactsUtils {
 
     /**
      * 读取手机联系人电话号码列表
-     * @param ctx Context
      * @return List<String>
      */
-    public List<String> readContactsMobileList(Context ctx) {
-        final Context context = ctx.getApplicationContext();
-        if (!checkContactPermission(context)) {
+    public List<String> readContactsMobileList() {
+        if (!checkContactPermission(mContext)) {
             return null;
         }
         List<String> phoneNumberList = new ArrayList<>();
-        ContentResolver resolver = context.getContentResolver();
+        ContentResolver resolver = mContext.getContentResolver();
         Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 ContactsContract.CommonDataKinds.Phone.TYPE + "=" + ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, null, null);
         int phoneIndex;

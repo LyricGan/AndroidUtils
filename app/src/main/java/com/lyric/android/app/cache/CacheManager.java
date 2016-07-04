@@ -1,9 +1,9 @@
-package com.lyric.android.library.cache;
+package com.lyric.android.app.cache;
 
 import java.util.HashMap;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description 缓存管理类，默认不做磁盘缓存
  * @time 16/1/17 下午9:36
  */

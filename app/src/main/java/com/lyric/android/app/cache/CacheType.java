@@ -1,7 +1,7 @@
-package com.lyric.android.library.cache;
+package com.lyric.android.app.cache;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description cache type
  * @time 16/1/17 下午10:41
  */

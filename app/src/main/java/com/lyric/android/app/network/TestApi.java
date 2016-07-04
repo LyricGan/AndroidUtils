@@ -1,13 +1,10 @@
-package com.lyric.android.app.api;
-
-import com.lyric.android.library.network.DataLoader;
-import com.lyric.android.library.network.ResponseCallback;
+package com.lyric.android.app.network;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author lyric
+ * @author lyricgan
  * @description
  * @time 2016/6/22 14:04
  */

@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
  * @time 2016/03/21 14:36
  */
 public class PreferencesUtils {
-    public static final String PREFERENCE_NAME = "Android_Utils";
+    public static final String PREFERENCE_NAME = "android_utils";
 
     private PreferencesUtils() {
         throw new AssertionError();

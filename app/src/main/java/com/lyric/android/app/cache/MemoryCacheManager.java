@@ -1,9 +1,9 @@
-package com.lyric.android.library.cache;
+package com.lyric.android.app.cache;
 
 import android.support.v4.util.LruCache;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description 内存缓存
  * @time 16/1/17 下午10:43
  */
