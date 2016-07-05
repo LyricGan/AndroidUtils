@@ -31,7 +31,6 @@ import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
             @Override
             public void takePhoto(PopupWindow window) {
-                AddPictureUtils.getInstance().takePhoto(MainActivity.this, AddPictureUtils.getInstance().getAvatarUri());
+                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
             }
 
             @Override
@@ -117,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
-        titles.add("Page One");
-        titles.add("Page Two");
+        titles.add("第一页");
+        titles.add("第二页");
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
         List<Fragment> fragments = new ArrayList<>();
@@ -177,26 +176,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final String avatarPath = AddPictureUtils.getInstance().getAvatarPath();
         final int size = DisplayUtils.dip2px(BaseApplication.getContext(), 72);
         switch (requestCode) {
             case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
                 if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Bitmap bitmap = AddPictureUtils.getInstance().getBitmap(avatarPath, size, size, avatarPath);
-                        if (bitmap == null) {
-                            return;
-                        }
-                        iv_user_avatar.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(size, size);
+                    if (bitmap == null) {
+                        return;
                     }
+                    iv_user_avatar.setImageBitmap(bitmap);
                 }
             }
                 break;
             case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
                 if (data != null && resultCode == Activity.RESULT_OK) {
-                    Bitmap bitmap = AddPictureUtils.getInstance().getBitmap(data, size, size, avatarPath);
+                    Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
                     if (bitmap == null) {
                         return;
                     }
