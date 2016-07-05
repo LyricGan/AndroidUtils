@@ -29,4 +29,10 @@
         <item name="android:fitsSystemWindows">false</item>
     </style>
 
+    <!-- 默认popupwindow动画 -->
+    <style name="PopupWindowAnimation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/base_slide_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/base_slide_bottom_out</item>
+    </style>
+
 </resources>

@@ -2,6 +2,7 @@ package com.lyric.android.library.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 视图工具类
@@ -395,5 +398,73 @@ public class ViewUtils {
         if (visibility != view.getVisibility()) {
             view.setVisibility(visibility);
         }
+    }
+
+    /**
+     * 获取虚拟按键栏高度
+     * @param context Context
+     * @return 虚拟按键栏高度
+     */
+    public static int getNavigationBarHeight(Context context) {
+        int height = 0;
+        if (isMeizu()) {
+            height = getMeizuBarHeight(context);
+        } else if (hasNavigationBar(context)) {
+            Resources resources = context.getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                height = resources.getDimensionPixelSize(resourceId);
+            }
+        }
+        return height;
+    }
+
+    public static boolean hasNavigationBar(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (resourceId != 0) {
+            boolean flag = resources.getBoolean(resourceId);
+            String sNavBarOverride = getNavBarOverride();
+            if ("1".equals(sNavBarOverride)) {
+                flag = false;
+            } else if ("0".equals(sNavBarOverride)) {
+                flag = true;
+            }
+            return flag;
+        } else {
+            return !ViewConfiguration.get(context).hasPermanentMenuKey();
+        }
+    }
+
+    private static String getNavBarOverride() {
+        String sNavBarOverride = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                Class c = Class.forName("android.os.SystemProperties");
+                Method m = c.getDeclaredMethod("get", String.class);
+                m.setAccessible(true);
+                sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+        return sNavBarOverride;
+    }
+
+    private static boolean isMeizu() {
+        return Build.BRAND.equals("Meizu");
+    }
+
+    private static int getMeizuBarHeight(Context context) {
+        try {
+            Class cls = Class.forName("com.android.internal.R$dimen");
+            Object obj = cls.newInstance();
+            Field field = cls.getField("mz_action_button_min_height");
+            int height = Integer.parseInt(field.get(obj).toString());
+            return context.getResources().getDimensionPixelSize(height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

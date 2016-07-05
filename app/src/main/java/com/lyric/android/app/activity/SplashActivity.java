@@ -33,6 +33,7 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
         setContentView(R.layout.activity_splash);
         Button btn_skip = (Button) findViewById(R.id.btn_skip);
 
+        btn_skip.setVisibility(View.GONE);
         btn_skip.setOnClickListener(this);
         mHandler.setCallback(this);
     }
