@@ -60,7 +60,7 @@ dependencies {
     compile dependencies.realm
     compile dependencies.picasso
     compile dependencies.glide
-//    compile dependencies.fresco
+    compile dependencies.fresco
     compile dependencies.stetho
     compile dependencies.stetho_okhttp
     compile dependencies.stetho_urlconnection
