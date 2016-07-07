@@ -6,6 +6,9 @@ import com.lyric.android.library.utils.LogUtils;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -113,6 +116,93 @@ public class HttpUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        return responseEntity;
+    }
+
+    public static ResponseEntity upload(String url, Map<String, String> params, Map<String, File> fileParams) {
+        String BOUNDARY = java.util.UUID.randomUUID().toString();
+        String CHARSET = "UTF-8";
+        String PREFIX = "--";
+        String LINE_END = "\r\n";
+        ResponseEntity responseEntity = new ResponseEntity();
+        responseEntity.url = url;
+        responseEntity.params = ParamsUtils.encodeParams(params, HttpConstants.UTF_8);
+        try {
+            URL requestUrl = new URL(url);
+            HttpURLConnection connection = createConnection(requestUrl);
+            connection.setConnectTimeout(HttpConstants.CONNECTION_TIMEOUT * 2);
+            connection.setReadTimeout(HttpConstants.CONNECTION_TIMEOUT * 2);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("connection", "keep-alive");
+            connection.setRequestProperty("Charset", CHARSET);
+            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY);
+            DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+            // 首先组拼文本类型的参数
+            StringBuilder textParamsBuilder = new StringBuilder();
+            if (params != null) {
+                for (Map.Entry<String, String> textEntry : params.entrySet()) {
+                    textParamsBuilder.append(PREFIX);
+                    textParamsBuilder.append(BOUNDARY);
+                    textParamsBuilder.append(LINE_END);
+                    textParamsBuilder.append("Content-Disposition: form-data; name=\"" + textEntry.getKey() + "\"" + LINE_END);
+                    textParamsBuilder.append("Content-Type: text/plain; charset=" + CHARSET + LINE_END);
+                    textParamsBuilder.append("Content-Transfer-Encoding: 8bit" + LINE_END);
+                    textParamsBuilder.append(LINE_END);
+                    textParamsBuilder.append(textEntry.getValue());
+                    textParamsBuilder.append(LINE_END);
+                }
+                dataOutputStream.write(textParamsBuilder.toString().getBytes());
+            }
+            InputStream inputStream = null;
+            // 发送文件数据
+            if (fileParams != null) {
+                StringBuilder fileParamsBuilder;
+                for (Map.Entry<String, File> file : fileParams.entrySet()) {
+                    fileParamsBuilder = new StringBuilder();
+                    fileParamsBuilder.append(PREFIX);
+                    fileParamsBuilder.append(BOUNDARY);
+                    fileParamsBuilder.append(LINE_END);
+                    fileParamsBuilder.append("Content-Disposition: form-data; name=\"" + file.getKey() + "\"; filename=\"" + file.getValue().getName() + "\"" + LINE_END);
+                    fileParamsBuilder.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
+                    fileParamsBuilder.append(LINE_END);
+
+                    dataOutputStream.write(fileParamsBuilder.toString().getBytes());
+                    InputStream is = new FileInputStream(file.getValue());
+                    byte[] buffer = new byte[1024];
+                    int len = -1;
+                    while ((len = is.read(buffer)) != -1) {
+                        dataOutputStream.write(buffer, 0, len);
+                    }
+                    is.close();
+                    dataOutputStream.write(LINE_END.getBytes());
+                }
+            }
+            // 请求结束标志
+            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END).getBytes();
+            dataOutputStream.write(end_data);
+            dataOutputStream.flush();
+
+            int responseCode = connection.getResponseCode();
+            // 判断请求是否成功
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                inputStream = connection.getInputStream();
+                int len;
+                StringBuilder responseBuilder = new StringBuilder();
+                while ((len = inputStream.read()) != -1) {
+                    responseBuilder.append((char) len);
+                }
+                responseEntity.response = responseBuilder.toString();
+            }
+            responseEntity.responseCode = responseCode;
+            dataOutputStream.close();
+            connection.disconnect();
+        } catch (IOException e) {
+            responseEntity.responseCode = HttpConstants.EXCEPTION;
+            responseEntity.response = e.getMessage();
         }
         return responseEntity;
     }

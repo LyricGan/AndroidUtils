@@ -1,5 +1,6 @@
 package com.lyric.android.app.network;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public class DataLoader<T> {
     private Method mMethod;
     private String mUrl;
     private Map<String, String> mParams;
+    private Map<String, File> mFileParams;
     private Type mType;
     private ResponseCallback<T> mCallback;
     private Request<T> mRequest;
@@ -21,9 +23,14 @@ public class DataLoader<T> {
     }
 
     public DataLoader(Method method, String url, Map<String, String> params, Type type, ResponseCallback<T> callback) {
+        this(method, url, params, null, type, callback);
+    }
+
+    public DataLoader(Method method, String url, Map<String, String> params, Map<String, File> fileParams, Type type, ResponseCallback<T> callback) {
         this.mMethod = method;
         this.mUrl = url;
         this.mParams = params;
+        this.mFileParams = fileParams;
         this.mType = type;
         this.mCallback = callback;
     }
@@ -33,7 +40,7 @@ public class DataLoader<T> {
     }
 
     public void load(boolean isRefresh) {
-        mRequest = new Request<>(mMethod, mUrl, mParams, mType, mCallback);
+        mRequest = new Request<>(mMethod, mUrl, mParams, mFileParams, mType, mCallback);
         mRequest.execute(isRefresh);
     }
 

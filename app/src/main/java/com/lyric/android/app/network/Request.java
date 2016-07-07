@@ -2,8 +2,7 @@ package com.lyric.android.app.network;
 
 import android.os.Message;
 
-import com.google.gson.Gson;
-
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -18,15 +17,20 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
     private Method mMethod;
     private String mUrl;
     private Map<String, String> mParams;
+    private Map<String, File> mFileParams;
     private ResponseCallback<T> mCallback;
     private HttpHandler mHandler = new HttpHandler<>(this);
-    private Gson mGson = new Gson();
     private Type mType;
 
     public Request(Method method, String url, Map<String, String> params, Type type, ResponseCallback<T> callback) {
+        this(method, url, params, null, type, callback);
+    }
+
+    public Request(Method method, String url, Map<String, String> params, Map<String, File> fileParams, Type type, ResponseCallback<T> callback) {
         this.mMethod = method;
         this.mUrl = url;
         this.mParams = params;
+        this.mFileParams = fileParams;
         this.mCallback = callback;
         this.mType = type;
         this.mHandler.setCallback(this);
@@ -42,13 +46,15 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
             responseEntity = HttpUtils.get(mUrl, mParams, isRefresh);
         } else if (Method.POST == mMethod) {
             responseEntity = HttpUtils.post(mUrl, mParams, isRefresh);
+        } else if (Method.UPLOAD == mMethod) {
+            responseEntity = HttpUtils.upload(mUrl, mParams, mFileParams);
         } else {
             throw new IllegalArgumentException("Request method error.");
         }
         return responseEntity;
     }
 
-    // 未实现线程池管理,待优化
+    // 未实现线程池管理，待完善...
     public void execute(final boolean isRefresh) {
         String threadName = "execute_net_thread_" + System.currentTimeMillis();
         new Thread(new Runnable() {
@@ -62,13 +68,7 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
     private void processResponse(ResponseEntity responseEntity) {
         if (responseEntity.isSuccess()) {
             String response = responseEntity.response;
-            T result;
-            // 字符串直接返回，不做序列化处理
-            if (String.class.getClass().equals(mType.getClass())) {
-                result = (T) response;
-            } else {
-                result = mGson.fromJson(response, mType);
-            }
+            T result = Converter.getInstance().convert(response, mType);
             Message msg = mHandler.obtainMessage(MESSAGE_SUCCESS);
             msg.obj = result;
             mHandler.sendMessage(msg);
@@ -95,7 +95,8 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         }
     }
 
+    // 待实现...
     public void cancel() {
-        // 待实现...
+
     }
 }
