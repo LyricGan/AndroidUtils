@@ -19,27 +19,26 @@ class ImageFactory {
     private static final int MAX_DISK_CACHE_SIZE = 50 * ByteConstants.MB;
     private static final int MAX_MEMORY_CACHE_SIZE = MAX_HEAP_SIZE / 5;
     private static final String IMAGE_PIPELINE_CACHE_DIR_CHILD = "image_cache_dir";
-    private static ImagePipelineConfig sImagePipelineConfig;
+    private static ImagePipelineConfig mImagePipelineConfig;
+
+    private ImageFactory() {
+    }
 
     public static ImagePipelineConfig getImagePipelineConfig(Context context) {
-        if (sImagePipelineConfig == null) {
+        if (mImagePipelineConfig == null) {
             ImagePipelineConfig.Builder configBuilder = ImagePipelineConfig.newBuilder(context);
             configureCaches(configBuilder, context);
-            sImagePipelineConfig = configBuilder.build();
+            mImagePipelineConfig = configBuilder.build();
         }
-        return sImagePipelineConfig;
+        return mImagePipelineConfig;
     }
 
     private static void configureCaches(ImagePipelineConfig.Builder configBuilder, Context context) {
         Supplier<MemoryCacheParams> bitmapMemoryCacheParamsSupplier = new Supplier<MemoryCacheParams>() {
             @Override
             public MemoryCacheParams get() {
-                return new MemoryCacheParams(
-                        MAX_MEMORY_CACHE_SIZE, // Max total size of elements in the cache
-                        Integer.MAX_VALUE,                     // Max entries in the cache
-                        MAX_MEMORY_CACHE_SIZE, // Max total size of elements in eviction queue
-                        Integer.MAX_VALUE,                     // Max length of eviction queue
-                        Integer.MAX_VALUE);                    // Max cache entry size;
+                return new MemoryCacheParams(MAX_MEMORY_CACHE_SIZE, Integer.MAX_VALUE,
+                        MAX_MEMORY_CACHE_SIZE, Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
         };
         DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(context)
@@ -47,8 +46,7 @@ class ImageFactory {
                 .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR_CHILD)
                 .setMaxCacheSize(MAX_DISK_CACHE_SIZE)
                 .build();
-        configBuilder
-                .setBitmapMemoryCacheParamsSupplier(bitmapMemoryCacheParamsSupplier)
+        configBuilder.setBitmapMemoryCacheParamsSupplier(bitmapMemoryCacheParamsSupplier)
                 .setMainDiskCacheConfig(diskCacheConfig)
                 .setDownsampleEnabled(true);
     }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import com.facebook.stetho.Stetho;
 import com.lyric.android.app.R;
+import com.lyric.android.app.fresco.ImageHelper;
 import com.lyric.android.library.utils.LogUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -39,6 +40,7 @@ public class BaseApplication extends Application {
         LogUtils.setDebug(Constants.DEBUG);
         initRefWatcher(Constants.LEAK_DEBUG);
         initializeStetho(Constants.DEBUG);
+        ImageHelper.getInstance().initialize(this);
 	}
 
 	public static BaseApplication getContext() {
