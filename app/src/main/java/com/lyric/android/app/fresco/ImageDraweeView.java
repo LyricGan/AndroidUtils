@@ -17,6 +17,7 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApplication;
 import com.lyric.android.library.utils.DisplayUtils;
 
@@ -78,8 +79,16 @@ public class ImageDraweeView extends SimpleDraweeView {
         getHierarchy().setPlaceholderImage(resId);
     }
 
-    private Uri formateUri(String url) {
+    public void setImageScaleType(ImageScaleType scaleType) {
+        getHierarchy().setActualImageScaleType(scaleType);
+    }
+
+    private Uri formatUri(String url) {
         return url.startsWith("http://") || url.startsWith("https://") ? Uri.parse(url) : Uri.fromFile(new File(url));
+    }
+
+    private int getDefaultResId() {
+        return R.mipmap.ic_launcher;
     }
 
     public void setRoundImageUrl(String url, int resId) {
@@ -87,17 +96,19 @@ public class ImageDraweeView extends SimpleDraweeView {
         setImageUrl(url, resId);
     }
 
-    public void setImageUrl(String url, int resId) {
-        setPlaceholderImage(resId);
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setLowResImageRequest(ImageRequest.fromUri(formateUri(url)))
-                .setImageRequest(ImageRequest.fromUri(formateUri(url)))
-                .setOldController(getController())
-                .build();
-        this.setController(controller);
+    public void setImageUrl(String url) {
+        setImageUrl(url, getDefaultResId());
     }
 
-    public void setImageUrl(String url, int resId, final OnImageLoadListener listener) {
+    public void setImageUrl(String url, int resId) {
+        setImageUrl(url, resId, null);
+    }
+
+    public void setImageUrl(String url, int resId, ImageScaleType scaleType) {
+        setImageUrl(url, resId, scaleType, null);
+    }
+
+    public void setImageUrl(String url, int resId, ImageScaleType scaleType, final OnImageLoadListener listener) {
         ControllerListener<ImageInfo> controllerListener = new BaseControllerListener<ImageInfo>() {
             @Override
             public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable anim) {
@@ -119,8 +130,12 @@ public class ImageDraweeView extends SimpleDraweeView {
             }
         };
         setPlaceholderImage(resId);
+        if (scaleType != null) {
+            setImageScaleType(scaleType);
+        }
         DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setUri(formateUri(url))
+                .setLowResImageRequest(ImageRequest.fromUri(formatUri(url)))
+                .setImageRequest(ImageRequest.fromUri(formatUri(url)))
                 .setTapToRetryEnabled(true)
                 .setOldController(getController())
                 .setControllerListener(controllerListener)
