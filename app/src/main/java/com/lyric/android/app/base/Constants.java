@@ -12,7 +12,7 @@ import com.lyric.android.app.BuildConfig;
 public interface Constants {
     boolean DEBUG = BuildConfig.LOG_DEBUG;
     boolean LEAK_DEBUG = false;
-    String TAG_LOG = "AndroidUtils";
+    String TAG_DEFAULT = "AndroidUtils";
 
 	/**
 	 * 编码格式

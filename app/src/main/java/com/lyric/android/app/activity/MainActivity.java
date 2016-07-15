@@ -25,11 +25,13 @@ import android.widget.Toast;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
+import com.lyric.android.library.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,5 +210,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AddPictureUtils.getInstance().destroy();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        // 当GC准备回收一个Java Object（所有Java对象都是Object的子类）的时候，GC会调用这个Object的finalize方法。
+        super.finalize();
+        // 可用来测试内存泄漏
+        LogUtils.d(Constants.TAG_DEFAULT, "Activity has been recycled.");
     }
 }
