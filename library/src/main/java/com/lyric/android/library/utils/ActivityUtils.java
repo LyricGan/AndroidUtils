@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -50,6 +51,14 @@ public class ActivityUtils {
                 ((Activity) context).startActivityForResult(intent, requestCode);
             }
         }
+    }
+
+    public static void jumpActivityForResult(Fragment fragment, Class<? extends Activity> cls, Bundle bundle, int requestCode) {
+        Intent intent = new Intent(fragment.getContext(), cls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        fragment.startActivityForResult(intent, requestCode, bundle);
     }
 
     public static void jumpActivity(Context context, String action) {

@@ -1,8 +1,6 @@
 package com.lyric.android.library.utils;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 
 import java.util.Stack;
 
@@ -15,18 +13,12 @@ import java.util.Stack;
  */
 public class ActivityStackUtils {
 	private static Stack<Activity> mActivityStack;
-	private static ActivityStackUtils mInstance;
+	private static final ActivityStackUtils mInstance = new ActivityStackUtils();
 
 	private ActivityStackUtils() {
 	}
 
-	/**
-	 * 单实例 , UI无需考虑多线程同步问题
-	 */
-	public static ActivityStackUtils init() {
-		if (mInstance == null) {
-			mInstance = new ActivityStackUtils();
-		}
+	public static ActivityStackUtils getInstance() {
 		return mInstance;
 	}
 
@@ -121,16 +113,5 @@ public class ActivityStackUtils {
 			}
 		}
 		mActivityStack.clear();
-	}
-
-	/**
-	 * 退出应用程序
-	 * @param context Context
-	 */
-	public void exit(Context context) {
-		finishAllActivity();
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		activityManager.killBackgroundProcesses(context.getPackageName());
-		System.exit(0);
 	}
 }
