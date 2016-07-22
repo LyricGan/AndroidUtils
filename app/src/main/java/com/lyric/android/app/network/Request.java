@@ -21,6 +21,7 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
     private ResponseCallback<T> mCallback;
     private HttpHandler mHandler = new HttpHandler<>(this);
     private Type mType;
+    private Dispatcher mDispatcher;
 
     public Request(Method method, String url, Map<String, String> params, Type type, ResponseCallback<T> callback) {
         this(method, url, params, null, type, callback);
@@ -36,11 +37,11 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         this.mHandler.setCallback(this);
     }
 
-    public ResponseEntity executeSync() {
+    public ResponseEntity executeSync() throws InterruptedException {
         return executeSync(true);
     }
 
-    public ResponseEntity executeSync(boolean isRefresh) {
+    public ResponseEntity executeSync(boolean isRefresh) throws InterruptedException {
         ResponseEntity responseEntity;
         if (Method.GET == mMethod) {
             responseEntity = HttpUtils.get(mUrl, mParams, isRefresh);
@@ -54,18 +55,12 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         return responseEntity;
     }
 
-    // 未实现线程池管理，待完善...
     public void execute(final boolean isRefresh) {
-        String threadName = "execute_net_thread_" + System.currentTimeMillis();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                processResponse(executeSync(isRefresh));
-            }
-        }, threadName).start();
+        mDispatcher = new Dispatcher(this, isRefresh);
+        mDispatcher.start();
     }
 
-    private void processResponse(ResponseEntity responseEntity) {
+    protected void processResponse(ResponseEntity responseEntity) {
         if (responseEntity.isSuccess()) {
             String response = responseEntity.response;
             T result = Converter.getInstance().convert(response, mType);
@@ -95,8 +90,9 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         }
     }
 
-    // 待实现...
     public void cancel() {
-
+        if (mDispatcher != null) {
+            mDispatcher.cancel();
+        }
     }
 }

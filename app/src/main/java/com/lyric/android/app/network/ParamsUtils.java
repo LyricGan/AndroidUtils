@@ -9,8 +9,8 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 /**
- * @author 请求参数工具类
- * @description
+ * @author lyricgan
+ * @description 请求参数工具类
  * @time 2016/6/22 16:49
  */
 public class ParamsUtils {
