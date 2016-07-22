@@ -148,9 +148,12 @@ public class HttpUtils {
                     textParamsBuilder.append(PREFIX);
                     textParamsBuilder.append(BOUNDARY);
                     textParamsBuilder.append(LINE_END);
-                    textParamsBuilder.append("Content-Disposition: form-data; name=\"" + textEntry.getKey() + "\"" + LINE_END);
-                    textParamsBuilder.append("Content-Type: text/plain; charset=" + CHARSET + LINE_END);
-                    textParamsBuilder.append("Content-Transfer-Encoding: 8bit" + LINE_END);
+                    textParamsBuilder.append("Content-Disposition: form-data; name=\"").append(textEntry.getKey()).append("\"");
+                    textParamsBuilder.append(LINE_END);
+                    textParamsBuilder.append("Content-Type: text/plain; charset=").append(CHARSET);
+                    textParamsBuilder.append(LINE_END);
+                    textParamsBuilder.append("Content-Transfer-Encoding: 8bit");
+                    textParamsBuilder.append(LINE_END);
                     textParamsBuilder.append(LINE_END);
                     textParamsBuilder.append(textEntry.getValue());
                     textParamsBuilder.append(LINE_END);
@@ -166,8 +169,11 @@ public class HttpUtils {
                     fileParamsBuilder.append(PREFIX);
                     fileParamsBuilder.append(BOUNDARY);
                     fileParamsBuilder.append(LINE_END);
-                    fileParamsBuilder.append("Content-Disposition: form-data; name=\"" + file.getKey() + "\"; filename=\"" + file.getValue().getName() + "\"" + LINE_END);
-                    fileParamsBuilder.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
+                    fileParamsBuilder.append("Content-Disposition: form-data; name=\"").append(file.getKey());
+                    fileParamsBuilder.append("\"; filename=\"").append(file.getValue().getName()).append("\"");
+                    fileParamsBuilder.append(LINE_END);
+                    fileParamsBuilder.append("Content-Type: application/octet-stream; charset=").append(CHARSET);
+                    fileParamsBuilder.append(LINE_END);
                     fileParamsBuilder.append(LINE_END);
 
                     dataOutputStream.write(fileParamsBuilder.toString().getBytes());
