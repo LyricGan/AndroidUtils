@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.utils.cache;
 
 import java.io.File;
 import java.util.Collections;

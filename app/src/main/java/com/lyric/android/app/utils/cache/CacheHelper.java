@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.utils;
+package com.lyric.android.app.utils.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -49,8 +49,8 @@ import java.util.Map;
  */
 public class CacheHelper {
     private static final String DEFAULT_CACHE_NAME = "CacheHelper";
-    private static final int MAX_SIZE = 1000 * 1000 * 50; // 50 mb
-    private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
+    private static final int MAX_SIZE = 1000 * 1000 * 50;// 50 mb
+    private static final int MAX_COUNT = Integer.MAX_VALUE;// 不限制存放数据的数量
     private static Map<String, CacheHelper> mInstanceMap = new HashMap<>();
     private CacheManager mCacheManager;
 

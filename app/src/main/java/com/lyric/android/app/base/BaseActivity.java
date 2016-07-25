@@ -22,6 +22,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         onViewCreate(savedInstanceState);
         injectStatusBar();
@@ -29,6 +30,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 
     @Override
     public abstract void onViewCreate(Bundle savedInstanceState);
+
+    @Override
+    public void onPrepareCreate(Bundle savedInstanceState) {
+    }
 
     @Override
     public void onViewClick(View v) {
@@ -106,9 +111,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     private void hideKeyboard(IBinder token) {
-        if (token != null) {
-            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (token == null) {
+            return;
         }
+        InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

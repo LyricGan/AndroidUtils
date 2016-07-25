@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.utils.cache;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

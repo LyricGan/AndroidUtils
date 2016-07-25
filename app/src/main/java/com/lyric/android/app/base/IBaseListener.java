@@ -11,6 +11,12 @@ import android.view.View;
  */
 public interface IBaseListener {
 
+    /**
+     * 在super.onCreate()之前调用
+     * @param savedInstanceState bundles
+     */
+    void onPrepareCreate(Bundle savedInstanceState);
+
 	/**
 	 * 初始化布局界面
 	 * @param savedInstanceState bundles

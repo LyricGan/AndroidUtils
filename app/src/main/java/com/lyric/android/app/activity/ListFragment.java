@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.lyric.android.app.R;
 
 public class ListFragment extends Fragment {
-
     private RecyclerView mRecyclerView;
 
     @Override

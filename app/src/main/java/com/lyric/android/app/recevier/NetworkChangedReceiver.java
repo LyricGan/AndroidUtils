@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class NetworkChangedReceiver extends BroadcastReceiver {
     private static final String TAG = NetworkChangedReceiver.class.getSimpleName();
-    public static IntentFilter sIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    private static IntentFilter mIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
     private static NetworkChangedReceiver mInstance;
     private List<NetStateChangedListener> mListeners;
 
@@ -32,11 +32,12 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
     }
 
     public interface NetStateChangedListener {
-        void onNetStateChanged(NetState state);
+
+        void onChanged(NetState state);
     }
 
     private NetworkChangedReceiver() {
-        mListeners = new ArrayList<NetStateChangedListener>();
+        mListeners = new ArrayList<>();
     }
 
     public static NetworkChangedReceiver getInstance() {
@@ -47,7 +48,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
     }
 
     public void register(Context context) {
-        context.registerReceiver(this, sIntentFilter);
+        context.registerReceiver(this, mIntentFilter);
     }
 
     public void unregister(Context context) {
@@ -68,7 +69,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
         mListeners.add(listener);
     }
 
-    public void remoteNetStateChangeListener(NetStateChangedListener listener) {
+    public void removeNetStateChangeListener(NetStateChangedListener listener) {
         if (listener == null) {
             return;
         }
@@ -84,7 +85,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         for (NetStateChangedListener listener : mListeners) {
-            listener.onNetStateChanged(getCurrentNetState(context));
+            listener.onChanged(getCurrentNetState(context));
         }
     }
 
@@ -135,7 +136,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
 
     private NetStateChangedListener mInnerStateChangedListener = new NetStateChangedListener() {
         @Override
-        public void onNetStateChanged(NetState state) {
+        public void onChanged(NetState state) {
             switch (state) {
                 case NET_NO: // 断网
                     break;
