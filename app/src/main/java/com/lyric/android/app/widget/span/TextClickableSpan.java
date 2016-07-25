@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.span;
+package com.lyric.android.app.widget.span;
 
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;

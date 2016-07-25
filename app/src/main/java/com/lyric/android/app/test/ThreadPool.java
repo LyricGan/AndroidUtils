@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description
  * @time 2016/1/27 17:01
  */

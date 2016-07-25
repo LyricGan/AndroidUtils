@@ -1,11 +1,14 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.utils;
 
 /**
  * @author ganyu
- * @description 排序测试类
+ * @description 排序算法
  * @time 2016/1/19 13:15
  */
-public class SortTest {
+public class SortAlgorithm {
+
+    private SortAlgorithm() {
+    }
 
     /**
      * 冒泡排序
@@ -134,5 +137,4 @@ public class SortTest {
         }
         return -1;
     }
-
 }

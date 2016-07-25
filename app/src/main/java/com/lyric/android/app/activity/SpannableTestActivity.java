@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
-import com.lyric.android.app.test.span.SpanTextUtils;
+import com.lyric.android.app.widget.span.SpanTextUtils;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.KeywordUtils;
 

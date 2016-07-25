@@ -4,7 +4,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description 对象池
  * @time 2016/1/27 17:52
  */

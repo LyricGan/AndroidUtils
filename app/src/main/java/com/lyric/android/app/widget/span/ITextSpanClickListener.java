@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.span;
+package com.lyric.android.app.widget.span;
 
 /**
  * @author lyric
