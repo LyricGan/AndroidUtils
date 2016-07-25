@@ -1,5 +1,10 @@
 package com.lyric.android.app.test;
 
+import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.network.DefaultCallback;
+import com.lyric.android.app.network.TestApi;
+import com.lyric.android.library.utils.LogUtils;
+
 /**
  * @author lyricgan
  * @description
@@ -20,5 +25,12 @@ public class Test {
 
     public void test() {
         ExecutorsTest.start();
+
+        TestApi.getInstance().queryNews("top", new DefaultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                LogUtils.e(Constants.TAG_DEFAULT, "response:" + response);
+            }
+        });
     }
 }

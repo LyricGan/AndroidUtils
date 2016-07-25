@@ -10,6 +10,7 @@ public class Dispatcher extends Thread {
     private boolean mIsRefresh;
     private boolean mCancel;
     private boolean mRunning = true;
+    private String mTag;
 
     public Dispatcher(Request request, boolean isRefresh) {
         this.mRequest = request;
@@ -35,6 +36,14 @@ public class Dispatcher extends Thread {
             }
             mRunning = false;
         }
+    }
+
+    public void setTag(String tag) {
+        this.mTag = tag;
+    }
+
+    public String getTag() {
+        return mTag;
     }
 
     public void cancel() {
