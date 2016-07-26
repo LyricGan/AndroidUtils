@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.App;
-import com.lyric.android.app.mvvm.model.Api;
+import com.lyric.android.app.mvvm.model.ApiFactory;
 import com.lyric.android.app.mvvm.model.Repository;
 import com.lyric.android.app.mvvm.model.User;
 import com.lyric.android.library.utils.LogUtils;
@@ -35,7 +35,8 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
     private OnActionListener mActionListener;
 
     public interface OnActionListener {
-        void startLogin();
+
+        void showLoading();
 
         void loginSuccess(User user);
 
@@ -69,22 +70,24 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
                 login(userName, password);
             }
                 break;
+            default:
+                break;
         }
     }
 
     private void login(String userName, String password) {
-        mActionListener.startLogin();
+        mActionListener.showLoading();
         LogUtils.d(TAG, "userName:" + userName + ",password:" + password);
         userName = "lyricgan";
 
-        Api.getUserApi().getRepositoryList(userName)
+        ApiFactory.getUserApi().getRepositoryList(userName)
                 .flatMap(new Func1<List<Repository>, Observable<User>>() {
                     @Override
                     public Observable<User> call(List<Repository> repositories) {
                         if (repositories != null && !repositories.isEmpty()) {
                             Repository repository = repositories.get(0);
                             if (repository.owner != null) {
-                                return Api.getUserApi().getUserDetails(repository.owner.url);
+                                return ApiFactory.getUserApi().getUserDetails(repository.owner.url);
                             }
                         }
                         return null;
@@ -162,6 +165,5 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
 
     @Override
     public void destroy() {
-
     }
 }

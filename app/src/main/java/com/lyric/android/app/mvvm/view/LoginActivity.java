@@ -32,7 +32,7 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     }
 
     @Override
-    public void startLogin() {
+    public void showLoading() {
         showLoadingDialog("正在登录...");
     }
 

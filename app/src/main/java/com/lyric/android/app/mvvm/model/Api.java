@@ -12,11 +12,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author lyric
- * @description
+ * @description network api
  * @time 2016/6/3 11:41
  */
 public class Api {
-    private static final String BASE_URL = "https://api.github.com/";;
+    private static final String BASE_URL = "https://api.github.com/";
     private static Api mInstance;
     private static Retrofit mRetrofit;
 
@@ -24,7 +24,7 @@ public class Api {
         initialize(BASE_URL);
     }
 
-    private static synchronized Api getInstance() {
+    public static synchronized Api getInstance() {
         if (mInstance == null) {
             mInstance = new Api();
         }
@@ -52,14 +52,10 @@ public class Api {
         return mRetrofit;
     }
 
-    private <T> T build(Class<T> cls) {
+    public <T> T build(Class<T> cls) {
         if (getRetrofit() == null) {
             throw new NullPointerException("initialized failed.");
         }
         return getRetrofit().create(cls);
-    }
-
-    public static UserApi getUserApi() {
-        return Api.getInstance().build(UserApi.class);
     }
 }
