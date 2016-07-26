@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
-import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.App;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final int size = DisplayUtils.dip2px(BaseApplication.getContext(), 72);
+        final int size = DisplayUtils.dip2px(App.getContext(), 72);
         switch (requestCode) {
             case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
                 if (resultCode == Activity.RESULT_OK) {

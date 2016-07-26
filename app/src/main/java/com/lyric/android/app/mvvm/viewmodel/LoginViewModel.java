@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.App;
 import com.lyric.android.app.mvvm.model.Api;
 import com.lyric.android.app.mvvm.model.Repository;
 import com.lyric.android.app.mvvm.model.User;
@@ -156,7 +156,7 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
 //    }
 
     private void hideSoftKeyboard() {
-        InputMethodManager imm = (InputMethodManager) BaseApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edit_user_name.getWindowToken(), 0);
     }
 

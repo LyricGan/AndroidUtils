@@ -13,8 +13,13 @@ public class CheckUtils {
     }
 
     public static void checkContext(Context context) {
-        if (context == null) {
-            throw new NullPointerException("context can not be null.");
+        checkNotNull(context, "context == null");
+    }
+
+    public static <T> T checkNotNull(T object, String message) {
+        if (object == null) {
+            throw new NullPointerException(message);
         }
+        return object;
     }
 }

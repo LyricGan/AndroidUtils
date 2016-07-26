@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.App;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.mvvm.model.User;
 import com.lyric.android.app.mvvm.viewmodel.LoginViewModel;
@@ -39,14 +39,14 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     @Override
     public void loginSuccess(User user) {
         hideLoadingDialog();
-        ToastUtils.showShort(BaseApplication.getContext(), "登录成功，欢迎回来 " + user.name);
+        ToastUtils.showShort(App.getContext(), "登录成功，欢迎回来 " + user.name);
         finish();
     }
 
     @Override
     public void loginFailed() {
         hideLoadingDialog();
-        ToastUtils.showShort(BaseApplication.getContext(), "登录失败");
+        ToastUtils.showShort(App.getContext(), "登录失败");
     }
 
     @Override

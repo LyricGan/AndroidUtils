@@ -1,6 +1,6 @@
 package com.lyric.android.app.realm;
 
-import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.App;
 import com.lyric.android.app.realm.entity.RealmNewsEntity;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class NewsManager extends AbstractManager<RealmNewsEntity> {
     private static NewsManager mInstance;
 
     private NewsManager() {
-        super(BaseApplication.getContext());
+        super(App.getContext());
     }
 
     public static NewsManager getInstance() {

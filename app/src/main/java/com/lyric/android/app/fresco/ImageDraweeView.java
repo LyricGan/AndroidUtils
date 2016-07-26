@@ -18,7 +18,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApplication;
+import com.lyric.android.app.base.App;
 import com.lyric.android.library.utils.DisplayUtils;
 
 import java.io.File;
@@ -34,9 +34,9 @@ public class ImageDraweeView extends SimpleDraweeView {
     public static final int MAX_SIZE;
 
     static {
-        SMALL_SIZE = DisplayUtils.dip2px(BaseApplication.getContext(), 72);
-        MIDDLE_SIZE = DisplayUtils.dip2px(BaseApplication.getContext(), 144);
-        MAX_SIZE = DisplayUtils.dip2px(BaseApplication.getContext(), 256);
+        SMALL_SIZE = DisplayUtils.dip2px(App.getContext(), 72);
+        MIDDLE_SIZE = DisplayUtils.dip2px(App.getContext(), 144);
+        MAX_SIZE = DisplayUtils.dip2px(App.getContext(), 256);
     }
 
     public interface OnImageLoadListener {

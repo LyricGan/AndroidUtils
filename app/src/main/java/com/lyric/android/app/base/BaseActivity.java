@@ -82,7 +82,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(BaseApplication.getContext(), R.color.color_title_bar_bg));
+        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(App.getContext(), R.color.color_title_bar_bg));
     }
 
     @Override
