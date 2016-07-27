@@ -64,9 +64,15 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         if (responseEntity.isSuccess()) {
             String response = responseEntity.response;
             T result = Converter.getInstance().convert(response, mType);
-            Message msg = mHandler.obtainMessage(MESSAGE_SUCCESS);
-            msg.obj = result;
-            mHandler.sendMessage(msg);
+            if (result != null) {
+                Message msg = mHandler.obtainMessage(MESSAGE_SUCCESS);
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            } else {
+                Message msg = mHandler.obtainMessage(MESSAGE_FAILED);
+                msg.obj = responseEntity;
+                mHandler.sendMessage(msg);
+            }
         } else {
             Message msg = mHandler.obtainMessage(MESSAGE_FAILED);
             msg.obj = responseEntity;
