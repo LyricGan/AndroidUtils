@@ -44,13 +44,13 @@ dependencies {
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
     compile dependencies.rxAndroid
-    //    compile dependencies.swipelayout
-    //    compile dependencies.guava
-    //    compile dependencies.androidcommon
-    //    compile dependencies.xutils
-    //    compile dependencies.ion
+//    compile dependencies.swipelayout
+//    compile dependencies.guava
+//    compile dependencies.androidcommon
+//    compile dependencies.xutils
+//    compile dependencies.ion
 //    compile dependencies.quickutils
-    //    compile dependencies.disklrucache
+//    compile dependencies.disklrucache
     debugCompile dependencies.leakcanarydebug
     releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
@@ -64,5 +64,4 @@ dependencies {
     compile dependencies.stetho
     compile dependencies.stetho_okhttp
     compile dependencies.stetho_urlconnection
-    compile files('libs/universal-image-loader-1.9.1.jar')
 }

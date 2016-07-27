@@ -14,110 +14,92 @@ import android.widget.Toast;
  */
 public class ToastUtils {
 	private static Handler mHandler = new Handler(Looper.getMainLooper());
-	private static Toast mToast = null;
-	private static final Object mSynObject = new Object();
+    private static Toast mToast = null;
+    private static final Object mSynObject = new Object();
 
     private ToastUtils() {
     }
 
-	/**
-	 * Toast发送消息，默认Toast.LENGTH_SHORT
-	 * @param context Context
-	 * @param message 消息
-	 */
-	public static void showShort(final Context context, final String message) {
-		showMessage(context, message, Toast.LENGTH_SHORT);
-	}
-
-	/**
-	 * Toast发送消息，默认Toast.LENGTH_LONG
-	 * @param context Context
+    /**
+     * Toast发送消息，默认Toast.LENGTH_SHORT
+     * @param context Context
      * @param message 消息
-	 */
-	public static void showLong(final Context context, final String message) {
-		showMessage(context, message, Toast.LENGTH_LONG);
-	}
+     */
+    public static void showShort(final Context context, final String message) {
+        showMessage(context, message, Toast.LENGTH_SHORT);
+    }
 
-	/**
-	 * Toast发送消息，默认Toast.LENGTH_SHORT
-	 * @param context Context
-	 * @param messageId 消息文本资源ID
-	 */
-	public static void showShort(final Context context, final int messageId) {
-		showMessage(context, messageId, Toast.LENGTH_SHORT);
-	}
+    /**
+     * Toast发送消息，默认Toast.LENGTH_LONG
+     * @param context Context
+     * @param message 消息
+     */
+    public static void showLong(final Context context, final String message) {
+        showMessage(context, message, Toast.LENGTH_LONG);
+    }
 
-	/**
-	 * Toast发送消息，默认Toast.LENGTH_LONG
-	 * @param context Context
+    /**
+     * Toast发送消息，默认Toast.LENGTH_SHORT
+     * @param context Context
      * @param messageId 消息文本资源ID
-	 */
-	public static void showLong(final Context context, final int messageId) {
-		showMessage(context, messageId, Toast.LENGTH_LONG);
-	}
+     */
+    public static void showShort(final Context context, final int messageId) {
+        showMessage(context, messageId, Toast.LENGTH_SHORT);
+    }
 
-	/**
-	 * Toast发送消息
-	 * @param context Context
+    /**
+     * Toast发送消息，默认Toast.LENGTH_LONG
+     * @param context Context
      * @param messageId 消息文本资源ID
-	 * @param duration 持续时间
-	 */
-	private static void showMessage(final Context context, final int messageId, final int duration) {
-		new Thread(new Runnable() {
-			public void run() {
-				mHandler.post(new Runnable() {
+     */
+    public static void showLong(final Context context, final int messageId) {
+        showMessage(context, messageId, Toast.LENGTH_LONG);
+    }
 
-					@Override
-					public void run() {
-						synchronized (mSynObject) {
-							if (mToast != null) {
-								mToast.setText(messageId);
-								mToast.setDuration(duration);
-							} else {
-								mToast = Toast.makeText(context, messageId, duration);
-							}
-							mToast.show();
-						}
-					}
-				});
-			}
-		}).start();
-	}
+    /**
+     * Toast发送消息
+     * @param context Context
+     * @param messageId 消息文本资源ID
+     * @param duration 持续时间
+     */
+    private static void showMessage(final Context context, final int messageId, final int duration) {
+        showMessage(context, context.getString(messageId), duration);
+    }
 
-	/**
-	 * Toast发送消息
-	 * @param context Context
-	 * @param message 消息
-	 * @param duration 持续时间
-	 */
-	private static void showMessage(final Context context, final String message, final int duration) {
-		new Thread(new Runnable() {
-			public void run() {
-				mHandler.post(new Runnable() {
+    /**
+     * Toast发送消息
+     * @param context Context
+     * @param message 消息
+     * @param duration 持续时间
+     */
+    private static void showMessage(final Context context, final String message, final int duration) {
+        new Thread(new Runnable() {
+            public void run() {
+                mHandler.post(new Runnable() {
 
-					@Override
-					public void run() {
-						synchronized (mSynObject) {
-							if (mToast != null) {
-								mToast.setText(message);
-								mToast.setDuration(duration);
-							} else {
-								mToast = Toast.makeText(context, message, duration);
-							}
-							mToast.show();
-						}
-					}
-				});
-			}
-		}).start();
-	}
+                    @Override
+                    public void run() {
+                        synchronized (mSynObject) {
+                            if (mToast != null) {
+                                mToast.setText(message);
+                                mToast.setDuration(duration);
+                            } else {
+                                mToast = Toast.makeText(context, message, duration);
+                            }
+                            mToast.show();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
 
-	/**
-	 * 关闭当前Toast
-	 */
-	public static void cancel() {
-		if (mToast != null) {
-			mToast.cancel();
-		}
-	}
+    /**
+     * 关闭当前Toast
+     */
+    public static void cancel() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+    }
 }

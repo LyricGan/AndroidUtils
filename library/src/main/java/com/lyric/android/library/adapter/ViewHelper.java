@@ -156,6 +156,21 @@ public class ViewHelper {
         return this;
     }
 
+    public ViewHelper setTextDrawable(int viewId, int left, int top, int right, int bottom) {
+        ((TextView) getView(viewId)).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
+        return this;
+    }
+
+    public ViewHelper setTextDrawable(int viewId, Drawable left, Drawable top, Drawable right, Drawable bottom) {
+        ((TextView) getView(viewId)).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
+        return this;
+    }
+
+    public ViewHelper setTextDrawablePadding(int viewId, int padding) {
+        ((TextView) getView(viewId)).setCompoundDrawablePadding(padding);
+        return this;
+    }
+
     public ViewHelper setBackgroundColor(int viewId, int color) {
         getView(viewId).setBackgroundColor(color);
         return this;

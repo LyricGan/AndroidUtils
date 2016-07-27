@@ -3,7 +3,6 @@ package com.lyric.android.app.base;
 import android.app.Application;
 
 import com.lyric.android.app.fresco.ImageHelper;
-import com.lyric.android.app.utils.ImageLoaderUtils;
 import com.lyric.android.app.utils.StethoUtils;
 import com.lyric.android.library.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
@@ -26,7 +25,6 @@ public class App extends Application {
         LogUtils.setDebug(Constants.DEBUG);
         initRefWatcher(Constants.LEAK_DEBUG);
         StethoUtils.initialize(this, Constants.DEBUG);
-        ImageLoaderUtils.initialize(this);
         ImageHelper.getInstance().initialize(this);
 	}
 

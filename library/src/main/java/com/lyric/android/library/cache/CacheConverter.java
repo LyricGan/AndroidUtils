@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils.cache;
+package com.lyric.android.library.cache;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,13 +11,16 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * @author lyricgan
- * @description 时间计算工具类
+ * @description 缓存工具类
  * @time 2016/7/22 12:06
  */
-public class CacheTimeUtils {
+public class CacheConverter {
     public static final int TIME_HOUR = 60 * 60;
     public static final int TIME_DAY = TIME_HOUR * 24;
     public static final char SEPARATOR = ' ';
+
+    private CacheConverter() {
+    }
 
     /**
      * 判断缓存数据是否已到期
@@ -57,10 +60,10 @@ public class CacheTimeUtils {
 
     public static byte[] newByteArrayWithDateInfo(int expireTime, byte[] data2) {
         byte[] data1 = createDateInfo(expireTime).getBytes();
-        byte[] retdata = new byte[data1.length + data2.length];
-        System.arraycopy(data1, 0, retdata, 0, data1.length);
-        System.arraycopy(data2, 0, retdata, data1.length, data2.length);
-        return retdata;
+        byte[] dataBytes = new byte[data1.length + data2.length];
+        System.arraycopy(data1, 0, dataBytes, 0, data1.length);
+        System.arraycopy(data2, 0, dataBytes, data1.length, data2.length);
+        return dataBytes;
     }
 
     public static String clearDateInfo(String strInfo) {
@@ -101,8 +104,9 @@ public class CacheTimeUtils {
 
     public static byte[] copyOfRange(byte[] original, int from, int to) {
         int newLength = to - from;
-        if (newLength < 0)
+        if (newLength < 0) {
             throw new IllegalArgumentException(from + " > " + to);
+        }
         byte[] copy = new byte[newLength];
         System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
         return copy;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.utils.cache;
+package com.lyric.android.library.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -127,7 +127,7 @@ public class CacheHelper {
      * @param expireTime 保存的时间，单位：秒
      */
     public void put(String key, String value, int expireTime) {
-        put(key, CacheTimeUtils.newStringWithDateInfo(expireTime, value));
+        put(key, CacheConverter.newStringWithDateInfo(expireTime, value));
     }
 
     /**
@@ -138,8 +138,9 @@ public class CacheHelper {
      */
     public String getString(String key) {
         File file = mCacheManager.get(key);
-        if (!file.exists())
+        if (!file.exists()) {
             return null;
+        }
         boolean removeFile = false;
         BufferedReader in = null;
         try {
@@ -149,8 +150,8 @@ public class CacheHelper {
             while ((currentLine = in.readLine()) != null) {
                 readString += currentLine;
             }
-            if (!CacheTimeUtils.isExpire(readString)) {
-                return CacheTimeUtils.clearDateInfo(readString);
+            if (!CacheConverter.isExpire(readString)) {
+                return CacheConverter.clearDateInfo(readString);
             } else {
                 removeFile = true;
                 return null;
@@ -173,7 +174,7 @@ public class CacheHelper {
     }
 
     /**
-     * 保存 JSONObject数据 到 缓存中
+     * 保存JSONObject数据到缓存中
      *
      * @param key   保存的key
      * @param value 保存的JSON数据
@@ -210,7 +211,7 @@ public class CacheHelper {
     }
 
     /**
-     * 保存 JSONArray数据 到 缓存中
+     * 保存JSONArray数据到缓存中
      *
      * @param key   保存的key
      * @param value 保存的JSONArray数据
@@ -220,7 +221,7 @@ public class CacheHelper {
     }
 
     /**
-     * 保存 JSONArray数据 到 缓存中
+     * 保存JSONArray数据到缓存中
      *
      * @param key      保存的key
      * @param value    保存的JSONArray数据
@@ -247,7 +248,7 @@ public class CacheHelper {
     }
 
     /**
-     * 保存 byte数据 到 缓存中
+     * 保存byte数据到缓存中
      *
      * @param key   保存的key
      * @param value 保存的数据
@@ -291,27 +292,28 @@ public class CacheHelper {
      */
     public InputStream get(String key) throws FileNotFoundException {
         File file = mCacheManager.get(key);
-        if (!file.exists())
+        if (!file.exists()) {
             return null;
+        }
         return new FileInputStream(file);
     }
 
     /**
-     * 保存 byte数据 到 缓存中
+     * 保存byte数据到缓存中
      *
      * @param key      保存的key
      * @param value    保存的数据
      * @param expireTime 保存的时间，单位：秒
      */
     public void put(String key, byte[] value, int expireTime) {
-        put(key, CacheTimeUtils.newByteArrayWithDateInfo(expireTime, value));
+        put(key, CacheConverter.newByteArrayWithDateInfo(expireTime, value));
     }
 
     /**
-     * 获取 byte 数据
+     * 获取byte数据
      *
      * @param key
-     * @return byte 数据
+     * @return byte数据
      */
     public byte[] getBytes(String key) {
         RandomAccessFile randomAccessFile = null;
@@ -324,8 +326,8 @@ public class CacheHelper {
             randomAccessFile = new RandomAccessFile(file, "r");
             byte[] byteArray = new byte[(int) randomAccessFile.length()];
             randomAccessFile.read(byteArray);
-            if (!CacheTimeUtils.isExpire(byteArray)) {
-                return CacheTimeUtils.clearDateInfo(byteArray);
+            if (!CacheConverter.isExpire(byteArray)) {
+                return CacheConverter.clearDateInfo(byteArray);
             } else {
                 removeFile = true;
                 return null;
@@ -348,7 +350,7 @@ public class CacheHelper {
     }
 
     /**
-     * 保存 Serializable数据到缓存中
+     * 保存Serializable数据到缓存中
      *
      * @param key   保存的key
      * @param value 保存的value
@@ -394,7 +396,7 @@ public class CacheHelper {
      * 读取 Serializable数据
      *
      * @param key
-     * @return Serializable 数据
+     * @return Serializable数据
      */
     public Object getObject(String key) {
         byte[] data = getBytes(key);
@@ -433,7 +435,7 @@ public class CacheHelper {
      * @param value 保存的bitmap数据
      */
     public void put(String key, Bitmap value) {
-        put(key, CacheTimeUtils.bitmap2Bytes(value));
+        put(key, CacheConverter.bitmap2Bytes(value));
     }
 
     /**
@@ -444,7 +446,7 @@ public class CacheHelper {
      * @param expireTime 保存的时间，单位：秒
      */
     public void put(String key, Bitmap value, int expireTime) {
-        put(key, CacheTimeUtils.bitmap2Bytes(value), expireTime);
+        put(key, CacheConverter.bitmap2Bytes(value), expireTime);
     }
 
     /**
@@ -457,7 +459,7 @@ public class CacheHelper {
         if (getBytes(key) == null) {
             return null;
         }
-        return CacheTimeUtils.bytes2Bitmap(getBytes(key));
+        return CacheConverter.bytes2Bitmap(getBytes(key));
     }
 
     /**
@@ -467,31 +469,31 @@ public class CacheHelper {
      * @param value 保存的drawable数据
      */
     public void put(String key, Drawable value) {
-        put(key, CacheTimeUtils.drawable2Bitmap(value));
+        put(key, CacheConverter.drawable2Bitmap(value));
     }
 
     /**
-     * 保存 drawable 到 缓存中
+     * 保存drawable到缓存中
      *
      * @param key      保存的key
-     * @param value    保存的 drawable 数据
+     * @param value    保存的drawable数据
      * @param expireTime 保存的时间，单位：秒
      */
     public void put(String key, Drawable value, int expireTime) {
-        put(key, CacheTimeUtils.drawable2Bitmap(value), expireTime);
+        put(key, CacheConverter.drawable2Bitmap(value), expireTime);
     }
 
     /**
-     * 读取 Drawable 数据
+     * 读取Drawable数据
      *
      * @param key
-     * @return Drawable 数据
+     * @return Drawable数据
      */
     public Drawable getDrawable(String key) {
         if (getBytes(key) == null) {
             return null;
         }
-        return CacheTimeUtils.bitmap2Drawable(CacheTimeUtils.bytes2Bitmap(getBytes(key)));
+        return CacheConverter.bitmap2Drawable(CacheConverter.bytes2Bitmap(getBytes(key)));
     }
 
     /**

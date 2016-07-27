@@ -1,12 +1,8 @@
 package com.lyric.android.app.widget.webview;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
-
-import com.lyric.android.app.activity.ImagePagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +67,6 @@ public class JsInterfaceImpl {
                 imageIndex = i;
             }
         }
-        // 跳转到图片查看界面
-        Intent intent = new Intent(context, ImagePagerActivity.class);
-        intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, imageIndex);
-        intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrlArray);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        // TODO
     }
 }
