@@ -1,5 +1,7 @@
 package com.lyric.android.app.mvvm.model;
 
+import com.lyric.android.app.retrofit.Api;
+
 /**
  * @author lyricgan
  * @description

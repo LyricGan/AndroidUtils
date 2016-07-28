@@ -31,6 +31,7 @@ ext {
     retrofitVersion = '2.0.0-beta4'
     retrofit2Version = '2.1.0'
     stethoVersion = '1.3.1'
+    okhttpVersion = '3.4.1'
 
     dependencies = [
             appCompat: "com.android.support:appcompat-v7:$supportLibraryVersion",
@@ -57,15 +58,26 @@ ext {
             leakcanaryrelease: 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1',
             quickutils: 'com.cesarferreira.quickutils:library:2.+',
             disklrucache: 'com.jakewharton:disklrucache:2.0.2',
-            okhttp: 'com.squareup.okhttp3:okhttp:3.3.1',
+
             retrofit: "com.squareup.retrofit:retrofit:$retrofitVersion",
             retrofitConverterGson: "com.squareup.retrofit:converter-gson:$retrofitVersion",
             retrofitAdapterRxJava: "com.squareup.retrofit:adapter-rxjava:$retrofitVersion",
+
             retrofit2: "com.squareup.retrofit2:retrofit:$retrofit2Version",
-            retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit2Version",
             retrofit2AdapterRxJava: "com.squareup.retrofit2:adapter-rxjava:$retrofit2Version",
+
+            retrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:$retrofit2Version",
+            retrofit2ConverterJackson: "com.squareup.retrofit2:converter-jackson:$retrofit2Version",
+            retrofit2ConverterMoshi: "com.squareup.retrofit2:converter-moshi:$retrofit2Version",
+            retrofit2ConverterProtobuf: "com.squareup.retrofit2:converter-protobuf:$retrofit2Version",
+            retrofit2ConverterWire: "com.squareup.retrofit2:converter-wire:$retrofit2Version",
+            retrofit2ConverterSimpleXML: "com.squareup.retrofit2:converter-simplexml:$retrofit2Version",
+
             stetho: "com.facebook.stetho:stetho:$stethoVersion",
             stetho_okhttp: "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
-            stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$stethoVersion"
+            stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$stethoVersion",
+
+            okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            okhttpLogInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     ]
 }

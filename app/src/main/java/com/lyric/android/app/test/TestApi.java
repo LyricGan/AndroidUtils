@@ -1,4 +1,7 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.test;
+
+import com.lyric.android.app.network.DataLoader;
+import com.lyric.android.app.network.ResponseCallback;
 
 import java.util.HashMap;
 import java.util.Map;

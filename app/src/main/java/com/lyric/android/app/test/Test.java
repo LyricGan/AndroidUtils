@@ -2,7 +2,6 @@ package com.lyric.android.app.test;
 
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.network.DefaultCallback;
-import com.lyric.android.app.network.TestApi;
 import com.lyric.android.library.utils.LogUtils;
 
 /**

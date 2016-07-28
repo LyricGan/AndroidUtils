@@ -1,14 +1,14 @@
-package com.lyric.android.app.mvvm.model;
+package com.lyric.android.app.retrofit;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author lyric
@@ -38,6 +38,7 @@ public class Api {
         builder.retryOnConnectionFailure(true);
         if (Constants.DEBUG) {
             builder.addNetworkInterceptor(new StethoInterceptor());
+            builder.addNetworkInterceptor(new HttpLogInterceptor());
         }
         OkHttpClient okHttpClient = builder.build();
         mRetrofit = new Retrofit.Builder()
