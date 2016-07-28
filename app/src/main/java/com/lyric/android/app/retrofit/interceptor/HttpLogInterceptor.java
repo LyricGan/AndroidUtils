@@ -1,4 +1,4 @@
-package com.lyric.android.app.retrofit;
+package com.lyric.android.app.retrofit.interceptor;
 
 import java.io.EOFException;
 import java.io.IOException;

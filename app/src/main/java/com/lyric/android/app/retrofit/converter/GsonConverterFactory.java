@@ -18,13 +18,13 @@ import retrofit2.Retrofit;
  * @time 2016/7/28 11:13
  */
 public class GsonConverterFactory extends Converter.Factory {
-    private final Gson gson;
+    private final Gson mGson;
 
     private GsonConverterFactory(Gson gson) {
         if (gson == null) {
             throw new NullPointerException("gson == null");
         }
-        this.gson = gson;
+        this.mGson = gson;
     }
 
     /**
@@ -36,7 +36,7 @@ public class GsonConverterFactory extends Converter.Factory {
     }
 
     /**
-     * Create an instance using {@code gson} for conversion. Encoding to JSON and
+     * Create an instance using {@code mGson} for conversion. Encoding to JSON and
      * decoding from JSON (when no charset is specified by a header) will use UTF-8.
      */
     public static GsonConverterFactory create(Gson gson) {
@@ -45,13 +45,13 @@ public class GsonConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-        return new GsonResponseBodyConverter<>(gson, adapter);
+        TypeAdapter<?> adapter = mGson.getAdapter(TypeToken.get(type));
+        return new GsonResponseBodyConverter<>(mGson, adapter);
     }
 
     @Override
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
-        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-        return new GsonRequestBodyConverter<>(gson, adapter);
+        TypeAdapter<?> adapter = mGson.getAdapter(TypeToken.get(type));
+        return new GsonRequestBodyConverter<>(mGson, adapter);
     }
 }

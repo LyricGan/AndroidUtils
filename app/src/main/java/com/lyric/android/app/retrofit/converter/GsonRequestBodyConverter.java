@@ -22,21 +22,20 @@ import retrofit2.Converter;
 public class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
     private static final Charset UTF_8 = Charset.forName("UTF-8");
-
-    private final Gson gson;
-    private final TypeAdapter<T> adapter;
+    private final Gson mGson;
+    private final TypeAdapter<T> mTypeAdapter;
 
     GsonRequestBodyConverter(Gson gson, TypeAdapter<T> adapter) {
-        this.gson = gson;
-        this.adapter = adapter;
+        this.mGson = gson;
+        this.mTypeAdapter = adapter;
     }
 
     @Override
     public RequestBody convert(T value) throws IOException {
         Buffer buffer = new Buffer();
         Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
-        JsonWriter jsonWriter = gson.newJsonWriter(writer);
-        adapter.write(jsonWriter, value);
+        JsonWriter jsonWriter = mGson.newJsonWriter(writer);
+        mTypeAdapter.write(jsonWriter, value);
         jsonWriter.close();
         return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
     }

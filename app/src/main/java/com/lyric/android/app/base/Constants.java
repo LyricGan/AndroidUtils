@@ -13,6 +13,7 @@ public interface Constants {
     boolean DEBUG = BuildConfig.LOG_DEBUG;
     boolean LEAK_DEBUG = false;
     String TAG_DEFAULT = "AndroidUtils";
+    String BASE_URL = "https://api.github.com";
 
 	/**
 	 * 编码格式

@@ -3,6 +3,7 @@ package com.lyric.android.app.retrofit;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
+import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +17,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  * @time 2016/6/3 11:41
  */
 public class Api {
-    private static final String BASE_URL = "https://api.github.com/";
+    private static final String BASE_URL = Constants.BASE_URL;
     private static Api mInstance;
     private static Retrofit mRetrofit;
 
