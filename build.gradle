@@ -78,6 +78,8 @@ ext {
             stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$stethoVersion",
 
             okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
-            okhttpLogInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+            okhttpLogInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+
+            genius: 'com.github.qiujuer:genius:2.4.1'
     ]
 }

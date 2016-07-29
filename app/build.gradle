@@ -71,4 +71,6 @@ dependencies {
     compile dependencies.stetho_urlconnection
     compile dependencies.okhttp
 //    compile dependencies.okhttpLogInterceptor
+
+    compile dependencies.genius
 }

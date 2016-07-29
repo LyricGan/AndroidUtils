@@ -19,32 +19,30 @@ import rx.functions.Func1;
  * @description
  * @time 2016/7/28 17:21
  */
-public class ProgressResponseBody extends ResponseBody {
+public class FileResponseBody extends ResponseBody {
     private final ResponseBody responseBody;
-    private final MultipleApi.OnDownloadCallback downloadCallback;
+    private final FileCallback callback;
     private BufferedSource bufferedSource;
-
     /**
      * 文件保存路径
      */
-    private String savePath;
-
+    private String filePath;
     /**
      * 下载文件名
      */
     private String fileName;
 
-    public ProgressResponseBody(ResponseBody responseBody, MultipleApi.OnDownloadCallback callback) {
+    public FileResponseBody(ResponseBody responseBody, FileCallback callback) {
         this.responseBody = responseBody;
-        this.downloadCallback = callback;
+        this.callback = callback;
     }
 
-    public String getSavePath() {
-        return savePath;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setSavePath(String savePath) {
-        this.savePath = savePath;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getFileName() {
@@ -68,13 +66,12 @@ public class ProgressResponseBody extends ResponseBody {
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source(responseBody.source()));
+            bufferedSource = Okio.buffer(convert(responseBody.source()));
         }
         return bufferedSource;
     }
 
-    private Source source(Source source) {
-
+    private Source convert(Source source) {
         return new ForwardingSource(source) {
             long currentSize = 0L;
 
@@ -82,18 +79,18 @@ public class ProgressResponseBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 final long bytesRead = super.read(sink, byteCount);
                 currentSize += bytesRead != -1 ? bytesRead : 0;
-                Observable.just(downloadCallback)
-                        .filter(new Func1<MultipleApi.OnDownloadCallback, Boolean>() {
+                Observable.just(callback)
+                        .filter(new Func1<FileCallback, Boolean>() {
                             @Override
-                            public Boolean call(MultipleApi.OnDownloadCallback onDownloadCallback) {
-                                return onDownloadCallback != null;
+                            public Boolean call(FileCallback fileCallback) {
+                                return fileCallback != null;
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<MultipleApi.OnDownloadCallback>() {
+                        .subscribe(new Action1<FileCallback>() {
                             @Override
-                            public void call(MultipleApi.OnDownloadCallback onDownloadCallback) {
-                                downloadCallback.onProgress(currentSize, responseBody.contentLength(), bytesRead == -1);
+                            public void call(FileCallback callback) {
+                                callback.onProgress(currentSize, responseBody.contentLength(), bytesRead == -1);
                             }
                         });
                 return bytesRead;

@@ -19,15 +19,12 @@ import rx.functions.Func1;
  * @description
  * @time 2016/7/28 17:21
  */
-public class ProgressRequestBody extends RequestBody {
-    //实际的待包装请求体
+public class FileRequestBody extends RequestBody {
     private RequestBody requestBody;
-    //进度回调接口
-    private MultipleApi.OnUploadCallback callback;
-    //包装完成的BufferedSink
+    private FileCallback callback;
     private BufferedSink bufferedSink;
 
-    public ProgressRequestBody(RequestBody requestBody, MultipleApi.OnUploadCallback callback) {
+    public FileRequestBody(RequestBody requestBody, FileCallback callback) {
         this.requestBody = requestBody;
         this.callback = callback;
     }
@@ -64,20 +61,19 @@ public class ProgressRequestBody extends RequestBody {
                 }
                 currentSize += byteCount;
                 Observable.just(callback)
-                        .filter(new Func1<MultipleApi.OnUploadCallback, Boolean>() {
+                        .filter(new Func1<FileCallback, Boolean>() {
                             @Override
-                            public Boolean call(MultipleApi.OnUploadCallback listener) {
-                                return listener != null;
+                            public Boolean call(FileCallback fileCallback) {
+                                return fileCallback != null;
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<MultipleApi.OnUploadCallback>() {
+                        .subscribe(new Action1<FileCallback>() {
                             @Override
-                            public void call(MultipleApi.OnUploadCallback listener) {
-                                listener.onProgress(currentSize, totalSize, currentSize == totalSize);
+                            public void call(FileCallback callback) {
+                                callback.onProgress(currentSize, totalSize, (currentSize == totalSize));
                             }
                         });
-
             }
         };
     }

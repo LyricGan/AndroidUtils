@@ -1,4 +1,4 @@
-package com.lyric.android.app.handler;
+package com.lyric.android.app.utils;
 
 import android.view.View;
 import android.widget.AbsListView;

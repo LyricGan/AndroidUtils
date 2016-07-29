@@ -21,6 +21,6 @@ public class FileConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<ResponseBody, File> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return FileResponseBodyConverter.INSTANCE;
+        return FileResponseBodyConverter.getInstance();
     }
 }

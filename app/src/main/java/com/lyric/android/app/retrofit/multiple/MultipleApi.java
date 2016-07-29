@@ -2,7 +2,6 @@ package com.lyric.android.app.retrofit.multiple;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
 
 import java.io.IOException;
@@ -65,17 +64,17 @@ public class MultipleApi {
         return getRetrofit().build().create(cls);
     }
 
-    public <T> T build(Class<T> clazz, OnDownloadCallback callback) {
+    public <T> T buildDownload(Class<T> clazz, FileCallback callback) {
         OkHttpClient client = addOnDownloadCallback(new OkHttpClient.Builder(), callback).build();
         return getRetrofit().client(client).build().create(clazz);
     }
 
-    public <T> T build(Class<T> clazz, OnUploadCallback callback) {
+    public <T> T buildUpload(Class<T> clazz, FileCallback callback) {
         OkHttpClient client = addOnUploadCallback(new OkHttpClient.Builder(), callback).build();
         return getRetrofit().client(client).build().create(clazz);
     }
 
-    public OkHttpClient.Builder addOnDownloadCallback(OkHttpClient.Builder builder, final OnDownloadCallback callback) {
+    private OkHttpClient.Builder addOnDownloadCallback(OkHttpClient.Builder builder, final FileCallback callback) {
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -83,8 +82,8 @@ public class MultipleApi {
                 Response originalResponse = chain.proceed(originalRequest);
                 List<String> segments = originalRequest.url().pathSegments();
                 String filename = segments.get(segments.size() - 1);
-                ProgressResponseBody responseBody = new ProgressResponseBody(originalResponse.body(), callback);
-                responseBody.setSavePath(originalRequest.header(FileResponseBodyConverter.SAVE_PATH));
+                FileResponseBody responseBody = new FileResponseBody(originalResponse.body(), callback);
+                responseBody.setFilePath(originalRequest.header(FileResponseBodyConverter.HEADER_FILE_PATH));
                 responseBody.setFileName(filename);
                 return originalResponse.newBuilder().body(responseBody).build();
             }
@@ -92,27 +91,17 @@ public class MultipleApi {
         return builder;
     }
 
-    public OkHttpClient.Builder addOnUploadCallback(OkHttpClient.Builder builder, final OnUploadCallback callback) {
+    private OkHttpClient.Builder addOnUploadCallback(OkHttpClient.Builder builder, final FileCallback callback) {
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request request = originalRequest.newBuilder()
-                        .method(originalRequest.method(), new ProgressRequestBody(originalRequest.body(), callback))
+                        .method(originalRequest.method(), new FileRequestBody(originalRequest.body(), callback))
                         .build();
                 return chain.proceed(request);
             }
         });
         return builder;
-    }
-
-    public interface OnUploadCallback {
-
-        void onProgress(long currentSize, long totalSize, boolean isCompleted);
-    }
-
-    public interface OnDownloadCallback {
-
-        void onProgress(long currentSize, long totalSize, boolean isCompleted);
     }
 }
