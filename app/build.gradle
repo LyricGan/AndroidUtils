@@ -73,4 +73,5 @@ dependencies {
 //    compile dependencies.okhttpLogInterceptor
 
     compile dependencies.genius
+    compile dependencies.butterKnife
 }

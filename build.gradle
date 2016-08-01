@@ -80,6 +80,7 @@ ext {
             okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
             okhttpLogInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
 
-            genius: 'com.github.qiujuer:genius:2.4.1'
+            genius: 'com.github.qiujuer:genius:2.4.1',
+            butterKnife: 'com.jakewharton:butterknife:8.2.1'
     ]
 }

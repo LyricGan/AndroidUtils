@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
@@ -72,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "Toast comes out", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, ServiceTestActivity.class);
+                                startActivity(intent);
                             }
                         }).show();
             }
@@ -96,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
             }
         });
-
-        test();
-    }
-
-    private void test() {
-//        Test.getInstance().test();
     }
 
     @Override
