@@ -22,6 +22,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  */
 public class MultipleApi {
     private static final String BASE_URL = Constants.BASE_URL;
+    private static final long CONNECT_TIMEOUT = 120L;
+    private static final long READ_TIMEOUT = 120L;
     private static MultipleApi mInstance;
     private static Retrofit.Builder mRetrofitBuilder;
 
@@ -38,8 +40,8 @@ public class MultipleApi {
 
     private void initialize(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(30, TimeUnit.SECONDS);
-        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+        builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
         builder.retryOnConnectionFailure(true);
         if (Constants.DEBUG) {
             builder.addNetworkInterceptor(new StethoInterceptor());

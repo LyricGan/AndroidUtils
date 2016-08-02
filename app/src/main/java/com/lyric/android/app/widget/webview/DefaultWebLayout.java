@@ -44,7 +44,6 @@ public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.W
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
     }
 
     @Override
@@ -54,7 +53,6 @@ public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.W
 
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-
     }
 
     @Override
@@ -112,7 +110,8 @@ public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.W
     }
 
     public void destroy() {
-        getWebView().destroy();
+        getWebView().setWebCallback(null);
+        getWebView().onDestroy();
     }
 
     /**

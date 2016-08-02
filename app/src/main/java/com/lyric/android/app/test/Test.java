@@ -1,5 +1,10 @@
 package com.lyric.android.app.test;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.network.DefaultCallback;
 import com.lyric.android.library.utils.LogUtils;
@@ -31,5 +36,21 @@ public class Test {
                 LogUtils.e(Constants.TAG_DEFAULT, "response:" + response);
             }
         });
+    }
+
+    public void testRegisterBroadcast(Context context, BroadcastReceiver receiver) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(IntentFlags.ACTION_TEST);
+        filter.addAction(IntentFlags.ACTION_TEST_DEFAULT);
+        context.registerReceiver(receiver, filter);
+    }
+
+    public void testUnregisterBroadcast(Context context, BroadcastReceiver receiver) {
+        context.unregisterReceiver(receiver);
+    }
+
+    public void testSendBroadcast(Context context) {
+        Intent intent = new Intent(IntentFlags.ACTION_TEST_DEFAULT);
+        context.sendBroadcast(intent);
     }
 }

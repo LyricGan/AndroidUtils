@@ -18,6 +18,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  */
 public class Api {
     private static final String BASE_URL = Constants.BASE_URL;
+    private static final long CONNECT_TIMEOUT = 30L;
+    private static final long READ_TIMEOUT = 30L;
     private static Api mInstance;
     private static Retrofit mRetrofit;
 
@@ -34,8 +36,8 @@ public class Api {
 
     private void initialize(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(30, TimeUnit.SECONDS);
-        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+        builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
         builder.retryOnConnectionFailure(true);
         if (Constants.DEBUG) {
             builder.addNetworkInterceptor(new StethoInterceptor());
