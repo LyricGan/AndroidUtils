@@ -3,6 +3,7 @@ package com.lyric.android.app.retrofit;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
+import com.lyric.android.app.retrofit.interceptor.CacheInterceptor;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,7 @@ public class Api {
             builder.addNetworkInterceptor(new StethoInterceptor());
             builder.addNetworkInterceptor(new HttpLogInterceptor());
         }
+        builder.addNetworkInterceptor(new CacheInterceptor());
         OkHttpClient okHttpClient = builder.build();
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
