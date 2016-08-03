@@ -2,6 +2,7 @@ package com.lyric.android.app.retrofit;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.retrofit.adapter.RxJavaCallAdapterFactory;
 import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
 import com.lyric.android.app.retrofit.interceptor.CacheInterceptor;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
@@ -10,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * @author lyric

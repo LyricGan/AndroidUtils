@@ -55,7 +55,7 @@ dependencies {
     releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
     compile dependencies.retrofit2
-    compile dependencies.retrofit2AdapterRxJava
+//    compile dependencies.retrofit2AdapterRxJava
 //    compile dependencies.retrofit2ConverterGson
 //    compile dependencies.retrofit2ConverterJackson
 //    compile dependencies.retrofit2ConverterMoshi
