@@ -16,21 +16,21 @@ public abstract class ResponseCallback<T> implements Callback<T> {
         if (response.isSuccessful()) {
             T responseBody = response.body();
             if (responseBody == null) {
-                onError(call, "No data");
+                onError("Response is null");
                 return;
             }
-            onResponse(call, response.body());
+            onResponse(response.body());
         } else {
-            onError(call, response.message());
+            onError(response.message());
         }
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        onError(call, t != null ? t.getMessage() : "");
+        onError(t != null ? t.getMessage() : "");
     }
 
-    public abstract void onResponse(Call<T> call, T response);
+    public abstract void onResponse(T response);
 
-    public abstract void onError(Call<T> call, String errorMessage);
+    public abstract void onError(String errorMessage);
 }
