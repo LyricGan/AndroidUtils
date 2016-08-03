@@ -14,6 +14,12 @@
     <permission
         android:name="app.permission.TEST_SERVICE"
         android:protectionLevel="normal"/>
+    <permission
+        android:name="app.permission.TEST_PROVIDER_READ"
+        android:protectionLevel="normal"/>
+    <permission
+        android:name="app.permission.TEST_PROVIDER_WRITE"
+        android:protectionLevel="normal"/>
 
     <application
         android:name=".base.App"
@@ -97,6 +103,14 @@
             android:permission="app.permission.TEST_SERVICE"
             android:process=":remote">
         </service>
+
+        <provider
+            android:name=".test.TestContentProvider"
+            android:authorities="com.provider.test"
+            android:exported="true"
+            android:permission="TEST_PROVIDER_WRITE"
+            android:readPermission="app.permission.TEST_PROVIDER_READ"
+            android:writePermission="app.permission.TEST_PROVIDER_WRITE"/>
     </application>
 
 </manifest>
