@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.stetho;
 
 import android.content.Context;
 
@@ -10,6 +10,9 @@ import com.facebook.stetho.Stetho;
  * @time 2016/7/7 14:03
  */
 public class StethoUtils {
+
+    private StethoUtils() {
+    }
 
     public static void initialize(Context context, boolean debug) {
         if (debug) {

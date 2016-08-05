@@ -2,6 +2,7 @@ package com.lyric.android.app.retrofit.multiple;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.retrofit.adapter.RxJavaCallAdapterFactory;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
 
 import java.io.IOException;
@@ -13,7 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * @author lyricgan

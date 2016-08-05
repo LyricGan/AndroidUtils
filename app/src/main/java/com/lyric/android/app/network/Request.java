@@ -63,7 +63,7 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
     protected void processResponse(ResponseEntity responseEntity) {
         if (responseEntity.isSuccess()) {
             String response = responseEntity.response;
-            T result = Converter.getInstance().convert(response, mType);
+            T result = GsonConverter.getInstance().convert(response, mType);
             if (result != null) {
                 Message msg = mHandler.obtainMessage(MESSAGE_SUCCESS);
                 msg.obj = result;
