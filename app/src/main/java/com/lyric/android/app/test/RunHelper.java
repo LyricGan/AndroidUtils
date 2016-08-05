@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.test;
 
 import android.os.Handler;
 
@@ -9,17 +9,17 @@ import java.util.ArrayList;
  * @description just test
  * @time 2016/7/29 15:03
  */
-public class Helper {
+public class RunHelper {
     private static final ThreadLocal<RunQueue> sRunQueues = new ThreadLocal<RunQueue>();
 
     public static RunQueue getRunQueue() {
-        RunQueue rq = sRunQueues.get();
-        if (rq != null) {
-            return rq;
+        RunQueue runQueue = sRunQueues.get();
+        if (runQueue != null) {
+            return runQueue;
         }
-        rq = new RunQueue();
-        sRunQueues.set(rq);
-        return rq;
+        runQueue = new RunQueue();
+        sRunQueues.set(runQueue);
+        return runQueue;
     }
 
     /**
@@ -38,7 +38,6 @@ public class Helper {
             HandlerAction handlerAction = new HandlerAction();
             handlerAction.action = action;
             handlerAction.delay = delayMillis;
-
             synchronized (mActions) {
                 mActions.add(handlerAction);
             }
@@ -47,10 +46,8 @@ public class Helper {
         public void removeCallbacks(Runnable action) {
             final HandlerAction handlerAction = new HandlerAction();
             handlerAction.action = action;
-
             synchronized (mActions) {
                 final ArrayList<HandlerAction> actions = mActions;
-
                 while (actions.remove(handlerAction)) {
                     // Keep going
                 }
@@ -61,12 +58,10 @@ public class Helper {
             synchronized (mActions) {
                 final ArrayList<HandlerAction> actions = mActions;
                 final int count = actions.size();
-
                 for (int i = 0; i < count; i++) {
                     final HandlerAction handlerAction = actions.get(i);
                     handler.postDelayed(handlerAction.action, handlerAction.delay);
                 }
-
                 actions.clear();
             }
         }
@@ -77,9 +72,12 @@ public class Helper {
 
             @Override
             public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || getClass() != o.getClass()) {
+                    return false;
+                }
                 HandlerAction that = (HandlerAction) o;
                 return !(action != null ? !action.equals(that.action) : that.action != null);
             }

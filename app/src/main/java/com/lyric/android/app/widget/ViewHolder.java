@@ -4,7 +4,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 /**
- * lyric
+ * @author lyricgan
  * @description
  * @time 2016/6/14 12:45
  */
