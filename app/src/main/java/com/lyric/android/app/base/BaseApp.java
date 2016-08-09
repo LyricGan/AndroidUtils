@@ -13,14 +13,14 @@ import com.squareup.leakcanary.RefWatcher;
  * @description
  * @time 2015/10/7 14:04
  */
-public class App extends Application {
-    private static App mApp;
+public class BaseApp extends Application {
+    private static BaseApp mInstance;
     private static RefWatcher mRefWatcher;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        mApp = this;
+        mInstance = this;
 
         LogUtils.setDebug(Constants.DEBUG);
         initRefWatcher(Constants.LEAK_DEBUG);
@@ -28,8 +28,8 @@ public class App extends Application {
         ImageHelper.getInstance().initialize(this);
 	}
 
-	public static App getContext() {
-		return mApp;
+	public static BaseApp getContext() {
+		return mInstance;
 	}
 
     public static RefWatcher getRefWatcher() {
