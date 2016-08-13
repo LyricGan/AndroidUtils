@@ -29,6 +29,10 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     useLibrary 'org.apache.http.legacy'
 }
 
@@ -37,6 +41,7 @@ dependencies {
     compile project(':library')
     Map<String, String> dependencies = rootProject.ext.dependencies
     testCompile dependencies.jUnit
+    testCompile dependencies.mockito
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
