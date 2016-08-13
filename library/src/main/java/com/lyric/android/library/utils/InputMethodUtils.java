@@ -85,6 +85,7 @@ public class InputMethodUtils {
     }
 
     public interface OnSoftKeyboardChangedListener {
+
         void onSoftKeyBoardChange(int height, boolean visible);
     }
 }

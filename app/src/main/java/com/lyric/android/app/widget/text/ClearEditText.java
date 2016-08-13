@@ -17,28 +17,20 @@ import android.widget.AutoCompleteTextView;
  * @description 带清除功能的EditText
  * @time 2016/1/29 10:58
  */
-public class ClearableEditText extends AutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
+public class ClearEditText extends AutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
     private Drawable mClearDrawable;
     private boolean hasFocus;
     private EditTextFocusChangeListener mEditTextFocusChangeListener;
 
-    /**
-     * 可删除按钮的焦点发生变化的回调
-     */
-    public interface EditTextFocusChangeListener {
-
-        void onFocusChange(View v, boolean hasFocus);
-    }
-
-    public ClearableEditText(Context context) {
+    public ClearEditText(Context context) {
         this(context, null);
     }
 
-    public ClearableEditText(Context context, AttributeSet attrs) {
+    public ClearEditText(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.editTextStyle);
     }
 
-    public ClearableEditText(Context context, AttributeSet attrs, int defStyle) {
+    public ClearEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -46,7 +38,7 @@ public class ClearableEditText extends AutoCompleteTextView implements View.OnFo
     private void init() {
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
-            // 可设置默认图片
+            // 设置默认图片
             return;
         }
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
@@ -133,4 +125,11 @@ public class ClearableEditText extends AutoCompleteTextView implements View.OnFo
         return translateAnimation;
     }
 
+    /**
+     * 可删除按钮的焦点发生变化的回调
+     */
+    public interface EditTextFocusChangeListener {
+
+        void onFocusChange(View v, boolean hasFocus);
+    }
 }
