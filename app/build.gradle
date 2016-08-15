@@ -42,6 +42,9 @@ dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     testCompile dependencies.jUnit
     testCompile dependencies.mockito
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
+
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
