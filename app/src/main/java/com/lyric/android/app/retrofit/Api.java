@@ -18,14 +18,12 @@ import retrofit2.Retrofit;
  * @time 2016/6/3 11:41
  */
 public class Api {
-    private static final String BASE_URL = Constants.BASE_URL;
     private static final long CONNECT_TIMEOUT = 30L;
     private static final long READ_TIMEOUT = 30L;
     private static Api mInstance;
     private static Retrofit mRetrofit;
 
     private Api() {
-        initialize(BASE_URL);
     }
 
     public static synchronized Api getInstance() {
@@ -35,7 +33,7 @@ public class Api {
         return mInstance;
     }
 
-    private void initialize(String baseUrl) {
+    private OkHttpClient buildDefaultClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
@@ -46,23 +44,33 @@ public class Api {
         }
         builder.addInterceptor(CacheInterceptorHelper.getInstance().getCacheInterceptor());
         builder.addNetworkInterceptor(CacheInterceptorHelper.getInstance().getCacheNetworkInterceptor());
-        OkHttpClient okHttpClient = builder.build();
+        return builder.build();
+    }
+
+    private void buildRetrofit() {
         mRetrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(okHttpClient)
+                .baseUrl(Constants.BASE_URL)
+                .client(buildDefaultClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 
     private Retrofit getRetrofit() {
+        if (mRetrofit == null) {
+            buildRetrofit();
+        }
         return mRetrofit;
     }
 
     public <T> T build(Class<T> cls) {
-        if (getRetrofit() == null) {
-            throw new NullPointerException("initialized failed.");
+        return build(getRetrofit(), cls);
+    }
+
+    public <T> T build(Retrofit retrofit, Class<T> cls) {
+        if (retrofit == null) {
+            throw new NullPointerException("retrofit is null");
         }
-        return getRetrofit().create(cls);
+        return retrofit.create(cls);
     }
 }

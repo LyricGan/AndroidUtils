@@ -54,4 +54,9 @@ public class GsonConverterFactory extends Converter.Factory {
         TypeAdapter<?> adapter = mGson.getAdapter(TypeToken.get(type));
         return new GsonRequestBodyConverter<>(mGson, adapter);
     }
+
+    @Override
+    public Converter<?, String> stringConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        return super.stringConverter(type, annotations, retrofit);
+    }
 }
