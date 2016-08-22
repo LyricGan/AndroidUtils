@@ -17,7 +17,6 @@ public class WebActivity extends BaseCompatActivity {
 
     @Override
     public void onTitleCreated(TitleBar titleBar) {
-
     }
 
     @Override
@@ -42,5 +41,11 @@ public class WebActivity extends BaseCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         layout_web.destroy();
+    }
+
+    public native void sayHello();
+
+    static {
+        System.loadLibrary("hello");
     }
 }
