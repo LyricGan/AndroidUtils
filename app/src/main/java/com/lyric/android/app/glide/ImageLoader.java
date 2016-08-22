@@ -11,9 +11,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.io.File;
 
 /**
  * @author lyricgan
@@ -86,56 +85,38 @@ public class ImageLoader {
     }
 
     public static void loadCircle(Context context, String url, final ImageView view, int placeHolderId) {
-        Glide.with(context).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(context).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
     }
 
     public static void loadCircle(Context context, Uri uri, final ImageView view, int placeHolderId) {
-        Glide.with(context).load(uri).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(context).load(uri).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
     }
 
     public static void loadCircle(Activity activity, String url, final ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
     }
 
     public static void loadCircle(FragmentActivity activity, String url, final ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
     }
 
     public static void loadCircle(Fragment fragment, String url, final ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
     }
 
     public static void loadCircle(android.app.Fragment fragment, String url, final ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
-            }
-        });
+        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
+    }
+
+    public static File getCacheDir(Context context) {
+        return Glide.getPhotoCacheDir(context, CACHE_NAME);
+    }
+
+    public static void clearDiskCache(Context context) {
+        Glide.get(context).clearDiskCache();
+    }
+
+    public static void clearMemory(Context context) {
+        Glide.get(context).clearMemory();
     }
 }
