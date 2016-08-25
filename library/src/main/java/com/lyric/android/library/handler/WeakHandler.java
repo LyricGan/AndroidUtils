@@ -32,6 +32,10 @@ public class WeakHandler<T> extends Handler {
         this.mCallback = callback;
     }
 
+    public void removeCallback() {
+        this.mCallback = null;
+    }
+
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
@@ -41,6 +45,7 @@ public class WeakHandler<T> extends Handler {
     }
 
     public interface OnMessageCallback {
+
         void callback(Message msg);
     }
 }

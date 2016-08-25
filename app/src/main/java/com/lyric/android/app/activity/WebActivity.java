@@ -42,10 +42,4 @@ public class WebActivity extends BaseCompatActivity {
         super.onDestroy();
         layout_web.destroy();
     }
-
-    public native void sayHello();
-
-    static {
-        System.loadLibrary("hello");
-    }
 }

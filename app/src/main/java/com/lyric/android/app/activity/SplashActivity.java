@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.Constants;
 import com.lyric.android.library.handler.WeakHandler;
 
 /**
@@ -18,9 +17,12 @@ import com.lyric.android.library.handler.WeakHandler;
  * @time 2015/11/2 10:57
  */
 public class SplashActivity extends Activity implements View.OnClickListener, WeakHandler.OnMessageCallback {
+    private static final int WHAT_START = 0x1001;
     // 延迟加载时间
-    private static final int DELAY_MILLIS = 1000;
+    private static final int DELAY_MILLIS = 2000;
     private final WeakHandler mHandler = new WeakHandler<>(this);
+    // 启动时间
+    private long mStartTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,8 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
         setContentView(R.layout.activity_splash);
         Button btn_skip = (Button) findViewById(R.id.btn_skip);
 
-        btn_skip.setVisibility(View.GONE);
+        mStartTime = System.currentTimeMillis();
+
         btn_skip.setOnClickListener(this);
         mHandler.setCallback(this);
     }
@@ -57,25 +60,43 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
         finish();
     }
 
+    // 发送延时消息
+    private void sendDelayedMessage(long delayMillis) {
+        mHandler.sendEmptyMessageDelayed(WHAT_START, delayMillis);
+    }
+
+    private void removeDelayedMessage() {
+        if (mHandler.hasMessages(WHAT_START)) {
+            mHandler.removeMessages(WHAT_START);
+        }
+    }
+
+    private void processResume() {
+        long diff = System.currentTimeMillis() - mStartTime;
+        if (diff >= DELAY_MILLIS) {
+            sendDelayedMessage(0);
+        } else {
+            sendDelayedMessage(DELAY_MILLIS - diff);
+        }
+    }
+
+    @Override
+    public void callback(Message msg) {
+        if (WHAT_START == msg.what) {
+            startActivity();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // 发送延时消息
-        Message msg = mHandler.obtainMessage(Constants.ACTIVITY_START);
-        mHandler.sendMessageDelayed(msg, DELAY_MILLIS);
+        processResume();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
-        // 移除延时消息
-        removeInnerMessage();
-    }
-
-    private void removeInnerMessage() {
-        if (mHandler.hasMessages(Constants.ACTIVITY_START)) {
-            mHandler.removeMessages(Constants.ACTIVITY_START);
-        }
+        removeDelayedMessage();
     }
 
     @Override
@@ -86,12 +107,7 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    public void callback(Message msg) {
-        if (Constants.ACTIVITY_START == msg.what) {// 首页启动
-            startActivity();
-        }
+        removeDelayedMessage();
+        mHandler.removeCallback();
     }
 }
