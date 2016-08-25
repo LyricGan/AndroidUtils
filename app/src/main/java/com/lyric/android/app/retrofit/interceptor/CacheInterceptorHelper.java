@@ -27,7 +27,8 @@ import okhttp3.Response;
 public class CacheInterceptorHelper {
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private static final String HEADER_PRAGMA = "Pragma";
-    private static final String CACHE_CONTROL_NO_CACHE = "no-cache";
+    private static final String CACHE_CONTROL_ONLY_CACHE = "public, only-if-cached, max-age=2419200";
+    private static final String CACHE_CONTROL_NO_CACHE = "public, max-age=0";
     // 自定义缓存类型
     private static final String HEADER_USER_CACHE_TYPE = "User-Cache-Type";
     // 断网情况下，加载缓存，联网情况下，优先加载缓存，默认情况
@@ -83,7 +84,9 @@ public class CacheInterceptorHelper {
             }
             Response originalResponse = chain.proceed(request);
             String cacheControl = originalCacheControl;
-            if (TYPE_NETWORK_NO_CACHE.equals(cacheType)) {
+            if (!isNetworkConnected()) {
+                cacheControl = CACHE_CONTROL_ONLY_CACHE;
+            } else if (TYPE_NETWORK_NO_CACHE.equals(cacheType)) {
                 cacheControl = CACHE_CONTROL_NO_CACHE;
             }
             return originalResponse.newBuilder()
