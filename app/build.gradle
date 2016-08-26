@@ -42,9 +42,8 @@ dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     testCompile dependencies.jUnit
     testCompile dependencies.mockito
-    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
-    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
-
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
@@ -52,24 +51,24 @@ dependencies {
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
     compile dependencies.rxAndroid
-//    compile dependencies.swipelayout
-//    compile dependencies.guava
-//    compile dependencies.androidcommon
-//    compile dependencies.xutils
-//    compile dependencies.ion
-//    compile dependencies.quickutils
-//    compile dependencies.disklrucache
+    //    compile dependencies.swipelayout
+    //    compile dependencies.guava
+    //    compile dependencies.androidcommon
+    //    compile dependencies.xutils
+    //    compile dependencies.ion
+    //    compile dependencies.quickutils
+    //    compile dependencies.disklrucache
     debugCompile dependencies.leakcanarydebug
     releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
     compile dependencies.retrofit2
-//    compile dependencies.retrofit2AdapterRxJava
-//    compile dependencies.retrofit2ConverterGson
-//    compile dependencies.retrofit2ConverterJackson
-//    compile dependencies.retrofit2ConverterMoshi
-//    compile dependencies.retrofit2ConverterProtobuf
-//    compile dependencies.retrofit2ConverterWire
-//    compile dependencies.retrofit2ConverterSimpleXML
+    //    compile dependencies.retrofit2AdapterRxJava
+    //    compile dependencies.retrofit2ConverterGson
+    //    compile dependencies.retrofit2ConverterJackson
+    //    compile dependencies.retrofit2ConverterMoshi
+    //    compile dependencies.retrofit2ConverterProtobuf
+    //    compile dependencies.retrofit2ConverterWire
+    //    compile dependencies.retrofit2ConverterSimpleXML
     compile dependencies.realm
     compile dependencies.picasso
     compile dependencies.glide
@@ -78,8 +77,8 @@ dependencies {
     compile dependencies.stetho_okhttp
     compile dependencies.stetho_urlconnection
     compile dependencies.okhttp
-//    compile dependencies.okhttpLogInterceptor
-
+    //    compile dependencies.okhttpLogInterceptor
     compile dependencies.genius
     compile dependencies.butterKnife
+    compile files('libs/fastjson-1.2.9.jar')
 }
