@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
  * @description
  * @time 2016/8/5 14:05
  */
-public interface Converter<T> {
+public interface Converter {
 
-    T convert(String json, Type type);
+    <T> T convert(String json, Type type);
 }

@@ -1,13 +1,10 @@
-package com.lyric.android.library.handler;
+package com.lyric.android.library.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Looper;
 import android.text.TextUtils;
-
-import com.lyric.android.library.utils.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,16 +18,16 @@ import java.util.Properties;
 import java.util.TreeSet;
 
 /**
- * @author ganyu
- * @description 异常处理类
- * @time 16/3/6 下午9:40
+ * @author lyricgan
+ * @description 异常处理工具类
+ * @time 2016/8/30 17:29
  */
-public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
-    private static final String TAG = ExceptionHandler.class.getSimpleName();
+public class ExceptionUtils implements Thread.UncaughtExceptionHandler {
+    private static final String TAG = ExceptionUtils.class.getSimpleName();
     /** 系统默认的UncaughtException处理类 */
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     /** ExceptionHandler实例 */
-    private static ExceptionHandler mInstance;
+    private static ExceptionUtils mInstance;
     /** 程序的Context对象 */
     private Context mContext;
 
@@ -42,12 +39,12 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     /** 错误报告文件的扩展名 */
     private static final String CRASH_REPORTER_EXTENSION = ".cr";
 
-    private ExceptionHandler() {
+    private ExceptionUtils() {
     }
 
-    public static synchronized ExceptionHandler getInstance() {
+    public static synchronized ExceptionUtils getInstance() {
         if (mInstance == null) {
-            mInstance = new ExceptionHandler();
+            mInstance = new ExceptionUtils();
         }
         return mInstance;
     }
@@ -69,12 +66,6 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         } else {
             mDefaultHandler.uncaughtException(thread, ex);
         }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finishException();
     }
 
     /**
@@ -89,18 +80,11 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         final String msg = ex.getLocalizedMessage();
         final String name = getStackTraceMessage();
         // 打印异常信息
-        new Thread() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                if (TextUtils.isEmpty(name)) {
-                    LogUtils.e(TAG, "handleException:" + msg);
-                } else {
-                    LogUtils.e(TAG, "handleException:" + name + "-" + msg);
-                }
-                Looper.loop();
-            }
-        }.start();
+        if (TextUtils.isEmpty(name)) {
+            LogUtils.e(TAG, "handleException:" + msg);
+        } else {
+            LogUtils.e(TAG, "handleException:" + name + "-" + msg);
+        }
         // 收集设备信息
         collectCrashDeviceInfo(mContext);
         // 保存错误报告文件
@@ -109,10 +93,6 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         sendCrashReportFiles(mContext);
 
         return true;
-    }
-
-    private void finishException() {
-        System.exit(0);
     }
 
     /**
@@ -240,5 +220,4 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
             }
         }
     }
-
 }
