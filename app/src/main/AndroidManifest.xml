@@ -116,7 +116,7 @@
 
         <provider
             android:name=".test.TestContentProvider"
-            android:authorities="com.provider.test"
+            android:authorities="com.lyric.provider.test"
             android:exported="true"
             android:permission="TEST_PROVIDER_WRITE"
             android:readPermission="app.permission.TEST_PROVIDER_READ"

@@ -10,7 +10,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.jfrog.artifactory-upload'
 
@@ -48,37 +48,37 @@ def siteUrl = 'https://github.com/lyricgan/android-utils'                       
 def gitUrl = 'https://github.com/lyricgan/android-utils.git'                     // #CONFIG# // project git
 group = "com.lyric.android.library"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name 'android-utils'                                   // #CONFIG# // project title
-                url siteUrl
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'lyricgan'                                           // #CONFIG# // your user id (you can write your nickname)
-                        name 'Gan Yu'                                       // #CONFIG# // your user name
-                        email 'lyricgan88@163.com'                               // #CONFIG# // your email
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                name 'android-utils'                                   // #CONFIG# // project title
+//                url siteUrl
+//                // Set your license
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'lyricgan'                                           // #CONFIG# // your user id (you can write your nickname)
+//                        name 'Gan Yu'                                       // #CONFIG# // your user name
+//                        email 'lyricgan88@163.com'                               // #CONFIG# // your email
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//                }
+//            }
+//        }
+//    }
+//}
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs

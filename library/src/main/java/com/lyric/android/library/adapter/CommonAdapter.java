@@ -10,26 +10,24 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 列表适配器基类，泛型，继承 {@link BaseAdapter}
- * 
  * @author lyricgan
- * @created 2015-4-20
- * 
+ * @description 表适配器基类，泛型，继承 {@link BaseAdapter}
+ * @time 2016/8/30 19:45
  */
-public abstract class BaseListAdapter<T> extends BaseAdapter {
-	protected Context mContext;
-	protected List<T> mDataList;
+public abstract class CommonAdapter<T> extends BaseAdapter {
+    protected Context mContext;
+    protected List<T> mDataList;
     private int mLayoutId;
 
-    public BaseListAdapter(Context context, int layoutId) {
+    public CommonAdapter(Context context, int layoutId) {
         this(context, new ArrayList<T>(), layoutId);
     }
-	
-    public BaseListAdapter(Context context, T[] arrays, int layoutId) {
+
+    public CommonAdapter(Context context, T[] arrays, int layoutId) {
         this(context, Arrays.asList(arrays), layoutId);
     }
 
-    public BaseListAdapter(Context context, List<T> dataList, int layoutId) {
+    public CommonAdapter(Context context, List<T> dataList, int layoutId) {
         this.mContext = context;
         this.mDataList = dataList;
         this.mLayoutId = layoutId;
@@ -38,32 +36,38 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     public Context getContext() {
         return this.mContext;
     }
-	
-	@Override
-	public int getCount() {
-		return mDataList != null ? mDataList.size() : 0;
-	}
 
-	@Override
-	public T getItem(int position) {
-		return mDataList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHelper helper = ViewHelper.get(convertView, parent, mLayoutId);
-        T object = getItem(position);
-        helper.setAssociatedObject(object);
-        convert(helper, position, object);
-        return helper.getView();
+    @Override
+    public int getCount() {
+        return mDataList != null ? mDataList.size() : 0;
     }
 
-    public abstract void convert(ViewHelper helper, int position, T item);
+    @Override
+    public T getItem(int position) {
+        return mDataList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = View.inflate(getContext(), mLayoutId, parent);
+            viewHolder = new ViewHolder();
+            viewHolder.itemView = convertView;
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        convert(position, viewHolder.itemView, parent);
+        return convertView;
+    }
+
+    public abstract void convert(int position, View convertView, ViewGroup parent);
 
     public void setDataList(List<T> dataList) {
         this.mDataList = dataList;
@@ -119,5 +123,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     public void clear() {
         this.mDataList.clear();
         this.notifyDataSetChanged();
+    }
+
+    static class ViewHolder {
+        private View itemView;
     }
 }
