@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 /**
  * @author ganyu
@@ -45,10 +44,10 @@ public class ActivityUtils {
             }
             context.startActivity(intent);
         } else {
-            if (context instanceof FragmentActivity) {
-                ((FragmentActivity) context).startActivityForResult(intent, requestCode);
-            } else if (context instanceof Activity) {
+            if (context instanceof Activity) {
                 ((Activity) context).startActivityForResult(intent, requestCode);
+            } else {
+                throw new IllegalArgumentException("Context must be instance of Activity");
             }
         }
     }
