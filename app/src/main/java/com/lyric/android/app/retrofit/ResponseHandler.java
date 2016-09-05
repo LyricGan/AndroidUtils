@@ -17,4 +17,7 @@ public class ResponseHandler {
      */
     public static void process(String errorCode, String errorMessage) {
     }
+
+    public static void process(ResponseError error) {
+    }
 }
