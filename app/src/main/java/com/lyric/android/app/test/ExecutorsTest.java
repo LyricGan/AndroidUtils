@@ -7,14 +7,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description
  * @time 2016/1/27 16:15
  */
 public class ExecutorsTest {
-    private static final String TAG = "ExecutorsTest";
+    private static final String TAG = ExecutorsTest.class.getSimpleName();
 
-    public ExecutorsTest() {
+    public void start() {
 //        ExecutorService executorService = Executors.newFixedThreadPool(3);
 //        ExecutorService executorService = Executors.newCachedThreadPool();
 //        ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -40,10 +40,6 @@ public class ExecutorsTest {
                 threadPoolExecutor.shutdown();
             }
         }
-    }
-
-    public static void start() {
-        new ExecutorsTest();
     }
 
     private class AddThread extends Thread {

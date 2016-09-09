@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.adapter.helper;
+package com.lyric.android.app.test.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -53,16 +53,11 @@ import com.squareup.picasso.RequestCreator;
  * </pre>
  */
 public class BaseAdapterHelper {
-
     /** Views indexed with their IDs */
     private final SparseArray<View> views;
-
     private final Context context;
-
     private int position;
-
     private View convertView;
-
     /** Package private field to retain the associated user object and detect a change */
     Object associatedObject;
 
@@ -70,8 +65,7 @@ public class BaseAdapterHelper {
         this.context = context;
         this.position = position;
         this.views = new SparseArray<View>();
-        convertView = LayoutInflater.from(context) //
-                .inflate(layoutId, parent, false);
+        convertView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         convertView.setTag(this);
     }
 
@@ -91,7 +85,6 @@ public class BaseAdapterHelper {
         if (convertView == null) {
             return new BaseAdapterHelper(context, parent, layoutId, position);
         }
-
         // Retrieve the existing helper and update its position
         BaseAdapterHelper existingHelper = (BaseAdapterHelper) convertView.getTag();
         existingHelper.position = position;

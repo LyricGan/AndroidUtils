@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.adapter.helper;
+package com.lyric.android.app.test.adapter;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -33,15 +33,10 @@ import java.util.List;
  * @param <T> The type of the items in the list.
  */
 public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends BaseAdapter {
-
     protected static final String TAG = BaseQuickAdapter.class.getSimpleName();
-
     protected final Context context;
-
     protected final int layoutResId;
-
     protected final List<T> data;
-
     protected boolean displayIndeterminateProgress = false;
 
     /**
@@ -74,7 +69,9 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 
     @Override
     public T getItem(int position) {
-        if (position >= data.size()) return null;
+        if (position >= data.size()) {
+            return null;
+        }
         return data.get(position);
     }
 
@@ -102,7 +99,6 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
             convert(helper, item);
             return helper.getView();
         }
-
         return createIndeterminateProgressView(convertView, parent);
     }
 
@@ -168,7 +164,9 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
     }
 
     public void showIndeterminateProgress(boolean display) {
-        if (display == displayIndeterminateProgress) return;
+        if (display == displayIndeterminateProgress) {
+            return;
+        }
         displayIndeterminateProgress = display;
         notifyDataSetChanged();
     }
@@ -193,5 +191,4 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
      * @return An instance of BaseAdapterHelper
      */
     protected abstract H getAdapterHelper(int position, View convertView, ViewGroup parent);
-
 }

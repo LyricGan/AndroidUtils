@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.adapter.helper;
+package com.lyric.android.app.test.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import static com.lyric.android.app.adapter.helper.BaseAdapterHelper.get;
+import static com.lyric.android.app.test.adapter.BaseAdapterHelper.get;
 
 /**
  * Abstraction class of a BaseAdapter in which you only need

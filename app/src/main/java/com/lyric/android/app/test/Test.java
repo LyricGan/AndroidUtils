@@ -23,22 +23,23 @@ public class Test {
         return TestHolder.INSTANCE;
     }
 
-    public void test() {
-        ExecutorsTest.start();
+    public void execute() {
+        ExecutorsTest executorsTest = new ExecutorsTest();
+        executorsTest.start();
     }
 
-    public void testRegisterBroadcast(Context context, BroadcastReceiver receiver) {
+    public void registerBroadcast(Context context, BroadcastReceiver receiver) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(IntentFlags.ACTION_TEST);
         filter.addAction(IntentFlags.ACTION_TEST_DEFAULT);
         context.registerReceiver(receiver, filter);
     }
 
-    public void testUnregisterBroadcast(Context context, BroadcastReceiver receiver) {
+    public void unregisterBroadcast(Context context, BroadcastReceiver receiver) {
         context.unregisterReceiver(receiver);
     }
 
-    public void testSendBroadcast(Context context) {
+    public void sendBroadcast(Context context) {
         Intent intent = new Intent(IntentFlags.ACTION_TEST_DEFAULT);
         context.sendBroadcast(intent);
     }

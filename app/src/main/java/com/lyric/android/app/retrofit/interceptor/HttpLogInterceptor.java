@@ -91,7 +91,7 @@ public class HttpLogInterceptor implements Interceptor {
         BODY
     }
 
-    public interface Logger {
+    interface Logger {
         void log(String message);
 
         /**
