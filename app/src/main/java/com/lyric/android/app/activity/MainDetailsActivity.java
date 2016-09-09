@@ -8,13 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.test.Test;
 
-public class DetailActivity extends AppCompatActivity {
+public class MainDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_details);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -23,7 +24,10 @@ public class DetailActivity extends AppCompatActivity {
         collapsingToolbar.setTitle("我的课程");
     }
 
-    public void checkin(View view) {
-        Snackbar.make(view, "checkin success!", Snackbar.LENGTH_SHORT).show();
+    public void onCheck(View view) {
+        Snackbar.make(view, "连续点击应用将崩溃", Snackbar.LENGTH_SHORT).show();
+
+        Test.getInstance().printMemoryInfo(this);
+        Test.getInstance().newLeaky();
     }
 }

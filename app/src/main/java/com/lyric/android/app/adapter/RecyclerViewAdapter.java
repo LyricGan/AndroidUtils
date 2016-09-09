@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.activity.DetailActivity;
+import com.lyric.android.app.activity.MainDetailsActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context mContext;
@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mContext.startActivity(new Intent(mContext, DetailActivity.class));
+                        mContext.startActivity(new Intent(mContext, MainDetailsActivity.class));
                     }
                 });
                 animator.start();

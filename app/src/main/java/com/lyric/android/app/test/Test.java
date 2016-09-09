@@ -8,12 +8,15 @@ import android.content.IntentFilter;
 
 import com.lyric.android.app.test.logger.LoggerHelper;
 
+import java.util.ArrayList;
+
 /**
  * @author lyricgan
  * @description
  * @time 2016/7/25 13:51
  */
 public class Test {
+    private ArrayList<byte[]> mLeakyContainer = new ArrayList<>();
 
     private Test() {
     }
@@ -51,7 +54,14 @@ public class Test {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         int memory = activityManager.getMemoryClass();
         int largeMemory = activityManager.getLargeMemoryClass();
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(info);
 
         LoggerHelper.e("memory:" + memory + ",largeMemory:" + largeMemory);
+    }
+
+    public void newLeaky() {
+        byte[] bytes = new byte[100 * 1024 * 1024];
+        mLeakyContainer.add(bytes);
     }
 }

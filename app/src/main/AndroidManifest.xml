@@ -26,6 +26,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -73,7 +74,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity
-            android:name=".activity.DetailActivity"
+            android:name=".activity.MainDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
