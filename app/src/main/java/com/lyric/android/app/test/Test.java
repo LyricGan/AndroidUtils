@@ -1,9 +1,12 @@
 package com.lyric.android.app.test;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import com.lyric.android.app.test.logger.LoggerHelper;
 
 /**
  * @author lyricgan
@@ -42,5 +45,13 @@ public class Test {
     public void sendBroadcast(Context context) {
         Intent intent = new Intent(IntentFlags.ACTION_TEST_DEFAULT);
         context.sendBroadcast(intent);
+    }
+
+    public void printMemoryInfo(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        int memory = activityManager.getMemoryClass();
+        int largeMemory = activityManager.getLargeMemoryClass();
+
+        LoggerHelper.e("memory:" + memory + ",largeMemory:" + largeMemory);
     }
 }

@@ -35,10 +35,14 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
         setContentView(R.layout.activity_splash);
         Button btn_skip = (Button) findViewById(R.id.btn_skip);
 
-        mStartTime = System.currentTimeMillis();
-
         btn_skip.setOnClickListener(this);
         mHandler.setCallback(this);
+
+        initialize();
+    }
+
+    private void initialize() {
+        mStartTime = System.currentTimeMillis();
     }
 
     @Override

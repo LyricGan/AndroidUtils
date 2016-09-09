@@ -9,9 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.adapter.RecyclerViewAdapter;
 
 public class ListFragment extends Fragment {
     private RecyclerView mRecyclerView;
+
+    public static ListFragment newInstance() {
+        return new ListFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
