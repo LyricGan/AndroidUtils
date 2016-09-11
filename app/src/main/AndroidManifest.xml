@@ -122,6 +122,10 @@
             android:permission="TEST_PROVIDER_WRITE"
             android:readPermission="app.permission.TEST_PROVIDER_READ"
             android:writePermission="app.permission.TEST_PROVIDER_WRITE"/>
+
+        <meta-data
+            android:name="com.lyric.android.app.glide.ImageModule"
+            android:value="ImageModule"/>
     </application>
 
 </manifest>
