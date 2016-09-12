@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.test.TestService;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.LogUtils;
+import com.lyric.android.library.utils.ToastUtils;
 
 public class ServiceTestActivity extends BaseCompatActivity {
     private boolean mServiceConnected = false;
@@ -55,27 +57,34 @@ public class ServiceTestActivity extends BaseCompatActivity {
     };
 
     @Override
-    public void onClick(View v) {
+    public void onViewClick(View v) {
+        super.onViewClick(v);
         switch (v.getId()) {
             case R.id.btn_start_service: {
+                ToastUtils.showShort(BaseApp.getContext(), "启动服务");
                 Intent service = new Intent(this, TestService.class);
                 startService(service);
             }
                 break;
             case R.id.btn_stop_service: {
+                ToastUtils.showShort(BaseApp.getContext(), "停止服务");
                 Intent service = new Intent(this, TestService.class);
                 stopService(service);
             }
                 break;
             case R.id.btn_bind_service: {
+                ToastUtils.showShort(BaseApp.getContext(), "绑定服务");
                 Intent service = new Intent(this, TestService.class);
                 bindService(service, mServiceConnection, Context.BIND_AUTO_CREATE);
             }
                 break;
             case R.id.btn_unbind_service: {
                 if (mServiceConnected) {
+                    ToastUtils.showShort(BaseApp.getContext(), "解绑服务");
                     unbindService(mServiceConnection);
                     mServiceConnected = false;
+                } else {
+                    ToastUtils.showShort(BaseApp.getContext(), "服务未绑定");
                 }
             }
                 break;

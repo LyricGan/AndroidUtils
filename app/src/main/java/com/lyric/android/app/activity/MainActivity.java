@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Snackbar comes out", Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
+                Snackbar.make(view, "测试服务", Snackbar.LENGTH_LONG)
+                        .setAction("查看", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(MainActivity.this, ServiceTestActivity.class);
@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
-        titles.add("第一页");
-        titles.add("第二页");
+        titles.add("资讯");
+        titles.add("热点");
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
         List<Fragment> fragments = new ArrayList<>();

@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="?android:selectableItemBackground"
     android:clickable="true"
-    android:padding="12dp"
+    android:foreground="?android:selectableItemBackground"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:padding="12dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -42,7 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="故事，启迪你的人生；美文，陶冶你的情操，有声朗读，洗礼你的耳朵……"
+                android:text="故事，启迪你的人生；美文，陶冶你的情操，有声朗读，洗礼你的耳朵"
                 android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
