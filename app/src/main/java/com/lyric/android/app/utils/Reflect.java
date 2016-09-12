@@ -71,7 +71,6 @@ public final class Reflect {
         return new Reflect(object);
     }
 
-
     /**
      * Let{@link AccessibleObject} Accessible flag is true
      *
@@ -158,7 +157,6 @@ public final class Reflect {
         return field(name).<T>get();
     }
 
-
     /**
      * Get the target field value, and warp to {@link Reflect}
      *
@@ -239,7 +237,6 @@ public final class Reflect {
         return call(name, new Object[0]);
     }
 
-
     /**
      * Call current {@link Reflect#obj} method
      *
@@ -250,7 +247,6 @@ public final class Reflect {
      */
     public Reflect call(String name, Object... args) throws ReflectException {
         Class<?>[] types = getTypes(args);
-
         try {
             Method method = exactMethod(name, types);
             return with(method, obj, args);
@@ -264,10 +260,8 @@ public final class Reflect {
         }
     }
 
-
     private Method exactMethod(String name, Class<?>[] types) throws NoSuchMethodException {
         Class<?> type = type();
-
         try {
             return type.getMethod(name, types);
         } catch (NoSuchMethodException e) {
@@ -276,34 +270,27 @@ public final class Reflect {
                     return type.getDeclaredMethod(name, types);
                 } catch (NoSuchMethodException ignore) {
                 }
-
                 type = type.getSuperclass();
-            }
-            while (type != null);
-
+            } while (type != null);
             throw new NoSuchMethodException();
         }
     }
 
     private Method similarMethod(String name, Class<?>[] types) throws NoSuchMethodException {
         Class<?> type = type();
-
         for (Method method : type.getMethods()) {
             if (isSimilarSignature(method, name, types)) {
                 return method;
             }
         }
-
         do {
             for (Method method : type.getDeclaredMethods()) {
                 if (isSimilarSignature(method, name, types)) {
                     return method;
                 }
             }
-
             type = type.getSuperclass();
-        }
-        while (type != null);
+        } while (type != null);
 
         throw new NoSuchMethodException("No similar method " + name + " with params " + Arrays.toString(types) + " could be found with type " + type() + ".");
     }
@@ -311,7 +298,6 @@ public final class Reflect {
     private boolean isSimilarSignature(Method possiblyMatchingMethod, String desiredMethodName, Class<?>[] desiredParamTypes) {
         return possiblyMatchingMethod.getName().equals(desiredMethodName) && match(possiblyMatchingMethod.getParameterTypes(), desiredParamTypes);
     }
-
 
     /**
      * We can create class by none structural parameters
@@ -366,7 +352,6 @@ public final class Reflect {
                     if (isMap) {
                         Map<String, Object> map = (Map<String, Object>) obj;
                         int length = (args == null ? 0 : args.length);
-
                         if (length == 0 && name.startsWith("get")) {
                             return map.get(toLowerCaseFirstOne(name.substring(3)));
                         } else if (length == 0 && name.startsWith("is")) {
@@ -376,14 +361,12 @@ public final class Reflect {
                             return null;
                         }
                     }
-
                     throw e;
                 }
             }
         };
         return (P) Proxy.newProxyInstance(proxyType.getClassLoader(), new Class[]{proxyType}, handler);
     }
-
 
     /**
      * Change string first char to lower case
@@ -394,7 +377,6 @@ public final class Reflect {
     @SuppressLint("DefaultLocale")
     private static String toLowerCaseFirstOne(String string) {
         int length = string.length();
-
         if (length == 0 || Character.isLowerCase(string.charAt(0))) {
             return string;
         } else if (length == 1) {
@@ -416,16 +398,15 @@ public final class Reflect {
     private boolean match(Class<?>[] declaredTypes, Class<?>[] actualTypes) {
         if (declaredTypes.length == actualTypes.length) {
             for (int i = 0; i < actualTypes.length; i++) {
-                if (actualTypes[i] == NULL.class)
+                if (actualTypes[i] == NULL.class) {
                     continue;
-
+                }
                 // we can get method real type
-                if (realType(declaredTypes[i]).isAssignableFrom(realType(actualTypes[i])))
+                if (realType(declaredTypes[i]).isAssignableFrom(realType(actualTypes[i]))) {
                     continue;
-
+                }
                 return false;
             }
-
             return true;
         } else {
             return false;
@@ -443,7 +424,6 @@ public final class Reflect {
     private static Reflect with(Method method, Object object, Object... args) throws ReflectException {
         try {
             accessible(method);
-
             if (method.getReturnType() == void.class) {
                 method.invoke(object, args);
                 return with(object);
@@ -454,7 +434,6 @@ public final class Reflect {
             throw new ReflectException(e);
         }
     }
-
 
     /**
      * Un wrap the obj
@@ -467,10 +446,8 @@ public final class Reflect {
         if (object instanceof Reflect) {
             return ((Reflect) object).get();
         }
-
         return object;
     }
-
 
     /**
      * Get objects type
@@ -484,14 +461,11 @@ public final class Reflect {
         if (objects == null) {
             return new Class[0];
         }
-
         Class<?>[] result = new Class[objects.length];
-
         for (int i = 0; i < objects.length; i++) {
             Object value = objects[i];
             result[i] = value == null ? NULL.class : value.getClass();
         }
-
         return result;
     }
 
@@ -565,7 +539,6 @@ public final class Reflect {
         return type;
     }
 
-
     /**
      * Get now {@link Reflect} obj class type
      *
@@ -593,7 +566,7 @@ public final class Reflect {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Reflect && this.obj.equals(((Reflect) obj).get());
+        return (obj instanceof Reflect) && this.obj.equals(((Reflect) obj).get());
     }
 
     /**

@@ -32,7 +32,6 @@ import java.net.HttpCookie;
  * Based on the code from this stackoverflow answer http://stackoverflow.com/a/25462286/980387 by janoliver
  * Modifications in the structure of the class and addition of serialization of httpOnly attribute
  */
-
 public class SerializableHttpCookie implements Serializable {
     private static final String TAG = SerializableHttpCookie.class.getSimpleName();
     private static final long serialVersionUID = 6374381323722046732L;

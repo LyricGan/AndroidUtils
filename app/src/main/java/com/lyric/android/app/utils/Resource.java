@@ -2,10 +2,11 @@ package com.lyric.android.app.utils;
 
 /**
  * @author lyricgan
- * @description
+ * @description resources
  * @time 2016/7/29 11:23
  */
 public class Resource {
+
     public static class Color {
         public static final int WHITE = 0xffffffff;
         public static final int BLACK = 0xff000000;

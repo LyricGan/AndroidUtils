@@ -50,7 +50,7 @@ public class ActivityStashUtils {
         }
     }
 
-    public static  void finishActivity(String activityName) {
+    public static void finishActivity(String activityName) {
         List<ActivityInfo> activities = COUNTER.get(activityName);
         if (activities != null && !activities.isEmpty()) {
             for (ActivityInfo info : activities) {
@@ -62,7 +62,7 @@ public class ActivityStashUtils {
         }
     }
 
-    public static  void finishActivity(Activity activity) {
+    public static void finishActivity(Activity activity) {
         String activityName = activity.getClass().getName();
         List<ActivityInfo> activities = COUNTER.get(activityName);
         if (activities != null && !activities.isEmpty()) {
