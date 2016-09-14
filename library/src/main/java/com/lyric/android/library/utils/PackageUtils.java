@@ -319,12 +319,12 @@ public class PackageUtils {
 	 * <li>else see {@link #installNormal(Context, String)}</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 * @param filePath
-	 * @return
+	 * @param context the environment of context
+	 * @param filePath file path of package
+	 * @return code of install result
 	 */
-	public static final int install(Context context, String filePath) {
-		if (PackageUtils.isSystemApplication(context) || ShellUtils.checkRootPermission()) {
+	public static int install(Context context, String filePath) {
+		if (isSystemApplication(context) || ShellUtils.checkRootPermission()) {
 			return installSilent(context, filePath);
 		}
 		return installNormal(context, filePath) ? INSTALL_SUCCEEDED : INSTALL_FAILED_INVALID_URI;
@@ -332,19 +332,19 @@ public class PackageUtils {
 
 	/**
 	 * install package normal by system intent
-	 * @param context
+	 * @param context the environment of context
 	 * @param filePath file path of package
 	 * @return whether apk exist
 	 */
 	public static boolean installNormal(Context context, String filePath) {
-		Intent i = new Intent(Intent.ACTION_VIEW);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
 		File file = new File(filePath);
-		if (file == null || !file.exists() || !file.isFile() || file.length() <= 0) {
+		if (!file.exists() || !file.isFile() || file.length() <= 0) {
 			return false;
 		}
-		i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(i);
+		intent.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 		return true;
 	}
 
@@ -359,17 +359,15 @@ public class PackageUtils {
 	 * <li>Default pm install params is "-r".</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 * @param filePath
-	 *            file path of package
+	 * @param context the environment of context
+	 * @param filePath file path of package
 	 * @return {@link PackageUtils#INSTALL_SUCCEEDED} means install success,
 	 *         other means failed. details see {@link PackageUtils}
 	 *         .INSTALL_FAILED_*. same to {@link PackageManager}.INSTALL_*
 	 * @see #installSilent(Context, String, String)
 	 */
 	public static int installSilent(Context context, String filePath) {
-		return installSilent(context, filePath, " -r "
-				+ getInstallLocationParams());
+		return installSilent(context, filePath, " -r " + getInstallLocationParams());
 	}
 
 	/**
@@ -382,31 +380,24 @@ public class PackageUtils {
 	 * app.</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 * @param filePath
-	 *            file path of package
-	 * @param pmParams
-	 *            pm install params
+	 * @param context the environment of context
+	 * @param filePath file path of package
+	 * @param pmParams pm install params
 	 * @return {@link PackageUtils#INSTALL_SUCCEEDED} means install success,
 	 *         other means failed. details see {@link PackageUtils}
 	 *         .INSTALL_FAILED_*. same to {@link PackageManager}.INSTALL_*
 	 */
-	public static int installSilent(Context context, String filePath,
-			String pmParams) {
+	public static int installSilent(Context context, String filePath, String pmParams) {
 		if (filePath == null || filePath.length() == 0) {
 			return INSTALL_FAILED_INVALID_URI;
 		}
-
 		File file = new File(filePath);
-		if (file == null || file.length() <= 0 || !file.exists()
-				|| !file.isFile()) {
+		if (file.length() <= 0 || !file.exists() || !file.isFile()) {
 			return INSTALL_FAILED_INVALID_URI;
 		}
-
 		/**
 		 * if context is system app, don't need root permission, but should add
-		 * <uses-permission android:name="android.permission.INSTALL_PACKAGES"
-		 * /> in mainfest
+		 * <uses-permission android:name="android.permission.INSTALL_PACKAGES" /> in mainfest
 		 **/
 		StringBuilder command = new StringBuilder()
 				.append("LD_LIBRARY_PATH=/vendor/lib:/system/lib pm install ")
@@ -414,14 +405,10 @@ public class PackageUtils {
 				.append(filePath.replace(" ", "\\ "));
 		ShellUtils.CommandResult commandResult = ShellUtils.execCommand(
 				command.toString(), !isSystemApplication(context), true);
-		if (commandResult.successMsg != null
-				&& (commandResult.successMsg.contains("Success") || commandResult.successMsg
-						.contains("success"))) {
+		if (commandResult.successMsg != null && (commandResult.successMsg.contains("Success") || commandResult.successMsg.contains("success"))) {
 			return INSTALL_SUCCEEDED;
 		}
-
-		Log.e(TAG,
-				new StringBuilder().append("installSilent successMsg:")
+		Log.e(TAG, new StringBuilder().append("installSilent successMsg:")
 						.append(commandResult.successMsg).append(", ErrorMsg:")
 						.append(commandResult.errorMsg).toString());
 		if (commandResult.errorMsg == null) {
@@ -436,8 +423,7 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_INVALID_URI")) {
 			return INSTALL_FAILED_INVALID_URI;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_INSUFFICIENT_STORAGE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_INSUFFICIENT_STORAGE")) {
 			return INSTALL_FAILED_INSUFFICIENT_STORAGE;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_DUPLICATE_PACKAGE")) {
@@ -446,20 +432,16 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_NO_SHARED_USER")) {
 			return INSTALL_FAILED_NO_SHARED_USER;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_UPDATE_INCOMPATIBLE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_UPDATE_INCOMPATIBLE")) {
 			return INSTALL_FAILED_UPDATE_INCOMPATIBLE;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_SHARED_USER_INCOMPATIBLE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_SHARED_USER_INCOMPATIBLE")) {
 			return INSTALL_FAILED_SHARED_USER_INCOMPATIBLE;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_MISSING_SHARED_LIBRARY")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_MISSING_SHARED_LIBRARY")) {
 			return INSTALL_FAILED_MISSING_SHARED_LIBRARY;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_REPLACE_COULDNT_DELETE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_REPLACE_COULDNT_DELETE")) {
 			return INSTALL_FAILED_REPLACE_COULDNT_DELETE;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_DEXOPT")) {
@@ -468,8 +450,7 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_OLDER_SDK")) {
 			return INSTALL_FAILED_OLDER_SDK;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_CONFLICTING_PROVIDER")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_CONFLICTING_PROVIDER")) {
 			return INSTALL_FAILED_CONFLICTING_PROVIDER;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_NEWER_SDK")) {
@@ -478,8 +459,7 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_TEST_ONLY")) {
 			return INSTALL_FAILED_TEST_ONLY;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_CPU_ABI_INCOMPATIBLE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_CPU_ABI_INCOMPATIBLE")) {
 			return INSTALL_FAILED_CPU_ABI_INCOMPATIBLE;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_MISSING_FEATURE")) {
@@ -488,19 +468,16 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_CONTAINER_ERROR")) {
 			return INSTALL_FAILED_CONTAINER_ERROR;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_INVALID_INSTALL_LOCATION")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_INVALID_INSTALL_LOCATION")) {
 			return INSTALL_FAILED_INVALID_INSTALL_LOCATION;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_MEDIA_UNAVAILABLE")) {
 			return INSTALL_FAILED_MEDIA_UNAVAILABLE;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_VERIFICATION_TIMEOUT")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_VERIFICATION_TIMEOUT")) {
 			return INSTALL_FAILED_VERIFICATION_TIMEOUT;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_FAILED_VERIFICATION_FAILURE")) {
+		if (commandResult.errorMsg.contains("INSTALL_FAILED_VERIFICATION_FAILURE")) {
 			return INSTALL_FAILED_VERIFICATION_FAILURE;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_PACKAGE_CHANGED")) {
@@ -512,40 +489,31 @@ public class PackageUtils {
 		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_NOT_APK")) {
 			return INSTALL_PARSE_FAILED_NOT_APK;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_BAD_MANIFEST")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_BAD_MANIFEST")) {
 			return INSTALL_PARSE_FAILED_BAD_MANIFEST;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_UNEXPECTED_EXCEPTION")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_UNEXPECTED_EXCEPTION")) {
 			return INSTALL_PARSE_FAILED_UNEXPECTED_EXCEPTION;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_NO_CERTIFICATES")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_NO_CERTIFICATES")) {
 			return INSTALL_PARSE_FAILED_NO_CERTIFICATES;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")) {
 			return INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING")) {
 			return INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_BAD_PACKAGE_NAME")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_BAD_PACKAGE_NAME")) {
 			return INSTALL_PARSE_FAILED_BAD_PACKAGE_NAME;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID")) {
 			return INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_MANIFEST_MALFORMED")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_MANIFEST_MALFORMED")) {
 			return INSTALL_PARSE_FAILED_MANIFEST_MALFORMED;
 		}
-		if (commandResult.errorMsg
-				.contains("INSTALL_PARSE_FAILED_MANIFEST_EMPTY")) {
+		if (commandResult.errorMsg.contains("INSTALL_PARSE_FAILED_MANIFEST_EMPTY")) {
 			return INSTALL_PARSE_FAILED_MANIFEST_EMPTY;
 		}
 		if (commandResult.errorMsg.contains("INSTALL_FAILED_INTERNAL_ERROR")) {
@@ -562,48 +530,40 @@ public class PackageUtils {
 	 * <li>else see {@link #uninstallNormal(Context, String)}</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 * @param packageName
-	 *            package name of app
+	 * @param context the environment of context
+	 * @param packageName package name of app
 	 * @return whether package name is empty
-	 * @return
 	 */
-	public static final int uninstall(Context context, String packageName) {
-		if (PackageUtils.isSystemApplication(context)
-				|| ShellUtils.checkRootPermission()) {
+	public static int uninstall(Context context, String packageName) {
+		if (PackageUtils.isSystemApplication(context) || ShellUtils.checkRootPermission()) {
 			return uninstallSilent(context, packageName);
 		}
-		return uninstallNormal(context, packageName) ? DELETE_SUCCEEDED
-				: DELETE_FAILED_INVALID_PACKAGE;
+		return uninstallNormal(context, packageName) ? DELETE_SUCCEEDED : DELETE_FAILED_INVALID_PACKAGE;
 	}
 
 	/**
 	 * uninstall package normal by system intent
 	 * 
-	 * @param context
-	 * @param packageName
-	 *            package name of app
+	 * @param context the environment of context
+	 * @param packageName package name of app
 	 * @return whether package name is empty
 	 */
 	public static boolean uninstallNormal(Context context, String packageName) {
 		if (packageName == null || packageName.length() == 0) {
 			return false;
 		}
-
-		Intent i = new Intent(Intent.ACTION_DELETE,
-				Uri.parse(new StringBuilder(32).append("package:")
-						.append(packageName).toString()));
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(i);
+		Intent intent = new Intent(Intent.ACTION_DELETE,
+				Uri.parse(new StringBuilder(32).append("package:").append(packageName).toString()));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 		return true;
 	}
 
 	/**
 	 * uninstall package and clear data of app silent by root
 	 * 
-	 * @param context
-	 * @param packageName
-	 *            package name of app
+	 * @param context the environment of context
+	 * @param packageName package name of app
 	 * @return
 	 * @see #uninstallSilent(Context, String, boolean)
 	 */
@@ -620,12 +580,9 @@ public class PackageUtils {
 	 * manifest, so no need to request root permission, if you are system app.</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 *            file path of package
-	 * @param packageName
-	 *            package name of app
-	 * @param isKeepData
-	 *            whether keep the data and cache directories around after
+	 * @param context the environment of context
+	 * @param packageName package name of app
+	 * @param isKeepData whether keep the data and cache directories around after
 	 *            package removal
 	 * @return <ul>
 	 *         <li>{@link #DELETE_SUCCEEDED} means uninstall success</li>
@@ -635,30 +592,24 @@ public class PackageUtils {
 	 *         <li>{@link #DELETE_FAILED_PERMISSION_DENIED} means permission
 	 *         denied</li>
 	 */
-	public static int uninstallSilent(Context context, String packageName,
-			boolean isKeepData) {
+	public static int uninstallSilent(Context context, String packageName, boolean isKeepData) {
 		if (packageName == null || packageName.length() == 0) {
 			return DELETE_FAILED_INVALID_PACKAGE;
 		}
-
 		/**
 		 * if context is system app, don't need root permission, but should add
 		 * <uses-permission android:name="android.permission.DELETE_PACKAGES" />
-		 * in mainfest
+		 * in manifest
 		 **/
 		StringBuilder command = new StringBuilder()
 				.append("LD_LIBRARY_PATH=/vendor/lib:/system/lib pm uninstall")
 				.append(isKeepData ? " -k " : " ")
 				.append(packageName.replace(" ", "\\ "));
-		ShellUtils.CommandResult commandResult = ShellUtils.execCommand(
-				command.toString(), !isSystemApplication(context), true);
-		if (commandResult.successMsg != null
-				&& (commandResult.successMsg.contains("Success") || commandResult.successMsg
-						.contains("success"))) {
+		ShellUtils.CommandResult commandResult = ShellUtils.execCommand(command.toString(), !isSystemApplication(context), true);
+		if (commandResult.successMsg != null && (commandResult.successMsg.contains("Success") || commandResult.successMsg.contains("success"))) {
 			return DELETE_SUCCEEDED;
 		}
-		Log.e(TAG,
-				new StringBuilder().append("uninstallSilent successMsg:")
+		Log.e(TAG, new StringBuilder().append("uninstallSilent successMsg:")
 						.append(commandResult.successMsg).append(", ErrorMsg:")
 						.append(commandResult.errorMsg).toString());
 		if (commandResult.errorMsg == null) {
@@ -673,38 +624,35 @@ public class PackageUtils {
 	/**
 	 * whether context is system application
 	 * 
-	 * @param context
-	 * @return
+	 * @param context the environment of context
+	 * @return true or false
 	 */
 	public static boolean isSystemApplication(Context context) {
 		if (context == null) {
 			return false;
 		}
-
 		return isSystemApplication(context, context.getPackageName());
 	}
 
 	/**
 	 * whether packageName is system application
 	 * 
-	 * @param context
-	 * @param packageName
-	 * @return
+	 * @param context the environment of context
+	 * @param packageName package name of app
+	 * @return true or false
 	 */
-	public static boolean isSystemApplication(Context context,
-			String packageName) {
+	public static boolean isSystemApplication(Context context, String packageName) {
 		if (context == null) {
 			return false;
 		}
-
 		return isSystemApplication(context.getPackageManager(), packageName);
 	}
 
 	/**
 	 * whether packageName is system application
 	 * 
-	 * @param packageManager
-	 * @param packageName
+	 * @param packageManager package manager instance
+	 * @param packageName package name of app
 	 * @return <ul>
 	 *         <li>if packageManager is null, return false</li>
 	 *         <li>if package name is null or is empty, return false</li>
@@ -713,16 +661,12 @@ public class PackageUtils {
 	 *         <li>else return true</li>
 	 *         </ul>
 	 */
-	public static boolean isSystemApplication(PackageManager packageManager,
-			String packageName) {
-		if (packageManager == null || packageName == null
-				|| packageName.length() == 0) {
+	public static boolean isSystemApplication(PackageManager packageManager, String packageName) {
+		if (packageManager == null || packageName == null || packageName.length() == 0) {
 			return false;
 		}
-
 		try {
-			ApplicationInfo app = packageManager.getApplicationInfo(
-					packageName, 0);
+			ApplicationInfo app = packageManager.getApplicationInfo(packageName, 0);
 			return (app != null && (app.flags & ApplicationInfo.FLAG_SYSTEM) > 0);
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
@@ -739,25 +683,22 @@ public class PackageUtils {
 	 * manifest</li>
 	 * </ul>
 	 * 
-	 * @param context
-	 * @param packageName
+	 * @param context the environment of context
+	 * @param packageName package name of app
 	 * @return if params error or task stack is null, return null, otherwise
-	 *         retun whether the app is on the top of stack
+	 *         return whether the app is on the top of stack
 	 */
-	public static Boolean isTopActivity(Context context, String packageName) {
+	public static boolean isTopActivity(Context context, String packageName) {
 		if (context == null || StringUtils.isEmpty(packageName)) {
-			return null;
+			return false;
 		}
-
-		ActivityManager activityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
 		if (tasksInfo == null || tasksInfo.size() == 0) {
-			return null;
+			return false;
 		}
 		try {
-			return packageName.equals(tasksInfo.get(0).topActivity
-					.getPackageName());
+			return packageName.equals(tasksInfo.get(0).topActivity.getPackageName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -768,7 +709,7 @@ public class PackageUtils {
 	 * get system install location<br/>
 	 * can be set by System Menu Setting->Storage->Prefered install location
 	 * 
-	 * @return
+	 * @return system install location
 	 */
 	public static int getInstallLocation() {
 		ShellUtils.CommandResult commandResult = ShellUtils.execCommand("LD_LIBRARY_PATH=/vendor/lib:/system/lib pm get-install-location", false, true);
@@ -807,8 +748,8 @@ public class PackageUtils {
 
 	/**
 	 * start InstalledAppDetails Activity
-	 * @param context Context
-	 * @param packageName
+	 * @param context the environment of context
+	 * @param packageName package name of app
 	 */
 	public static void startInstalledAppDetails(Context context, String packageName) {
 		Intent intent = new Intent();
@@ -868,9 +809,9 @@ public class PackageUtils {
     }
 
     /**
-     * 获取应用名称
-     * @param context 上下文对象
-     * @return 应用名称
+     * get name of app
+     * @param context the environment of context
+     * @return name of app
      */
     public static String getAppName(Context context) {
         CheckUtils.checkContext(context);
@@ -879,9 +820,9 @@ public class PackageUtils {
     }
 
     /**
-     * 获取应用版本号versionCode
-     * @param context 上下文对象
-     * @return 版本号
+     * get version code of app
+     * @param context the environment of context
+     * @return version code of app
      */
     public static int getAppVersionCode(Context context) {
         CheckUtils.checkContext(context);
@@ -898,9 +839,9 @@ public class PackageUtils {
     }
 
     /**
-     * 获取应用版本号versionName
-     * @param context 上下文对象
-     * @return 版本号
+     * get version name of app
+     * @param context the environment of context
+     * @return version name of app
      */
     public static String getAppVersionName(Context context) {
         CheckUtils.checkContext(context);
@@ -908,7 +849,7 @@ public class PackageUtils {
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
         try {
-            // 获取当前类的包名，0代表获取版本信息
+            // get package name of current class，0 which means the package info
             packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionName = packageInfo.versionName;
         } catch (NameNotFoundException e) {
