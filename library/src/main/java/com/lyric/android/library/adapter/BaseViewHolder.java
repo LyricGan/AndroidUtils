@@ -27,27 +27,27 @@ import android.widget.TextView;
 
 /**
  * @author lyricgan
- * @description view helper
+ * @description view holder for adapter
  * @time 16/3/10
  */
-public class ViewHelper {
+public class BaseViewHolder {
     private Context mContext;
     private SparseArray<View> mViewArray;
     private View mConvertView;
     private Object mAssociatedObject;
 
-    public ViewHelper(ViewGroup parent, int layoutId) {
+    public BaseViewHolder(ViewGroup parent, int layoutId) {
         this.mContext = parent.getContext();
         this.mViewArray = new SparseArray<View>();
         this.mConvertView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
         this.mConvertView.setTag(this);
     }
 
-    public static ViewHelper get(View convertView, ViewGroup parent, int layoutId) {
+    public static BaseViewHolder get(View convertView, ViewGroup parent, int layoutId) {
         if (convertView == null) {
-            return new ViewHelper(parent, layoutId);
+            return new BaseViewHolder(parent, layoutId);
         } else {
-            return (ViewHelper) convertView.getTag();
+            return (BaseViewHolder) convertView.getTag();
         }
     }
 
@@ -86,12 +86,12 @@ public class ViewHelper {
         return itemChanged;
     }
 
-    public ViewHelper setVisibility(int viewId, int visibility) {
+    public BaseViewHolder setVisibility(int viewId, int visibility) {
         getView(viewId).setVisibility(visibility);
         return this;
     }
 
-    public ViewHelper toggleVisibility(int viewId) {
+    public BaseViewHolder toggleVisibility(int viewId) {
         View view = getView(viewId);
         if (View.VISIBLE == view.getVisibility()) {
             view.setVisibility(View.GONE);
@@ -101,22 +101,22 @@ public class ViewHelper {
         return this;
     }
 
-    public ViewHelper setEnabled(int viewId, boolean enabled) {
+    public BaseViewHolder setEnabled(int viewId, boolean enabled) {
         getView(viewId).setEnabled(enabled);
         return this;
     }
 
-    public ViewHelper setText(int viewId, int textId) {
+    public BaseViewHolder setText(int viewId, int textId) {
         return setText(viewId, mContext.getString(textId));
     }
 
-    public ViewHelper setText(int viewId, String text) {
+    public BaseViewHolder setText(int viewId, String text) {
         TextView textView = getView(viewId);
         textView.setText(text);
         return this;
     }
 
-    public ViewHelper setTextAppearance(int viewId, int redId) {
+    public BaseViewHolder setTextAppearance(int viewId, int redId) {
         TextView textView = getView(viewId);
         if (Build.VERSION.SDK_INT >= 23) {
             textView.setTextAppearance(redId);
@@ -126,62 +126,62 @@ public class ViewHelper {
         return this;
     }
 
-    public ViewHelper setTextColor(int viewId, int textColor) {
+    public BaseViewHolder setTextColor(int viewId, int textColor) {
         TextView textView = getView(viewId);
         textView.setTextColor(textColor);
         return this;
     }
 
-    public ViewHelper setTextColor(int viewId, ColorStateList colorList) {
+    public BaseViewHolder setTextColor(int viewId, ColorStateList colorList) {
         TextView textView = getView(viewId);
         textView.setTextColor(colorList);
         return this;
     }
 
-    public ViewHelper setTextColorResource(int viewId, int textColorResId) {
+    public BaseViewHolder setTextColorResource(int viewId, int textColorResId) {
         return setTextColor(viewId, textColorResId);
     }
 
-    public ViewHelper setTextColorStateListRes(int viewId, int textColorStateListResId) {
+    public BaseViewHolder setTextColorStateListRes(int viewId, int textColorStateListResId) {
         return setTextColor(viewId, textColorStateListResId);
     }
 
-    public ViewHelper setTextSizeDp(int viewId, float size) {
+    public BaseViewHolder setTextSizeDp(int viewId, float size) {
         ((TextView) getView(viewId)).setTextSize(size);
         return this;
     }
 
-    public ViewHelper setTextSize(int viewId, float size) {
+    public BaseViewHolder setTextSize(int viewId, float size) {
         ((TextView) getView(viewId)).setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
         return this;
     }
 
-    public ViewHelper setTextDrawable(int viewId, int left, int top, int right, int bottom) {
+    public BaseViewHolder setTextDrawable(int viewId, int left, int top, int right, int bottom) {
         ((TextView) getView(viewId)).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
         return this;
     }
 
-    public ViewHelper setTextDrawable(int viewId, Drawable left, Drawable top, Drawable right, Drawable bottom) {
+    public BaseViewHolder setTextDrawable(int viewId, Drawable left, Drawable top, Drawable right, Drawable bottom) {
         ((TextView) getView(viewId)).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
         return this;
     }
 
-    public ViewHelper setTextDrawablePadding(int viewId, int padding) {
+    public BaseViewHolder setTextDrawablePadding(int viewId, int padding) {
         ((TextView) getView(viewId)).setCompoundDrawablePadding(padding);
         return this;
     }
 
-    public ViewHelper setBackgroundColor(int viewId, int color) {
+    public BaseViewHolder setBackgroundColor(int viewId, int color) {
         getView(viewId).setBackgroundColor(color);
         return this;
     }
 
-    public ViewHelper setBackgroundResource(int viewId, int backgroundResource) {
+    public BaseViewHolder setBackgroundResource(int viewId, int backgroundResource) {
         getView(viewId).setBackgroundResource(backgroundResource);
         return this;
     }
 
-    public ViewHelper setBackgroundDrawable(int viewId, Drawable background) {
+    public BaseViewHolder setBackgroundDrawable(int viewId, Drawable background) {
         if (Build.VERSION.SDK_INT >= 16) {
             getView(viewId).setBackground(background);
         } else {
@@ -190,36 +190,30 @@ public class ViewHelper {
         return this;
     }
 
-    public ViewHelper setImageResource(int viewId, int resourceId) {
+    public BaseViewHolder setImageResource(int viewId, int resourceId) {
         ImageView imageView = getView(viewId);
         imageView.setImageResource(resourceId);
         return this;
     }
 
-    public ViewHelper setImageBitmap(int viewId, Bitmap bitmap) {
+    public BaseViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView imageView = getView(viewId);
         imageView.setImageBitmap(bitmap);
         return this;
     }
 
-    public ViewHelper setImageDrawable(int viewId, Drawable d) {
+    public BaseViewHolder setImageDrawable(int viewId, Drawable d) {
         ((ImageView) getView(viewId)).setImageDrawable(d);
         return this;
     }
 
-    public ViewHelper setImageUrl(int viewId, String imageUrl) {
-        ImageView imageView = getView(viewId);
-//        ImageLoader.load(getContext(), imageUrl, imageView);
-        return this;
-    }
-
-    public ViewHelper setChecked(int viewId, boolean checked) {
+    public BaseViewHolder setChecked(int viewId, boolean checked) {
         CheckBox checkBox = getView(viewId);
         checkBox.setChecked(checked);
         return this;
     }
 
-    public ViewHelper setAlpha(int viewId, float alpha) {
+    public BaseViewHolder setAlpha(int viewId, float alpha) {
         View view = getView(viewId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             view.setAlpha(alpha);
@@ -232,115 +226,115 @@ public class ViewHelper {
         return this;
     }
 
-    public ViewHelper linkify(int viewId) {
+    public BaseViewHolder linkify(int viewId) {
         Linkify.addLinks((TextView) getView(viewId), Linkify.ALL);
         return this;
     }
 
-    public ViewHelper linkify(int viewId, int mask) {
+    public BaseViewHolder linkify(int viewId, int mask) {
         Linkify.addLinks((TextView) getView(viewId), mask);
         return this;
     }
 
-    public ViewHelper setTypeface(int viewId, Typeface typeface) {
+    public BaseViewHolder setTypeface(int viewId, Typeface typeface) {
         TextView view = getView(viewId);
         view.setTypeface(typeface);
         view.setPaintFlags(view.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG);
         return this;
     }
 
-    public ViewHelper setTypeface(Typeface typeface, int... viewIds) {
+    public BaseViewHolder setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             setTypeface(viewId, typeface);
         }
         return this;
     }
 
-    public ViewHelper setProgress(int viewId, int progress) {
+    public BaseViewHolder setProgress(int viewId, int progress) {
         ((ProgressBar) getView(viewId)).setProgress(progress);
         return this;
     }
 
-    public ViewHelper setProgress(int viewId, int progress, int max) {
+    public BaseViewHolder setProgress(int viewId, int progress, int max) {
         ProgressBar progressBar = getView(viewId);
         progressBar.setProgress(progress);
         progressBar.setMax(max);
         return this;
     }
 
-    public ViewHelper setProgressMax(int viewId, int max) {
+    public BaseViewHolder setProgressMax(int viewId, int max) {
         ((ProgressBar) getView(viewId)).setMax(max);
         return this;
     }
 
-    public ViewHelper setRating(int viewId, float rating) {
+    public BaseViewHolder setRating(int viewId, float rating) {
         ((RatingBar) getView(viewId)).setRating(rating);
         return this;
     }
 
-    public ViewHelper setRating(int viewId, float rating, int max) {
+    public BaseViewHolder setRating(int viewId, float rating, int max) {
         RatingBar ratingBar = getView(viewId);
         ratingBar.setRating(rating);
         ratingBar.setMax(max);
         return this;
     }
 
-    public ViewHelper setTag(int viewId, Object tag) {
+    public BaseViewHolder setTag(int viewId, Object tag) {
         getView(viewId).setTag(tag);
         return this;
     }
 
-    public ViewHelper setTag(int viewId, int key, Object tag) {
+    public BaseViewHolder setTag(int viewId, int key, Object tag) {
         getView(viewId).setTag(key, tag);
         return this;
     }
 
-    public ViewHelper setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
+    public BaseViewHolder setOnCheckedChangeListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
         ((CompoundButton) getView(viewId)).setOnCheckedChangeListener(listener);
         return this;
     }
 
-    public ViewHelper setOnClickListener(View.OnClickListener listener) {
+    public BaseViewHolder setOnClickListener(View.OnClickListener listener) {
         getView().setOnClickListener(listener);
         return this;
     }
 
-    public ViewHelper setOnClickListener(int viewId, View.OnClickListener listener) {
+    public BaseViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         getView(viewId).setOnClickListener(listener);
         return this;
     }
 
-    public ViewHelper setOnLongClickListener(View.OnLongClickListener listener) {
+    public BaseViewHolder setOnLongClickListener(View.OnLongClickListener listener) {
         getView().setOnLongClickListener(listener);
         return this;
     }
 
-    public ViewHelper setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
+    public BaseViewHolder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         getView(viewId).setOnLongClickListener(listener);
         return this;
     }
 
-    public ViewHelper setOnTouchListener(View.OnTouchListener listener) {
+    public BaseViewHolder setOnTouchListener(View.OnTouchListener listener) {
         getView().setOnTouchListener(listener);
         return this;
     }
 
-    public ViewHelper setOnTouchListener(int viewId, View.OnTouchListener listener) {
+    public BaseViewHolder setOnTouchListener(int viewId, View.OnTouchListener listener) {
         getView(viewId).setOnTouchListener(listener);
         return this;
     }
 
-    public ViewHelper addTextChangedListener(int viewId, TextWatcher watcher){
+    public BaseViewHolder addTextChangedListener(int viewId, TextWatcher watcher){
         ((TextView) getView(viewId)).addTextChangedListener(watcher);
         return this;
     }
 
-    public ViewHelper setAdapter(int viewId, Adapter adapter) {
+    public BaseViewHolder setAdapter(int viewId, Adapter adapter) {
         ((AdapterView) getView(viewId)).setAdapter(adapter);
         return this;
     }
 
-    public ViewHelper setRecyclerAdapter(int viewId, RecyclerView.Adapter adapter) {
+    public BaseViewHolder setRecyclerAdapter(int viewId, RecyclerView.Adapter adapter) {
         ((RecyclerView) getView(viewId)).setAdapter(adapter);
         return this;
     }

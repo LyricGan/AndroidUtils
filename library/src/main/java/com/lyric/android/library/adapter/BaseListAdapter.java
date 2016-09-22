@@ -1,6 +1,5 @@
 package com.lyric.android.library.adapter;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,35 +9,27 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 列表适配器基类，泛型，继承 {@link BaseAdapter}
- * 
  * @author lyricgan
- * @created 2015-4-20
- * 
+ * @description base adapter for list, {@link BaseAdapter}
+ * @time 16/3/10
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
-	protected Context mContext;
-	protected List<T> mDataList;
+    private List<T> mDataList;
     private int mLayoutId;
 
-    public BaseListAdapter(Context context, int layoutId) {
-        this(context, new ArrayList<T>(), layoutId);
+    public BaseListAdapter(int layoutId) {
+        this(new ArrayList<T>(), layoutId);
     }
 	
-    public BaseListAdapter(Context context, T[] arrays, int layoutId) {
-        this(context, Arrays.asList(arrays), layoutId);
+    public BaseListAdapter(T[] arrays, int layoutId) {
+        this(Arrays.asList(arrays), layoutId);
     }
 
-    public BaseListAdapter(Context context, List<T> dataList, int layoutId) {
-        this.mContext = context;
+    public BaseListAdapter(List<T> dataList, int layoutId) {
         this.mDataList = dataList;
         this.mLayoutId = layoutId;
     }
 
-    public Context getContext() {
-        return this.mContext;
-    }
-	
 	@Override
 	public int getCount() {
 		return mDataList != null ? mDataList.size() : 0;
@@ -56,14 +47,14 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHelper helper = ViewHelper.get(convertView, parent, mLayoutId);
+        BaseViewHolder holder = BaseViewHolder.get(convertView, parent, mLayoutId);
         T object = getItem(position);
-        helper.setAssociatedObject(object);
-        convert(helper, position, object);
-        return helper.getView();
+        holder.setAssociatedObject(object);
+        convert(holder, position, object);
+        return holder.getView();
     }
 
-    public abstract void convert(ViewHelper helper, int position, T item);
+    public abstract void convert(BaseViewHolder holder, int position, T item);
 
     public void setDataList(List<T> dataList) {
         this.mDataList = dataList;
