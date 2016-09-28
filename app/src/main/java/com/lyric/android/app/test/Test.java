@@ -64,4 +64,8 @@ public class Test {
         byte[] bytes = new byte[100 * 1024 * 1024];
         mLeakyContainer.add(bytes);
     }
+
+    public void test() {
+
+    }
 }
