@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import com.lyric.android.app.test.logger.LoggerHelper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * @author lyricgan
@@ -66,6 +68,7 @@ public class Test {
     }
 
     public void test() {
-
+        Iterator iterator;
+        Stack stack;
     }
 }
