@@ -1,33 +1,33 @@
-package com.lyric.android.app.test;
+package com.lyric.android.library.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.lyric.android.library.preferences.PreferencesBaseImpl;
 
 /**
  * @author lyricgan
  * @description implement of preferences
  * @time 2016/9/30 15:41
  */
-public abstract class PreferencesImpl extends PreferencesBaseImpl {
-    private static final String DEFAULT_PREFERENCE_NAME = "android_utils";
+public class PreferencesImpl extends PreferencesBaseImpl {
     private String mPreferencesName;
     private Gson mGson;
+    private Context mContext;
 
-    public PreferencesImpl() {
-        this(DEFAULT_PREFERENCE_NAME);
-    }
-
-    public PreferencesImpl(String name) {
+    public PreferencesImpl(Context context, String name) {
         super();
+        this.mContext = context.getApplicationContext();
         this.mPreferencesName = name;
         this.mGson = new Gson();
     }
 
     public String getName() {
         return mPreferencesName;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     public void setName(String name) {
@@ -46,6 +46,4 @@ public abstract class PreferencesImpl extends PreferencesBaseImpl {
     public <T> void put(String key, T object) {
         putString(key,  mGson.toJson(object));
     }
-
-    public abstract Context getContext();
 }

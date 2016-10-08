@@ -26,6 +26,7 @@ import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
+import com.lyric.android.app.test.Test;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.library.utils.ActivityUtils;
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
             }
         });
+
+        Test.getInstance().test();
     }
 
     @Override

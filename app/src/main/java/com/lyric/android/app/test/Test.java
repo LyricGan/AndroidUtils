@@ -70,5 +70,7 @@ public class Test {
     public void test() {
         Iterator iterator;
         Stack stack;
+
+        Preferences.getInstance().clear();
     }
 }
