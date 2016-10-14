@@ -1,16 +1,29 @@
 package com.lyric.android.app.test;
 
 import android.app.ActivityManager;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Binder;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.view.View;
+import android.view.textservice.TextServicesManager;
 
 import com.lyric.android.app.test.logger.LoggerHelper;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
+
+import dalvik.system.DexClassLoader;
+import rx.android.plugins.RxAndroidSchedulersHook;
 
 /**
  * @author lyricgan
@@ -72,5 +85,23 @@ public class Test {
         Stack stack;
 
         Preferences.getInstance().clear();
+
+        Service service;
+        TextServicesManager textServicesManager;
+        ActivityManager activityManager;
+        PackageManager packageManager;
+        Binder binder;
+        ClassLoader classLoader;
+        DexClassLoader dexClassLoader;
+        Handler handler;
+        Message message;
+        Looper looper;
+        Context context;
+        RxAndroidSchedulersHook rxAndroidSchedulersHook;
+
+        InvocationHandler invocationHandler;
+        Proxy proxy;
+
+        View view;
     }
 }

@@ -60,31 +60,21 @@ public class DeviceUtils {
     }
 
     /**
-     * 以JSON格式返回mac地址和设备ID，需要添加权限{@link android.Manifest.permission#ACCESS_WIFI_STATE}
+     * 获取设备ID，需要添加权限{@link android.Manifest.permission#ACCESS_WIFI_STATE}
      * @param context Context
-     * @return mac地址和设备ID
+     * @return 设备ID
      */
-    public static String getDeviceInfo(Context context) {
-        try {
-            JSONObject json = new JSONObject();
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String device_id = tm.getDeviceId();
+    public static String getDeviceId(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tm.getDeviceId();
+        if (TextUtils.isEmpty(deviceId)) {
             WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            String mac = wifi.getConnectionInfo().getMacAddress();
-            json.put("mac", mac);
-            if (TextUtils.isEmpty(device_id)) {
-                device_id = mac;
-            }
-            if (TextUtils.isEmpty(device_id)) {
-                device_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            }
-            json.put("device_id", device_id);
-
-            return json.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
+            deviceId = wifi.getConnectionInfo().getMacAddress();
         }
-        return null;
+        if (TextUtils.isEmpty(deviceId)) {
+            deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+        return deviceId;
     }
 
     /**
