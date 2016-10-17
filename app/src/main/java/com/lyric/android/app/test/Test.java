@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.textservice.TextServicesManager;
 
+import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.test.logger.LoggerHelper;
 
 import java.lang.reflect.InvocationHandler;
@@ -78,6 +80,20 @@ public class Test {
     public void newLeaky() {
         byte[] bytes = new byte[100 * 1024 * 1024];
         mLeakyContainer.add(bytes);
+    }
+
+    /**
+     * 获取当前应用APK路径
+     * @param context 上下文
+     * @return 当前应用APK路径
+     */
+    public String extract(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        return applicationInfo.sourceDir;
+    }
+
+    public void initialize() {
+        LoggerHelper.e("sourceDir:" + extract(BaseApp.getContext()));
     }
 
     public void test() {

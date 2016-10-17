@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Test.getInstance().test();
+        Test.getInstance().initialize();
     }
 
     @Override

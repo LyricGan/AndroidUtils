@@ -58,7 +58,7 @@ final class LoggerImpl implements ILogger {
      * TAG is used for the Log, the name is a little different in order to
      * differentiate the logs easily with the filter
      */
-    private static String TAG = "PRETTY_LOGGER";
+    private static String TAG = "LOGGER_HELPER";
     /**
      * Localize single tag and method count for each thread
      */
