@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.logger;
+package com.lyric.android.library.logger;
 
 /**
  * @author Orhan Obut
@@ -7,7 +7,7 @@ public interface ILogger {
 
     ILogger t(String tag, int methodCount);
 
-    LoggerSettings init(String tag);
+    Settings init(String tag);
 
     void d(String message, Object... args);
 

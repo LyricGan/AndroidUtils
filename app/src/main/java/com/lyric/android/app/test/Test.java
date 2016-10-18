@@ -16,8 +16,10 @@ import android.view.View;
 import android.view.textservice.TextServicesManager;
 
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.test.logger.LoggerHelper;
+import com.lyric.android.library.logger.Loggers;
+import com.lyric.android.library.utils.FileUtils;
 
+import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ public class Test {
         ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(info);
 
-        LoggerHelper.e("memory:" + memory + ",largeMemory:" + largeMemory);
+        Loggers.e("memory:" + memory + ",largeMemory:" + largeMemory);
     }
 
     public void newLeaky() {
@@ -93,7 +95,17 @@ public class Test {
     }
 
     public void initialize() {
-        LoggerHelper.e("sourceDir:" + extract(BaseApp.getContext()));
+        Loggers.init().setMethodCount(2).setLevelFull();
+        Loggers.e("sourceDir:" + extract(BaseApp.getContext()));
+
+        File bitmapFile = FileUtils.getCacheDir(BaseApp.getContext(), "bitmap");
+        if (bitmapFile != null) {
+            Loggers.e("file path:" + bitmapFile.getPath());
+        }
+        File file = FileUtils.getCacheDir(BaseApp.getContext(), "file");
+        if (file != null) {
+            Loggers.e("file path:" + file.getPath());
+        }
     }
 
     public void test() {

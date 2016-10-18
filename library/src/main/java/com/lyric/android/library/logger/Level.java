@@ -1,9 +1,9 @@
-package com.lyric.android.app.test.logger;
+package com.lyric.android.library.logger;
 
 /**
  * @author Orhan Obut
  */
-public enum LoggerLevel {
+public enum Level {
 	/**
 	 * Prints all logs
 	 */

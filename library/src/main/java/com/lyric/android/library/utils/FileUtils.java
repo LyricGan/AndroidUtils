@@ -208,21 +208,27 @@ public class FileUtils {
         return path.delete();
     }
 
+    /**
+     * 获取磁盘缓存文件
+     * @param context 上下文
+     * @param dirName 路径下目录名称
+     * @return 磁盘缓存文件
+     */
     public static File getCacheDir(Context context, String dirName) {
-        context = context.getApplicationContext();
-        File result;
-        if (existsSdcard()) {
-            File cacheDir = context.getExternalCacheDir();
-            if (cacheDir == null) {
-                result = new File(Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/cache/" + dirName);
+        File file;
+        // 判断SD卡是否存在，或者SD卡不可被移除
+        if (isSdcardExists() || !Environment.isExternalStorageRemovable()) {
+            File externalCacheDir = context.getExternalCacheDir();
+            if (externalCacheDir != null) {
+                file = new File(externalCacheDir, dirName);
             } else {
-                result = new File(cacheDir, dirName);
+                file = new File(Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/cache/" + dirName);
             }
         } else {
-            result = new File(context.getCacheDir(), dirName);
+            file = new File(context.getCacheDir(), dirName);
         }
-        if (result.exists() || result.mkdirs()) {
-            return result;
+        if (file.exists() || file.mkdirs()) {
+            return file;
         } else {
             return null;
         }
@@ -244,7 +250,7 @@ public class FileUtils {
      * @return byte 单位 kb
      */
     public static long getDiskAvailableSize() {
-        if (!existsSdcard()) return 0;
+        if (!isSdcardExists()) return 0;
         File path = Environment.getExternalStorageDirectory(); // 取得sdcard文件路径
         StatFs stat = new StatFs(path.getAbsolutePath());
         long blockSize = stat.getBlockSize();
@@ -254,7 +260,11 @@ public class FileUtils {
         // (availableBlocks * blockSize)/1024 /1024 MIB单位
     }
 
-    public static boolean existsSdcard() {
+    /**
+     * 判断SD卡是否存在
+     * @return true or false
+     */
+    public static boolean isSdcardExists() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 

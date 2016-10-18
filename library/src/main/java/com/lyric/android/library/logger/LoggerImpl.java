@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.logger;
+package com.lyric.android.library.logger;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +40,7 @@ final class LoggerImpl implements ILogger {
     /**
      * It is used to determine log LOGGER_SETTINGS such as method count, thread info visibility
      */
-    private static final LoggerSettings LOGGER_SETTINGS = new LoggerSettings();
+    private static final Settings LOGGER_SETTINGS = new Settings();
     /**
      * Drawing toolbox
      */
@@ -70,7 +70,7 @@ final class LoggerImpl implements ILogger {
      * @param tag is the given string which will be used in Logger
      */
     @Override
-    public LoggerSettings init(String tag) {
+    public Settings init(String tag) {
         if (tag == null) {
             throw new NullPointerException("tag may not be null");
         }
@@ -190,7 +190,7 @@ final class LoggerImpl implements ILogger {
      * This method is synchronized in order to avoid messy of logs' order.
      */
     private synchronized void log(int logType, String msg, Object... args) {
-        if (LOGGER_SETTINGS.getLoggerLevel() == LoggerLevel.NONE) {
+        if (LOGGER_SETTINGS.getLevel() == Level.NONE) {
             return;
         }
         String tag = getTag();
@@ -352,7 +352,7 @@ final class LoggerImpl implements ILogger {
         for (int i = MIN_STACK_OFFSET; i < trace.length; i++) {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
-            if (!name.equals(LoggerImpl.class.getName()) && !name.equals(LoggerHelper.class.getName())) {
+            if (!name.equals(LoggerImpl.class.getName()) && !name.equals(Loggers.class.getName())) {
                 return --i;
             }
         }

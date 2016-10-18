@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.logger;
+package com.lyric.android.library.logger;
 
 /**
  * Logger is a wrapper of {@link android.util.Log} But more pretty, simple and
@@ -6,13 +6,13 @@ package com.lyric.android.app.test.logger;
  *
  * @author Orhan Obut
  */
-public final class LoggerHelper {
-    private static final String DEFAULT_TAG = LoggerHelper.class.getSimpleName();
+public final class Loggers {
+    private static final String DEFAULT_TAG = Loggers.class.getSimpleName();
     private static final int DEFAULT_METHOD_COUNT = 2;
     private static final ILogger LOGGER = new LoggerImpl();
 
     // no instance
-    private LoggerHelper() {
+    private Loggers() {
     }
 
     /**
@@ -20,7 +20,7 @@ public final class LoggerHelper {
      *
      * @return the settings object
      */
-    public static LoggerSettings init() {
+    public static Settings init() {
         return LOGGER.init(DEFAULT_TAG);
     }
 
@@ -29,7 +29,7 @@ public final class LoggerHelper {
      *
      * @param tag is the given string which will be used in Logger
      */
-    public static LoggerSettings init(String tag) {
+    public static Settings init(String tag) {
         return LOGGER.init(tag);
     }
 
