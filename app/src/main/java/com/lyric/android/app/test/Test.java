@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.textservice.TextServicesManager;
 
 import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.utils.Preferences;
 import com.lyric.android.library.logger.Loggers;
 import com.lyric.android.library.utils.FileUtils;
 
