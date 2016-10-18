@@ -9,35 +9,42 @@ import java.util.Locale;
  * 
  * @author lyric
  * @created 2014-1-11
- * 
  */
-public class MD5Utils {
+public class Md5Utils {
 	/** 大写标记 */
 	public static final int CASE_UPPER = 1;
 	/** 小写标记 */
 	public static final int CASE_LOWER = 2;
 
-    private MD5Utils() {
+    private Md5Utils() {
+    }
+
+    public static String getUpper(String value) {
+        return getString(value, CASE_UPPER);
+    }
+
+    public static String getLower(String value) {
+        return getString(value, CASE_LOWER);
     }
 	
 	/**
 	 * 获取字符串MD5值
-	 * @param str 字符串
-	 * @param caseFlag 大小写标记
+	 * @param value 字符串
+	 * @param flag 大小写标记
 	 * @return 转换过的字符串
 	 */
-	public static String getMD5(String str, int caseFlag) {
-		if (str == null) {
+	public static String getString(String value, int flag) {
+		if (value == null) {
 			return null;
 		}
-		String md5Str = null;
-		// 16 进制字符数组
+		String result = null;
+		// 16进制字符数组
 		char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("MD5");
-			md.update(str.getBytes());
-			// MD5 的计算结果是128 位的长整数，用字节表示就是16 个字节
+			md.update(value.getBytes());
+			// MD5的计算结果是128位的长整数，用字节表示就是16个字节
 			byte[] tmp = md.digest();
 			char[] charArray = new char[16 * 2];
 			// 表示转换结果中对应的字符位置
@@ -48,14 +55,14 @@ public class MD5Utils {
 				charArray[pos++] = hexDigits[ch & 0xf];
 			}
 			Locale locale = Locale.getDefault();
-			if (caseFlag == CASE_UPPER) {
-				md5Str = new String(charArray).toUpperCase(locale);
+			if (flag == CASE_UPPER) {
+				result = new String(charArray).toUpperCase(locale);
 			} else {
-				md5Str = new String(charArray).toLowerCase(locale);
+				result = new String(charArray).toLowerCase(locale);
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		return md5Str;
+		return result;
 	}
 }

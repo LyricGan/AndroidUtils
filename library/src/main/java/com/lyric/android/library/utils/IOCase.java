@@ -31,20 +31,20 @@ import java.io.Serializable;
  * Wherever possible, you should use the <code>check</code> methods in this
  * class to compare filenames.
  *
- * @version $Id: IOCase.java 1307459 2012-03-30 15:11:44Z ggregory $
+ * @version $Id: IoCase.java 1307459 2012-03-30 15:11:44Z ggregory $
  * @since 1.3
  */
-public final class IOCase implements Serializable {
+public final class IoCase implements Serializable {
 
     /**
      * The constant for case sensitive regardless of operating system.
      */
-    public static final IOCase SENSITIVE = new IOCase("Sensitive", true);
+    public static final IoCase SENSITIVE = new IoCase("Sensitive", true);
 
     /**
      * The constant for case insensitive regardless of operating system.
      */
-    public static final IOCase INSENSITIVE = new IOCase("Insensitive", false);
+    public static final IoCase INSENSITIVE = new IoCase("Insensitive", false);
 
     /**
      * The constant for case sensitivity determined by the current operating system.
@@ -58,7 +58,7 @@ public final class IOCase implements Serializable {
      * If you derialize this constant of Windows, and deserialize on Unix, or vice
      * versa, then the value of the case-sensitivity flag will change.
      */
-    public static final IOCase SYSTEM = new IOCase("System", !FilenameUtils.isSystemWindows());
+    public static final IoCase SYSTEM = new IoCase("System", !FilenameUtils.isSystemWindows());
 
     /** Serialization version. */
     private static final long serialVersionUID = -6343169151696340687L;
@@ -71,23 +71,23 @@ public final class IOCase implements Serializable {
 
     //-----------------------------------------------------------------------
     /**
-     * Factory method to create an IOCase from a name.
+     * Factory method to create an IoCase from a name.
      *
      * @param name  the name to find
-     * @return the IOCase object
+     * @return the IoCase object
      * @throws IllegalArgumentException if the name is invalid
      */
-    public static IOCase forName(String name) {
-        if (IOCase.SENSITIVE.name.equals(name)){
-            return IOCase.SENSITIVE;
+    public static IoCase forName(String name) {
+        if (IoCase.SENSITIVE.name.equals(name)){
+            return IoCase.SENSITIVE;
         }
-        if (IOCase.INSENSITIVE.name.equals(name)){
-            return IOCase.INSENSITIVE;
+        if (IoCase.INSENSITIVE.name.equals(name)){
+            return IoCase.INSENSITIVE;
         }
-        if (IOCase.SYSTEM.name.equals(name)){
-            return IOCase.SYSTEM;
+        if (IoCase.SYSTEM.name.equals(name)){
+            return IoCase.SYSTEM;
         }
-        throw new IllegalArgumentException("Invalid IOCase name: " + name);
+        throw new IllegalArgumentException("Invalid IoCase name: " + name);
     }
 
     //-----------------------------------------------------------------------
@@ -97,7 +97,7 @@ public final class IOCase implements Serializable {
      * @param name  the name
      * @param sensitive  the sensitivity
      */
-    private IOCase(String name, boolean sensitive) {
+    private IoCase(String name, boolean sensitive) {
         this.name = name;
         this.sensitive = sensitive;
     }

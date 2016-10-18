@@ -78,7 +78,6 @@ public class ImageUtils {
 	 * @param bitmap Bitmap
 	 * @return Drawable
 	 */
-	@SuppressWarnings("deprecation")
 	public static Drawable bitmapToDrawable(Bitmap bitmap) {
         return bitmap == null ? null : new BitmapDrawable(bitmap);
     }
@@ -184,22 +183,23 @@ public class ImageUtils {
     * 去色同时加圆角
     * @param bitmap 原图
     * @param pixels 圆角弧度
+    * @param color 圆边颜色
     * @return 修改后的图片
     */
-   public static Bitmap toGrayScale(Bitmap bitmap, int pixels) {
-       return toRoundCorner(toGrayScale(bitmap), pixels);
+   public static Bitmap toGrayScale(Bitmap bitmap, int pixels, int color) {
+       return toRoundCorner(toGrayScale(bitmap), pixels, color);
    }
    
-   /**
-    * 把图片变成圆角
-    * @param bitmap 需要修改的图片
-    * @param pixels 圆角的弧度
-    * @return 圆角图片
-    */
-	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+    /**
+     * 把图片变成圆角
+     * @param bitmap 需要修改的图片
+     * @param pixels 圆角的弧度
+     * @param color 圆边颜色
+     * @return 圆角图片
+     */
+	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels, int color) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);
-		final int color = 0xff424242;
 		final Paint paint = new Paint();
 		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		final RectF rectF = new RectF(rect);
@@ -255,7 +255,7 @@ public class ImageUtils {
      * @param outputY 裁剪高度
      * @param requestCode If >= 0, this code will be returned in onActivityResult() when the activity exits.
      */
-    public static void takePicture(Activity activity, Uri uri, int outputX, int outputY, int requestCode){
+    public static void crop(Activity activity, Uri uri, int outputX, int outputY, int requestCode){
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
@@ -297,6 +297,28 @@ public class ImageUtils {
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
             }
+        }
+        return bitmap;
+    }
+
+    /**
+     * 通过URI获取图片
+     * @param context 上下文对象
+     * @param uri 图片URI
+     * @return Bitmap
+     */
+    public static Bitmap decodeBitmap(Context context, Uri uri) {
+        if (null == context || uri == null) {
+            return null;
+        }
+        Bitmap bitmap;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Config.RGB_565;
+            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
         return bitmap;
     }
@@ -393,27 +415,5 @@ public class ImageUtils {
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
-    }
-
-    /**
-     * 获取图片
-     * @param context 上下文对象
-     * @param uri 图片URI
-     * @return Bitmap
-     */
-    public static Bitmap getBitmap(Context context, Uri uri) {
-        if (null == context || uri == null) {
-            return null;
-        }
-        Bitmap bitmap;
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Config.RGB_565;
-            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bitmap;
     }
 }

@@ -535,11 +535,11 @@ public class FilenameUtils {
             return false;
         }
 
-        if (IOCase.SYSTEM.checkEquals(canonicalParent, canonicalChild)) {
+        if (IoCase.SYSTEM.checkEquals(canonicalParent, canonicalChild)) {
             return false;
         }
 
-        return IOCase.SYSTEM.checkStartsWith(canonicalChild, canonicalParent);
+        return IoCase.SYSTEM.checkStartsWith(canonicalChild, canonicalParent);
     }
 
     //-----------------------------------------------------------------------
@@ -1043,10 +1043,10 @@ public class FilenameUtils {
      * @param filename1  the first filename to query, may be null
      * @param filename2  the second filename to query, may be null
      * @return true if the filenames are equal, null equals null
-     * @see IOCase#SENSITIVE
+     * @see IoCase#SENSITIVE
      */
     public static boolean equals(String filename1, String filename2) {
-        return equals(filename1, filename2, false, IOCase.SENSITIVE);
+        return equals(filename1, filename2, false, IoCase.SENSITIVE);
     }
 
     /**
@@ -1058,10 +1058,10 @@ public class FilenameUtils {
      * @param filename1  the first filename to query, may be null
      * @param filename2  the second filename to query, may be null
      * @return true if the filenames are equal, null equals null
-     * @see IOCase#SYSTEM
+     * @see IoCase#SYSTEM
      */
     public static boolean equalsOnSystem(String filename1, String filename2) {
-        return equals(filename1, filename2, false, IOCase.SYSTEM);
+        return equals(filename1, filename2, false, IoCase.SYSTEM);
     }
 
     //-----------------------------------------------------------------------
@@ -1074,10 +1074,10 @@ public class FilenameUtils {
      * @param filename1  the first filename to query, may be null
      * @param filename2  the second filename to query, may be null
      * @return true if the filenames are equal, null equals null
-     * @see IOCase#SENSITIVE
+     * @see IoCase#SENSITIVE
      */
     public static boolean equalsNormalized(String filename1, String filename2) {
-        return equals(filename1, filename2, true, IOCase.SENSITIVE);
+        return equals(filename1, filename2, true, IoCase.SENSITIVE);
     }
 
     /**
@@ -1091,10 +1091,10 @@ public class FilenameUtils {
      * @param filename1  the first filename to query, may be null
      * @param filename2  the second filename to query, may be null
      * @return true if the filenames are equal, null equals null
-     * @see IOCase#SYSTEM
+     * @see IoCase#SYSTEM
      */
     public static boolean equalsNormalizedOnSystem(String filename1, String filename2) {
-        return equals(filename1, filename2, true, IOCase.SYSTEM);
+        return equals(filename1, filename2, true, IoCase.SYSTEM);
     }
 
     /**
@@ -1110,7 +1110,7 @@ public class FilenameUtils {
      */
     public static boolean equals(
             String filename1, String filename2,
-            boolean normalized, IOCase caseSensitivity) {
+            boolean normalized, IoCase caseSensitivity) {
 
         if (filename1 == null || filename2 == null) {
             return filename1 == null && filename2 == null;
@@ -1124,7 +1124,7 @@ public class FilenameUtils {
             }
         }
         if (caseSensitivity == null) {
-            caseSensitivity = IOCase.SENSITIVE;
+            caseSensitivity = IoCase.SENSITIVE;
         }
         return caseSensitivity.checkEquals(filename1, filename2);
     }
@@ -1227,10 +1227,10 @@ public class FilenameUtils {
      * @param filename  the filename to match on
      * @param wildcardMatcher  the wildcard string to match against
      * @return true if the filename matches the wilcard string
-     * @see IOCase#SENSITIVE
+     * @see IoCase#SENSITIVE
      */
     public static boolean wildcardMatch(String filename, String wildcardMatcher) {
-        return wildcardMatch(filename, wildcardMatcher, IOCase.SENSITIVE);
+        return wildcardMatch(filename, wildcardMatcher, IoCase.SENSITIVE);
     }
 
     /**
@@ -1253,10 +1253,10 @@ public class FilenameUtils {
      * @param filename  the filename to match on
      * @param wildcardMatcher  the wildcard string to match against
      * @return true if the filename matches the wilcard string
-     * @see IOCase#SYSTEM
+     * @see IoCase#SYSTEM
      */
     public static boolean wildcardMatchOnSystem(String filename, String wildcardMatcher) {
-        return wildcardMatch(filename, wildcardMatcher, IOCase.SYSTEM);
+        return wildcardMatch(filename, wildcardMatcher, IoCase.SYSTEM);
     }
 
     /**
@@ -1273,7 +1273,7 @@ public class FilenameUtils {
      * @return true if the filename matches the wilcard string
      * @since 1.3
      */
-    public static boolean wildcardMatch(String filename, String wildcardMatcher, IOCase caseSensitivity) {
+    public static boolean wildcardMatch(String filename, String wildcardMatcher, IoCase caseSensitivity) {
         if (filename == null && wildcardMatcher == null) {
             return true;
         }
@@ -1281,7 +1281,7 @@ public class FilenameUtils {
             return false;
         }
         if (caseSensitivity == null) {
-            caseSensitivity = IOCase.SENSITIVE;
+            caseSensitivity = IoCase.SENSITIVE;
         }
         String[] wcs = splitOnTokens(wildcardMatcher);
         boolean anyChars = false;

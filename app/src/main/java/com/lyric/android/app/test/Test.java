@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.view.View;
 import android.view.textservice.TextServicesManager;
 
@@ -19,12 +22,18 @@ import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.utils.Preferences;
 import com.lyric.android.library.logger.Loggers;
 import com.lyric.android.library.utils.FileUtils;
+import com.lyric.android.library.utils.ImageUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import dalvik.system.DexClassLoader;
@@ -42,7 +51,7 @@ public class Test {
     }
 
     private static final class TestHolder {
-        public static final Test INSTANCE = new Test();
+        static final Test INSTANCE = new Test();
     }
 
     public static Test getInstance() {
@@ -107,6 +116,8 @@ public class Test {
         if (file != null) {
             Loggers.e("file path:" + file.getPath());
         }
+
+        testEncode();
     }
 
     public void test() {
@@ -132,5 +143,72 @@ public class Test {
         Proxy proxy;
 
         View view;
+    }
+
+    public void testEncode() {
+        List<String> paths = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            paths.add(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "TestBase64.png");
+        }
+        String value = encodeBitmap(paths);
+        Loggers.e("value:" + value);
+
+        decode(value);
+    }
+
+    public String encodeBitmap(List<String> paths) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < paths.size(); i++) {
+            String path = paths.get(i);
+//            Bitmap bitmap = ImageUtils.getCompressBitmap(path, 300, 300);
+            Bitmap bitmap = ImageUtils.decodeBitmap(path);
+            try {
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, output);
+                byte[] bytes = output.toByteArray();
+                String data = Base64.encodeToString(bytes, Base64.DEFAULT);
+                if (i == paths.size() - 1) {
+                    stringBuffer.append(data);
+                } else {
+                    stringBuffer.append(data).append(",");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bitmap != null) {
+                    bitmap.recycle();
+                }
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public void decode(String bitmapString) {
+        byte[] s = Base64.decode(bitmapString, Base64.DEFAULT);
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file = new File(filePath, "TestBase64_" + System.currentTimeMillis() + ".png");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+            }
+        }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(s, 0, s.length);
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
