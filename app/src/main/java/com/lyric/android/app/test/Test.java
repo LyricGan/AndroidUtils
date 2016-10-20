@@ -15,8 +15,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.textservice.TextServicesManager;
+import android.widget.Scroller;
 
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.utils.Preferences;
@@ -143,6 +148,11 @@ public class Test {
         Proxy proxy;
 
         View view;
+        MotionEvent motionEvent;
+        VelocityTracker velocityTracker;
+        GestureDetector gestureDetector;
+        Scroller scroller;
+        ViewConfiguration.get(BaseApp.getContext()).getScaledTouchSlop();
     }
 
     public void testEncode() {
