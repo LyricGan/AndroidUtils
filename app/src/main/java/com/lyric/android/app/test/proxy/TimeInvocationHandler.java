@@ -1,4 +1,4 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.test.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
