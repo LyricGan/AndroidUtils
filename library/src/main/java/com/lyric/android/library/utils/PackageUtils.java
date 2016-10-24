@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -824,7 +825,7 @@ public class PackageUtils {
      * @param context the environment of context
      * @return version code of app
      */
-    public static int getAppVersionCode(Context context) {
+    public static int getVersionCode(Context context) {
         CheckUtils.checkContext(context);
         int versionCode = -1;
         PackageManager packageManager = context.getPackageManager();
@@ -843,7 +844,7 @@ public class PackageUtils {
      * @param context the environment of context
      * @return version name of app
      */
-    public static String getAppVersionName(Context context) {
+    public static String getVersionName(Context context) {
         CheckUtils.checkContext(context);
         String versionName = null;
         PackageManager packageManager = context.getPackageManager();
@@ -856,5 +857,15 @@ public class PackageUtils {
             e.printStackTrace();
         }
         return versionName;
+    }
+
+    /**
+     * 获取设备ID
+     * @param context 上下文
+     * @return 设备ID
+     */
+    public static String getDeviceId(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.getDeviceId();
     }
 }
