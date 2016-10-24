@@ -16,19 +16,19 @@ public abstract class ResponseCallback<T> implements Callback<T> {
         if (response.isSuccessful()) {
             T responseBody = response.body();
             if (responseBody == null) {
-                onError(buildError(ResponseError.ERROR_DATA_EXCEPTION, "Response is null"));
+                onError(call, buildError(ResponseError.ERROR_DATA_EXCEPTION, "Response is null"));
                 return;
             }
-            onResponse(response.body());
+            onResponse(call, response.body());
         } else {
-            onError(buildError(response.code(), response.message()));
+            onError(call, buildError(response.code(), response.message()));
         }
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         String errorMessage = t != null ? t.getMessage() : "";
-        onError(buildError(ResponseError.ERROR_REQUEST_FAILED, errorMessage));
+        onError(call, buildError(ResponseError.ERROR_REQUEST_FAILED, errorMessage));
     }
 
     private ResponseError buildError(int errorCode, String errorMessage) {
@@ -38,7 +38,7 @@ public abstract class ResponseCallback<T> implements Callback<T> {
         return responseError;
     }
 
-    public abstract void onResponse(T response);
+    public abstract void onResponse(Call<T> call, T response);
 
-    public abstract void onError(ResponseError error);
+    public abstract void onError(Call<T> call, ResponseError error);
 }
