@@ -1,30 +1,22 @@
-package com.bigkoo.pickerview.adapter;
-
-
-import android.util.Log;
+package com.bigkoo.pickerview;
 
 /**
  * Numeric Wheel adapter.
  */
 public class NumericWheelAdapter implements WheelAdapter {
-
     /**
-     * The default min value
+     * The default max value
      */
     public static final int DEFAULT_MAX_VALUE = 9;
 
     /**
-     * The default max value
+     * The default min value
      */
     private static final int DEFAULT_MIN_VALUE = 0;
 
-    // Values
     private int minValue;
     private int maxValue;
 
-    /**
-     * Default constructor
-     */
     public NumericWheelAdapter() {
         this(DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE);
     }
@@ -43,8 +35,7 @@ public class NumericWheelAdapter implements WheelAdapter {
     @Override
     public Object getItem(int index) {
         if (index >= 0 && index < getItemsCount()) {
-            int value = minValue + index;
-            return value;
+            return minValue + index;
         }
         return 0;
     }
@@ -60,6 +51,5 @@ public class NumericWheelAdapter implements WheelAdapter {
             return 1;
         }
         return (int) o - minValue;
-
     }
 }

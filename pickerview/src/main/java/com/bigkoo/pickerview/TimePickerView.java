@@ -16,23 +16,25 @@ import java.util.Date;
  * Created by Sai on 15/11/22.
  */
 public class TimePickerView extends BasePickerView implements View.OnClickListener {
-    private WheelTime wheelTime;
-    private TextView tvTitle;
     private static final String TAG_SUBMIT = "submit";
     private static final String TAG_CANCEL = "cancel";
+    private WheelTime wheelTime;
+    private TextView tvTitle;
+
     private OnTimeSelectListener mTimeSelectListener;
 
     public TimePickerView(Context context, Type type) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.pickerview_time, contentContainer);
         View btnSubmit = findViewById(R.id.btnSubmit);
-        btnSubmit.setTag(TAG_SUBMIT);
         View btnCancel = findViewById(R.id.btnCancel);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        View timePicker = findViewById(R.id.timepicker);
+
+        btnSubmit.setTag(TAG_SUBMIT);
         btnCancel.setTag(TAG_CANCEL);
         btnSubmit.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
-        final View timePicker = findViewById(R.id.timepicker);
         wheelTime = new WheelTime(timePicker, type);
 
         // 默认选中当前时间

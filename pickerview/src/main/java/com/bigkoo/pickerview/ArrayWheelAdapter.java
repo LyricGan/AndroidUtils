@@ -1,4 +1,4 @@
-package com.bigkoo.pickerview.adapter;
+package com.bigkoo.pickerview;
 
 import java.util.ArrayList;
 
@@ -7,13 +7,9 @@ import java.util.ArrayList;
  * @param <T> the element type
  */
 public class ArrayWheelAdapter<T> implements WheelAdapter {
-
 	/** The default items length */
 	public static final int DEFAULT_LENGTH = 4;
-
-	// items
 	private ArrayList<T> items;
-	// length
 	private int length;
 
 	/**
@@ -26,10 +22,6 @@ public class ArrayWheelAdapter<T> implements WheelAdapter {
 		this.length = length;
 	}
 
-	/**
-	 * Contructor
-	 * @param items the items
-	 */
 	public ArrayWheelAdapter(ArrayList<T> items) {
 		this(items, DEFAULT_LENGTH);
 	}
@@ -51,5 +43,4 @@ public class ArrayWheelAdapter<T> implements WheelAdapter {
 	public int indexOf(Object o){
 		return items.indexOf(o);
 	}
-
 }

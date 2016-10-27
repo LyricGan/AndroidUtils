@@ -5,10 +5,10 @@ import android.view.View;
 
 import com.bigkoo.pickerview.R;
 import com.bigkoo.pickerview.TimePickerView.Type;
-import com.bigkoo.pickerview.adapter.ArrayWheelAdapter;
-import com.bigkoo.pickerview.adapter.NumericWheelAdapter;
+import com.bigkoo.pickerview.ArrayWheelAdapter;
+import com.bigkoo.pickerview.NumericWheelAdapter;
 import com.bigkoo.pickerview.lib.WheelView;
-import com.bigkoo.pickerview.listener.OnItemSelectedListener;
+import com.bigkoo.pickerview.OnItemSelectedListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

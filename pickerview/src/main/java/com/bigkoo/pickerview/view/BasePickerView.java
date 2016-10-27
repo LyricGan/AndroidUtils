@@ -11,9 +11,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
-import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
 import com.bigkoo.pickerview.R;
-import com.bigkoo.pickerview.listener.OnDismissListener;
+import com.bigkoo.pickerview.OnDismissListener;
 
 /**
  * Created by Sai on 15/11/22.
@@ -36,7 +35,7 @@ public class BasePickerView {
     private Animation inAnim;
     private int gravity = Gravity.BOTTOM;
 
-    public BasePickerView(Context context){
+    public BasePickerView(Context context) {
         this.context = context;
 
         initViews();
@@ -44,9 +43,9 @@ public class BasePickerView {
         initEvents();
     }
 
-    protected void initViews(){
+    protected void initViews() {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        decorView = (ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
         rootView = (ViewGroup) layoutInflater.inflate(R.layout.layout_basepickerview, decorView, false);
         rootView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
@@ -59,8 +58,10 @@ public class BasePickerView {
         inAnim = getInAnimation();
         outAnim = getOutAnimation();
     }
+
     protected void initEvents() {
     }
+
     /**
      * show的时候调用
      *
@@ -70,6 +71,7 @@ public class BasePickerView {
         decorView.addView(view);
         contentContainer.startAnimation(inAnim);
     }
+
     /**
      * 添加这个View到Activity的根视图
      */
@@ -79,6 +81,7 @@ public class BasePickerView {
         }
         onAttached(rootView);
     }
+
     /**
      * 检测该View是不是已经添加到根视图
      *
@@ -88,6 +91,7 @@ public class BasePickerView {
         View view = decorView.findViewById(R.id.outmost_container);
         return view != null;
     }
+
     public void dismiss() {
         if (isDismissing) {
             return;
@@ -123,14 +127,13 @@ public class BasePickerView {
         contentContainer.startAnimation(outAnim);
         isDismissing = true;
     }
+
     public Animation getInAnimation() {
-        int res = PickerViewAnimateUtil.getAnimationResource(this.gravity, true);
-        return AnimationUtils.loadAnimation(context, res);
+        return AnimationUtils.loadAnimation(context, getAnimationResource(this.gravity, true));
     }
 
     public Animation getOutAnimation() {
-        int res = PickerViewAnimateUtil.getAnimationResource(this.gravity, false);
-        return AnimationUtils.loadAnimation(context, res);
+        return AnimationUtils.loadAnimation(context, getAnimationResource(this.gravity, false));
     }
 
     public BasePickerView setOnDismissListener(OnDismissListener onDismissListener) {
@@ -140,15 +143,14 @@ public class BasePickerView {
 
     public BasePickerView setCancelable(boolean isCancelable) {
         View view = rootView.findViewById(R.id.outmost_container);
-
         if (isCancelable) {
             view.setOnTouchListener(onCancelableTouchListener);
-        }
-        else{
+        } else {
             view.setOnTouchListener(null);
         }
         return this;
     }
+
     /**
      * Called when the user touch on black overlay in order to dismiss the dialog
      */
@@ -162,7 +164,21 @@ public class BasePickerView {
         }
     };
 
-    public View findViewById(int id){
+    public View findViewById(int id) {
         return contentContainer.findViewById(id);
+    }
+
+    /**
+     * Get default animation resource when not defined by the user
+     * @param gravity       the gravity of the dialog
+     * @param isInAnimation determine if is in or out animation. true when is is
+     * @return the id of the animation resource
+     */
+    public static int getAnimationResource(int gravity, boolean isInAnimation) {
+        switch (gravity) {
+            case Gravity.BOTTOM:
+                return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
+        }
+        return -1;
     }
 }
