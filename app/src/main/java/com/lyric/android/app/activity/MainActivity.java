@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
@@ -34,6 +35,8 @@ import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,12 +71,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "测试服务", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "显示日期", Snackbar.LENGTH_LONG)
                         .setAction("查看", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(MainActivity.this, ServiceTestActivity.class);
-                                startActivity(intent);
+                                showDatePicker();
                             }
                         }).show();
             }
@@ -99,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Test.getInstance().initialize();
+    }
+
+    private void showDatePicker() {
+        TimePickerView datePicker = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+        Calendar calendar = Calendar.getInstance();
+        datePicker.setRangeYear(calendar.get(Calendar.YEAR) - 5, calendar.get(Calendar.YEAR) + 5);
+        datePicker.setTime(new Date());
+        datePicker.setCyclic(false);
+        datePicker.setCancelable(true);
+        datePicker.show();
     }
 
     @Override
@@ -150,25 +162,25 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
                     case R.id.nav_login: {
-                        ActivityUtils.jumpActivity(MainActivity.this, LoginActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
                     }
                         break;
                     case R.id.nav_loading: {// LoadingTest
-                        ActivityUtils.jumpActivity(MainActivity.this, LoadingActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, LoadingActivity.class);
                     }
                         break;
                     case R.id.nav_progress: {// CircleProgressBar
-                        ActivityUtils.jumpActivity(MainActivity.this, CircleProgressBarActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, CircleProgressBarActivity.class);
                     }
                         break;
                     case R.id.nav_web: {// WebActivity
-//                        ActivityUtils.jumpActivity(MainActivity.this, WebActivity.class);
-                        ActivityUtils.jumpActivity(MainActivity.this, SwipeMenuSimpleActivity.class);
+//                        ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuSimpleActivity.class);
                     }
                         break;
                     case R.id.menu_item_about: {// 关于
-//                        ActivityUtils.jumpActivity(MainActivity.this, ViewTestActivity.class);
-                        ActivityUtils.jumpActivity(MainActivity.this, SwipeMenuActivity.class);
+//                        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
                     }
                         break;
                     case R.id.menu_item_exit: {// 退出

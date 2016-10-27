@@ -22,7 +22,7 @@ public class TextSpanClickImpl implements ITextSpanClickListener {
     @Override
     public void onClick(int position) {
         if (1 == mType) {
-            ActivityUtils.jumpActivity(mContext, SpannableTestActivity.class);
+            ActivityUtils.startActivity(mContext, SpannableTestActivity.class);
         }
     }
 }
