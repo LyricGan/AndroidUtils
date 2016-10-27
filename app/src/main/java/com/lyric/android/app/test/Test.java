@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -153,6 +155,9 @@ public class Test {
         GestureDetector gestureDetector;
         Scroller scroller;
         ViewConfiguration.get(BaseApp.getContext()).getScaledTouchSlop();
+
+        EnumSet enumSet;
+        EnumMap enumMap;
     }
 
     public void testEncode() {
