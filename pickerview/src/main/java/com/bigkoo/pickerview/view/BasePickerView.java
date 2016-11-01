@@ -11,65 +11,53 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
-import com.bigkoo.pickerview.R;
 import com.bigkoo.pickerview.OnDismissListener;
+import com.bigkoo.pickerview.R;
 
 /**
  * Created by Sai on 15/11/22.
  * 精仿iOSPickerViewController控件
  */
 public class BasePickerView {
-    private final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM
-    );
-
     private Context context;
     protected ViewGroup contentContainer;
-    private ViewGroup decorView;//activity的根View
-    private ViewGroup rootView;//附加View 的 根View
+    private ViewGroup decorView;// activity的根View
+    private ViewGroup rootView;
 
     private OnDismissListener onDismissListener;
     private boolean isDismissing;
 
-    private Animation outAnim;
-    private Animation inAnim;
-    private int gravity = Gravity.BOTTOM;
+    private Animation mOutAnimation;
+    private Animation mInAnimation;
+    private int mGravity = Gravity.BOTTOM;
 
     public BasePickerView(Context context) {
         this.context = context;
 
-        initViews();
         init();
-        initEvents();
     }
 
-    protected void initViews() {
+    private void init() {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         decorView = (ViewGroup) ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
         rootView = (ViewGroup) layoutInflater.inflate(R.layout.layout_basepickerview, decorView, false);
-        rootView.setLayoutParams(new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
-        ));
+        rootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
         contentContainer.setLayoutParams(params);
-    }
 
-    protected void init() {
-        inAnim = getInAnimation();
-        outAnim = getOutAnimation();
-    }
-
-    protected void initEvents() {
+        mInAnimation = getInAnimation();
+        mOutAnimation = getOutAnimation();
     }
 
     /**
      * show的时候调用
-     *
      * @param view 这个View
      */
     private void onAttached(View view) {
         decorView.addView(view);
-        contentContainer.startAnimation(inAnim);
+        contentContainer.startAnimation(mInAnimation);
     }
 
     /**
@@ -96,12 +84,10 @@ public class BasePickerView {
         if (isDismissing) {
             return;
         }
-
-        //消失动画
-        outAnim.setAnimationListener(new Animation.AnimationListener() {
+        // 消失动画
+        mOutAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -109,7 +95,7 @@ public class BasePickerView {
                 decorView.post(new Runnable() {
                     @Override
                     public void run() {
-                        //从activity根视图移除
+                        // 从activity根视图移除
                         decorView.removeView(rootView);
                         isDismissing = false;
                         if (onDismissListener != null) {
@@ -121,19 +107,18 @@ public class BasePickerView {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
-        contentContainer.startAnimation(outAnim);
+        contentContainer.startAnimation(mOutAnimation);
         isDismissing = true;
     }
 
     public Animation getInAnimation() {
-        return AnimationUtils.loadAnimation(context, getAnimationResource(this.gravity, true));
+        return AnimationUtils.loadAnimation(context, getAnimationResource(this.mGravity, true));
     }
 
     public Animation getOutAnimation() {
-        return AnimationUtils.loadAnimation(context, getAnimationResource(this.gravity, false));
+        return AnimationUtils.loadAnimation(context, getAnimationResource(this.mGravity, false));
     }
 
     public BasePickerView setOnDismissListener(OnDismissListener onDismissListener) {
@@ -170,7 +155,7 @@ public class BasePickerView {
 
     /**
      * Get default animation resource when not defined by the user
-     * @param gravity       the gravity of the dialog
+     * @param gravity       the mGravity of the dialog
      * @param isInAnimation determine if is in or out animation. true when is is
      * @return the id of the animation resource
      */

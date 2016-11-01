@@ -33,7 +33,7 @@ public class WheelView extends View {
         CLICK, FLING, DRAG
     }
 
-    Context context;
+    private Context mContext;
     Handler handler;
     private GestureDetector gestureDetector;
     OnItemSelectedListener onItemSelectedListener;
@@ -61,7 +61,8 @@ public class WheelView extends View {
 
     // 条目间距倍数
     static final float lineSpacingMultiplier = 1.4F;
-    boolean isLoop;
+    /** 循环滚动标识 */
+    private boolean mLoop;
 
     // 第一条线Y坐标值
     float firstLineY;
@@ -134,18 +135,17 @@ public class WheelView extends View {
     }
 
     private void initLoopView(Context context) {
-        this.context = context;
+        this.mContext = context;
         handler = new MessageHandler(this);
         gestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
         gestureDetector.setIsLongpressEnabled(false);
 
-        isLoop = true;
+        mLoop = true;
 
         totalScrollY = 0;
         initPosition = -1;
 
         initPaints();
-
     }
 
     private void initPaints() {
@@ -192,7 +192,7 @@ public class WheelView extends View {
         centerY = (measuredHeight + maxTextHeight) / 2.0F - CENTERCONTENTOFFSET;
         //初始化显示的item的position，根据是否loop
         if (initPosition == -1) {
-            if (isLoop) {
+            if (mLoop) {
                 initPosition = (adapter.getItemsCount() + 1) / 2;
             } else {
                 initPosition = 0;
@@ -256,12 +256,12 @@ public class WheelView extends View {
      * @param cyclic
      */
     public final void setCyclic(boolean cyclic) {
-        isLoop = cyclic;
+        mLoop = cyclic;
     }
 
     public final void setTextSize(float size) {
         if (size > 0.0F && !customTextSize) {
-            textSize = (int) (context.getResources().getDisplayMetrics().density * size);
+            textSize = (int) (mContext.getResources().getDisplayMetrics().density * size);
             paintOuterText.setTextSize(textSize);
             paintCenterText.setTextSize(textSize);
         }
@@ -312,7 +312,7 @@ public class WheelView extends View {
         } catch (ArithmeticException e) {
             System.out.println("出错了！adapter.getItemsCount() == 0，联动数据不匹配");
         }
-        if (!isLoop) {//不循环的情况
+        if (!mLoop) {//不循环的情况
             if (preCurrentIndex < 0) {
                 preCurrentIndex = 0;
             }
@@ -336,7 +336,7 @@ public class WheelView extends View {
             int index = preCurrentIndex - (itemsVisible / 2 - counter);//索引值，即当前在控件中间的item看作数据源的中间，计算出相对源数据源的index值
 
             //判断是否循环，如果是循环数据源也使用相对循环的position获取对应的item值，如果不是循环则超出数据源范围使用""空白字符串填充，在界面上形成空白无数据的item项
-            if (isLoop) {
+            if (mLoop) {
                 index = getLoopMappingIndex(index);
                 visibles[counter] = adapter.getItem(index);
             } else if (index < 0) {
@@ -512,7 +512,7 @@ public class WheelView extends View {
                 totalScrollY = (int) (totalScrollY + dy);
 
                 // 边界处理。
-                if (!isLoop) {
+                if (!mLoop) {
                     float top = -initPosition * itemHeight;
                     float bottom = (adapter.getItemsCount() - 1 - initPosition) * itemHeight;
                     if (totalScrollY - itemHeight * 0.3 < top) {

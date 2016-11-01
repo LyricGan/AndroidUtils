@@ -3,21 +3,25 @@ package com.bigkoo.pickerview.view;
 import android.content.Context;
 import android.view.View;
 
-import com.bigkoo.pickerview.R;
-import com.bigkoo.pickerview.TimePickerView.Type;
 import com.bigkoo.pickerview.ArrayWheelAdapter;
 import com.bigkoo.pickerview.NumericWheelAdapter;
-import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.OnItemSelectedListener;
+import com.bigkoo.pickerview.R;
+import com.bigkoo.pickerview.TimePickerView.Type;
+import com.bigkoo.pickerview.lib.WheelView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class WheelTime {
-    public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+    private static final String[] SOLAR_MONTH_ARRAY = {"1", "3", "5", "7", "8", "10", "12"};
+    private static final String[] MONTH_ARRAY = {"4", "6", "9", "11"};
+
     private View view;
     private WheelView wv_year;
     private WheelView wv_month;
@@ -30,14 +34,11 @@ public class WheelTime {
     private int startYear = 0;
     private int endYear = 0;
 
-    List<String> list_big;
-    List<String> list_little;
+    private List<String> mSolarMonthList = Arrays.asList(SOLAR_MONTH_ARRAY);
+    private List<String> mMonthList = Arrays.asList(MONTH_ARRAY);
 
     public WheelTime(View view) {
-        super();
-        this.view = view;
-        type = Type.ALL;
-        setView(view);
+        this(view, Type.ALL);
     }
 
     public WheelTime(View view, Type type) {
@@ -55,62 +56,46 @@ public class WheelTime {
      * 弹出日期时间选择器
      */
     public void setPicker(int year, int month, int day, int h, int m) {
-        // 添加大小月月份并将其转换为list,方便之后的判断
-        String[] months_big = {"1", "3", "5", "7", "8", "10", "12"};
-        String[] months_little = {"4", "6", "9", "11"};
-
-        final List<String> list_big = Arrays.asList(months_big);
-        final List<String> list_little = Arrays.asList(months_little);
-
         Context context = view.getContext();
-        // 年
         wv_year = (WheelView) view.findViewById(R.id.year);
-        wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));// 设置"年"的显示数据
-//        wv_year.setLabel(context.getString(R.string.pickerview_year));// 添加文字
-        wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
+        wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));
+        wv_year.setCurrentItem(year - startYear);
 
-        // 月
         wv_month = (WheelView) view.findViewById(R.id.month);
         wv_month.setAdapter(new NumericWheelAdapter(1, 12));
-//        wv_month.setLabel(context.getString(R.string.pickerview_month));
         wv_month.setCurrentItem(month);
 
-        // 日
         wv_day = (WheelView) view.findViewById(R.id.day);
         // 判断大小月及是否闰年,用来确定"日"的数据
-        if (list_big.contains(String.valueOf(month + 1))) {
+        if (mSolarMonthList.contains(String.valueOf(month + 1))) {
             wv_day.setAdapter(new NumericWheelAdapter(1, 31));
-        } else if (list_little.contains(String.valueOf(month + 1))) {
+        } else if (mMonthList.contains(String.valueOf(month + 1))) {
             wv_day.setAdapter(new NumericWheelAdapter(1, 30));
-        } else {
-            // 闰年
-            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+        } else {// 二月
+            // 判断是否为闰年
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
                 wv_day.setAdapter(new NumericWheelAdapter(1, 29));
-            else
+            } else {
                 wv_day.setAdapter(new NumericWheelAdapter(1, 28));
+            }
         }
-//        wv_day.setLabel(context.getString(R.string.pickerview_day));
         wv_day.setCurrentItem(day - 1);
-
 
         wv_hours = (WheelView) view.findViewById(R.id.hour);
         wv_hours.setAdapter(new NumericWheelAdapter(0, 23));
-        wv_hours.setLabel(context.getString(R.string.pickerview_hours));// 添加文字
+        wv_hours.setLabel(context.getString(R.string.pickerview_hours));
         wv_hours.setCurrentItem(h);
 
         wv_mins = (WheelView) view.findViewById(R.id.min);
         wv_mins.setAdapter(new NumericWheelAdapter(0, 59));
-        wv_mins.setLabel(context.getString(R.string.pickerview_minutes));// 添加文字
+        wv_mins.setLabel(context.getString(R.string.pickerview_minutes));
         wv_mins.setCurrentItem(m);
-
 
         moring_and_after = (WheelView) view.findViewById(R.id.moring_and_after);
         ArrayList<String> list = new ArrayList<>();
         list.add("上午");
         list.add("下午");
         moring_and_after.setAdapter(new ArrayWheelAdapter(list, 2));// 设置显示数据
-
-//        moring_and_after.setLabel(context.getString(R.string.pickerview_moring));// 添加文字
         moring_and_after.setCurrentItem(0);
 
         // 添加"年"监听
@@ -120,17 +105,14 @@ public class WheelTime {
                 int year_num = index + startYear;
                 // 判断大小月及是否闰年,用来确定"日"的数据
                 int maxItem = 30;
-                if (list_big
-                        .contains(String.valueOf(wv_month.getCurrentItem() + 1))) {
+                if (mSolarMonthList.contains(String.valueOf(wv_month.getCurrentItem() + 1))) {
                     wv_day.setAdapter(new NumericWheelAdapter(1, 31));
                     maxItem = 31;
-                } else if (list_little.contains(String.valueOf(wv_month
-                        .getCurrentItem() + 1))) {
+                } else if (mMonthList.contains(String.valueOf(wv_month.getCurrentItem() + 1))) {
                     wv_day.setAdapter(new NumericWheelAdapter(1, 30));
                     maxItem = 30;
                 } else {
-                    if ((year_num % 4 == 0 && year_num % 100 != 0)
-                            || year_num % 400 == 0) {
+                    if ((year_num % 4 == 0 && year_num % 100 != 0) || year_num % 400 == 0) {
                         wv_day.setAdapter(new NumericWheelAdapter(1, 29));
                         maxItem = 29;
                     } else {
@@ -150,15 +132,14 @@ public class WheelTime {
                 int month_num = index + 1;
                 int maxItem = 30;
                 // 判断大小月及是否闰年,用来确定"日"的数据
-                if (list_big.contains(String.valueOf(month_num))) {
+                if (mSolarMonthList.contains(String.valueOf(month_num))) {
                     wv_day.setAdapter(new NumericWheelAdapter(1, 31));
                     maxItem = 31;
-                } else if (list_little.contains(String.valueOf(month_num))) {
+                } else if (mMonthList.contains(String.valueOf(month_num))) {
                     wv_day.setAdapter(new NumericWheelAdapter(1, 30));
                     maxItem = 30;
                 } else {
-                    if (((wv_year.getCurrentItem() + startYear) % 4 == 0 && (wv_year
-                            .getCurrentItem() + startYear) % 100 != 0)
+                    if (((wv_year.getCurrentItem() + startYear) % 4 == 0 && (wv_year.getCurrentItem() + startYear) % 100 != 0)
                             || (wv_year.getCurrentItem() + startYear) % 400 == 0) {
                         wv_day.setAdapter(new NumericWheelAdapter(1, 29));
                         maxItem = 29;
@@ -170,7 +151,6 @@ public class WheelTime {
                 if (wv_day.getCurrentItem() > maxItem - 1) {
                     wv_day.setCurrentItem(maxItem - 1);
                 }
-
             }
         };
         wv_year.setOnItemSelectedListener(wheelListener_year);
@@ -219,20 +199,20 @@ public class WheelTime {
         wv_hours.setTextSize(textSize);
         wv_mins.setTextSize(textSize);
         moring_and_after.setTextSize(textSize);
-
     }
 
     private void addDayListener(int year, int month) {
-        if (list_big.contains(String.valueOf(month + 1))) {
+        if (mSolarMonthList.contains(String.valueOf(month + 1))) {
             wv_day.setAdapter(new NumericWheelAdapter(1, 31));
-        } else if (list_little.contains(String.valueOf(month + 1))) {
+        } else if (mMonthList.contains(String.valueOf(month + 1))) {
             wv_day.setAdapter(new NumericWheelAdapter(1, 30));
         } else {
             // 闰年
-            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
                 wv_day.setAdapter(new NumericWheelAdapter(1, 29));
-            else
+            } else {
                 wv_day.setAdapter(new NumericWheelAdapter(1, 28));
+            }
         }
     }
 
