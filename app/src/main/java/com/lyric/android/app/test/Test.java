@@ -17,6 +17,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Base64;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -168,6 +170,8 @@ public class Test {
         HandlerThread handlerThread;
         Looper looper;
         Context context;
+        Loader loader;
+        LoaderManager loaderManager;
 
         InvocationHandler invocationHandler;
         Proxy proxy;
