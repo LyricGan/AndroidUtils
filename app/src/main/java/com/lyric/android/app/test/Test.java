@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.os.Binder;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
@@ -57,7 +58,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import dalvik.system.DexClassLoader;
-import rx.android.plugins.RxAndroidSchedulersHook;
 
 /**
  * @author lyricgan
@@ -161,12 +161,13 @@ public class Test {
         PackageManager packageManager;
         Binder binder;
         ClassLoader classLoader;
-        DexClassLoader dexClassLoader;
+        DexClassLoader dexClasLoader;
         Handler handler;
         Message message;
+        Thread thread;
+        HandlerThread handlerThread;
         Looper looper;
         Context context;
-        RxAndroidSchedulersHook rxAndroidSchedulersHook;
 
         InvocationHandler invocationHandler;
         Proxy proxy;
