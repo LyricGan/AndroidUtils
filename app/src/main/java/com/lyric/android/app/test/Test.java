@@ -17,6 +17,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Base64;
@@ -44,6 +46,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -55,6 +58,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -198,6 +203,13 @@ public class Test {
 
         ArrayList arrayList;
         LinkedList linkedList;
+
+        Serializable serializable;
+        Parcelable parcelable;
+        Parcel parcel;
+
+        Observable observable;
+        Observer observer;
     }
 
     public void testEncode() {
