@@ -5,6 +5,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +73,7 @@ public class StringUtils {
      * nullStrToEmpty(&quot;aa&quot;) = &quot;aa&quot;;
      * </pre>
      * 
-     * @param str
+     * @param str String
      * @return
      */
     public static String nullStrToEmpty(String str) {
@@ -91,7 +92,7 @@ public class StringUtils {
      * capitalizeFirstLetter("Abc")    =   "Abc"
      * </pre>
      * 
-     * @param str
+     * @param str String
      * @return
      */
     public static String capitalizeFirstLetter(String str) {
@@ -113,9 +114,8 @@ public class StringUtils {
      * utf8Encode("啊啊啊啊")   = "%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A";
      * </pre>
      * 
-     * @param str
+     * @param str String
      * @return
-     * @throws UnsupportedEncodingException if an error occurs
      */
     public static String utf8Encode(String str) {
         if (!isEmpty(str) && str.getBytes().length != str.length()) {
@@ -131,16 +131,16 @@ public class StringUtils {
     /**
      * encoded in utf-8, if exception, return defultReturn
      * 
-     * @param str
-     * @param defultReturn
+     * @param str String
+     * @param defaultReturn default value
      * @return
      */
-    public static String utf8Encode(String str, String defultReturn) {
+    public static String utf8Encode(String str, String defaultReturn) {
         if (!isEmpty(str) && str.getBytes().length != str.length()) {
             try {
                 return URLEncoder.encode(str, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                return defultReturn;
+                return defaultReturn;
             }
         }
         return str;
@@ -164,7 +164,7 @@ public class StringUtils {
      * getHrefInnerHtml("&lt;a&gt;innerHtml1&lt;/a&gt;&lt;a&gt;innerHtml2&lt;/a&gt;")        = "innerHtml2";
      * </pre>
      * 
-     * @param href
+     * @param href String
      * @return <ul>
      *         <li>if href is null, return ""</li>
      *         <li>if not match regx, return source</li>
@@ -199,7 +199,7 @@ public class StringUtils {
      * htmlEscapeCharsToString("mp3&lt;&gt;&amp;&quot;mp4") = "mp3\<\>&\"mp4";
      * </pre>
      * 
-     * @param source
+     * @param source String
      * @return
      */
     public static String htmlEscapeCharsToString(String source) {
@@ -217,7 +217,7 @@ public class StringUtils {
      * fullWidthToHalfWidth("！＂＃＄％＆) = "!\"#$%&";
      * </pre>
      * 
-     * @param s
+     * @param s String
      * @return
      */
     public static String fullWidthToHalfWidth(String s) {
@@ -249,7 +249,7 @@ public class StringUtils {
      * halfWidthToFullWidth("!\"#$%&) = "！＂＃＄％＆";
      * </pre>
      * 
-     * @param s
+     * @param s String
      * @return
      */
     public static String halfWidthToFullWidth(String s) {
@@ -437,5 +437,15 @@ public class StringUtils {
     public static boolean isFloat(String str) {
         Pattern pattern = Pattern.compile("[0-9]*(\\.?)[0-9]*");
         return pattern.matcher(str).matches();
+    }
+
+    /**
+     * 获取double类型数据保留小数位后的字符串
+     * @param value double值
+     * @param newScale 保留的小数位
+     * @return 保留小数位后的字符串
+     */
+    public static String getDouble(double value, int newScale) {
+        return new BigDecimal(Double.toString(value)).setScale(newScale, BigDecimal.ROUND_DOWN).toPlainString();
     }
 }
