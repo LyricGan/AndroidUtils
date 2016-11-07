@@ -1,42 +1,16 @@
 package com.lyric.android.app.test;
 
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Binder;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.util.Base64;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.textservice.TextServicesManager;
-import android.widget.AbsoluteLayout;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Scroller;
-import android.widget.TableLayout;
 
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.utils.Preferences;
 import com.lyric.android.library.logger.Loggers;
 import com.lyric.android.library.utils.FileUtils;
 import com.lyric.android.library.utils.ImageUtils;
@@ -46,25 +20,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Stack;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import dalvik.system.DexClassLoader;
 
 /**
  * @author lyricgan
@@ -121,6 +78,10 @@ public class Test {
         mLeakyContainer.add(bytes);
     }
 
+    public boolean isLeakyEmpty() {
+        return mLeakyContainer == null || mLeakyContainer.isEmpty();
+    }
+
     /**
      * 获取当前应用APK路径
      * @param context 上下文
@@ -145,71 +106,6 @@ public class Test {
         }
 
         testEncode();
-    }
-
-    public void test() {
-        Preferences.getInstance().clear();
-
-        Activity activity;
-        Service service;
-        BroadcastReceiver broadcastReceiver;
-        ContentProvider contentProvider;
-
-        LinearLayout linearLayout;
-        RelativeLayout relativeLayout;
-        FrameLayout frameLayout;
-        TableLayout tableLayout;
-        AbsoluteLayout absoluteLayout;
-
-        Intent intent;
-        IntentFilter intentFilter;
-        TextServicesManager textServicesManager;
-        ActivityManager activityManager;
-        PackageManager packageManager;
-        Binder binder;
-        ClassLoader classLoader;
-        DexClassLoader dexClasLoader;
-        Handler handler;
-        Message message;
-        Thread thread;
-        HandlerThread handlerThread;
-        Looper looper;
-        Context context;
-        Loader loader;
-        LoaderManager loaderManager;
-
-        InvocationHandler invocationHandler;
-        Proxy proxy;
-
-        View view;
-        MotionEvent motionEvent;
-        VelocityTracker velocityTracker;
-        GestureDetector gestureDetector;
-        Scroller scroller;
-        ViewConfiguration viewConfiguration;
-
-        Iterator iterator;
-        Stack stack;
-
-        EnumSet enumSet;
-        EnumMap enumMap;
-
-        HashMap hashMap;
-        HashSet hashSet;
-        Hashtable hashtable;
-
-        TreeSet treeSet;
-        TreeMap treeMap;
-
-        ArrayList arrayList;
-        LinkedList linkedList;
-
-        Serializable serializable;
-        Parcelable parcelable;
-        Parcel parcel;
-
-        Observable observable;
-        Observer observer;
     }
 
     public void testEncode() {

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,8 +9,8 @@ android {
         applicationId "com.lyric.android.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.2"
+        versionCode 3
+        versionName "1.3"
     }
     buildTypes {
         debug {
@@ -69,7 +70,7 @@ dependencies {
     //    compile dependencies.retrofit2ConverterProtobuf
     //    compile dependencies.retrofit2ConverterWire
     //    compile dependencies.retrofit2ConverterSimpleXML
-    compile dependencies.realm
+//    compile dependencies.realm
     compile dependencies.picasso
     compile dependencies.glide
     compile dependencies.fresco

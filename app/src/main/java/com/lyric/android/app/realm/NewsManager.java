@@ -46,9 +46,7 @@ public class NewsManager extends AbstractManager<RealmNewsEntity> {
     public void delete(long id) {
         getRealm().beginTransaction();
         RealmResults<RealmNewsEntity> realmResults = getRealm().where(RealmNewsEntity.class).equalTo("id", id).findAll();
-        if (realmResults != null) {
-            realmResults.clear();
-        }
+        realmResults.deleteAllFromRealm();
         getRealm().commitTransaction();
     }
 
@@ -56,20 +54,15 @@ public class NewsManager extends AbstractManager<RealmNewsEntity> {
     public void delete() {
         getRealm().beginTransaction();
         RealmResults<RealmNewsEntity> realmResults = getRealm().where(RealmNewsEntity.class).findAll();
-        if (realmResults != null) {
-            realmResults.clear();
-        }
+        realmResults.deleteAllFromRealm();
         getRealm().commitTransaction();
     }
 
     @Override
     public RealmNewsEntity query(long id) {
         getRealm().beginTransaction();
-        RealmNewsEntity realmNewsEntity = null;
         RealmResults<RealmNewsEntity> realmResults = getRealm().where(RealmNewsEntity.class).equalTo("id", id).findAll();
-        if (realmResults != null) {
-            realmNewsEntity = realmResults.get(0);
-        }
+        RealmNewsEntity realmNewsEntity = realmResults.first();
         getRealm().commitTransaction();
 
         return realmNewsEntity;
@@ -78,13 +71,10 @@ public class NewsManager extends AbstractManager<RealmNewsEntity> {
     @Override
     public List<RealmNewsEntity> query() {
         getRealm().beginTransaction();
-        List<RealmNewsEntity> realmNewsEntityList = null;
         RealmResults<RealmNewsEntity> realmResults = getRealm().where(RealmNewsEntity.class).findAll();
-        if (realmResults != null) {
-            realmNewsEntityList = new ArrayList<>();
-            for (RealmNewsEntity realmResult : realmResults) {
-                realmNewsEntityList.add(realmResult);
-            }
+        List<RealmNewsEntity> realmNewsEntityList = new ArrayList<>();
+        for (RealmNewsEntity newsEntity : realmResults) {
+            realmNewsEntityList.add(newsEntity);
         }
         getRealm().commitTransaction();
 
