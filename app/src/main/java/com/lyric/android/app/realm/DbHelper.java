@@ -3,7 +3,6 @@ package com.lyric.android.app.realm;
 import android.content.Context;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * @author ganyu
@@ -19,7 +18,7 @@ public class DbHelper {
 
     public synchronized static Realm getRealm(Context context) {
         if (mRealm == null) {
-            mRealm = Realm.getInstance(new RealmConfiguration.Builder(context).name(DB_NAME).build());
+//            mRealm = Realm.getInstance(new RealmConfiguration.Builder(context).name(DB_NAME).build());
         }
         return mRealm;
     }
