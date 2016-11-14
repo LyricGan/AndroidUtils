@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * @author lyricgan
- * @description
+ * @description 列表选择Fragment，继承于{@link BottomSheetDialogFragment}
  * @time 2016/11/14 14:31
  */
 public class ListSelectFragment extends BottomSheetDialogFragment {
@@ -56,13 +56,6 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         mAdapter.setDataList(dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
-    }
-
-    public void setDataList(List<SelectItemEntity> dataList) {
-        if (mAdapter == null) {
-            mAdapter = new SelectAdapter(getContext());
-        }
-        mAdapter.setDataList(dataList);
     }
 
     public SelectAdapter getAdapter() {
