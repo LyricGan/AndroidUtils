@@ -34,6 +34,7 @@ import com.lyric.android.app.widget.SelectItemEntity;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
+import com.lyric.android.library.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,7 +117,14 @@ public class MainActivity extends AppCompatActivity {
             itemEntity.setTitle("列表选择" + (i + 1));
             itemEntityList.add(itemEntity);
         }
-        ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
+        final ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
+        fragment.setOnItemSelectListener(new ListSelectFragment.OnItemSelectListener() {
+            @Override
+            public void onItemSelect(int position, SelectItemEntity object, View itemView) {
+                ToastUtils.showShort(BaseApp.getContext(), "position:" + position);
+                fragment.dismiss();
+            }
+        });
         fragment.show(getSupportFragmentManager());
     }
 

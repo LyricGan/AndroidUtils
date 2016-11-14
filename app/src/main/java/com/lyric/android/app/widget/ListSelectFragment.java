@@ -27,6 +27,7 @@ import java.util.List;
 public class ListSelectFragment extends BottomSheetDialogFragment {
     private RecyclerView recyclerView;
     private SelectAdapter mAdapter;
+    private OnItemSelectListener mOnItemSelectListener;
 
     public static ListSelectFragment newInstance(List<SelectItemEntity> dataList) {
         ListSelectFragment fragment = new ListSelectFragment();
@@ -53,6 +54,15 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         }
         List<SelectItemEntity> dataList = (List<SelectItemEntity>) bundle.getSerializable(Constants.EXTRAS_DATA);
         mAdapter = new SelectAdapter(getContext());
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<SelectItemEntity>() {
+            @Override
+            public void onItemClick(int position, SelectItemEntity object, View itemView) {
+                if (mOnItemSelectListener == null) {
+                    return;
+                }
+                mOnItemSelectListener.onItemSelect(position, object, itemView);
+            }
+        });
         mAdapter.setDataList(dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
@@ -66,6 +76,10 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         show(fragmentManager, "list_select_tag");
     }
 
+    public void setOnItemSelectListener(OnItemSelectListener listener) {
+        this.mOnItemSelectListener = listener;
+    }
+
     class SelectAdapter extends BaseRecyclerAdapter<SelectItemEntity> {
 
         SelectAdapter(Context context) {
@@ -77,5 +91,10 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
             TextView tvItemTitle = (TextView) itemView.findViewById(R.id.tv_item_title);
             tvItemTitle.setText(item.getTitle());
         }
+    }
+
+    public interface OnItemSelectListener {
+
+        void onItemSelect(int position, SelectItemEntity object, View itemView);
     }
 }
