@@ -15,6 +15,12 @@ public interface Constants {
     String TAG_DEFAULT = "AndroidUtils";
     String BASE_URL = "https://api.github.com";
 
+    String EXTRAS_ID = "_id";
+    String EXTRAS_TITLE = "_title";
+    String EXTRAS_NAME = "_name";
+    String EXTRAS_TYPE = "_type";
+    String EXTRAS_DATA = "_data";
+
 	/**
 	 * 编码格式
 	 */

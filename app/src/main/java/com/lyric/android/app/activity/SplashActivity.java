@@ -19,7 +19,7 @@ import com.lyric.android.app.handler.WeakHandler;
 public class SplashActivity extends Activity implements View.OnClickListener, WeakHandler.OnMessageCallback {
     private static final int WHAT_START = 0x1001;
     // 延迟加载时间
-    private static final int DELAY_MILLIS = 2000;
+    private static final int DELAY_MILLIS = 800;
     private final WeakHandler mHandler = new WeakHandler<>(this);
     // 启动时间
     private long mStartTime;

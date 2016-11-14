@@ -14,6 +14,7 @@ import android.view.ViewGroup;
  */
 public class FullyLinearLayoutManager extends LinearLayoutManager {
     private static final String TAG = FullyLinearLayoutManager.class.getSimpleName();
+    private int[] mMeasuredDimension = new int[2];
 
     public FullyLinearLayoutManager(Context context) {
         super(context);
@@ -23,12 +24,8 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
         super(context, orientation, reverseLayout);
     }
 
-    private int[] mMeasuredDimension = new int[2];
-
     @Override
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,
-                          int widthSpec, int heightSpec) {
-
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
         final int widthSize = View.MeasureSpec.getSize(widthSpec);
@@ -39,15 +36,11 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
                 + " \nwidthSize " + widthSize
                 + " \nheightSize " + heightSize
                 + " \ngetItemCount() " + getItemCount());
-
         int width = 0;
         int height = 0;
         for (int i = 0; i < getItemCount(); i++) {
-            measureScrapChild(recycler, i,
-                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-                    mMeasuredDimension);
-
+            measureScrapChild(recycler, i, View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED), mMeasuredDimension);
             if (getOrientation() == HORIZONTAL) {
                 width = width + mMeasuredDimension[0];
                 if (i == 0) {

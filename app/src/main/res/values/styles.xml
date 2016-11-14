@@ -35,4 +35,62 @@
         <item name="android:windowExitAnimation">@anim/base_slide_bottom_out</item>
     </style>
 
+    <!-- 默认文本样式 -->
+    <style name="default_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/font_color_default</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+    </style>
+
+    <!-- 默认按钮样式 -->
+    <style name="default_button_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/font_color_white</item>
+        <item name="android:textSize">@dimen/font_size_normal</item>
+        <item name="android:background">@drawable/btn_default_selector</item>
+    </style>
+
+    <!-- 默认文本样式 -->
+    <style name="default_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:contentDescription">@null</item>
+    </style>
+
+    <!-- 默认输入框样式 -->
+    <style name="default_editText_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/font_color_black</item>
+        <item name="android:textColorHint">@color/font_color_hint</item>
+        <item name="android:textSize">@dimen/font_size_normal</item>
+        <item name="android:background">@null</item>
+        <item name="android:inputType">text</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- 默认分隔线样式 -->
+    <style name="default_divider_line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/bg_color_divider</item>
+    </style>
+
+    <!-- 默认布局样式 -->
+    <style name="default_layout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 默认列表样式 -->
+    <style name="default_listView_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:divider">@color/bg_color_divider</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:cacheColorHint">#00000000</item>
+    </style>
+
 </resources>

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +29,8 @@ import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.Test;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
+import com.lyric.android.app.widget.ListSelectFragment;
+import com.lyric.android.app.widget.SelectItemEntity;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
@@ -71,13 +72,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "显示日期", Snackbar.LENGTH_LONG)
-                        .setAction("查看", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showDatePicker();
-                            }
-                        }).show();
+                showListSelectDialog();
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -111,6 +106,18 @@ public class MainActivity extends AppCompatActivity {
         datePicker.setCyclic(false);
         datePicker.setCancelable(true);
         datePicker.show();
+    }
+
+    private void showListSelectDialog() {
+        List<SelectItemEntity> itemEntityList = new ArrayList<>();
+        SelectItemEntity itemEntity;
+        for (int i = 0; i < 10; i++) {
+            itemEntity = new SelectItemEntity();
+            itemEntity.setTitle("列表选择" + (i + 1));
+            itemEntityList.add(itemEntity);
+        }
+        ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
+        fragment.show(getSupportFragmentManager());
     }
 
     @Override
