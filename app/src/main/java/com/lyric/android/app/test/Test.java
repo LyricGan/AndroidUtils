@@ -17,7 +17,6 @@ import com.lyric.android.library.utils.ImageUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -154,15 +153,14 @@ public class Test {
             try {
                 file.createNewFile();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
             fos.write(s, 0, s.length);
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {

@@ -29,7 +29,7 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
     private SelectAdapter mAdapter;
     private OnItemSelectListener mOnItemSelectListener;
 
-    public static ListSelectFragment newInstance(List<SelectItemEntity> dataList) {
+    public static ListSelectFragment newInstance(List<ListSelectEntity> dataList) {
         ListSelectFragment fragment = new ListSelectFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constants.EXTRAS_DATA, (Serializable) dataList);
@@ -52,11 +52,11 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         if (bundle == null) {
             return;
         }
-        List<SelectItemEntity> dataList = (List<SelectItemEntity>) bundle.getSerializable(Constants.EXTRAS_DATA);
+        List<ListSelectEntity> dataList = (List<ListSelectEntity>) bundle.getSerializable(Constants.EXTRAS_DATA);
         mAdapter = new SelectAdapter(getContext());
-        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<SelectItemEntity>() {
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<ListSelectEntity>() {
             @Override
-            public void onItemClick(int position, SelectItemEntity object, View itemView) {
+            public void onItemClick(int position, ListSelectEntity object, View itemView) {
                 if (mOnItemSelectListener == null) {
                     return;
                 }
@@ -68,26 +68,26 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         recyclerView.setAdapter(mAdapter);
     }
 
-    public SelectAdapter getAdapter() {
+    public BaseRecyclerAdapter getAdapter() {
         return mAdapter;
     }
 
-    public void show(FragmentManager fragmentManager) {
-        show(fragmentManager, "list_select_tag");
+    public void show(FragmentManager manager) {
+        show(manager, "list_select_tag");
     }
 
     public void setOnItemSelectListener(OnItemSelectListener listener) {
         this.mOnItemSelectListener = listener;
     }
 
-    class SelectAdapter extends BaseRecyclerAdapter<SelectItemEntity> {
+    class SelectAdapter extends BaseRecyclerAdapter<ListSelectEntity> {
 
         SelectAdapter(Context context) {
             super(context, R.layout.item_select_list);
         }
 
         @Override
-        public void convert(View itemView, int position, SelectItemEntity item) {
+        public void convert(View itemView, int position, ListSelectEntity item) {
             TextView tvItemTitle = (TextView) itemView.findViewById(R.id.tv_item_title);
             tvItemTitle.setText(item.getTitle());
         }
@@ -95,6 +95,6 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
 
     public interface OnItemSelectListener {
 
-        void onItemSelect(int position, SelectItemEntity object, View itemView);
+        void onItemSelect(int position, ListSelectEntity object, View itemView);
     }
 }

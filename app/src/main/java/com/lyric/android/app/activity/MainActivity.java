@@ -27,10 +27,11 @@ import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.Test;
+import com.lyric.android.app.test.deadlock.DeadLockTest;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
+import com.lyric.android.app.widget.ListSelectEntity;
 import com.lyric.android.app.widget.ListSelectFragment;
-import com.lyric.android.app.widget.SelectItemEntity;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showListSelectDialog();
+                testDeadLock();
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -110,22 +111,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showListSelectDialog() {
-        List<SelectItemEntity> itemEntityList = new ArrayList<>();
-        SelectItemEntity itemEntity;
+        List<ListSelectEntity> itemEntityList = new ArrayList<>();
+        ListSelectEntity itemEntity;
         for (int i = 0; i < 10; i++) {
-            itemEntity = new SelectItemEntity();
+            itemEntity = new ListSelectEntity();
             itemEntity.setTitle("列表选择" + (i + 1));
             itemEntityList.add(itemEntity);
         }
         final ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
         fragment.setOnItemSelectListener(new ListSelectFragment.OnItemSelectListener() {
             @Override
-            public void onItemSelect(int position, SelectItemEntity object, View itemView) {
+            public void onItemSelect(int position, ListSelectEntity object, View itemView) {
                 ToastUtils.showShort(BaseApp.getContext(), "position:" + position);
                 fragment.dismiss();
             }
         });
         fragment.show(getSupportFragmentManager());
+    }
+
+    private void testDeadLock() {
+        DeadLockTest.test();
     }
 
     @Override

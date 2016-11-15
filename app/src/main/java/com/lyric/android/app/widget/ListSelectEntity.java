@@ -7,8 +7,17 @@ import java.io.Serializable;
  * @description
  * @time 2016/11/14 15:06
  */
-public class SelectItemEntity implements Serializable {
+public class ListSelectEntity implements Serializable {
+    private int id;
     private String title;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

@@ -45,7 +45,7 @@ public class ExecutorsTest {
     private class AddThread extends Thread {
         private String name;
 
-        public AddThread(String name) {
+        AddThread(String name) {
             this.name = name;
         }
 
