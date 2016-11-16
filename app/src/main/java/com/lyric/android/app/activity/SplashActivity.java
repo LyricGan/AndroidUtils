@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.handler.WeakHandler;
+import com.lyric.android.library.utils.ActivityUtils;
 
 /**
  * @author lyric
@@ -58,9 +59,8 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
     }
 
     private void startActivity() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-        startActivity(intent);
+//        ActivityUtils.startActivity(this, MainActivity.class);
+        ActivityUtils.startActivity(this, ViewTestActivity.class);
         finish();
     }
 

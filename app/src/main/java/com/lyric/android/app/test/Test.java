@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -171,5 +172,9 @@ public class Test {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void test() {
+        Hashtable hashtable;
     }
 }

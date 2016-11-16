@@ -1,12 +1,14 @@
 package com.lyric.android.app.activity;
 
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.LinearLayout;
 
+import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.view.TitleBar;
-import com.lyric.android.app.widget.MovedCircleView;
+import com.lyric.android.app.widget.PieData;
+import com.lyric.android.app.widget.PieView;
+
+import java.util.ArrayList;
 
 /**
  * @author lyric
@@ -17,24 +19,22 @@ public class ViewTestActivity extends BaseCompatActivity {
 
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
-        LinearLayout rootLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        rootLayout.setOrientation(LinearLayout.VERTICAL);
-        rootLayout.setLayoutParams(params);
+        setContentView(R.layout.activity_view_test);
+        PieView pieView = (PieView) findViewById(R.id.pie_view);
 
-        MovedCircleView movedCircleView = new MovedCircleView(this);
-        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        viewParams.gravity = Gravity.CENTER;
-        movedCircleView.setLayoutParams(viewParams);
-        rootLayout.addView(movedCircleView);
+        ArrayList<PieData> dataList = new ArrayList<>();
+        PieData data;
+        for (int i = 0; i < 5; i++) {
+            data = new PieData("i" + i, 100 + (i * 50));
 
-        setContentView(rootLayout);
+            dataList.add(data);
+        }
+        pieView.setData(dataList);
+        pieView.setStartAngle(0);
     }
 
     @Override
     public void onTitleCreated(TitleBar titleBar) {
-        titleBar.setText("ViewTest");
+        titleBar.setText(ViewTestActivity.class.getSimpleName());
     }
 }

@@ -3,6 +3,8 @@ package com.lyric.android.app.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -13,7 +15,7 @@ import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
 
 /**
- * @author lyric
+ * @author lyricgan
  * @description
  * @time 2016/3/15 15:07
  */
@@ -57,6 +59,21 @@ public class MovedCircleView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mCurrentX == 0 || mCurrentY == 0) {
@@ -66,6 +83,13 @@ public class MovedCircleView extends View {
             canvas.drawCircle(mCurrentX, mCurrentY, mDefaultRadius, mPaint);
         }
         canvas.restore();
+
+        drawRect(canvas);
+    }
+
+    private void drawRect(Canvas canvas) {
+        canvas.drawRect(new Rect(120, 120, 480, 480), mPaint);
+        canvas.drawRoundRect(new RectF(540, 120, 900, 480), 35, 50, mPaint);
     }
 
     @Override
@@ -75,17 +99,22 @@ public class MovedCircleView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        if (mCurrentX != 0 && mCurrentY != 0 && (x < (mCurrentX - mDefaultRadius) || x > (mCurrentX + mDefaultRadius) || y < (mCurrentY - mDefaultRadius) || y > (mCurrentY + mDefaultRadius))) {
+            return true;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                mStartX = event.getX();
-                mStartY = event.getY();
+                mStartX = x;
+                mStartY = y;
                 mPaint.setColor(0x88007eff);
                 invalidate();
             }
                 break;
             case MotionEvent.ACTION_MOVE: {
-                mCurrentX = event.getX();
-                mCurrentY = event.getY();
+                mCurrentX = x;
+                mCurrentY = y;
                 if (Math.abs(mCurrentX - mStartX) > mMinDistance || Math.abs(mCurrentY - mStartY) > mMinDistance) {
                     mPaint.setColor(0x88007eff);
                     invalidate();
