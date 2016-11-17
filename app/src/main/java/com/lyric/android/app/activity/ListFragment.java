@@ -15,7 +15,10 @@ public class ListFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     public static ListFragment newInstance() {
-        return new ListFragment();
+        ListFragment fragment = new ListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

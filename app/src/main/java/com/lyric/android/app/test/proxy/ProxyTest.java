@@ -8,7 +8,7 @@ public class ProxyTest {
 		invoke();
 	}
 
-    public static void invoke() {
+    private static void invoke() {
         TimeInvocationHandler handler = new TimeInvocationHandler(new OperateImpl());
         Operate operate = (Operate) Proxy.newProxyInstance(Operate.class.getClassLoader(), new Class[] {Operate.class}, handler);
         operate.method1();

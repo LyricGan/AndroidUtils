@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -27,7 +28,6 @@ import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.Test;
-import com.lyric.android.app.test.deadlock.DeadLockTest;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.app.widget.ListSelectEntity;
@@ -43,14 +43,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description
  * @time 2016/1/19 17:47
  */
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
-    private TabLayout mTabLayout;
     private ImageView iv_user_avatar;
 
     @Override
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testDeadLock();
+                testView();
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -129,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager());
     }
 
-    private void testDeadLock() {
-        DeadLockTest.test();
+    private void testView() {
+        ActivityUtils.startActivity(this, ViewTestActivity.class);
     }
 
     @Override
@@ -151,19 +150,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager() {
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
-        titles.add("资讯");
-        titles.add("热点");
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
+        titles.add("选项卡一");
+        titles.add("选项卡二");
+        tabLayout.addTab(tabLayout.newTab().setText(titles.get(0)));
+        tabLayout.addTab(tabLayout.newTab().setText(titles.get(1)));
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(ListFragment.newInstance());
         fragments.add(ListFragment.newInstance());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabsFromPagerAdapter(adapter);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setTabsFromPagerAdapter(adapter);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -174,10 +173,9 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().showPopup(v);
             }
         });
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
@@ -185,21 +183,19 @@ public class MainActivity extends AppCompatActivity {
                         ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
                     }
                         break;
-                    case R.id.nav_loading: {// LoadingTest
+                    case R.id.nav_loading: {
                         ActivityUtils.startActivity(MainActivity.this, LoadingActivity.class);
                     }
                         break;
-                    case R.id.nav_progress: {// CircleProgressBar
+                    case R.id.nav_progress: {
                         ActivityUtils.startActivity(MainActivity.this, CircleProgressBarActivity.class);
                     }
                         break;
-                    case R.id.nav_web: {// WebActivity
-//                        ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
-                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuSimpleActivity.class);
+                    case R.id.nav_web: {
+                        ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
                     }
                         break;
                     case R.id.menu_item_about: {// 关于
-//                        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
                         ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
                     }
                         break;

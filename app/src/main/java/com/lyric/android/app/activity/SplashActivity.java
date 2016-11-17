@@ -13,7 +13,7 @@ import com.lyric.android.app.handler.WeakHandler;
 import com.lyric.android.library.utils.ActivityUtils;
 
 /**
- * @author lyric
+ * @author lyricgan
  * @description 启动界面
  * @time 2015/11/2 10:57
  */
@@ -59,8 +59,7 @@ public class SplashActivity extends Activity implements View.OnClickListener, We
     }
 
     private void startActivity() {
-//        ActivityUtils.startActivity(this, MainActivity.class);
-        ActivityUtils.startActivity(this, ViewTestActivity.class);
+        ActivityUtils.startActivity(this, MainActivity.class);
         finish();
     }
 
