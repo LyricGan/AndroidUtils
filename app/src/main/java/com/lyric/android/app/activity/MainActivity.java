@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelect(int position, ListSelectEntity object, View itemView) {
                 ToastUtils.showShort(BaseApp.getContext(), "position:" + position);
                 fragment.dismiss();
+                finish();
             }
         });
         fragment.show(getSupportFragmentManager());
@@ -151,18 +152,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        List<String> titles = new ArrayList<>();
-        titles.add("选项卡一");
-        titles.add("选项卡二");
-        tabLayout.addTab(tabLayout.newTab().setText(titles.get(0)));
-        tabLayout.addTab(tabLayout.newTab().setText(titles.get(1)));
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(ListFragment.newInstance());
-        fragments.add(ListFragment.newInstance());
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        List<String> titleList = new ArrayList<>();
+        titleList.add("选项卡一");
+        titleList.add("选项卡二");
+        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(0)));
+        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(1)));
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(ListFragment.newInstance());
+        fragmentList.add(ListFragment.newInstance());
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setTabsFromPagerAdapter(adapter);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                         break;
                     case R.id.menu_item_exit: {// 退出
-                        finish();
+                        showListSelectDialog();
                     }
                         break;
                 }

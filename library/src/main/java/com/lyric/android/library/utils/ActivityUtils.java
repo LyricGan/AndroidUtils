@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @description
  * @time 2016/1/20 14:41
  */
@@ -26,26 +26,17 @@ public class ActivityUtils {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        startActivity(context, intent);
     }
 
     public static void startActivity(Context context, String action) {
         Intent intent = new Intent(action);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        startActivity(context, intent);
     }
 
     public static void startActivity(Context context, String action, Uri uri) {
         Intent intent = new Intent(action, uri);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        startActivity(context, intent);
     }
 
     public static void startActivity(Context context, String action, Bundle bundle) {
@@ -53,10 +44,7 @@ public class ActivityUtils {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        startActivity(context, intent);
     }
 
     public static void startActivity(Context context, Intent intent) {
@@ -75,7 +63,7 @@ public class ActivityUtils {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        activity.startActivityForResult(intent, requestCode);
+        startActivityForResult(activity, intent, requestCode);
     }
 
     public static void startActivityForResult(Activity activity, Intent intent, int requestCode) {
@@ -91,7 +79,7 @@ public class ActivityUtils {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        fragment.startActivityForResult(intent, requestCode, bundle);
+        startActivityForResult(fragment, intent, requestCode);
     }
 
     public static void startActivityForResult(Fragment fragment, Intent intent, int requestCode) {
