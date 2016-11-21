@@ -27,7 +27,6 @@ import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
-import com.lyric.android.app.test.Test;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.app.widget.ListSelectEntity;
@@ -95,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
             }
         });
-
-        Test.getInstance().initialize();
     }
 
     private void showDatePicker() {
@@ -243,6 +240,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AddPictureUtils.getInstance().destroy();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
     }
 
     @Override

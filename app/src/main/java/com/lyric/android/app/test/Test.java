@@ -19,10 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -177,8 +174,6 @@ public class Test {
     }
 
     public void test() {
-        Hashtable hashtable;
-        SoftReference softReference;
-        WeakReference weakReference;
+
     }
 }
