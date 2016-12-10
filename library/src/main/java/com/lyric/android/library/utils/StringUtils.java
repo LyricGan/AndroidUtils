@@ -448,4 +448,41 @@ public class StringUtils {
     public static String getDouble(double value, int newScale) {
         return new BigDecimal(Double.toString(value)).setScale(newScale, BigDecimal.ROUND_DOWN).toPlainString();
     }
+
+    /**
+     * 将对象value转换为整数
+     * @param value 对象value
+     * @param defaultValue 默认值
+     * @return 整数
+     */
+    public static int convertToInt(Object value, int defaultValue) {
+        if (value == null || "".equals(value.toString().trim())) {
+            return defaultValue;
+        }
+        try {
+            return Integer.valueOf(value.toString());
+        } catch (Exception e) {
+            try {
+                return Double.valueOf(value.toString()).intValue();
+            } catch (Exception e1) {
+                return defaultValue;
+            }
+        }
+    }
+
+    /**
+     * 将长整数转换为字节数组
+     * @param num 长整数
+     * @return 字节数组
+     */
+    public static byte[] longToBytes(long num) {
+        byte[] bytes = new byte[8];
+        int len = 8;
+        for (byte b : bytes) {
+            b = (byte) (num & 0xff);
+            bytes[--len] = b;
+            num >>= 8;
+        }
+        return bytes;
+    }
 }
