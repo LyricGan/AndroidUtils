@@ -34,7 +34,7 @@ public class Test {
     }
 
     private static final class TestHolder {
-        static final Test INSTANCE = new Test();
+        private static final Test INSTANCE = new Test();
     }
 
     public static Test getInstance() {
