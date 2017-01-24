@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author lyricgan
@@ -174,6 +175,7 @@ public class Test {
     }
 
     public void test() {
-
+        int value = new Random().nextInt(Integer.MAX_VALUE);
+        Loggers.d("value:" + value);
     }
 }
