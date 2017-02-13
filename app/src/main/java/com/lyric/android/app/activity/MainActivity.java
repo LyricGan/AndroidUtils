@@ -29,6 +29,7 @@ import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.mvvm.view.LoginActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
+import com.lyric.android.app.widget.AutoScrollViewPager;
 import com.lyric.android.app.widget.ListSelectEntity;
 import com.lyric.android.app.widget.ListSelectFragment;
 import com.lyric.android.library.utils.ActivityUtils;
@@ -48,7 +49,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
-    private ViewPager mViewPager;
+    private AutoScrollViewPager mViewPager;
     private ImageView iv_user_avatar;
 
     @Override
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 testView();
             }
         });
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
         setupViewPager();
 
         initialize();
@@ -159,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(ListFragment.newInstance());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
+        mViewPager.setCycle(true);
+        mViewPager.setInterval(3000L);
+        mViewPager.startAutoScroll();
         tabLayout.setupWithViewPager(mViewPager);
     }
 

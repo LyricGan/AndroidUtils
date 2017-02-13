@@ -194,7 +194,6 @@ public class AutoScrollViewPager extends ViewPager {
         }
     }
 
-
     /**
      * <ul>
      * if stopScrollWhenTouch is true
