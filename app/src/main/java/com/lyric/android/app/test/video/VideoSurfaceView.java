@@ -14,17 +14,15 @@ class VideoSurfaceView extends SurfaceView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int mVideoWidth = MediaManager.intance().currentVideoWidth;
-        int mVideoHeight = MediaManager.intance().currentVideoHeight;
+        int mVideoWidth = MediaManager.instance().currentVideoWidth;
+        int mVideoHeight = MediaManager.instance().currentVideoHeight;
         int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
         int height = getDefaultSize(mVideoHeight, heightMeasureSpec);
         if (mVideoWidth > 0 && mVideoHeight > 0) {
-
             int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
             int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
             int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
             int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-
             if (widthSpecMode == MeasureSpec.EXACTLY && heightSpecMode == MeasureSpec.EXACTLY) {
                 // the size is fixed
                 width = widthSpecSize;

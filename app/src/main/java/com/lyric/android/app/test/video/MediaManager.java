@@ -18,7 +18,7 @@ class MediaManager implements MediaPlayer.OnPreparedListener, MediaPlayer.OnComp
     public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
 
-    public static MediaManager intance() {
+    public static MediaManager instance() {
         if (jcMediaManager == null) {
             jcMediaManager = new MediaManager();
         }

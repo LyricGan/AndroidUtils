@@ -10,11 +10,22 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.third.eventbus.EventBusUtils;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 public class VideoFullScreenActivity extends Activity {
+    VideoPlayer mVideoPlayer;
+    /**
+     * 刚启动全屏时的播放状态
+     */
+    public static int STATE = -1;
+    public static String URL;
+    public static String TITLE;
+    public static String THUMB;
+    public static boolean manualQuit = false;
+    protected static VideoSkin skin;
+    static boolean start = false;
 
     static void toActivityFromNormal(Context context, int state, String url, String thumb, String title) {
         STATE = state;
@@ -36,18 +47,6 @@ public class VideoFullScreenActivity extends Activity {
         context.startActivity(intent);
     }
 
-    VideoPlayer mVideoPlayer;
-    /**
-     * 刚启动全屏时的播放状态
-     */
-    public static int STATE = -1;
-    public static String URL;
-    public static String TITLE;
-    public static String THUMB;
-    public static boolean manualQuit = false;
-    protected static VideoSkin skin;
-    static boolean start = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +64,13 @@ public class VideoFullScreenActivity extends Activity {
         }
         mVideoPlayer.setUpForFullscreen(URL, THUMB, TITLE);
         mVideoPlayer.setState(STATE);
-        MediaManager.intance().setUuid(mVideoPlayer.uuid);
+        MediaManager.instance().setUuid(mVideoPlayer.uuid);
         manualQuit = false;
         if (start) {
             mVideoPlayer.ivStart.performClick();
         }
+
+        EventBusUtils.register(this);
     }
 
     @Subscribe
@@ -95,15 +96,8 @@ public class VideoFullScreenActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBusUtils.unregister(this);
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
 }

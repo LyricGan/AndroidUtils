@@ -165,8 +165,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         ImageLoader.load(getContext(), thumbUrl, ivCover);
         CURRENT_STATE = CURRENT_STATE_NORMAL;
         setTitleVisibility(View.VISIBLE);
-        if (uuid.equals(MediaManager.intance().uuid)) {
-            MediaManager.intance().mediaPlayer.stop();
+        if (uuid.equals(MediaManager.instance().uuid)) {
+            MediaManager.instance().mediaPlayer.stop();
         }
         if (!TextUtils.isEmpty(url) && url.contains(".mp3")) {
             ifMp3 = true;
@@ -245,8 +245,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 ivCover.setVisibility(View.INVISIBLE);
             }
         } else if (CURRENT_STATE == CURRENT_STATE_NORMAL) {
-            if (uuid.equals(MediaManager.intance().uuid)) {
-                MediaManager.intance().mediaPlayer.stop();
+            if (uuid.equals(MediaManager.instance().uuid)) {
+                MediaManager.instance().mediaPlayer.stop();
             }
             ivStart.setVisibility(View.VISIBLE);
             ivThumb.setVisibility(View.VISIBLE);
@@ -268,14 +268,14 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
             ivStart.setImageResource(R.drawable.click_video_play_selector);
             ivThumb.setVisibility(View.VISIBLE);
             ivStart.setVisibility(View.VISIBLE);
-//                JCMediaPlayer.intance().mediaPlayer.setDisplay(null);
+//                JCMediaPlayer.instance().mediaPlayer.setDisplay(null);
             //TODO 这里要将背景置黑，
 //            surfaceView.setBackgroundColor(R.color.black_a10_color);
             CURRENT_STATE = CURRENT_STATE_NORMAL;
             setKeepScreenOn(false);
             sendPointEvent(ifFullScreen ? VideoEvents.POINT_AUTO_COMPLETE_FULLSCREEN : VideoEvents.POINT_AUTO_COMPLETE);
         }
-        if (!MediaManager.intance().uuid.equals(uuid)) {
+        if (!MediaManager.instance().uuid.equals(uuid)) {
             if (videoEvents.type == VideoEvents.VE_START) {
                 if (CURRENT_STATE != CURRENT_STATE_NORMAL) {
                     setState(CURRENT_STATE_NORMAL);
@@ -285,8 +285,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         }
         if (videoEvents.type == VideoEvents.VE_PREPARED) {
             if (CURRENT_STATE != CURRENT_STATE_PREPAREING) return;
-            MediaManager.intance().mediaPlayer.setDisplay(surfaceHolder);
-            MediaManager.intance().mediaPlayer.start();
+            MediaManager.instance().mediaPlayer.setDisplay(surfaceHolder);
+            MediaManager.instance().mediaPlayer.start();
             pbLoading.setVisibility(View.INVISIBLE);
             if (!ifMp3) {
                 ivCover.setVisibility(View.INVISIBLE);
@@ -314,14 +314,14 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
             }
         } else if (videoEvents.type == VideoEvents.VE_SURFACEHOLDER_CREATED) {
             if (isFromFullScreenBackHere) {
-                MediaManager.intance().mediaPlayer.setDisplay(surfaceHolder);
+                MediaManager.instance().mediaPlayer.setDisplay(surfaceHolder);
                 stopToFullscreenOrQuitFullscreenShowDisplay();
                 isFromFullScreenBackHere = false;
                 startDismissControlViewTimer();
             }
         } else if (videoEvents.type == VideoEvents.VE_MEDIAPLAYER_RESIZE) {
-            int mVideoWidth = MediaManager.intance().currentVideoWidth;
-            int mVideoHeight = MediaManager.intance().currentVideoHeight;
+            int mVideoWidth = MediaManager.instance().currentVideoWidth;
+            int mVideoHeight = MediaManager.instance().currentVideoHeight;
             if (mVideoWidth != 0 && mVideoHeight != 0) {
                 surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
                 surfaceView.requestLayout();
@@ -343,7 +343,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 return;
             }
             if (CURRENT_STATE == CURRENT_STATE_NORMAL) {
-                MediaManager.intance().clearWidthAndHeight();
+                MediaManager.instance().clearWidthAndHeight();
                 CURRENT_STATE = CURRENT_STATE_PREPAREING;
                 ivStart.setVisibility(View.INVISIBLE);
                 ivThumb.setVisibility(View.INVISIBLE);
@@ -351,8 +351,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 ivCover.setVisibility(View.VISIBLE);
                 setProgressAndTime(0, 0, 0);
                 setProgressBuffered(0);
-                MediaManager.intance().prepareToPlay(getContext(), url);
-                MediaManager.intance().setUuid(uuid);
+                MediaManager.instance().prepareToPlay(getContext(), url);
+                MediaManager.instance().setUuid(uuid);
                 Log.i("JCVideoPlayer", "play video");
 
                 VideoEvents videoEvents = new VideoEvents().setType(VideoEvents.VE_START);
@@ -368,7 +368,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 if (!ifMp3) {
                     ivCover.setVisibility(View.INVISIBLE);
                 }
-                MediaManager.intance().mediaPlayer.pause();
+                MediaManager.instance().mediaPlayer.pause();
                 Log.i("JCVideoPlayer", "pause video");
 
                 updateStartImage();
@@ -381,7 +381,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 if (!ifMp3) {
                     ivCover.setVisibility(View.INVISIBLE);
                 }
-                MediaManager.intance().mediaPlayer.start();
+                MediaManager.instance().mediaPlayer.start();
                 Log.i("JCVideoPlayer", "go on video");
 
                 updateStartImage();
@@ -395,9 +395,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                 quitFullScreen();
             } else {
                 VideoFullScreenActivity.skin = skin;
-                MediaManager.intance().mediaPlayer.pause();
-                MediaManager.intance().mediaPlayer.setDisplay(null);
-                MediaManager.intance().backUpUuid();
+                MediaManager.instance().mediaPlayer.pause();
+                MediaManager.instance().mediaPlayer.setDisplay(null);
+                MediaManager.instance().backUpUuid();
                 isClickFullscreen = true;
                 VideoFullScreenActivity.toActivityFromNormal(getContext(), CURRENT_STATE, url, thumbUrl, title);
                 sendPointEvent(VideoEvents.POINT_ENTER_FULLSCREEN);
@@ -408,7 +408,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
             startDismissControlViewTimer();
             sendPointEvent(ifFullScreen ? VideoEvents.POINT_CLICK_BLANK_FULLSCREEN : VideoEvents.POINT_CLICK_BLANK);
         } else if (i == R.id.bottom_control) {
-            //JCMediaPlayer.intance().mediaPlayer.setDisplay(surfaceHolder);
+            //JCMediaPlayer.instance().mediaPlayer.setDisplay(surfaceHolder);
         } else if (i == R.id.back) {
             quitFullScreen();
         }
@@ -420,7 +420,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         mDismissControlViewTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (uuid.equals(MediaManager.intance().uuid)) {
+                if (uuid.equals(MediaManager.instance().uuid)) {
                     if (getContext() != null && getContext() instanceof Activity) {
                         ((Activity) getContext()).runOnUiThread(new Runnable() {
                             @Override
@@ -512,7 +512,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     }
 
     private void cancelProgressTimer() {
-        if (uuid.equals(MediaManager.intance().uuid)) {
+        if (uuid.equals(MediaManager.instance().uuid)) {
             if (mUpdateProgressTimer != null) {
                 mUpdateProgressTimer.cancel();
             }
@@ -551,8 +551,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     }
 
     private void setProgressAndTimeFromTimer() {
-        int position = MediaManager.intance().mediaPlayer.getCurrentPosition();
-        int duration = MediaManager.intance().mediaPlayer.getDuration();
+        int position = MediaManager.instance().mediaPlayer.getCurrentPosition();
+        int duration = MediaManager.instance().mediaPlayer.getDuration();
         int progress = position * 100 / duration;
         setProgressAndTime(progress, position, duration);
     }
@@ -575,8 +575,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            int time = progress * MediaManager.intance().mediaPlayer.getDuration() / 100;
-            MediaManager.intance().mediaPlayer.seekTo(time);
+            int time = progress * MediaManager.instance().mediaPlayer.getDuration() / 100;
+            MediaManager.instance().mediaPlayer.seekTo(time);
             pbLoading.setVisibility(View.VISIBLE);
             ivStart.setVisibility(View.INVISIBLE);
         }
@@ -597,8 +597,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         super.onDetachedFromWindow();
         EventBus.getDefault().unregister(this);
 //        cancelDismissControlViewTimer();
-        if (uuid.equals(MediaManager.intance().uuid)) {
-            MediaManager.intance().mediaPlayer.stop();
+        if (uuid.equals(MediaManager.instance().uuid)) {
+            MediaManager.instance().mediaPlayer.stop();
         }
     }
 
@@ -613,9 +613,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     public void quitFullScreen() {
         VideoFullScreenActivity.manualQuit = true;
         clickfullscreentime = System.currentTimeMillis();
-        MediaManager.intance().mediaPlayer.pause();
-        MediaManager.intance().mediaPlayer.setDisplay(null);
-        MediaManager.intance().revertUuid();
+        MediaManager.instance().mediaPlayer.pause();
+        MediaManager.instance().mediaPlayer.setDisplay(null);
+        MediaManager.instance().revertUuid();
         VideoEvents videoEvents = new VideoEvents().setType(VideoEvents.VE_SURFACEHOLDER_FINISH_FULLSCREEN);
         videoEvents.obj = CURRENT_STATE;
         EventBus.getDefault().post(videoEvents);
@@ -624,7 +624,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
 
     private void stopToFullscreenOrQuitFullscreenShowDisplay() {
         if (CURRENT_STATE == CURRENT_STATE_PAUSE) {
-            MediaManager.intance().mediaPlayer.start();
+            MediaManager.instance().mediaPlayer.start();
             CURRENT_STATE = CURRENT_STATE_PLAYING;
             new Thread(new Runnable() {
                 @Override
@@ -632,7 +632,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
                     ((Activity) getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            MediaManager.intance().mediaPlayer.pause();
+                            MediaManager.instance().mediaPlayer.pause();
                             CURRENT_STATE = CURRENT_STATE_PAUSE;
                         }
                     });
@@ -640,7 +640,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
             }).start();
             surfaceView.requestLayout();
         } else if (CURRENT_STATE == CURRENT_STATE_PLAYING) {
-            MediaManager.intance().mediaPlayer.start();
+            MediaManager.instance().mediaPlayer.start();
         }
     }
 
@@ -649,7 +649,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         //TODO MediaPlayer set holder,MediaPlayer prepareToPlay
         EventBus.getDefault().post(new VideoEvents().setType(VideoEvents.VE_SURFACEHOLDER_CREATED));
         if (ifFullScreen) {
-            MediaManager.intance().mediaPlayer.setDisplay(surfaceHolder);
+            MediaManager.instance().mediaPlayer.setDisplay(surfaceHolder);
             stopToFullscreenOrQuitFullscreenShowDisplay();
         }
         if (CURRENT_STATE != CURRENT_STATE_NORMAL) {
@@ -674,9 +674,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
      */
     public static void releaseAllVideos() {
         if (!isClickFullscreen) {
-            MediaManager.intance().mediaPlayer.stop();
-            MediaManager.intance().setUuid("");
-            MediaManager.intance().setUuid("");
+            MediaManager.instance().mediaPlayer.stop();
+            MediaManager.instance().setUuid("");
+            MediaManager.instance().setUuid("");
             EventBus.getDefault().post(new VideoEvents().setType(VideoEvents.VE_MEDIAPLAYER_FINISH_COMPLETE));
         }
     }
