@@ -14,4 +14,7 @@
     <dimen name="font_size_normal">16sp</dimen>
     <dimen name="font_size_middle">18sp</dimen>
     <dimen name="font_size_large">20sp</dimen>
+
+    <!-- MEDIA CONTROLLER -->
+    <dimen name="media_controller_view_height">40.0dip</dimen>
 </resources>

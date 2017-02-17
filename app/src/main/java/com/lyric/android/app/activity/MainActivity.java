@@ -26,6 +26,7 @@ import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
 import com.lyric.android.app.test.mvvm.view.LoginActivity;
+import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.app.widget.AutoScrollViewPager;
@@ -196,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                         break;
                     case R.id.menu_item_about: {// 关于
-                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
+//                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, VideoListActivity.class);
                     }
                         break;
                     case R.id.menu_item_exit: {// 退出
