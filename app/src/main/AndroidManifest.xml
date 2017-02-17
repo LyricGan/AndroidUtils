@@ -64,7 +64,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".mvvm.view.LoginActivity"
+            android:name=".test.mvvm.view.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>

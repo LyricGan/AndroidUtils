@@ -2,8 +2,8 @@ package com.lyric.android.app.base;
 
 import android.app.Application;
 
-import com.lyric.android.app.fresco.ImageHelper;
-import com.lyric.android.app.stetho.StethoUtils;
+import com.lyric.android.app.third.fresco.ImageHelper;
+import com.lyric.android.app.third.stetho.StethoUtils;
 import com.lyric.android.library.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
