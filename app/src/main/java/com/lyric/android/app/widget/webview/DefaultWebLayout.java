@@ -11,13 +11,13 @@ import android.widget.RelativeLayout;
 import com.lyric.android.app.R;
 
 /**
+ * 默认WebLayout，包含WebView和ProgressBar
  * @author lyric
- * @description 默认WebLayout，包含WebView和ProgressBar
  * @time 2016/6/23 11:20
  */
 public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.WebCallback {
-    private DefaultWebView web_view;
-    private ProgressBar progress_loading;
+    private DefaultWebView mWebView;
+    private ProgressBar mProgressLoading;
 
     private String mReceivedTitle;
 
@@ -36,10 +36,10 @@ public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.W
 
     private void initialize(Context context) {
         View rootView = View.inflate(context, R.layout.view_default_web_layout, this);
-        web_view = (DefaultWebView) rootView.findViewById(R.id.web_view);
-        progress_loading = (ProgressBar) rootView.findViewById(R.id.progress_loading);
+        mWebView = (DefaultWebView) rootView.findViewById(R.id.web_view);
+        mProgressLoading = (ProgressBar) rootView.findViewById(R.id.progress_loading);
 
-        web_view.setWebCallback(this);
+        mWebView.setWebCallback(this);
     }
 
     @Override
@@ -76,11 +76,11 @@ public class DefaultWebLayout extends RelativeLayout implements DefaultWebView.W
     }
 
     private DefaultWebView getWebView() {
-        return web_view;
+        return mWebView;
     }
 
     private ProgressBar getProgressBar() {
-        return progress_loading;
+        return mProgressLoading;
     }
 
     private void setViewLoading() {
