@@ -1,13 +1,10 @@
 package com.lyric.android.app.third.glide;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
+import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
@@ -44,72 +41,25 @@ public class ImageLoader {
         Glide.with(context).load(url).into(view);
     }
 
-    public static void load(Context context, Uri uri, ImageView view) {
-        Glide.with(context).load(uri).into(view);
-    }
-
-    public static void load(Activity activity, String url, ImageView view) {
-        Glide.with(activity).load(url).into(view);
-    }
-
-    public static void load(FragmentActivity activity, String url, ImageView view) {
-        Glide.with(activity).load(url).into(view);
-    }
-
-    public static void load(Fragment fragment, String url, ImageView view) {
-        Glide.with(fragment).load(url).into(view);
-    }
-
-    public static void load(android.app.Fragment fragment, String url, ImageView view) {
-        Glide.with(fragment).load(url).into(view);
-    }
-
-    public static void load(Context context, String url, ImageView view, int placeHolderId) {
-        Glide.with(context).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void load(Context context, Uri uri, ImageView view, int placeHolderId) {
-        Glide.with(context).load(uri).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void load(Activity activity, String url, ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void load(FragmentActivity activity, String url, ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void load(Fragment fragment, String url, ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void load(android.app.Fragment fragment, String url, ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).crossFade().into(view);
-    }
-
-    public static void loadCircle(Context context, String url, final ImageView view, int placeHolderId) {
-        Glide.with(context).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
-    }
-
-    public static void loadCircle(Context context, Uri uri, final ImageView view, int placeHolderId) {
-        Glide.with(context).load(uri).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
-    }
-
-    public static void loadCircle(Activity activity, String url, final ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
-    }
-
-    public static void loadCircle(FragmentActivity activity, String url, final ImageView view, int placeHolderId) {
-        Glide.with(activity).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
-    }
-
-    public static void loadCircle(Fragment fragment, String url, final ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
-    }
-
-    public static void loadCircle(android.app.Fragment fragment, String url, final ImageView view, int placeHolderId) {
-        Glide.with(fragment).load(url).placeholder(placeHolderId).error(placeHolderId).dontAnimate().into(view);
+    /**
+     * 加载图片
+     * @param view ImageView
+     * @param object
+     * @param placeHolderId 占位图
+     * @param errorResId 错误占位图
+     */
+    public static void load(ImageView view, Object object, int placeHolderId, int errorResId) {
+        if (view == null || object == null) {
+            return;
+        }
+        GenericRequestBuilder builder = Glide.with(view.getContext()).load(object).crossFade();
+        if (placeHolderId > 0) {
+            builder = builder.placeholder(placeHolderId);
+        }
+        if (errorResId > 0) {
+            builder = builder.error(errorResId);
+        }
+        builder.dontAnimate().into(view);
     }
 
     public static File getCacheDir(Context context) {

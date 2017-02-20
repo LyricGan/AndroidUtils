@@ -133,6 +133,10 @@
         <meta-data
             android:name="com.lyric.android.app.glide.ImageModule"
             android:value="ImageModule"/>
+
+        <meta-data
+            android:name="ANDROID_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 
 </manifest>

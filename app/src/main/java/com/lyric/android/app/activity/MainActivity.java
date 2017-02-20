@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
         mViewPager.setCycle(true);
-        mViewPager.setInterval(3000L);
+        mViewPager.setInterval(5000L);
         mViewPager.startAutoScroll();
         tabLayout.setupWithViewPager(mViewPager);
     }

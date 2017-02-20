@@ -11,6 +11,11 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3
         versionName "1.3"
+
+        // dex突破65535的限制
+        multiDexEnabled true
+
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "common"]
     }
     buildTypes {
         debug {
@@ -18,10 +23,35 @@ android {
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            minifyEnabled true
+            zipAlignEnabled true
+            // 移除无用的resource文件
             shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为android_v1.0_2017-02-20_wandoujia.apk
+                        def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
+    }
+
+    // 友盟多渠道打包
+    productFlavors {
+        common {}
+        baidu {}
+        yingyongbao {}
+        wandoujia {}
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
     sourceSets {
@@ -35,6 +65,10 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
