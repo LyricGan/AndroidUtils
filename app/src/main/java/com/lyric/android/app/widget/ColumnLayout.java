@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 九宫格布局组件
  */
-public class ColumnLayout extends LinearLayout implements View.OnClickListener {
+public class ColumnLayout<T> extends LinearLayout implements View.OnClickListener {
     private final int DIVIDER_TAG = 1444;
     private LayoutInflater mInflater;
     private Context mContext;
@@ -34,7 +34,7 @@ public class ColumnLayout extends LinearLayout implements View.OnClickListener {
     private ViewRecycler<LinearLayout> mParentRecycler;
     private ViewRecycler<View> mChildRecycler;
 
-    private List mDatas;
+    private List<T> mDataList;
     private boolean mAutoHeight;
     private boolean mShowFinalBottomLine;
     private boolean mShowFirstDividerLine;
@@ -66,32 +66,32 @@ public class ColumnLayout extends LinearLayout implements View.OnClickListener {
         mChildRecycler = new ViewRecycler<>();
     }
 
-    public void setData(List datas) {
-        if (null == mDatas) {
-            mDatas = new ArrayList();
+    public void setData(List<T> dataList) {
+        if (null == mDataList) {
+            mDataList = new ArrayList<>();
         } else {
-            mDatas.clear();
+            mDataList.clear();
         }
-        if (datas != null && !datas.isEmpty()) {
-            mDatas.addAll(datas);
+        if (dataList != null && !dataList.isEmpty()) {
+            mDataList.addAll(dataList);
         }
         notifyDataChanged();
     }
 
-    public boolean removeItem(Object obj){
-        if (obj != null && mDatas != null && mDatas.remove(obj)){
+    public boolean removeItem(T item) {
+        if (item != null && mDataList != null && mDataList.remove(item)) {
             notifyDataChanged();
             return true;
         }
         return false;
     }
 
-    public Object getItem(int position) {
-        return mDatas.get(position);
+    public T getItem(int position) {
+        return mDataList.get(position);
     }
 
     public int getCount() {
-        return mDatas == null ? 0 : mDatas.size();
+        return mDataList == null ? 0 : mDataList.size();
     }
 
     public void notifyDataChanged() {

@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.v4.view.ViewPager;
 import android.util.Base64;
 
 import com.lyric.android.app.base.BaseApp;
@@ -177,5 +178,7 @@ public class Test {
     public void test() {
         int value = new Random().nextInt(Integer.MAX_VALUE);
         Loggers.d("value:" + value);
+
+        ViewPager viewPager;
     }
 }
