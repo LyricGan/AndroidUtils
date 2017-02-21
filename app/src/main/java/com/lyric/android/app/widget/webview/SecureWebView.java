@@ -326,12 +326,14 @@ public class SecureWebView extends WebView {
         if (url.startsWith("file://")) {
             return true;
         }
-        if (url.startsWith("intent://")) {
+        if (url.startsWith("intent:")) {
             return false;
         }
         String host = Uri.parse(url).getHost().toLowerCase();
         if (!TextUtils.isEmpty(host)) {
-            return true;
+            if (host.startsWith("http://") || host.startsWith("https://")) {
+                return true;
+            }
         }
         return false;
     }

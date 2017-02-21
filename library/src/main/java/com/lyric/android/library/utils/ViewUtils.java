@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.text.Selection;
 import android.text.Spannable;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
@@ -466,5 +467,17 @@ public class ViewUtils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    /**
+     * 执行视图触摸反馈震动效果
+     * @param v
+     * @return
+     */
+    public static boolean performHapticFeedback(View v) {
+        if (v != null) {
+            return v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+        }
+        return false;
     }
 }
