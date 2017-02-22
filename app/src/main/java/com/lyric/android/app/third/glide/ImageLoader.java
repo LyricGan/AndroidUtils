@@ -59,7 +59,7 @@ public class ImageLoader {
         if (errorResId > 0) {
             builder = builder.error(errorResId);
         }
-        builder.dontAnimate().into(view);
+        builder.into(view);
     }
 
     public static File getCacheDir(Context context) {
