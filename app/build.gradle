@@ -29,16 +29,16 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为android_v1.0_2017-02-20_wandoujia.apk
-                        def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为android_v1.0_2017-02-20_wandoujia.apk
+//                        def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
         }
     }
 
@@ -118,4 +118,5 @@ dependencies {
     compile files('libs/fastjson-1.2.9.jar')
     compile project(path: ':pickerview')
     compile project(path: ':lib_recyclerview')
+    compile project(path: ':ViewPagerIndicator')
 }

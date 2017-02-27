@@ -43,8 +43,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ *
  * @author lyricgan
- * @description
  * @time 2016/1/19 17:47
  */
 public class MainActivity extends AppCompatActivity {
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testView();
+                ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
             }
         });
         mViewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
@@ -125,11 +125,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         fragment.show(getSupportFragmentManager());
-    }
-
-    private void testView() {
-//        ActivityUtils.startActivity(this, ViewTestActivity.class);
-        ActivityUtils.startActivity(this, PraiseActivity.class);
     }
 
     @Override
