@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <com.lyric.android.app.widget.praiseview.MoreTextView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             more:text="在当今世界风云变换、物欲横流的时代拥有一颗备受熏陶的热爱自然、社会和人类的心至为重要。一个人在坠地的那刻起就有着一颗特殊的爱，不仅仅是源自于母爱，
         更多的是来自己自己内心的细胞，我们可以说是“自尊自爱”之心。唯有懂得爱惜自己尊重自己的人才能“己所不欲勿施于人”，才能做到“老吾老以及人之老，幼吾幼以及人之幼”，
         进而具备“穷则独善其身，达则兼济天下”的中华民族传统美德。这样一说范围就被我扩大了。无论青涩稚嫩是否逐渐褪去，但无论如何请你且行且珍惜。你所选择的路，笑着闹着，纵使是哭着跪着，
-        你也要坚持且有目的的走完，永远不要忘记为何启程，也不要忘记自己的初衷，不要去为了个稍微的最优而赶路，但这一路上无论简单平凡还是轰轰烈烈，在你回忆起来时一点要有意义，而且无悔青春。"
+        你也要坚持且有目的的走完，永远不要忘记为何启程，也不要忘记自己的初衷，不要去为了个稍微的最优而赶路，但这一路上无论简单平凡还是轰轰烈烈，在你回忆起来时一定要有意义，而且无悔青春。"
             more:textColor="@android:color/black"
             more:textSize="18sp" />
 
@@ -32,22 +32,23 @@
             android:layout_width="wrap_content"
             android:layout_height="30dip"
             android:layout_gravity="right|bottom"
-            android:gravity="bottom"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="bottom"
             android:orientation="horizontal"
-            android:paddingRight="63dip" >
+            android:paddingRight="63dip">
 
             <LinearLayout
                 android:id="@+id/comment_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@null"
                     android:src="@drawable/blog_ic_comment" />
 
                 <TextView
@@ -66,11 +67,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dip"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@null"
                     android:src="@drawable/blog_ic_forward" />
 
                 <TextView
@@ -88,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="bottom"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <com.lyric.android.app.widget.praiseview.PraiseView
                     android:id="@+id/praise_view"
