@@ -128,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testView() {
-        ActivityUtils.startActivity(this, ViewTestActivity.class);
+//        ActivityUtils.startActivity(this, ViewTestActivity.class);
+        ActivityUtils.startActivity(this, PraiseActivity.class);
     }
 
     @Override

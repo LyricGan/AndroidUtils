@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Base64;
 
@@ -180,5 +181,8 @@ public class Test {
         Loggers.d("value:" + value);
 
         ViewPager viewPager;
+        BroadcastReceiver broadcastReceiver;
+        IntentFilter intentFilter;
+        LocalBroadcastManager localBroadcastManager;
     }
 }

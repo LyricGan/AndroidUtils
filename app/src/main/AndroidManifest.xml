@@ -100,6 +100,11 @@
             android:name=".test.video.VideoFullScreenActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activity.PraiseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
 
         <receiver
             android:name=".test.TestBroadcastReceiver"
