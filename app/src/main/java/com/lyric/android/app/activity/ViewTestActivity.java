@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.view.TitleBar;
-import com.lyric.android.app.widget.PieData;
 import com.lyric.android.app.widget.PieView;
 
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class ViewTestActivity extends BaseCompatActivity {
         setContentView(R.layout.activity_view_test);
         PieView pieView = (PieView) findViewById(R.id.pie_view);
 
-        ArrayList<PieData> dataList = new ArrayList<>();
-        PieData data;
+        ArrayList<PieView.PieData> dataList = new ArrayList<>();
+        PieView.PieData data;
         for (int i = 0; i < 5; i++) {
-            data = new PieData("i" + i, 100 + (i * 50));
+            data = new PieView.PieData("i" + i, 100 + (i * 50));
 
             dataList.add(data);
         }

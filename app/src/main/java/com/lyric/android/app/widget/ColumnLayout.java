@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.lyric.android.app.R;
 import com.lyric.android.library.utils.DisplayUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * 九宫格布局组件
  */
 public class ColumnLayout<T> extends LinearLayout implements View.OnClickListener {
-    private final int DIVIDER_TAG = 1444;
+    private static final int DIVIDER_TAG = 1444;
     private LayoutInflater mInflater;
     private Context mContext;
     private int mChildLayoutId = -1;
@@ -36,13 +37,14 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
 
     private List<T> mDataList;
     private boolean mAutoHeight;
-    private boolean mShowFinalBottomLine;
     private boolean mShowFirstDividerLine;
+    private boolean mShowFinalBottomLine;
 
     public ColumnLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         mInflater = LayoutInflater.from(context);
+
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ColumnLayout);
         mChildLayoutId = array.getResourceId(R.styleable.ColumnLayout_childLayout, -1);
         mRowDivider = array.getResourceId(R.styleable.ColumnLayout_rowDivider, -1);
@@ -56,6 +58,7 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
         mAutoHeight = array.getBoolean(R.styleable.ColumnLayout_autoHeight, false);
         mShowFirstDividerLine = array.getBoolean(R.styleable.ColumnLayout_showFirstDividerLine, false);
         mShowFinalBottomLine = array.getBoolean(R.styleable.ColumnLayout_showFinalBottomLine, true);
+
         setOrientation(LinearLayout.VERTICAL);
         array.recycle();
     }
@@ -184,11 +187,6 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
         }
     }
 
-    public interface ViewBinder {
-
-        View setViewValue(View childView, int position);
-    }
-
     private int getChildDividerWidth() {
         int dividerWidth = (int) mChildDividerWidth;
         return (dividerWidth <= 0 ? DisplayUtils.dip2px(getContext(), 0.5f) : dividerWidth);
@@ -217,10 +215,50 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
         for (int i = 0; i < count; i++) {
             View child = rowLayout.getChildAt(i);
             Object tag = child.getTag();
-            if (tag == null) {//mRowDivider view设置了tag
+            if (tag == null) {// mRowDivider view设置了tag
                 mChildRecycler.cacheView(child);
             }
         }
         rowLayout.removeAllViews();
+    }
+
+    public interface ViewBinder {
+
+        View setViewValue(View childView, int position);
+    }
+
+    /**
+     * 视图缓存类
+     * @param <T>
+     */
+    private static class ViewRecycler<T extends View> {
+        private final List<WeakReference<T>> mCacheList = new ArrayList<>();
+
+        public void cacheView(T view) {
+            mCacheList.add(new WeakReference<T>(view));
+        }
+
+        public void cacheViews(List<T> views) {
+            for(T t : views){
+                mCacheList.add(new WeakReference<T>(t));
+            }
+        }
+
+        public void cacheViews(ViewGroup viewGroup) {
+            if (null != viewGroup) {
+                int count = viewGroup.getChildCount();
+                for (int i = 0; i < count; i++) {
+                    cacheView((T) viewGroup.getChildAt(i));
+                }
+            }
+        }
+
+        public T getCacheView() {
+            T item = null;
+            if (mCacheList.size() > 0) {
+                item = mCacheList.remove(0).get();
+            }
+            return item;
+        }
     }
 }

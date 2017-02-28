@@ -8,9 +8,9 @@ import android.view.View;
  * @description
  * @time 2016/6/14 12:45
  */
-public class ViewHolder {
+public class ViewHolderHelper {
 
-    private ViewHolder() {
+    private ViewHolderHelper() {
     }
 
     public static <T extends View> T get(View view, int id) {

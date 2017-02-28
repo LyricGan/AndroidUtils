@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

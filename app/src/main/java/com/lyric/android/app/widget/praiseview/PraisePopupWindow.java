@@ -18,39 +18,40 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * 点赞效果
+ * 带点赞效果的视图弹窗
  *
  * @author lyricgan
  */
 public class PraisePopupWindow extends PopupWindow {
     /** 默认移动距离 */
-    private static final int DISTANCE = 60;
+    private static final int DEFAULT_DISTANCE = 60;
     /** Y轴移动起始偏移量 */
-    private static final int FROM_Y_DELTA = 0;
+    private static final int DEFAULT_FROM_Y_DELTA = 0;
     /** Y轴移动最终偏移量 */
-    private static final int TO_Y_DELTA = DISTANCE;
+    private static final int DEFAULT_TO_Y_DELTA = DEFAULT_DISTANCE;
     /** 起始时透明度 */
-    private static final float FROM_ALPHA = 1.0f;
+    private static final float DEFAULT_FROM_ALPHA = 1.0f;
     /** 结束时透明度 */
-    private static final float TO_ALPHA = 0.0f;
+    private static final float DEFAULT_TO_ALPHA = 0.0f;
     /** 动画时长 */
-    private static final int DURATION = 800;
+    private static final int DEFAULT_DURATION = 800;
     /** 默认文本 */
-    private static final String TEXT = "";
+    private static final String DEFAULT_TEXT = "";
     /** 默认文本字体大小 */
-    private static final int TEXT_SIZE = 16;
+    private static final int DEFAULT_TEXT_SIZE = 16;
     /** 默认文本字体颜色 */
-    private static final int TEXT_COLOR = Color.BLACK;
+    private static final int DEFAULT_TEXT_COLOR = Color.RED;
 
-    private String mText = TEXT;
-    private int mTextColor = TEXT_COLOR;
-    private int mTextSize = TEXT_SIZE;
-    private int mFromY = FROM_Y_DELTA;
-    private int mToY = TO_Y_DELTA;
-    private float mFromAlpha = FROM_ALPHA;
-    private float mToAlpha = TO_ALPHA;
-    private int mDuration = DURATION;
-    private int mDistance = DISTANCE;
+    private String mText = DEFAULT_TEXT;
+    private int mTextColor = DEFAULT_TEXT_COLOR;
+    private int mTextSize = DEFAULT_TEXT_SIZE;
+    private int mFromY = DEFAULT_FROM_Y_DELTA;
+    private int mToY = DEFAULT_TO_Y_DELTA;
+    private float mFromAlpha = DEFAULT_FROM_ALPHA;
+    private float mToAlpha = DEFAULT_TO_ALPHA;
+    private int mDuration = DEFAULT_DURATION;
+    private int mDistance = DEFAULT_DISTANCE;
+
     private AnimationSet mAnimationSet;
     private boolean mChanged = false;
     private Context mContext = null;
@@ -64,8 +65,7 @@ public class PraisePopupWindow extends PopupWindow {
 
     private void initView() {
         RelativeLayout layout = new RelativeLayout(mContext);
-        RelativeLayout.LayoutParams params =
-                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
@@ -78,9 +78,9 @@ public class PraisePopupWindow extends PopupWindow {
         layout.addView(mTextView);
         setContentView(layout);
 
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        mTextView.measure(w, h);
+        int textViewWidth = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int textViewHeight = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        mTextView.measure(textViewWidth, textViewHeight);
         setWidth(mTextView.getMeasuredWidth());
         setHeight(mDistance + mTextView.getMeasuredHeight());
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -88,7 +88,7 @@ public class PraisePopupWindow extends PopupWindow {
         setTouchable(false);
         setOutsideTouchable(false);
 
-        mAnimationSet = createAnimation();
+        mAnimationSet = getDefaultAnimation();
     }
 
     /**
@@ -226,17 +226,17 @@ public class PraisePopupWindow extends PopupWindow {
      * 重置属性
      */
     public void reset() {
-        mText = TEXT;
-        mTextColor = TEXT_COLOR;
-        mTextSize = TEXT_SIZE;
-        mFromY = FROM_Y_DELTA;
-        mToY = TO_Y_DELTA;
-        mFromAlpha = FROM_ALPHA;
-        mToAlpha = TO_ALPHA;
-        mDuration = DURATION;
-        mDistance = DISTANCE;
+        mText = DEFAULT_TEXT;
+        mTextColor = DEFAULT_TEXT_COLOR;
+        mTextSize = DEFAULT_TEXT_SIZE;
+        mFromY = DEFAULT_FROM_Y_DELTA;
+        mToY = DEFAULT_TO_Y_DELTA;
+        mFromAlpha = DEFAULT_FROM_ALPHA;
+        mToAlpha = DEFAULT_TO_ALPHA;
+        mDuration = DEFAULT_DURATION;
+        mDistance = DEFAULT_DISTANCE;
         mChanged = false;
-        mAnimationSet = createAnimation();
+        mAnimationSet = getDefaultAnimation();
     }
 
     /**
@@ -249,22 +249,19 @@ public class PraisePopupWindow extends PopupWindow {
             int offsetY = -v.getHeight() - getHeight();
             showAsDropDown(v, v.getWidth() / 2 - getWidth() / 2, offsetY);
             if (mAnimationSet == null || mChanged) {
-                mAnimationSet = createAnimation();
+                mAnimationSet = getDefaultAnimation();
                 mChanged = false;
             }
             mTextView.startAnimation(mAnimationSet);
         }
     }
 
-    /**
-     * 动画
-     *
-     * @return
-     */
-    private AnimationSet createAnimation() {
-        mAnimationSet = new AnimationSet(true);
+    private AnimationSet getDefaultAnimation() {
+        // 平移动画
         TranslateAnimation translateAnim = new TranslateAnimation(0, 0, mFromY, -mToY);
+        // 透明度渐变动画
         AlphaAnimation alphaAnim = new AlphaAnimation(mFromAlpha, mToAlpha);
+        mAnimationSet = new AnimationSet(true);
         mAnimationSet.addAnimation(translateAnim);
         mAnimationSet.addAnimation(alphaAnim);
         mAnimationSet.setDuration(mDuration);

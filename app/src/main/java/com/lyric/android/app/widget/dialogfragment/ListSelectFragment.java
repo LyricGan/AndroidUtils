@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.dialogfragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -96,5 +96,26 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
     public interface OnItemSelectListener {
 
         void onItemSelect(int position, ListSelectEntity object, View itemView);
+    }
+
+    public static class ListSelectEntity implements Serializable {
+        private int id;
+        private String title;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
     }
 }

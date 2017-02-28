@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.checkbox;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;

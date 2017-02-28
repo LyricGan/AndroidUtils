@@ -29,9 +29,8 @@ import com.lyric.android.app.test.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
-import com.lyric.android.app.widget.AutoScrollViewPager;
-import com.lyric.android.app.widget.ListSelectEntity;
-import com.lyric.android.app.widget.ListSelectFragment;
+import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
+import com.lyric.android.app.widget.viewpager.AutoScrollViewPager;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
@@ -108,17 +107,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showListSelectDialog() {
-        List<ListSelectEntity> itemEntityList = new ArrayList<>();
-        ListSelectEntity itemEntity;
+        List<ListSelectFragment.ListSelectEntity> itemEntityList = new ArrayList<>();
+        ListSelectFragment.ListSelectEntity itemEntity;
         for (int i = 0; i < 10; i++) {
-            itemEntity = new ListSelectEntity();
+            itemEntity = new ListSelectFragment.ListSelectEntity();
             itemEntity.setTitle("列表选择" + (i + 1));
             itemEntityList.add(itemEntity);
         }
         final ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
         fragment.setOnItemSelectListener(new ListSelectFragment.OnItemSelectListener() {
             @Override
-            public void onItemSelect(int position, ListSelectEntity object, View itemView) {
+            public void onItemSelect(int position, ListSelectFragment.ListSelectEntity object, View itemView) {
                 ToastUtils.showShort(BaseApp.getContext(), "position:" + position);
                 fragment.dismiss();
                 finish();

@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.sidebar;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -23,7 +23,7 @@ import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
  * @time 2016/8/25 13:35
  */
 public class SideBar2 extends View {
-    private static final String TAG = SideBar.class.getSimpleName();
+    private static final String TAG = SideBar2.class.getSimpleName();
     private OnLetterChangedListener mOnLetterChangedListener;
 
     private String[] mLetters = null;
