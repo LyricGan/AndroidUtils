@@ -26,6 +26,7 @@ public class PraiseActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_praise);
+
         mPraisePopupWindow = new PraisePopupWindow(this);
     }
 

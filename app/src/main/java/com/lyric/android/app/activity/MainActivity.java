@@ -25,6 +25,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.test.Test;
 import com.lyric.android.app.test.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
@@ -42,7 +43,6 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author lyricgan
  * @time 2016/1/19 17:47
  */
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
+                onFabClicked();
             }
         });
         mViewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
@@ -104,6 +104,12 @@ public class MainActivity extends AppCompatActivity {
         datePicker.setCyclic(false);
         datePicker.setCancelable(true);
         datePicker.show();
+    }
+
+    private void onFabClicked() {
+        Test.getInstance().test();
+
+        ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
     }
 
     private void showListSelectDialog() {
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home: {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
-                return true;
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -148,16 +154,21 @@ public class MainActivity extends AppCompatActivity {
         List<String> titleList = new ArrayList<>();
         titleList.add("选项卡一");
         titleList.add("选项卡二");
+        titleList.add("选项卡三");
+        titleList.add("选项卡四");
         tabLayout.addTab(tabLayout.newTab().setText(titleList.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(titleList.get(1)));
+        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(2)));
+        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(3)));
+
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(ListFragment.newInstance());
         fragmentList.add(ListFragment.newInstance());
+        fragmentList.add(ListFragment.newInstance());
+        fragmentList.add(ListFragment.newInstance());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        mViewPager.setCycle(false);
         mViewPager.setAdapter(adapter);
-        mViewPager.setCycle(true);
-        mViewPager.setInterval(5000L);
-        mViewPager.startAutoScroll();
         tabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -178,28 +189,28 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_login: {
                         ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
                     }
-                        break;
+                    break;
                     case R.id.nav_loading: {
                         ActivityUtils.startActivity(MainActivity.this, LoadingActivity.class);
                     }
-                        break;
+                    break;
                     case R.id.nav_progress: {
                         ActivityUtils.startActivity(MainActivity.this, CircleProgressBarActivity.class);
                     }
-                        break;
+                    break;
                     case R.id.nav_web: {
                         ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
                     }
-                        break;
+                    break;
                     case R.id.menu_item_about: {// 关于
 //                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
                         ActivityUtils.startActivity(MainActivity.this, VideoListActivity.class);
                     }
-                        break;
+                    break;
                     case R.id.menu_item_exit: {// 退出
                         showListSelectDialog();
                     }
-                        break;
+                    break;
                 }
                 return true;
             }
@@ -219,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     iv_user_avatar.setImageBitmap(bitmap);
                 }
             }
-                break;
+            break;
             case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
                 if (data != null && resultCode == Activity.RESULT_OK) {
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
@@ -229,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     iv_user_avatar.setImageBitmap(bitmap);
                 }
             }
-                break;
+            break;
             default:
                 break;
         }

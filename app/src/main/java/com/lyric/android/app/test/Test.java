@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
 import android.util.Base64;
 
 import com.lyric.android.app.base.BaseApp;
@@ -23,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author lyricgan
@@ -177,12 +174,7 @@ public class Test {
     }
 
     public void test() {
-        int value = new Random().nextInt(Integer.MAX_VALUE);
-        Loggers.d("value:" + value);
-
-        ViewPager viewPager;
-        BroadcastReceiver broadcastReceiver;
-        IntentFilter intentFilter;
-        LocalBroadcastManager localBroadcastManager;
+        Loggers.d("classLoader:" + this.getClass().getClassLoader()
+                + "\n," + Context.class.getClassLoader());
     }
 }

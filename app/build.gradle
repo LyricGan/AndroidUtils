@@ -45,9 +45,9 @@ android {
     // 友盟多渠道打包
     productFlavors {
         common {}
-        baidu {}
-        yingyongbao {}
-        wandoujia {}
+//        baidu {}
+//        yingyongbao {}
+//        wandoujia {}
     }
 
     productFlavors.all { flavor ->
