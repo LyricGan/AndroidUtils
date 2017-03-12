@@ -50,7 +50,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     private String thumbUrl;
     private String title;
     private boolean ifFullScreen = false;
-    public String uuid;//区别相同地址,包括全屏和不全屏，和都不全屏时的相同地址
+    public String uuid;// 区别相同地址，包括全屏和不全屏，和都不全屏时的相同地址
     public boolean ifShowTitle = false;
     private boolean ifMp3 = false;
 
@@ -65,8 +65,8 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     public static final int CURRENT_STATE_PREPAREING = 0;
     public static final int CURRENT_STATE_PAUSE = 1;
     public static final int CURRENT_STATE_PLAYING = 2;
-    public static final int CURRENT_STATE_OVER = 3;//这个状态可能不需要，播放完毕就进入normal状态
-    public static final int CURRENT_STATE_NORMAL = 4;//刚初始化之后
+    public static final int CURRENT_STATE_OVER = 3;// 这个状态可能不需要，播放完毕就进入normal状态
+    public static final int CURRENT_STATE_NORMAL = 4;// 刚初始化之后
     private OnTouchListener mSeekbarOnTouchListener;
     private static Timer mDismissControlViewTimer;
     private static Timer mUpdateProgressTimer;
@@ -131,7 +131,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
      * @param title 标题 | title
      */
     public void setUp(String url, String thumb, String title) {
-        setUp(url, thumb, title, true);
+        setUp(url, thumb, title, true, false);
     }
 
     /**
@@ -143,14 +143,17 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
      * @param title       标题 | title
      * @param ifShowTitle 是否在非全屏下显示标题 | The title is displayed in full-screen under
      */
-    public void setUp(String url, String thumbUrl, String title, boolean ifShowTitle) {
+    public void setUp(String url, String thumbUrl, String title, boolean ifShowTitle, boolean ifFullScreen) {
         setSkin();
         setIfShowTitle(ifShowTitle);
-        if ((System.currentTimeMillis() - clickfullscreentime) < FULL_SCREEN_NORMAL_DELAY) return;
+        if ((System.currentTimeMillis() - clickfullscreentime) < FULL_SCREEN_NORMAL_DELAY) {
+            return;
+        }
         this.url = url;
         this.thumbUrl = thumbUrl;
         this.title = title;
-        this.ifFullScreen = false;
+        this.ifFullScreen = ifFullScreen;
+
         if (ifFullScreen) {
             ivFullScreen.setImageResource(enlargRecId == 0 ? R.drawable.shrink_video : enlargRecId);
         } else {
@@ -163,6 +166,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         llBottomControl.setVisibility(View.INVISIBLE);
         pbBottom.setVisibility(View.VISIBLE);
         ImageLoader.load(getContext(), thumbUrl, ivCover);
+
         CURRENT_STATE = CURRENT_STATE_NORMAL;
         setTitleVisibility(View.VISIBLE);
         if (uuid.equals(MediaManager.instance().uuid)) {
@@ -269,7 +273,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
             ivThumb.setVisibility(View.VISIBLE);
             ivStart.setVisibility(View.VISIBLE);
 //                JCMediaPlayer.instance().mediaPlayer.setDisplay(null);
-            //TODO 这里要将背景置黑，
+            // 这里要将背景置黑
 //            surfaceView.setBackgroundColor(R.color.black_a10_color);
             CURRENT_STATE = CURRENT_STATE_NORMAL;
             setKeepScreenOn(false);
@@ -646,7 +650,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //TODO MediaPlayer set holder,MediaPlayer prepareToPlay
+        // MediaPlayer set holder,MediaPlayer prepareToPlay
         EventBus.getDefault().post(new VideoEvents().setType(VideoEvents.VE_SURFACEHOLDER_CREATED));
         if (ifFullScreen) {
             MediaManager.instance().mediaPlayer.setDisplay(surfaceHolder);

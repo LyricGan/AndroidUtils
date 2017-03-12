@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,11 +32,9 @@ import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
-import com.lyric.android.app.widget.viewpager.AutoScrollViewPager;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 import com.lyric.android.library.utils.LogUtils;
-import com.lyric.android.library.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +47,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
-    private AutoScrollViewPager mViewPager;
+    private ViewPager mViewPager;
     private ImageView iv_user_avatar;
 
     @Override
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 onFabClicked();
             }
         });
-        mViewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
 
         initialize();
@@ -117,14 +116,13 @@ public class MainActivity extends AppCompatActivity {
         ListSelectFragment.ListSelectEntity itemEntity;
         for (int i = 0; i < 10; i++) {
             itemEntity = new ListSelectFragment.ListSelectEntity();
-            itemEntity.setTitle("列表选择" + (i + 1));
+            itemEntity.setTitle("点击退出" + (i + 1));
             itemEntityList.add(itemEntity);
         }
         final ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
         fragment.setOnItemSelectListener(new ListSelectFragment.OnItemSelectListener() {
             @Override
             public void onItemSelect(int position, ListSelectFragment.ListSelectEntity object, View itemView) {
-                ToastUtils.showShort(BaseApp.getContext(), "position:" + position);
                 fragment.dismiss();
                 finish();
             }
@@ -167,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(ListFragment.newInstance());
         fragmentList.add(ListFragment.newInstance());
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
-        mViewPager.setCycle(false);
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager);
     }
@@ -202,12 +199,11 @@ public class MainActivity extends AppCompatActivity {
                         ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
                     }
                     break;
-                    case R.id.menu_item_about: {// 关于
-//                        ActivityUtils.startActivity(MainActivity.this, SwipeMenuActivity.class);
+                    case R.id.menu_item_about: {
                         ActivityUtils.startActivity(MainActivity.this, VideoListActivity.class);
                     }
                     break;
-                    case R.id.menu_item_exit: {// 退出
+                    case R.id.menu_item_exit: {
                         showListSelectDialog();
                     }
                     break;

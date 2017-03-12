@@ -9,10 +9,10 @@ import android.widget.BaseAdapter;
 import com.lyric.android.app.R;
 
 public class VideoListAdapter extends BaseAdapter {
-    Context context;
+    private Context mContext;
 
     public VideoListAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
@@ -35,18 +35,19 @@ public class VideoListAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();
-            LayoutInflater mInflater = LayoutInflater.from(context);
+            LayoutInflater mInflater = LayoutInflater.from(mContext);
             convertView = mInflater.inflate(R.layout.item_video_list, null);
             viewHolder.jcVideoPlayer = (VideoPlayer) convertView.findViewById(R.id.videoplayer);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.jcVideoPlayer.setUp(VideoConstant.videoUrls[position], VideoConstant.videoThumbs[position], VideoConstant.videoTitles[position]);
+        viewHolder.jcVideoPlayer.setUp(VideoConstant.videoUrls[position],
+                VideoConstant.videoThumbs[position], VideoConstant.videoTitles[position]);
         return convertView;
     }
 
-    class ViewHolder {
+    private static class ViewHolder {
         VideoPlayer jcVideoPlayer;
     }
 }

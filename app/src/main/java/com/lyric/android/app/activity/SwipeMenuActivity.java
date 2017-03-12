@@ -132,11 +132,8 @@ public class SwipeMenuActivity extends BaseCompatActivity {
                 ApplicationInfo item = mAppList.get(position);
                 switch (index) {
                     case 0:
-                        // open
                         break;
                     case 1:
-                        // delete
-//					delete(item);
                         mAppList.remove(position);
                         mAdapter.notifyDataSetChanged();
                         break;
@@ -148,7 +145,6 @@ public class SwipeMenuActivity extends BaseCompatActivity {
 
     @Override
     public void onTitleCreated(TitleBar titleBar) {
-
     }
 
     class AppAdapter extends BaseAdapter {
