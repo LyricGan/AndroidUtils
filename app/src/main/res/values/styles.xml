@@ -93,4 +93,11 @@
         <item name="android:cacheColorHint">#00000000</item>
     </style>
 
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@drawable/ic_shadow_left</item>
+        <item name="shadow_right">@drawable/ic_shadow_right</item>
+        <item name="shadow_bottom">@drawable/ic_shadow_bottom</item>
+    </style>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.lyric.android.library.utils;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -479,5 +480,67 @@ public class ViewUtils {
             return v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         }
         return false;
+    }
+
+    /**
+     * Convert a translucent themed Activity
+     * {@link android.R.attr#windowIsTranslucent} to a fullscreen opaque
+     * Activity.
+     * <p>
+     * Call this whenever the background of a translucent Activity has changed
+     * to become opaque. Doing so will allow the {@link android.view.Surface} of
+     * the Activity behind to be released.
+     * <p>
+     * This call has no effect on non-translucent activities or on activities
+     * with the {@link android.R.attr#windowIsFloating} attribute.
+     */
+    public static void convertActivityFromTranslucent(Activity activity) {
+        try {
+            Method method = Activity.class.getDeclaredMethod("convertFromTranslucent");
+            if (method != null) {
+                method.setAccessible(true);
+                method.invoke(activity);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /**
+     * Convert a translucent themed Activity
+     * {@link android.R.attr#windowIsTranslucent} back from opaque to
+     * translucent following a call to
+     * {@link #convertActivityFromTranslucent(android.app.Activity)} .
+     * <p>
+     * Calling this allows the Activity behind this one to be seen again. Once
+     * all such Activities have been redrawn
+     * <p>
+     * This call has no effect on non-translucent activities or on activities
+     * with the {@link android.R.attr#windowIsFloating} attribute.
+     */
+    public static void convertActivityToTranslucent(Activity activity) {
+        try {
+            Class<?>[] classes = Activity.class.getDeclaredClasses();
+            Class<?> translucentConversionListenerCls = null;
+            for (Class<?> cls : classes) {
+                if (cls.getSimpleName().contains("TranslucentConversionListener")) {
+                    translucentConversionListenerCls = cls;
+                }
+            }
+            if (Build.VERSION.SDK_INT >= 21) {
+                Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerCls, ActivityOptions.class);
+                if (method != null) {
+                    method.setAccessible(true);
+                    method.invoke(activity, new Object[] { null, null });
+                }
+            } else {
+                Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerCls);
+                if (method != null) {
+                    method.setAccessible(true);
+                    method.invoke(activity, new Object[] { null });
+                }
+            }
+        } catch (Throwable t) {
+        }
     }
 }
