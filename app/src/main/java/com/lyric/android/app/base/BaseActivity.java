@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,19 +14,29 @@ import android.widget.EditText;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
+import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
+import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
+import com.lyric.android.app.widget.swipe.SwipeBackLayout;
 import com.lyric.android.library.utils.BuildVersionUtils;
 import com.lyric.android.library.utils.ViewUtils;
 
-public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
+public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, SwipeBackActivityBase {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
+    private SwipeBackActivityHelper mSwipeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        onViewCreate(savedInstanceState);
         injectStatusBar();
+        mSwipeHelper = new SwipeBackActivityHelper(this);
+        mSwipeHelper.onActivityCreate();
+        // 默认设置为禁止滑动关闭
+        setSwipeBackEnable(false);
+        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+
+        onViewCreate(savedInstanceState);
     }
 
     @Override
@@ -120,4 +131,49 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mSwipeHelper.onPostCreate();
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View view = super.findViewById(id);
+        if (view == null && mSwipeHelper != null) {
+            return mSwipeHelper.findViewById(id);
+        }
+        return view;
+    }
+
+    @Override
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mSwipeHelper.getSwipeBackLayout();
+    }
+
+    /**
+     * 设置是否支持滑动关闭
+     * @param enable
+     */
+    @Override
+    public void setSwipeBackEnable(boolean enable) {
+        getSwipeBackLayout().setEnableGesture(enable);
+    }
+
+    @Override
+    public void finishActivity() {
+        ViewUtils.convertActivityToTranslucent(this);
+        getSwipeBackLayout().finishActivity();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finishActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

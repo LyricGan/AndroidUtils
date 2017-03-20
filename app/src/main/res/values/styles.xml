@@ -8,6 +8,11 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="Theme.Default" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="popup_style">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>

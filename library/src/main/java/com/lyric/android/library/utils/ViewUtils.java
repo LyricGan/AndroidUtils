@@ -541,6 +541,8 @@ public class ViewUtils {
                 }
             }
         } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
+
 }

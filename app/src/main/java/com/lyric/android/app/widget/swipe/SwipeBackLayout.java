@@ -104,7 +104,6 @@ public class SwipeBackLayout extends FrameLayout {
     private boolean mInLayout;
 
     private Rect mTmpRect = new Rect();
-
     /**
      * Edge being dragged
      */
@@ -234,7 +233,7 @@ public class SwipeBackLayout extends FrameLayout {
         mListeners.remove(listener);
     }
 
-    public static interface SwipeListener {
+    public interface SwipeListener {
         /**
          * Invoke when state change
          *
@@ -244,7 +243,7 @@ public class SwipeBackLayout extends FrameLayout {
          * @see #STATE_DRAGGING
          * @see #STATE_SETTLING
          */
-        public void onScrollStateChange(int state, float scrollPercent);
+        void onScrollStateChange(int state, float scrollPercent);
 
         /**
          * Invoke when edge touched
@@ -254,12 +253,12 @@ public class SwipeBackLayout extends FrameLayout {
          * @see #EDGE_RIGHT
          * @see #EDGE_BOTTOM
          */
-        public void onEdgeTouch(int edgeFlag);
+        void onEdgeTouch(int edgeFlag);
 
         /**
          * Invoke when scroll percent over the threshold for the first time
          */
-        public void onScrollOverThreshold();
+        void onScrollOverThreshold();
     }
 
     /**
@@ -376,13 +375,13 @@ public class SwipeBackLayout extends FrameLayout {
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         final boolean drawContent = child == mContentView;
 
-        boolean ret = super.drawChild(canvas, child, drawingTime);
+        boolean result = super.drawChild(canvas, child, drawingTime);
         if (mScrimOpacity > 0 && drawContent
                 && mDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
             drawShadow(canvas, child);
             drawScrim(canvas, child);
         }
-        return ret;
+        return result;
     }
 
     private void drawScrim(Canvas canvas, View child) {

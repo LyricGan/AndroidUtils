@@ -502,9 +502,9 @@ public class ViewDragHelper {
 	/**
 	 * Enable edge tracking for the selected edges of the parent view. The
 	 * callback's
-	 * {@link me.imid.swipebacklayout.lib.ViewDragHelper.Callback#onEdgeTouched(int, int)}
+	 * {@link ViewDragHelper.Callback#onEdgeTouched(int, int)}
 	 * and
-	 * {@link me.imid.swipebacklayout.lib.ViewDragHelper.Callback#onEdgeDragStarted(int, int)}
+	 * {@link ViewDragHelper.Callback#onEdgeDragStarted(int, int)}
 	 * methods will only be invoked for edges for which edge tracking has been
 	 * enabled.
 	 * 
@@ -545,13 +545,11 @@ public class ViewDragHelper {
 	/**
 	 * Capture a specific child view for dragging within the parent. The
 	 * callback will be notified but
-	 * {@link me.imid.swipebacklayout.lib.ViewDragHelper.Callback#tryCaptureView(View, int)}
+	 * {@link ViewDragHelper.Callback#tryCaptureView(View, int)}
 	 * will not be asked permission to capture this view.
 	 * 
-	 * @param childView
-	 *            Child view to capture
-	 * @param activePointerId
-	 *            ID of the pointer that is dragging the captured child view
+	 * @param childView Child view to capture
+	 * @param activePointerId ID of the pointer that is dragging the captured child view
 	 */
 	public void captureChildView(View childView, int activePointerId) {
 		if (childView.getParent() != mParentView) {
@@ -560,7 +558,6 @@ public class ViewDragHelper {
 							+ "of the ViewDragHelper's tracked parent view ("
 							+ mParentView + ")");
 		}
-
 		mCapturedView = childView;
 		mActivePointerId = activePointerId;
 		mCallback.onViewCaptured(childView, activePointerId);
@@ -1620,13 +1617,10 @@ public class ViewDragHelper {
 	/**
 	 * Find the topmost child under the given point within the parent view's
 	 * coordinate system. The child order is determined using
-	 * {@link me.imid.swipebacklayout.lib.ViewDragHelper.Callback#getOrderedChildIndex(int)}
-	 * .
+	 * {@link ViewDragHelper.Callback#getOrderedChildIndex(int)}
 	 * 
-	 * @param x
-	 *            X position to test in the parent's coordinate system
-	 * @param y
-	 *            Y position to test in the parent's coordinate system
+	 * @param x X position to test in the parent's coordinate system
+	 * @param y Y position to test in the parent's coordinate system
 	 * @return The topmost child view under (x, y) or null if none found.
 	 */
 	public View findTopChildUnder(int x, int y) {
