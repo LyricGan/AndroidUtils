@@ -68,18 +68,20 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
         btnParams.topMargin = dip_10 / 2;
         btnParams.bottomMargin = dip_10 / 2;
         int height = ViewUtils.getNavigationBarHeight(context);
-        btnParams.bottomMargin += height;
-
+        btnParams.bottomMargin -= height;
         btn_cancel.setLayoutParams(btnParams);
+
         tv_take_photo.setOnClickListener(this);
         tv_photo_album.setOnClickListener(this);
         btn_cancel.setOnClickListener(mDismissClickListener);
+
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         view_menu_add_picture.setLayoutParams(params);
         rootLayout.setOnKeyListener(mOnKeyListener);
         rootLayout.setOnClickListener(mDismissClickListener);
         rootLayout.addView(view_menu_add_picture);
+
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setFocusable(true);
