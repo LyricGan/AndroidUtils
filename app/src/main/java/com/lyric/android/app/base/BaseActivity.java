@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,13 +28,15 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        injectStatusBar();
-        mSwipeHelper = new SwipeBackActivityHelper(this);
-        mSwipeHelper.onActivityCreate();
-        // 默认设置为禁止滑动关闭
-        setSwipeBackEnable(false);
-        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-
+        if (isInjectStatusBar()) {
+            injectStatusBar();
+        }
+        if (isSwipeBackEnable()) {
+            mSwipeHelper = new SwipeBackActivityHelper(this);
+            mSwipeHelper.onActivityCreate();
+            setSwipeBackEnable(true);
+            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        }
         onViewCreate(savedInstanceState);
     }
 
@@ -132,33 +133,46 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    protected boolean isInjectStatusBar() {
+        return false;
+    }
+
+    protected boolean isSwipeBackEnable() {
+        return false;
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mSwipeHelper.onPostCreate();
+        if (isSwipeBackEnable()) {
+            mSwipeHelper.onPostCreate();
+        }
     }
 
     @Override
     public View findViewById(int id) {
         View view = super.findViewById(id);
-        if (view == null && mSwipeHelper != null) {
-            return mSwipeHelper.findViewById(id);
+        if (isSwipeBackEnable()) {
+            if (view == null && mSwipeHelper != null) {
+                return mSwipeHelper.findViewById(id);
+            }
         }
         return view;
     }
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        return mSwipeHelper.getSwipeBackLayout();
+        if (isSwipeBackEnable()) {
+            return mSwipeHelper.getSwipeBackLayout();
+        }
+        return null;
     }
 
-    /**
-     * 设置是否支持滑动关闭
-     * @param enable
-     */
     @Override
     public void setSwipeBackEnable(boolean enable) {
-        getSwipeBackLayout().setEnableGesture(enable);
+        if (isSwipeBackEnable()) {
+            getSwipeBackLayout().setEnableGesture(enable);
+        }
     }
 
     @Override
@@ -168,12 +182,11 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+    public void onBackPressed() {
+        if (isSwipeBackEnable()) {
             finishActivity();
-            return true;
+            return;
         }
-        return super.onKeyDown(keyCode, event);
+        super.onBackPressed();
     }
-
 }
