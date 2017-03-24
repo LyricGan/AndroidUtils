@@ -450,27 +450,6 @@ public class StringUtils {
     }
 
     /**
-     * 将对象value转换为整数
-     * @param value 对象value
-     * @param defaultValue 默认值
-     * @return 整数
-     */
-    public static int convertToInt(Object value, int defaultValue) {
-        if (value == null || "".equals(value.toString().trim())) {
-            return defaultValue;
-        }
-        try {
-            return Integer.valueOf(value.toString());
-        } catch (Exception e) {
-            try {
-                return Double.valueOf(value.toString()).intValue();
-            } catch (Exception e1) {
-                return defaultValue;
-            }
-        }
-    }
-
-    /**
      * 将长整数转换为字节数组
      * @param num 长整数
      * @return 字节数组
@@ -485,4 +464,37 @@ public class StringUtils {
         }
         return bytes;
     }
+
+    /**
+     * 将字符串转换为整型
+     * @param value 字符串
+     * @return
+     */
+    public static int parseInt(String value) {
+        return parseInt(value, 0);
+    }
+
+    /**
+     * 将字符串转换为整型
+     * @param value 字符串
+     * @param defaultValue 默认值
+     * @return
+     */
+    public static int parseInt(String value, int defaultValue) {
+        if (TextUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        int valueInt = defaultValue;
+        try {
+            valueInt = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            try {
+                valueInt = Double.valueOf(value).intValue();
+            } catch (NumberFormatException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return valueInt;
+    }
+
 }
