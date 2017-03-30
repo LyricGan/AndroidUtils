@@ -5,7 +5,7 @@ import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-class VideoSurfaceView extends SurfaceView {
+public class VideoSurfaceView extends SurfaceView {
 
     public VideoSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -13,7 +13,7 @@ class VideoSurfaceView extends SurfaceView {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int mVideoWidth = MediaManager.instance().currentVideoWidth;
         int mVideoHeight = MediaManager.instance().currentVideoHeight;
         int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
