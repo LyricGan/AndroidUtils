@@ -9,6 +9,8 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.SparseArray;
+import android.view.View;
 
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.library.logger.Loggers;
@@ -171,6 +173,23 @@ public class Test {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static <T extends View> T get(View convertView, int id) {
+        if (convertView == null) {
+            return null;
+        }
+        SparseArray<View> viewHolder = (SparseArray<View>) convertView.getTag();
+        if (viewHolder == null) {
+            viewHolder = new SparseArray<>();
+            convertView.setTag(viewHolder);
+        }
+        View childView = viewHolder.get(id);
+        if (childView == null) {
+            childView = convertView.findViewById(id);
+            viewHolder.put(id, childView);
+        }
+        return (T) childView;
     }
 
     public void test() {

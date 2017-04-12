@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.view.TitleBar;
-import com.lyric.android.app.widget.PieView;
+import com.lyric.android.app.widget.chart.PieView;
 
 import java.util.ArrayList;
 

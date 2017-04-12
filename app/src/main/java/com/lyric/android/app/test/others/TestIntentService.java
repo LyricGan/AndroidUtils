@@ -1,4 +1,4 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.test.others;
 
 import android.app.IntentService;
 import android.content.Intent;

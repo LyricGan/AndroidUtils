@@ -1,4 +1,4 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.test.others;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

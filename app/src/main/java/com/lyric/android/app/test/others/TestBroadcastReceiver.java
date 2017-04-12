@@ -1,10 +1,11 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.test.others;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.test.IntentFlags;
 import com.lyric.android.library.utils.LogUtils;
 
 /**

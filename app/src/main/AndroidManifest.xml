@@ -111,7 +111,7 @@
         </activity>
 
         <receiver
-            android:name=".test.TestBroadcastReceiver"
+            android:name=".test.others.TestBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.intent.action.APP_START"/>
@@ -121,18 +121,18 @@
         </receiver>
 
         <service
-            android:name=".test.TestService"
+            android:name=".test.others.TestService"
             android:exported="false"/>
 
         <service
-            android:name=".test.TestRemoteService"
+            android:name=".test.others.TestRemoteService"
             android:exported="true"
             android:permission="app.permission.TEST_SERVICE"
             android:process=":remote">
         </service>
 
         <provider
-            android:name=".test.TestContentProvider"
+            android:name=".test.others.TestContentProvider"
             android:authorities="com.lyric.provider.test"
             android:exported="true"
             android:permission="TEST_PROVIDER_WRITE"

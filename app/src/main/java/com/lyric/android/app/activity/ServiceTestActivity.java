@@ -13,7 +13,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.test.TestService;
+import com.lyric.android.app.test.others.TestService;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.LogUtils;
 import com.lyric.android.library.utils.ToastUtils;
