@@ -8,21 +8,31 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.SparseArray;
+import android.view.DragEvent;
 import android.view.View;
 
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.library.logger.Loggers;
 import com.lyric.android.library.utils.FileUtils;
 import com.lyric.android.library.utils.ImageUtils;
+import com.lyric.android.library.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lyricgan
@@ -30,7 +40,14 @@ import java.util.List;
  * @time 2016/7/25 13:51
  */
 public class Test {
+    private static final String TAG = Test.class.getSimpleName();
     private ArrayList<byte[]> mLeakyContainer = new ArrayList<>();
+
+    public interface IntentFlags {
+        String ACTION_APP_START = "com.intent.action.APP_START";
+        String ACTION_TEST = "com.intent.action.TEST";
+        String ACTION_TEST_DEFAULT = "com.intent.action.TEST_DEFAULT";
+    }
 
     private Test() {
     }
@@ -44,8 +61,7 @@ public class Test {
     }
 
     public void execute() {
-        ExecutorsTest executorsTest = new ExecutorsTest();
-        executorsTest.start();
+        start();
     }
 
     public void registerBroadcast(Context context, BroadcastReceiver receiver) {
@@ -192,8 +208,114 @@ public class Test {
         return (T) childView;
     }
 
+    public void start() {
+//        ExecutorService executorService = Executors.newFixedThreadPool(3);
+//        ExecutorService executorService = Executors.newCachedThreadPool();
+//        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+//        Thread thread1 = new AddThread("thread1");
+//        Thread thread2 = new AddThread("thread2");
+//        Thread thread3 = new AddThread("thread3");
+//        Thread thread4 = new AddThread("thread4");
+//        Thread thread5 = new AddThread("thread5");
+//        Thread thread6 = new AddThread("thread6");
+//
+//        executorService.execute(thread1);
+//        executorService.execute(thread2);
+//        executorService.execute(thread3);
+//        executorService.execute(thread4);
+//        executorService.execute(thread5);
+//        executorService.execute(thread6);
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 5, 5, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+        for (int i = 0; i < 20; i++) {
+            threadPoolExecutor.execute(new AddThread("thread" + i));
+            if (i == 19) {
+                threadPoolExecutor.shutdown();
+            }
+        }
+    }
+
+    private class AddThread extends Thread {
+        private String name;
+
+        AddThread(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            try {
+                LogUtils.e(TAG, "add thread run:" + name);
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String getDouble(double value) {
+        return new BigDecimal(Double.toString(value)).setScale(2, BigDecimal.ROUND_DOWN).toPlainString();
+    }
+
+    public static String formatDecimal1(double d) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(d);
+    }
+
+    public static String formatDecimal2(double d) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(d);
+    }
+
+    public static String formatDecimal3(double d) {
+        return String.format(Locale.getDefault(), "%.2f", d);
+    }
+
+    public static double formatDecimal4(double d) {
+        return new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
     public void test() {
         Loggers.d("classLoader:" + this.getClass().getClassLoader()
                 + "\n," + Context.class.getClassLoader());
     }
+
+    /**
+     * 设置时区需要配置权限
+     * <uses-permission android:name="android.permission.SET_TIME" />
+     * <uses-permission android:name="android.permission.SET_TIME_ZONE"/>
+     * AlarmManager alarm =(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+     * alarm.setTimeZone("Africa/Windhoek");
+     * @return
+     */
+    public TimeZone getTimeZone() {
+        TimeZone timeZone = TimeZone.getDefault();
+        Loggers.d("id:" + timeZone.getID() + ",displayName:" + timeZone.getDisplayName() + ",rawOffset:" + timeZone.getRawOffset());
+        return timeZone;
+    }
+
+    public static class TestView extends View {
+
+        public TestView(Context context) {
+            super(context);
+        }
+
+        public TestView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public TestView(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+
+            this.setOnDragListener(new OnDragListener() {
+                @Override
+                public boolean onDrag(View v, DragEvent event) {
+                    return false;
+                }
+            });
+        }
+
+    }
+
 }
