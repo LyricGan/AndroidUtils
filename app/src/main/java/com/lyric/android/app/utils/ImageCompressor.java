@@ -17,14 +17,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 图片压缩工具类，使用方式：ImageCompressor.get(context).load(file).compress(gear).setCompressListener(listener).launch();
+ * 图片压缩工具类，使用方式：<br />
+ * ImageCompressor.get(BaseApp.getContext()).load(file).putGear(gear).setCompressListener(listener).launch();
  */
 public class ImageCompressor {
     private static final String TAG = ImageCompressor.class.getSimpleName();
     public static final int FIRST_GEAR = 1;
     public static final int THIRD_GEAR = 3;
 
-    private static String DEFAULT_DISK_CACHE_DIR = "luban_disk_cache";
+    private static final String DEFAULT_DISK_CACHE_DIR = "image_disk_cache";
     private static volatile ImageCompressor INSTANCE;
     private final File mCacheDir;
     private OnCompressListener mOnCompressListener;
@@ -145,7 +146,7 @@ public class ImageCompressor {
     }
 
     private void executeCompress(Runnable runnable) {
-        new Thread(runnable).start();
+        new Thread(runnable, "compress").start();
     }
 
     private void onHandlerCallback(Runnable runnable) {
@@ -177,7 +178,6 @@ public class ImageCompressor {
                 (TextUtils.isEmpty(mFileName) ? System.currentTimeMillis() : mFileName) + ".jpg";
         double size;
         String filePath = file.getAbsolutePath();
-
         int angle = getImageSpinAngle(filePath);
         int width = getImageSize(filePath)[0];
         int height = getImageSize(filePath)[1];

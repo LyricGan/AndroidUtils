@@ -3,6 +3,8 @@ package com.lyric.android.app.widget.text;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -123,6 +125,17 @@ public class ClearEditText extends AutoCompleteTextView implements View.OnFocusC
         translateAnimation.setInterpolator(new CycleInterpolator(counts));
         translateAnimation.setDuration(1000);
         return translateAnimation;
+    }
+
+    /**
+     * 设置输入框光标停留在文字后面
+     */
+    public void setSelectionEnd() {
+        CharSequence text = this.getText();
+        if (text != null) {
+            Spannable spanText = (Spannable) text;
+            Selection.setSelection(spanText, text.length());
+        }
     }
 
     /**

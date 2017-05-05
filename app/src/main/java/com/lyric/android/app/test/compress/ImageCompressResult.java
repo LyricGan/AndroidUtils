@@ -4,13 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * 图片压缩实体类
  * @author lyricgan
- * @description 图片压缩实体类
  * @time 2016/9/7 15:25
  */
 public class ImageCompressResult implements Parcelable {
     public static final int RESULT_OK = 0;
     public static final int RESULT_ERROR = 1;
+
     private int status = RESULT_OK;
     private String srcPath;
     private String outPath;

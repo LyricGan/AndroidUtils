@@ -19,8 +19,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
+ * 图片压缩工具类
  * @author lyricgan
- * @description 图片压缩工具类
  * @time 2016/9/7 15:25
  */
 public class ImageCompressHelper {
@@ -28,26 +28,26 @@ public class ImageCompressHelper {
     private static final int DEFAULT_OUT_HEIGHT = 1080;
     private static final int DEFAULT_MAX_FILE_SIZE = 1024;// KB
     private static final String DEFAULT_OUT_FILE_PATH = "compress/images";
-    private static ImageCompressHelper mInstance = null;
+    private static volatile ImageCompressHelper mInstance = null;
     private Context mContext;
     private ImageCompressListener mCompressListener;
 
     private ImageCompressHelper(Context context) {
-        this.mContext = context;
+        this.mContext = context.getApplicationContext();
     }
 
     public static ImageCompressHelper getInstance(Context context) {
         if (mInstance == null) {
             synchronized (ImageCompressHelper.class) {
                 if (mInstance == null) {
-                    mInstance = new ImageCompressHelper(context.getApplicationContext());
+                    mInstance = new ImageCompressHelper(context);
                 }
             }
         }
         return mInstance;
     }
 
-    public ImageCompressHelper withListener(ImageCompressListener listener) {
+    public ImageCompressHelper addListener(ImageCompressListener listener) {
         this.mCompressListener = listener;
         return this;
     }
@@ -265,4 +265,15 @@ public class ImageCompressHelper {
             }
         }
     }
+
+    /**
+     * 图片压缩监听事件
+     */
+    public interface ImageCompressListener {
+
+        void onPreCompress();
+
+        void onPostCompress(ImageCompressResult result);
+    }
+
 }
