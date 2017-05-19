@@ -214,6 +214,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         final int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
         switch (requestCode) {
@@ -261,4 +270,5 @@ public class MainActivity extends AppCompatActivity {
         // 可用来测试内存泄漏
         LogUtils.d(Constants.TAG_DEFAULT, "Activity has been recycled.");
     }
+
 }
