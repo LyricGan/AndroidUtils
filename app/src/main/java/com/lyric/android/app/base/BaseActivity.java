@@ -13,16 +13,12 @@ import android.widget.EditText;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
-import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
-import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
-import com.lyric.android.app.widget.swipe.SwipeBackLayout;
 import com.lyric.android.library.utils.BuildVersionUtils;
 import com.lyric.android.library.utils.ViewUtils;
 
-public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, SwipeBackActivityBase {
+public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
-    private SwipeBackActivityHelper mSwipeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +26,6 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         super.onCreate(savedInstanceState);
         if (isInjectStatusBar()) {
             injectStatusBar();
-        }
-        if (isSwipeBackEnable()) {
-            mSwipeHelper = new SwipeBackActivityHelper(this);
-            mSwipeHelper.onActivityCreate();
-            setSwipeBackEnable(true);
-            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
         onViewCreate(savedInstanceState);
     }
@@ -96,6 +86,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         }
     }
 
+    protected boolean isInjectStatusBar() {
+        return false;
+    }
+
     protected void injectStatusBar() {
         ViewUtils.setStatusBarColor(this, ContextCompat.getColor(BaseApp.getContext(), R.color.color_title_bar_bg));
     }
@@ -133,60 +127,4 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    protected boolean isInjectStatusBar() {
-        return false;
-    }
-
-    protected boolean isSwipeBackEnable() {
-        return false;
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (isSwipeBackEnable()) {
-            mSwipeHelper.onPostCreate();
-        }
-    }
-
-    @Override
-    public View findViewById(int id) {
-        View view = super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return mSwipeHelper.findViewById(id);
-            }
-        }
-        return view;
-    }
-
-    @Override
-    public SwipeBackLayout getSwipeBackLayout() {
-        if (isSwipeBackEnable()) {
-            return mSwipeHelper.getSwipeBackLayout();
-        }
-        return null;
-    }
-
-    @Override
-    public void setSwipeBackEnable(boolean enable) {
-        if (isSwipeBackEnable()) {
-            getSwipeBackLayout().setEnableGesture(enable);
-        }
-    }
-
-    @Override
-    public void finishActivity() {
-        ViewUtils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().finishActivity();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isSwipeBackEnable()) {
-            finishActivity();
-            return;
-        }
-        super.onBackPressed();
-    }
 }

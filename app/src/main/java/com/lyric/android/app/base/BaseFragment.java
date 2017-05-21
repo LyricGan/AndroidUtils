@@ -6,9 +6,6 @@ import android.view.View;
 public class BaseFragment extends Fragment {
     private boolean mInterceptVisibleHint;
 
-    public BaseFragment() {
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         try {
