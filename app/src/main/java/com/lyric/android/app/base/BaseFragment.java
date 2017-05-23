@@ -30,7 +30,7 @@ public class BaseFragment extends Fragment {
         return getActivity() == null;
     }
 
-    public void switchFragment(FragmentManager fragmentManager, SparseArray<Fragment> fragmentSparseArray, int containerViewId, Fragment currentFragment) {
+    public void switchFragment(FragmentManager fragmentManager, SparseArray<? extends Fragment> fragmentSparseArray, int containerViewId, Fragment currentFragment) {
         if (fragmentManager == null || fragmentSparseArray == null || containerViewId <= 0 || currentFragment == null) {
             return;
         }
