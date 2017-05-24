@@ -30,23 +30,33 @@ public class BaseFragment extends Fragment {
         return getActivity() == null;
     }
 
-    public void switchFragment(FragmentManager fragmentManager, SparseArray<? extends Fragment> fragmentSparseArray, int containerViewId, Fragment currentFragment) {
-        if (fragmentManager == null || fragmentSparseArray == null || containerViewId <= 0 || currentFragment == null) {
+    public void switchFragment(FragmentManager fragmentManager, SparseArray<? extends BaseFragment> fragmentSparseArray, int containerViewId, BaseFragment selectFragment) {
+        if (fragmentManager == null || fragmentSparseArray == null || containerViewId <= 0 || selectFragment == null) {
             return;
         }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         for (int i = 0; i < fragmentSparseArray.size(); i++) {
-            Fragment itemFragment = fragmentSparseArray.valueAt(i);
+            BaseFragment itemFragment = fragmentSparseArray.valueAt(i);
             if (itemFragment != null && itemFragment.isAdded()) {
                 fragmentTransaction.hide(itemFragment);
+                itemFragment.onHide();
             }
         }
-        if (currentFragment.isAdded()) {
-            fragmentTransaction.show(currentFragment);
+        if (selectFragment.isAdded()) {
+            fragmentTransaction.show(selectFragment);
+            selectFragment.onShow();
         } else {
-            fragmentTransaction.add(containerViewId, currentFragment);
+            fragmentTransaction.add(containerViewId, selectFragment);
         }
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    protected void onShow() {
+
+    }
+
+    protected void onHide() {
+
     }
 
 }
