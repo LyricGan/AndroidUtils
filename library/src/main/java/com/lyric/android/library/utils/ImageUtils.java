@@ -34,6 +34,9 @@ import java.io.FileNotFoundException;
  * 
  */
 public class ImageUtils {
+
+	ImageUtils() {
+	}
 	
 	/**
 	 * 从字节数组中获取图片
@@ -335,11 +338,11 @@ public class ImageUtils {
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        int options = 90;
-        while (baos.toByteArray().length / 1024 > kbSize) {
+        int quality = 90;
+        while (baos.toByteArray().length > kbSize * 1024) {
             baos.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            options -= 10;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+            quality -= 10;
         }
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         return BitmapFactory.decodeStream(bais, null, null);
@@ -354,31 +357,31 @@ public class ImageUtils {
     public static Bitmap compress(Bitmap bitmap, int kbSize) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        if (baos.toByteArray().length / 1024 > 1024) {
+        if (baos.toByteArray().length > 1024 * 1024) {
             baos.reset();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
         }
         ByteArrayInputStream byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         newOpts.inJustDecodeBounds = true;
-        Bitmap newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
+        BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
         newOpts.inJustDecodeBounds = false;
-        int w = newOpts.outWidth;
-        int h = newOpts.outHeight;
-        float hh = 800f;
-        float ww = 480f;
-        int be = 1;
-        if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩放
-            be = (int) (newOpts.outWidth / ww);
-        } else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩放
-            be = (int) (newOpts.outHeight / hh);
+        int outWidth = newOpts.outWidth;
+        int outHeight = newOpts.outHeight;
+        float defaultHeight = 800f;
+        float defaultWidth = 480f;
+        int inSampleSize = 1;
+        if (outWidth > outHeight && outWidth > defaultWidth) {// 如果宽度大的话根据宽度固定大小缩放
+            inSampleSize = (int) (newOpts.outWidth / defaultWidth);
+        } else if (outWidth < outHeight && outHeight > defaultHeight) {// 如果高度高的话根据宽度固定大小缩放
+            inSampleSize = (int) (newOpts.outHeight / defaultHeight);
         }
-        if (be <= 0) {
-            be = 1;
+        if (inSampleSize <= 0) {
+            inSampleSize = 1;
         }
-        newOpts.inSampleSize = be;
+        newOpts.inSampleSize = inSampleSize;
         byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
-        newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
+		Bitmap newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
         return compressBitmap(newBitmap, kbSize);
     }
 
@@ -416,4 +419,5 @@ public class ImageUtils {
         }
         return inSampleSize;
     }
+
 }
