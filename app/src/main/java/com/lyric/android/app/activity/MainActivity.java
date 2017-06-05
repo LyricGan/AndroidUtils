@@ -26,7 +26,6 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.test.Test;
 import com.lyric.android.app.test.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
@@ -106,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onFabClicked() {
-        Test.getInstance().test();
+//        Test.getInstance().test();
 
-        ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
+//        ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
+
+        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
     }
 
     private void showListSelectDialog() {

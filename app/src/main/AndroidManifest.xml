@@ -109,6 +109,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/AppTheme.Default">
         </activity>
+        <activity
+            android:name=".activity.HeaderListViewActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <receiver
             android:name=".test.others.TestBroadcastReceiver"
