@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SectionAdapter extends BaseAdapter implements OnItemClickListener {
+public abstract class HeaderStickyBaseAdapter extends BaseAdapter implements OnItemClickListener {
     private int mCount = -1;
 
     public abstract int numberOfSections();
@@ -217,10 +217,10 @@ public abstract class SectionAdapter extends BaseAdapter implements OnItemClickL
         return true;
     }
 
-    public static abstract class HeaderStickySectionAdapter<E> extends SectionAdapter {
+    public static abstract class HeaderStickyListAdapter<E> extends HeaderStickyBaseAdapter {
         private List<ArrayList<E>> mItemList;
 
-        public HeaderStickySectionAdapter(List<ArrayList<E>> itemList) {
+        public HeaderStickyListAdapter(List<ArrayList<E>> itemList) {
             this.mItemList = itemList;
         }
 

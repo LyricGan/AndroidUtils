@@ -22,7 +22,7 @@ public class HeaderStickyListView extends RelativeLayout {
     private static final int FADE_DURATION = 2000;
 
     private InternalListView mListView;
-    private SectionAdapter mAdapter;
+    private HeaderStickyBaseAdapter mAdapter;
     private RelativeLayout mHeader;
     private View mHeaderConvertView;
     private FrameLayout mScrollView;
@@ -62,11 +62,10 @@ public class HeaderStickyListView extends RelativeLayout {
         addView(mHeader);
 
         // The list view's scroll bar can be hidden by the header, so we display our own scroll bar instead
-        Drawable scrollBarDrawable = getResources().getDrawable(R.drawable.scrollbar_handle_holo_light);
+        Drawable scrollBarDrawable = getResources().getDrawable(R.drawable.default_scrollbar_thumb);
         mScrollView = new FrameLayout(getContext());
-        LayoutParams scrollParams = new LayoutParams(scrollBarDrawable.getIntrinsicWidth(), LayoutParams.MATCH_PARENT);
+        LayoutParams scrollParams = new LayoutParams((int) dpToPx(4), LayoutParams.MATCH_PARENT);
         scrollParams.addRule(ALIGN_PARENT_RIGHT);
-        scrollParams.rightMargin = (int) dpToPx(2);
         mScrollView.setLayoutParams(scrollParams);
 
         ImageView scrollIndicator = new ImageView(context);
@@ -79,7 +78,7 @@ public class HeaderStickyListView extends RelativeLayout {
         addView(mScrollView);
     }
 
-    public void setAdapter(SectionAdapter adapter) {
+    public void setAdapter(HeaderStickyBaseAdapter adapter) {
         mAdapter = adapter;
         mListView.setAdapter(adapter);
     }

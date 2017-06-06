@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.widget.HeaderStickyListView;
-import com.lyric.android.app.widget.SectionAdapter;
+import com.lyric.android.app.widget.HeaderStickyBaseAdapter;
 import com.lyric.android.library.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -33,15 +33,25 @@ public class HeaderListViewActivity extends Activity {
         ArrayList<String> childItemList;
         for (int i = 0; i < 5; i++) {
             childItemList = new ArrayList<>();
-            for (int j = 0; j < 12; j++) {
-                childItemList.add("Section " + i + " Row " + j);
+            if (i == 0) {
+                for (int j = 0; j < 1; j++) {
+                    childItemList.add("Section " + i + " Row " + j);
+                }
+            } else if (i == 1) {
+                for (int j = 0; j < 5; j++) {
+                    childItemList.add("Section " + i + " Row " + j);
+                }
+            } else {
+                for (int j = 0; j < 8; j++) {
+                    childItemList.add("Section " + i + " Row " + j);
+                }
             }
             itemList.add(childItemList);
         }
         return itemList;
     }
 
-    private static class HeaderSectionListAdapter extends SectionAdapter.HeaderStickySectionAdapter<String> {
+    private static class HeaderSectionListAdapter extends HeaderStickyBaseAdapter.HeaderStickyListAdapter<String> {
         private Context mContext;
 
         public HeaderSectionListAdapter(Context context, List<ArrayList<String>> itemList) {
@@ -61,6 +71,11 @@ public class HeaderListViewActivity extends Activity {
         @Override
         public Object getRowItem(int section, int row) {
             return null;
+        }
+
+        @Override
+        public boolean hasSectionHeaderView(int section) {
+            return (section > 0);
         }
 
         @Override
