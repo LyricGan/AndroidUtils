@@ -1,6 +1,7 @@
 package com.lyric.android.app.base;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.lyric.android.app.third.fresco.ImageHelper;
 import com.lyric.android.app.third.stetho.StethoUtils;
@@ -28,8 +29,8 @@ public class BaseApp extends Application {
         ImageHelper.getInstance().initialize(this);
 	}
 
-	public static BaseApp getContext() {
-		return mInstance;
+	public static Context getContext() {
+		return mInstance.getApplicationContext();
 	}
 
     public static RefWatcher getRefWatcher() {

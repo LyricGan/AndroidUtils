@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
 
-        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
+//        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
+
+        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
     }
 
     private void showListSelectDialog() {

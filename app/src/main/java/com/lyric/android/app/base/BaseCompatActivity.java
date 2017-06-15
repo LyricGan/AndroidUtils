@@ -57,7 +57,7 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
     public abstract void onTitleCreated(TitleBar titleBar);
 
     protected boolean isSwipeBackEnable() {
-        return true;
+        return false;
     }
 
     @Override
