@@ -51,6 +51,7 @@ public class TabDigitLayout extends LinearLayout {
             tabDigit.setFrom(0);
             tabDigit.setTo(mTargetNumbers.get(i));
             tabDigit.elapsedTime(delayMillis);
+            tabDigit.setCornerSize(5);
             mTextScrollViews.add(tabDigit);
 
             addView(tabDigit);
