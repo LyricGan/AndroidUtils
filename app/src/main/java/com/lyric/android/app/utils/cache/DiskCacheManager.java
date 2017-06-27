@@ -8,9 +8,12 @@ import java.util.HashMap;
  * @time 16/1/17 下午10:43
  */
 public class DiskCacheManager<T> {
-    private static DiskCacheManager mInstance;
+    private static volatile DiskCacheManager mInstance;
 
     private DiskCacheManager() {
+        if (mInstance != null) {
+            throw new RuntimeException("mInstance is not null.");
+        }
     }
 
     public static DiskCacheManager build() {

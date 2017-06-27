@@ -16,7 +16,7 @@ public class WeakHandler<T> extends Handler {
     private OnMessageCallback mCallback;
 
     public WeakHandler(T object) {
-        this.mReferenceObject = new WeakReference<T>(object);
+        this(object, Looper.getMainLooper());
     }
 
     public WeakHandler(T object, Looper looper) {

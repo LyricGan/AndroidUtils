@@ -85,10 +85,18 @@ public class BaseFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (mInterceptVisibleHint && this.getView() != null) {
-                getView().setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
+            if (mInterceptVisibleHint) {
+                View view = getView();
+                if (view != null) {
+                    view.setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
+                }
             }
         }
+    }
+
+    @Override
+    public boolean getUserVisibleHint() {
+        return super.getUserVisibleHint();
     }
 
     public void setInterceptVisibleHint(boolean interceptVisibleHint) {
@@ -139,6 +147,10 @@ public class BaseFragment extends Fragment {
 
     protected void onHide() {
 
+    }
+
+    public boolean onBackPressed() {
+        return false;
     }
 
 }
