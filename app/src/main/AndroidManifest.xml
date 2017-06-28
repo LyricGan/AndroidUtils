@@ -113,6 +113,10 @@
             android:name=".activity.HeaderListViewActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".base.BaseFragmentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
 
         <receiver
             android:name=".test.others.TestBroadcastReceiver"

@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lyric.android.library.utils.ViewUtils;
+
 import java.util.List;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     private boolean mInterceptVisibleHint;
 
     @Override
@@ -24,18 +26,41 @@ public class BaseFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        initExtras(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return initView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initData(savedInstanceState);
+    }
+
+    protected void onPrepareCreate(Bundle savedInstanceState) {
+    }
+
+    protected abstract void initExtras(Bundle savedInstanceState);
+
+    protected abstract View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+
+    protected abstract void initData(Bundle savedInstanceState);
+
+    protected void onViewClick(View v) {
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (ViewUtils.isFastClicked()) {
+            return;
+        }
+        onViewClick(v);
     }
 
     @Override

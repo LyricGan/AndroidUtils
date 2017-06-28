@@ -8,16 +8,16 @@ import android.support.v4.app.Fragment;
 import com.lyric.android.app.R;
 
 /**
+ * 基类，用于加载fragment
  * @author lyric
- * @description
  * @time 2016/5/27 15:37
  */
 public class BaseFragmentActivity extends BaseActivity {
     private static final String EXTRA_FRAGMENT_NAME = "fragment_name";
 
-    public static Intent newIntent(Context context, String fragmentName) {
+    public static Intent newIntent(Context context, Class<?> fragmentClass) {
         Intent intent = new Intent(context, BaseFragmentActivity.class);
-        intent.putExtra(EXTRA_FRAGMENT_NAME, fragmentName);
+        intent.putExtra(EXTRA_FRAGMENT_NAME, fragmentClass.getName());
         return intent;
     }
 
