@@ -48,47 +48,12 @@ public class VideoWebChromeClient extends WebChromeClient
 
     private ToggledFullscreenCallback toggledFullscreenCallback;
 
-    /**
-     * Never use this constructor alone. This constructor allows this class to
-     * be defined as an inline inner class in which the user can override
-     * methods
-     */
-    public VideoWebChromeClient() {
-    }
-
-    /**
-     * Builds a video enabled WebChromeClient.
-     *
-     * @param activityNonVideoView A View in the activity's layout that contains every other view
-     *                             that should be hidden when the video goes full-screen.
-     * @param activityVideoView    A ViewGroup in the activity's layout that will display the
-     *                             video. Typically you would like this to fill the whole layout.
-     */
     public VideoWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView) {
-        this.activityNonVideoView = activityNonVideoView;
-        this.activityVideoView = activityVideoView;
-        this.loadingView = null;
-        this.webView = null;
-        this.isVideoFullscreen = false;
+        this(activityNonVideoView, activityVideoView, null);
     }
 
-    /**
-     * Builds a video enabled WebChromeClient.
-     *
-     * @param activityNonVideoView A View in the activity's layout that contains every other view
-     *                             that should be hidden when the video goes full-screen.
-     * @param activityVideoView    A ViewGroup in the activity's layout that will display the
-     *                             video. Typically you would like this to fill the whole layout.
-     * @param loadingView          A View to be shown while the video is loading (typically only
-     *                             used in API level <11). Must be already inflated and not
-     *                             attached to a parent view.
-     */
     public VideoWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView) {
-        this.activityNonVideoView = activityNonVideoView;
-        this.activityVideoView = activityVideoView;
-        this.loadingView = loadingView;
-        this.webView = null;
-        this.isVideoFullscreen = false;
+        this(activityNonVideoView, activityVideoView, loadingView, null);
     }
 
     /**
@@ -108,8 +73,7 @@ public class VideoWebChromeClient extends WebChromeClient
      *                             to work. This could be improved if needed (see Javascript
      *                             code).
      */
-    public VideoWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView,
-                                VideoWebView webView) {
+    public VideoWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView, VideoWebView webView) {
         this.activityNonVideoView = activityNonVideoView;
         this.activityVideoView = activityVideoView;
         this.loadingView = loadingView;
