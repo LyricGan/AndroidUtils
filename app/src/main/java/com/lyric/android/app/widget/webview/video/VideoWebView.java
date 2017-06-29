@@ -27,13 +27,11 @@ public class VideoWebView extends WebView {
 	private boolean addedJavascriptInterface;
 
 	public VideoWebView(Context context) {
-		super(context);
-		addedJavascriptInterface = false;
+		this(context, null);
 	}
 
 	public VideoWebView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		addedJavascriptInterface = false;
+		this(context, attrs, 0);
 	}
 
 	public VideoWebView(Context context, AttributeSet attrs, int defStyle) {

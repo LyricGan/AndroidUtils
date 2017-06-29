@@ -26,6 +26,7 @@ public class TimeUtils {
 	public static final long ONE_MONTH = 30 * ONE_DAY;
 	/** 一年的毫秒值 */
 	public static final long ONE_YEAR = 12 * ONE_MONTH;
+
 	/** 日期格式 {@code yyyy-MM-dd HH:mm:ss} */
 	public static final String TEMPLATE_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	/** 日期格式 {@code yyyy-MM-dd} */
@@ -113,27 +114,27 @@ public class TimeUtils {
 		Calendar calendar = getCalendar(milliseconds, template);
 		if (calendar != null) {
 			switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-			case 1:
-				week = "星期天";
-				break;
-			case 2:
-				week = "星期一";
-				break;
-			case 3:
-				week = "星期二";
-				break;
-			case 4:
-				week = "星期三";
-				break;
-			case 5:
-				week = "星期四";
-				break;
-			case 6:
-				week = "星期五";
-				break;
-			case 7:
-				week = "星期六";
-				break;
+            case Calendar.SUNDAY:
+                week = "星期天";
+                break;
+            case Calendar.MONDAY:
+                week = "星期一";
+                break;
+            case Calendar.TUESDAY:
+                week = "星期二";
+                break;
+            case Calendar.WEDNESDAY:
+                week = "星期三";
+                break;
+            case Calendar.THURSDAY:
+                week = "星期四";
+                break;
+            case Calendar.FRIDAY:
+                week = "星期五";
+                break;
+            case Calendar.SATURDAY:
+                week = "星期六";
+                break;
 			default:
 				break;
 			}
@@ -152,25 +153,25 @@ public class TimeUtils {
 		Calendar calendar = getCalendar(milliseconds, template);
 		if (calendar != null) {
 			switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-			case 1:
+			case Calendar.SUNDAY:
 				week = "sunday";
 				break;
-			case 2:
+			case Calendar.MONDAY:
 				week = "monday";
 				break;
-			case 3:
+			case Calendar.TUESDAY:
 				week = "tuesday";
 				break;
-			case 4:
+			case Calendar.WEDNESDAY:
 				week = "wednesday";
 				break;
-			case 5:
+			case Calendar.THURSDAY:
 				week = "thursday";
 				break;
-			case 6:
+			case Calendar.FRIDAY:
 				week = "friday";
 				break;
-			case 7:
+			case Calendar.SATURDAY:
 				week = "saturday";
 				break;
 			default:
