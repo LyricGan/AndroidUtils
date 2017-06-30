@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -18,9 +19,16 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.webkit.WebView;
+import android.widget.ScrollView;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -117,14 +125,16 @@ public class ImageUtils {
     }
 	
 	/**
-	 * 从视图中获取图片
+	 * 对指定的视图进行截图
 	 * @param view 视图
 	 * @return Bitmap
 	 */
-	public static Bitmap getBitmap(View view) {
-		int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-		view.measure(measureSpec, measureSpec);
-		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+	public static Bitmap captureBitmap(View view) {
+        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+            int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            view.measure(measureSpec, measureSpec);
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        }
 		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		canvas.translate(-view.getScrollX(), -view.getScrollY());
@@ -134,7 +144,61 @@ public class ImageUtils {
 		view.destroyDrawingCache();
 		return newBitmap;
 	}
-	
+
+    /**
+     * 对指定的视图进行截图
+     * @param view 视图
+     * @return Bitmap
+     */
+    public static Bitmap captureSimpleBitmap(View view) {
+        view.setDrawingCacheEnabled(true);
+        // 启用DrawingCache并创建位图
+        view.buildDrawingCache();
+        // 创建一个DrawingCache的拷贝，因为DrawingCache得到的位图在禁用后会被回收
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        // 禁用DrawingCache否则会影响性能
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+    /**
+     * 对ScrollView截图
+     * @param scrollView ScrollView
+     * @return Bitmap
+     */
+    public static Bitmap captureBitmap(ScrollView scrollView) {
+        int height = 0;
+        Bitmap bitmap;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            height += scrollView.getChildAt(i).getHeight();
+            scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
+        }
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * 对WebView截图
+     * @param webView WebView
+     * @return Bitmap
+     */
+    public static Bitmap captureBitmap(WebView webView) {
+        float scale = webView.getScale();
+        int height = (int) (webView.getContentHeight() * scale);
+        final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        webView.draw(canvas);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        final byte[] bytes = stream.toByteArray();
+        if (!bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
 	/**
 	 * 按宽高缩放图片
 	 * @param bitmap Bitmap
@@ -418,6 +482,37 @@ public class ImageUtils {
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
+    }
+
+    /**
+     * 对图片做高斯模糊
+     * @param context Context
+     * @param bitmap Bitmap
+     * @param radius 模糊范围：[0, 25)
+     * @return 高斯模糊后的图片
+     */
+    public static Bitmap blurBitmap(Context context, Bitmap bitmap, float radius) {
+        if (context == null || bitmap == null) {
+            return null;
+        }
+        if (radius <= 0 || radius > 25) {
+            radius = 10.0f;
+        }
+        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            RenderScript rs = RenderScript.create(context);
+            ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+            // set the radius of the blur: 0 < radius <= 25
+            intrinsicBlur.setRadius(radius);
+            intrinsicBlur.setInput(allIn);
+            intrinsicBlur.forEach(allOut);
+            allOut.copyTo(outBitmap);
+            bitmap.recycle();
+            rs.destroy();
+        }
+        return outBitmap;
     }
 
 }

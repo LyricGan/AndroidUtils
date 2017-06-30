@@ -25,9 +25,7 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseFragmentActivity;
 import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.test.mvvm.view.LoginActivity;
 import com.lyric.android.app.test.video.VideoListActivity;
 import com.lyric.android.app.utils.AddPictureUtils;
@@ -113,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
 
-//        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
+        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
 
-        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(this, WebFragment.class));
+//        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(this, WebFragment.class));
     }
 
     private void showListSelectDialog() {

@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Build;
 import android.text.Selection;
 import android.text.Spannable;
@@ -19,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -28,10 +23,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -45,6 +38,9 @@ import java.lang.reflect.Method;
 public class ViewUtils {
 	private static final String CLASS_NAME_GRID_VIEW        = "android.widget.GridView";
     private static final String FIELD_NAME_VERTICAL_SPACING = "mVerticalSpacing";
+    private static final long MAX_CLICK_DELAY_TIME = 500L;
+    /** 上一次点击记录时间 */
+    private static long sLastClickTime;
 
     /**
      * 获取GridView垂直间距
@@ -66,23 +62,7 @@ public class ViewUtils {
 		return verticalSpacing;
     }
 
-	/**
-	 * 设置视图及其子视图可用
-	 * @param view View
-	 */
-	public static void setViewEnabled(View view) {
-		setViewEnabled(view, true);
-	}
-	
-	/**
-	 * 设置视图及其子视图不可用
-	 * @param view View
-	 */
-	public static void setViewUnabled(View view) {
-		setViewEnabled(view, false);
-	}
-	
-	/**
+    /**
 	 * 设置视图及其子视图是否可用
 	 * @param view 视图对象
 	 * @param enabled boolean
@@ -126,14 +106,14 @@ public class ViewUtils {
             }
         }
     }
-	
-	/**
-	 * 设置视图高度
-	 * @param view View
-	 * @param height height
-	 * @see {@link View}
-	 */
-	public static void setViewHeight(View view, int height) {
+
+    /**
+     * 设置视图高度
+     * @param view View
+     * @param height height
+     * @see View
+     */
+    private static void setViewHeight(View view, int height) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = height;
     }
@@ -242,62 +222,6 @@ public class ViewUtils {
 		}
 	}
 	
-	/**
-	 * 对ScrollView截图
-	 * @param scrollView ScrollView
-	 * @return Bitmap
-	 */
-	public static Bitmap getBitmap(ScrollView scrollView) {
-		int height = 0;
-		Bitmap bitmap = null;
-		for (int i = 0; i < scrollView.getChildCount(); i++) {
-			height += scrollView.getChildAt(i).getHeight();
-			scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
-		}
-		bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
-		Canvas canvas = new Canvas(bitmap);
-		scrollView.draw(canvas);
-		return bitmap;
-	}
-	
-	/**
-	 * 对WebView截图
-	 * @param webView WebView
-	 * @return Bitmap
-	 */
-	@SuppressWarnings("deprecation")
-	public static Bitmap getBitmap(WebView webView) {
-		float scale = webView.getScale();
-		int height = (int) (webView.getContentHeight() * scale);
-		final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
-		final Canvas canvas = new Canvas(bitmap);
-		webView.draw(canvas);
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-		final byte[] bytes = stream.toByteArray();
-		if (!bitmap.isRecycled()) {
-			bitmap.recycle();
-		}
-		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-	}
-
-    private static long sLastClickTime;
-    private static final long MAX_DELAY_TIME = 500L;
-
-    /**
-     * 判断是否对视图快速点击
-     * @return boolean
-     */
-    public static boolean isFastClicked() {
-        long time = System.currentTimeMillis();
-        long dis = time - sLastClickTime;
-        if (0 < dis && dis < MAX_DELAY_TIME) {
-            return true;
-        }
-        sLastClickTime = time;
-        return false;
-    }
-
     /**
      * 解决ScrollView嵌套导致的高度计算问题
      * @return the measure specification based on size and mode
@@ -472,14 +396,11 @@ public class ViewUtils {
 
     /**
      * 执行视图触摸反馈震动效果
-     * @param v
-     * @return
+     * @param view 视图
+     * @return true or false
      */
-    public static boolean performHapticFeedback(View v) {
-        if (v != null) {
-            return v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-        }
-        return false;
+    public static boolean performHapticFeedback(View view) {
+        return view != null && (view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING));
     }
 
     /**
@@ -543,6 +464,20 @@ public class ViewUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    /**
+     * 判断是否对视图快速点击
+     * @return boolean
+     */
+    public static boolean isFastClicked() {
+        long time = System.currentTimeMillis();
+        long dis = time - sLastClickTime;
+        if (0 < dis && dis < MAX_CLICK_DELAY_TIME) {
+            return true;
+        }
+        sLastClickTime = time;
+        return false;
     }
 
 }
