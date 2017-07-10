@@ -38,9 +38,9 @@ import java.lang.reflect.Method;
 public class ViewUtils {
 	private static final String CLASS_NAME_GRID_VIEW        = "android.widget.GridView";
     private static final String FIELD_NAME_VERTICAL_SPACING = "mVerticalSpacing";
-    private static final long MAX_CLICK_DELAY_TIME = 500L;
+    private static final long MAX_OPERATE_DELAY_TIME = 500L;
     /** 上一次点击记录时间 */
-    private static long sLastClickTime;
+    private static long sLastOperateTime;
 
     /**
      * 获取GridView垂直间距
@@ -470,13 +470,13 @@ public class ViewUtils {
      * 判断是否对视图快速点击
      * @return boolean
      */
-    public static boolean isFastClicked() {
+    public static boolean isFastOperated() {
         long time = System.currentTimeMillis();
-        long dis = time - sLastClickTime;
-        if (0 < dis && dis < MAX_CLICK_DELAY_TIME) {
+        long dis = time - sLastOperateTime;
+        if (0 < dis && dis < MAX_OPERATE_DELAY_TIME) {
             return true;
         }
-        sLastClickTime = time;
+        sLastOperateTime = time;
         return false;
     }
 

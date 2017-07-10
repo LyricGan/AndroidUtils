@@ -57,7 +57,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (ViewUtils.isFastClicked()) {
+        if (ViewUtils.isFastOperated()) {
             return;
         }
         onViewClick(v);

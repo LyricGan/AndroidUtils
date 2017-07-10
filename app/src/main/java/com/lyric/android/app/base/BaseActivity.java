@@ -43,10 +43,14 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (ViewUtils.isFastClicked()) {
+        if (ViewUtils.isFastOperated()) {
             return;
         }
         onViewClick(v);
+    }
+
+    protected <T extends View> T findViewWithId(int id) {
+        return (T) findViewById(id);
     }
 
     @Override
