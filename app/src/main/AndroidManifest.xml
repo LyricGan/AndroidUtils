@@ -129,11 +129,11 @@
         </receiver>
 
         <service
-            android:name=".test.others.TestService"
+            android:name=".test.service.TestService"
             android:exported="false"/>
 
         <service
-            android:name=".test.others.TestRemoteService"
+            android:name=".test.service.TestRemoteService"
             android:exported="true"
             android:permission="app.permission.TEST_SERVICE"
             android:process=":remote">

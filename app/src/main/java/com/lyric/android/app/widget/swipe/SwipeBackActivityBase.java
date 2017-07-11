@@ -10,14 +10,14 @@ public interface SwipeBackActivityBase {
 
 	/**
 	 * 获取和Activity相关联的SwipeBackLayout
-	 * @see {@link SwipeBackLayout}
-	 * @return
-	 */
+	 * @return SwipeBackLayout
+     * @see SwipeBackLayout
+     */
     SwipeBackLayout getSwipeBackLayout();
     
     /**
      * 设置是否滑动关闭
-     * @param enable
+     * @param enable true or false
      */
     void setSwipeBackEnable(boolean enable);
 

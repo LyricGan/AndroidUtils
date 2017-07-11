@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.activity.MainActivity;
@@ -440,6 +441,36 @@ public class Utils {
                 break;
         }
         return fileSizeLong;
+    }
+
+    /**
+     * 检查是否有新的版本
+     *
+     * @param appVersion 当前应用版本
+     * @param newVersion 服务器最新版本
+     * @param isForce    是否强制更新
+     * @return 0表示没有更新，1表示有更新，2表示强制更新（应用出现严重问题）
+     */
+    public static int checkUpdate(String appVersion, String newVersion, boolean isForce) {
+        int update = 0;
+        if (TextUtils.isEmpty(appVersion) || TextUtils.isEmpty(newVersion)) {
+            return update;
+        }
+        if (appVersion.equals(newVersion) || "1.0.0".equals(newVersion)) {
+            return update;
+        }
+        try {
+            appVersion = appVersion.replace(".", "");
+            newVersion = newVersion.replace(".", "");
+            int appVersionInt = Integer.parseInt(appVersion);
+            int newVersionInt = Integer.parseInt(newVersion);
+            if (newVersionInt > appVersionInt) {
+                update = isForce ? 2 : 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return update;
     }
 
 }

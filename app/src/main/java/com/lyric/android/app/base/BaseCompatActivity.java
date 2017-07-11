@@ -81,23 +81,23 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        if (isSwipeBackEnable()) {
-            return mSwipeHelper.getSwipeBackLayout();
-        }
-        return null;
+        return mSwipeHelper.getSwipeBackLayout();
     }
 
     @Override
     public void setSwipeBackEnable(boolean enable) {
-        if (isSwipeBackEnable()) {
-            getSwipeBackLayout().setEnableGesture(enable);
-        }
+        getSwipeBackLayout().setEnableGesture(enable);
     }
 
     @Override
     public void finishActivity() {
         ViewUtils.convertActivityToTranslucent(this);
         getSwipeBackLayout().finishActivity();
+    }
+
+    @Override
+    protected boolean isInjectStatusBar() {
+        return true;
     }
 
     @Override

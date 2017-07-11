@@ -111,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
 
-        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
+//        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
 
 //        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(this, WebFragment.class));
+
+        ActivityUtils.startActivity(MainActivity.this, ServiceTestActivity.class);
     }
 
     private void showListSelectDialog() {
@@ -273,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         // 当GC准备回收一个Java Object（所有Java对象都是Object的子类）的时候，GC会调用这个Object的finalize方法。
         super.finalize();
         // 可用来测试内存泄漏
-        LogUtils.d(Constants.TAG_DEFAULT, "Activity has been recycled.");
+        LogUtils.d(Constants.TAG, "Activity has been recycled.");
     }
 
 }

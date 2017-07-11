@@ -1,21 +1,16 @@
-package com.lyric.android.app.test.others;
+package com.lyric.android.app.test.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.RemoteException;
-
-import com.lyric.android.app.IServiceAidlInterface;
-import com.lyric.android.app.base.Constants;
-import com.lyric.android.library.utils.LogUtils;
 
 public class TestRemoteService extends Service {
-    private RemoteServiceBinder mRemoteServiceBinder;
+    private TestRemoteServiceBinder mRemoteServiceBinder;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mRemoteServiceBinder = new RemoteServiceBinder();
+        mRemoteServiceBinder = new TestRemoteServiceBinder();
     }
 
     @Override
@@ -36,13 +31,5 @@ public class TestRemoteService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    class RemoteServiceBinder extends IServiceAidlInterface.Stub {
-
-        @Override
-        public void execute(String tag) throws RemoteException {
-            LogUtils.e(Constants.TAG_DEFAULT, "tag");
-        }
     }
 }

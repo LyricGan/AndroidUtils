@@ -18,11 +18,11 @@ public class TestBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Test.IntentFlags.ACTION_APP_START.equals(intent.getAction())) {
-            LogUtils.e(Constants.TAG_DEFAULT, "App start.");
+            LogUtils.d(Constants.TAG, "App start.");
         } else if (Test.IntentFlags.ACTION_TEST.equals(intent.getAction())) {
-            LogUtils.e(Constants.TAG_DEFAULT, "Test.");
+            LogUtils.d(Constants.TAG, "Test.");
         } else if (Test.IntentFlags.ACTION_TEST_DEFAULT.equals(intent.getAction())) {
-            LogUtils.e(Constants.TAG_DEFAULT, "Test default.");
+            LogUtils.d(Constants.TAG, "Test default.");
         }
     }
 }

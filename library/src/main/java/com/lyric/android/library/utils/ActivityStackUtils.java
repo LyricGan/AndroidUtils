@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * Activity管理类：用于Activity管理和应用程序退出
  * 
- * @author ganyu
+ * @author lyric
  * @created 2014-8-6
  * 
  */

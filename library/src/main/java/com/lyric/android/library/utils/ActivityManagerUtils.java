@@ -2,6 +2,7 @@ package com.lyric.android.library.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ActivityManagerUtils {
      */
     public static boolean isServiceRunning(Context context, String serviceName) {
         CheckUtils.checkContext(context);
-        if (serviceName == null) {
+        if (TextUtils.isEmpty(serviceName)) {
             return false;
         }
         final int maxRunningServiceNum = 200;
@@ -40,14 +41,17 @@ public class ActivityManagerUtils {
     /**
      * 判断应用是否启动
      * @param context Context
+     * @param packageName the package name of app
      * @return true of false
      */
-    public static boolean isAppRunning(Context context) {
+    public static boolean isAppRunning(Context context, String packageName) {
         CheckUtils.checkContext(context);
+        if (TextUtils.isEmpty(packageName)) {
+            return false;
+        }
         final int maxRunningTaskNum = 200;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTaskList = activityManager.getRunningTasks(maxRunningTaskNum);
-        String packageName = context.getPackageName();
         for (ActivityManager.RunningTaskInfo runningTaskInfo : runningTaskList) {
             if (runningTaskInfo.topActivity.getPackageName().equals(packageName)) {
                 return true;

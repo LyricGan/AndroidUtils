@@ -12,15 +12,14 @@ import android.widget.Button;
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
 import com.lyric.android.app.base.BaseCompatActivity;
-import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.test.others.TestService;
+import com.lyric.android.app.test.service.TestService;
+import com.lyric.android.app.test.service.TestServiceBinder;
 import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.LogUtils;
 import com.lyric.android.library.utils.ToastUtils;
 
 public class ServiceTestActivity extends BaseCompatActivity {
     private boolean mServiceConnected = false;
-    private TestService mTestService;
 
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
@@ -43,16 +42,18 @@ public class ServiceTestActivity extends BaseCompatActivity {
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            LogUtils.e(Constants.TAG_DEFAULT, "onServiceConnected()--name:" + name);
+            LogUtils.d(TAG, "onServiceConnected()--name:" + name);
             mServiceConnected = true;
-//            mTestService = (TestService) service;
+            if (service instanceof TestServiceBinder) {
+                TestServiceBinder serviceBinder = (TestServiceBinder) service;
+                serviceBinder.start();
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            LogUtils.e(Constants.TAG_DEFAULT, "onServiceDisconnected()--name:" + name);
+            LogUtils.d(TAG, "onServiceDisconnected()--name:" + name);
             mServiceConnected = false;
-            mTestService = null;
         }
     };
 

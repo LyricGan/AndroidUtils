@@ -17,8 +17,8 @@ import com.lyric.android.library.utils.ViewUtils;
  *
  */
 public class SwipeBackActivityHelper {
-	/** 震动持续时间 */
-	public static final int VIBRATE_DURATION = 20;
+	/** 默认震动持续时间 */
+    private static final int VIBRATE_DURATION = 20;
     private Activity mActivity;
     private SwipeBackLayout mSwipeBackLayout;
 
@@ -50,6 +50,9 @@ public class SwipeBackActivityHelper {
      * @param duration 震动时长
      */
     protected void startVibrate(long duration) {
+        if (duration <= 0) {
+            duration = VIBRATE_DURATION;
+        }
 		Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
 		long[] pattern = { 0, duration };
 		vibrator.vibrate(pattern, -1);

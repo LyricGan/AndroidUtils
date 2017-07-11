@@ -16,7 +16,7 @@ import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.BuildVersionUtils;
 import com.lyric.android.library.utils.ViewUtils;
 
-public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener {
+public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, Constants {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
 

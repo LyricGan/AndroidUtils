@@ -208,6 +208,49 @@ public class FileUtils {
         return path.delete();
     }
 
+    public static File getCacheDir(Context context) {
+        File file;
+        // 判断SD卡是否存在，或者SD卡不可被移除
+        if (isSdcardExists() || !Environment.isExternalStorageRemovable()) {
+            File externalCacheDir = context.getExternalCacheDir();
+            if (externalCacheDir != null) {
+                file = externalCacheDir;
+            } else {
+                final String defaultSystemFileDir = "Android/data/" + context.getPackageName() + "/cache";
+                file = new File(Environment.getExternalStorageDirectory(), defaultSystemFileDir);
+            }
+        } else {
+            file = context.getCacheDir();
+        }
+        if (file.exists() || file.mkdirs()) {
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+    public static String getCacheDirPath(Context context) {
+        File file = getCacheDir(context);
+        if (file != null) {
+            return file.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取磁盘缓存文件目录
+     * @param context 上下文
+     * @param dirName 路径下目录名称
+     * @return 磁盘缓存文件目录
+     */
+    public static String getCacheDirPath(Context context, String dirName) {
+        File file = getCacheDir(context, dirName);
+        if (file != null && file.exists()) {
+            return file.getPath();
+        }
+        return null;
+    }
+
     /**
      * 获取磁盘缓存文件
      * @param context 上下文
@@ -215,23 +258,15 @@ public class FileUtils {
      * @return 磁盘缓存文件
      */
     public static File getCacheDir(Context context, String dirName) {
-        File file;
-        // 判断SD卡是否存在，或者SD卡不可被移除
-        if (isSdcardExists() || !Environment.isExternalStorageRemovable()) {
-            File externalCacheDir = context.getExternalCacheDir();
-            if (externalCacheDir != null) {
-                file = new File(externalCacheDir, dirName);
-            } else {
-                file = new File(Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/cache/" + dirName);
-            }
-        } else {
-            file = new File(context.getCacheDir(), dirName);
+        File file = null;
+        File cacheDir = getCacheDir(context);
+        if (cacheDir != null && cacheDir.isDirectory()) {
+            file = new File(cacheDir, dirName);
         }
-        if (file.exists() || file.mkdirs()) {
+        if (file != null && (file.exists() || file.mkdir())) {
             return file;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

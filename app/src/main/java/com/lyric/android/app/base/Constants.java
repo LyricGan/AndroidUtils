@@ -12,7 +12,7 @@ import com.lyric.android.app.BuildConfig;
 public interface Constants {
     boolean DEBUG = BuildConfig.LOG_DEBUG;
     boolean LEAK_DEBUG = false;
-    String TAG_DEFAULT = "AndroidUtils";
+    String TAG = "AndroidUtils";
     String BASE_URL = "https://api.github.com";
 
     String EXTRAS_ID = "_id";
