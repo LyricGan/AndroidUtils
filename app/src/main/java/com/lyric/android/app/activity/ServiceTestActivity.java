@@ -7,7 +7,6 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
-import android.widget.Button;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
@@ -24,19 +23,20 @@ public class ServiceTestActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_service_test);
-        Button btn_start_service = (Button) findViewById(R.id.btn_start_service);
-        Button btn_stop_service = (Button) findViewById(R.id.btn_stop_service);
-        Button btn_bind_service = (Button) findViewById(R.id.btn_bind_service);
-        Button btn_unbind_service = (Button) findViewById(R.id.btn_unbind_service);
 
-        btn_start_service.setOnClickListener(this);
-        btn_stop_service.setOnClickListener(this);
-        btn_bind_service.setOnClickListener(this);
-        btn_unbind_service.setOnClickListener(this);
+        findViewById(R.id.btn_start_service).setOnClickListener(this);
+        findViewById(R.id.btn_stop_service).setOnClickListener(this);
+        findViewById(R.id.btn_bind_service).setOnClickListener(this);
+        findViewById(R.id.btn_unbind_service).setOnClickListener(this);
     }
 
     @Override
     public void onTitleCreated(TitleBar titleBar) {
+    }
+
+    @Override
+    protected boolean isSwipeBackEnable() {
+        return true;
     }
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {

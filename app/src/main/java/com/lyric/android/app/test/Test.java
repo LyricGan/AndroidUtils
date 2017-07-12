@@ -91,6 +91,7 @@ public class Test {
     }
 
     public void newLeaky() {
+        // 每次申请100M内存
         byte[] bytes = new byte[100 * 1024 * 1024];
         mLeakyContainer.add(bytes);
     }

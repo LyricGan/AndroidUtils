@@ -15,8 +15,8 @@ import com.lyric.android.app.R;
  * @time 2016/1/20 14:21
  */
 public class TitleBar extends FrameLayout {
-    private ImageView iv_title_bar_left;
-    private TextView tv_title;
+    private ImageView ivTitleBarLeft;
+    private TextView tvTitle;
 
     public TitleBar(Context context) {
         this(context, null);
@@ -33,15 +33,15 @@ public class TitleBar extends FrameLayout {
 
     private void initialize(Context context) {
         View rootView = View.inflate(context, R.layout.view_title_bar, this);
-        iv_title_bar_left = (ImageView) rootView.findViewById(R.id.iv_title_bar_left);
-        tv_title = (TextView) rootView.findViewById(R.id.tv_title);
+        ivTitleBarLeft = (ImageView) rootView.findViewById(R.id.iv_title_bar_left);
+        tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
 
-        tv_title.setText(R.string.app_name);
-        iv_title_bar_left.setVisibility(View.GONE);
+        tvTitle.setText(R.string.app_name);
+        ivTitleBarLeft.setVisibility(View.GONE);
     }
 
     public void setText(CharSequence title) {
-        tv_title.setText(title);
+        tvTitle.setText(title);
     }
 
     public void setText(int textId) {
@@ -49,15 +49,15 @@ public class TitleBar extends FrameLayout {
     }
 
     public void setLeftDrawable(int resId) {
-        iv_title_bar_left.setImageResource(resId);
-        iv_title_bar_left.setVisibility(View.VISIBLE);
+        ivTitleBarLeft.setImageResource(resId);
+        ivTitleBarLeft.setVisibility(View.VISIBLE);
     }
 
     public void setLeftClickListener(OnClickListener listener) {
-        iv_title_bar_left.setOnClickListener(listener);
+        ivTitleBarLeft.setOnClickListener(listener);
     }
 
     public void setLeftVisibility(int visibility) {
-        iv_title_bar_left.setVisibility(visibility);
+        ivTitleBarLeft.setVisibility(visibility);
     }
 }

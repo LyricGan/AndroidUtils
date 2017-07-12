@@ -2,7 +2,8 @@ package com.lyric.android.app.test.service;
 
 import android.os.Binder;
 
-import com.lyric.android.library.logger.Loggers;
+import com.lyric.android.app.base.Constants;
+import com.lyric.android.library.utils.LogUtils;
 
 /**
  * @author lyricgan
@@ -11,6 +12,6 @@ import com.lyric.android.library.logger.Loggers;
 public class TestServiceBinder extends Binder {
 
     public void start() {
-        Loggers.d("service started.");
+        LogUtils.d(Constants.TAG, "test service started.");
     }
 }

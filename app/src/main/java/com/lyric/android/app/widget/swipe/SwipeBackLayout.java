@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lyric.android.app.R;
+import com.lyric.android.library.logger.Loggers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -338,7 +339,6 @@ public class SwipeBackLayout extends FrameLayout {
             return mDragHelper.shouldInterceptTouchEvent(event);
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
-            // issues #9
             return false;
         }
     }
@@ -357,8 +357,7 @@ public class SwipeBackLayout extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         mInLayout = true;
         if (mContentView != null) {
-        	mContentView.layout(mContentLeft, mContentTop,
-        			mContentLeft + mContentView.getMeasuredWidth(),
+        	mContentView.layout(mContentLeft, mContentTop, mContentLeft + mContentView.getMeasuredWidth(),
         			mContentTop + mContentView.getMeasuredHeight());
         }
         mInLayout = false;

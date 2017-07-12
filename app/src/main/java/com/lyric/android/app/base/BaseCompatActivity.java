@@ -56,10 +56,6 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
 
     public abstract void onTitleCreated(TitleBar titleBar);
 
-    protected boolean isSwipeBackEnable() {
-        return true;
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -80,19 +76,41 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
     }
 
     @Override
+    public <T extends View> T findViewWithId(int id) {
+        T view = super.findViewWithId(id);
+        if (isSwipeBackEnable()) {
+            if (view == null && mSwipeHelper != null) {
+                return (T) mSwipeHelper.findViewById(id);
+            }
+        }
+        return view;
+    }
+
+    @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        return mSwipeHelper.getSwipeBackLayout();
+        if (mSwipeHelper != null) {
+            return mSwipeHelper.getSwipeBackLayout();
+        }
+        return null;
     }
 
     @Override
     public void setSwipeBackEnable(boolean enable) {
-        getSwipeBackLayout().setEnableGesture(enable);
+        if (getSwipeBackLayout() != null) {
+            getSwipeBackLayout().setEnableGesture(enable);
+        }
     }
 
     @Override
     public void finishActivity() {
-        ViewUtils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().finishActivity();
+        if (getSwipeBackLayout() != null) {
+            ViewUtils.convertActivityToTranslucent(this);
+            getSwipeBackLayout().finishActivity();
+        }
+    }
+
+    protected boolean isSwipeBackEnable() {
+        return false;
     }
 
     @Override
