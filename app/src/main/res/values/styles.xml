@@ -5,15 +5,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Main" parent="AppTheme">
-        <item name="android:fitsSystemWindows">false</item>
-    </style>
-
-    <style name="AppTheme.Default" parent="AppTheme">
+    <style name="AppTheme.Translucent" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
@@ -34,7 +28,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <!-- 默认popupwindow动画 -->
+    <!-- 默认PopupWindow动画 -->
     <style name="PopupWindowAnimation" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/base_slide_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/base_slide_bottom_out</item>
