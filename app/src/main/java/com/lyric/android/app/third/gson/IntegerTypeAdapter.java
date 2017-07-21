@@ -1,16 +1,16 @@
 package com.lyric.android.app.third.gson;
 
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.haiqiu.jihai.utils.StringUtil;
 
 import java.io.IOException;
 
 /**
- * 自定义整型数据解析，避免float转int出现的问题
- * @author lyricgan
+ * 自定义整型数据解析
+ * @author ganyu
  * @time 2017/7/10 12:56
  */
 public class IntegerTypeAdapter extends TypeAdapter<Integer> {
@@ -26,10 +26,6 @@ public class IntegerTypeAdapter extends TypeAdapter<Integer> {
             in.nextNull();
             return 0;
         }
-        try {
-            return (int) in.nextDouble();
-        } catch (NumberFormatException e) {
-            throw new JsonSyntaxException(e);
-        }
+        return StringUtil.parseInt(in.nextString(), 0);
     }
 }

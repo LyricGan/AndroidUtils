@@ -12,9 +12,10 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
 /**
- * @see com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper
- * @author lyricgan
+ * 自定义TypeAdapter
+ * @author ganyu
  * @time 2017/7/10 11:47
+ * @see com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper
  */
 public final class TypeAdapterRuntimeTypeWrapper<T> extends TypeAdapter<T> {
     private final Gson context;

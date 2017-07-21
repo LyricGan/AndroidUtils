@@ -16,8 +16,8 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 
 /**
- * 自定义数组解析，将null转换为空数组
- * @author lyricgan
+ * 自定义json数组解析
+ * @author ganyu
  * @time 2017/7/10 11:46
  */
 public final class CollectionTypeAdapterFactory implements TypeAdapterFactory {
@@ -45,17 +45,20 @@ public final class CollectionTypeAdapterFactory implements TypeAdapterFactory {
         private final TypeAdapter<E> elementTypeAdapter;
         private final ObjectConstructor<? extends Collection<E>> constructor;
 
-        public Adapter(Gson context, Type elementType, TypeAdapter<E> elementTypeAdapter,
-                       ObjectConstructor<? extends Collection<E>> constructor) {
+        Adapter(Gson context, Type elementType, TypeAdapter<E> elementTypeAdapter, ObjectConstructor<? extends Collection<E>> constructor) {
             this.elementTypeAdapter = new TypeAdapterRuntimeTypeWrapper<E>(context, elementTypeAdapter, elementType);
             this.constructor = constructor;
         }
 
         @Override
         public Collection<E> read(JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
+            // 判断json数组是否为空或者为json对象
+            if (in.peek() == JsonToken.NULL || in.peek() == JsonToken.BEGIN_OBJECT) {
                 in.nextNull();
                 // 将null转换为返回空数组
+                return constructor.construct();
+            } else if (in.peek() == JsonToken.STRING) {
+                in.nextString();
                 return constructor.construct();
             }
             Collection<E> collection = constructor.construct();
