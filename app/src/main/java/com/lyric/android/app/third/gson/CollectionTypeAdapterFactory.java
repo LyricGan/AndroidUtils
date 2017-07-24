@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 
 /**
- * 自定义json数组解析
+ * 自定义json集合类解析
  * @author ganyu
  * @time 2017/7/10 11:46
  */
@@ -52,15 +52,22 @@ public final class CollectionTypeAdapterFactory implements TypeAdapterFactory {
 
         @Override
         public Collection<E> read(JsonReader in) throws IOException {
-            // 判断json数组是否为空或者为json对象
-            if (in.peek() == JsonToken.NULL || in.peek() == JsonToken.BEGIN_OBJECT) {
+            // 判断json数组是否为空
+            if (in.peek() == JsonToken.NULL) {
                 in.nextNull();
                 // 将null转换为返回空数组
                 return constructor.construct();
-            } else if (in.peek() == JsonToken.STRING) {
+            }
+            if (in.peek() == JsonToken.STRING) {
                 in.nextString();
                 return constructor.construct();
             }
+            if (in.peek() == JsonToken.BEGIN_OBJECT) {
+                in.beginObject();
+                in.endObject();
+                return constructor.construct();
+            }
+
             Collection<E> collection = constructor.construct();
             in.beginArray();
             while (in.hasNext()) {

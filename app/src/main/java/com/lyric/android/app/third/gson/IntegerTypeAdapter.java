@@ -9,7 +9,7 @@ import com.haiqiu.jihai.utils.StringUtil;
 import java.io.IOException;
 
 /**
- * 自定义整型数据解析
+ * 自定义json整型数据解析
  * @author ganyu
  * @time 2017/7/10 12:56
  */

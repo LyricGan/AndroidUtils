@@ -2,7 +2,6 @@ package com.lyric.android.app.third.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -15,7 +14,6 @@ import java.lang.reflect.TypeVariable;
  * 自定义TypeAdapter
  * @author ganyu
  * @time 2017/7/10 11:47
- * @see com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper
  */
 public final class TypeAdapterRuntimeTypeWrapper<T> extends TypeAdapter<T> {
     private final Gson context;
