@@ -41,6 +41,20 @@ public class BaseFragmentActivity extends BaseCompatActivity {
     }
 
     @Override
+    public void setTitle(int titleId) {
+        if (getTitleBar() != null) {
+            getTitleBar().setText(titleId);
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (getTitleBar() != null) {
+            getTitleBar().setText(title);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (mFragment != null && mFragment instanceof BaseFragment) {
             if (((BaseFragment) mFragment).onBackPressed()) {

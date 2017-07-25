@@ -32,6 +32,8 @@ public class LoginFragment extends BaseFragment implements LoginViewModel.OnActi
     @Override
     protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mLoginViewModel = new LoginViewModel(getRootView(), this);
+
+        getActivity().setTitle(R.string.login);
     }
 
     @Override

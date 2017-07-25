@@ -207,9 +207,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                if (mDrawerLayout != null) {
-                    mDrawerLayout.closeDrawers();
-                }
                 return true;
             }
         });
