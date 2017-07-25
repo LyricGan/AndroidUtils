@@ -7,89 +7,88 @@
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/line_progress"
-        android:layout_marginTop="@dimen/default_margin"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/default_margin"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/solid_progress"
-        android:layout_marginTop="@dimen/default_margin"
-        app:style="solid"
-        app:progress_stroke_width="3dp"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/default_margin"
+        app:progress_stroke_width="3dp"
+        app:style="solid"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="line"
-        app:progress_stroke_width="1dp"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_blue_light"
+        app:progress_stroke_width="1dp"
         app:progress_text_color="@color/holo_blue_light"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        app:style="line"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="solid"
-        app:progress_stroke_width="1dp"
-        app:progress_text_format_pattern="@string/progress_text_format_pattern"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_red_light"
+        app:progress_stroke_width="1dp"
         app:progress_text_color="@color/holo_red_light"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        app:progress_text_format_pattern="@string/progress_text_format_pattern"
+        app:style="solid"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="line"
-        app:progress_stroke_width="1dp"
-        app:progress_text_size="@dimen/progress_text_size"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_orange_light"
+        app:progress_stroke_width="1dp"
         app:progress_text_color="@color/holo_red_light"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        app:progress_text_size="@dimen/progress_text_size"
+        app:style="line"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="line"
-        app:progress_stroke_width="1dp"
-        app:line_width="4dp"
         app:line_count="30"
+        app:line_width="4dp"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_purple"
+        app:progress_stroke_width="1dp"
         app:progress_text_color="@color/holo_purple"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        app:style="line"/>
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="solid"
         app:draw_progress_text="false"
-        app:progress_stroke_width="3dp"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_green_light"
+        app:progress_stroke_width="3dp"
         app:progress_text_color="@color/holo_green_light"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        app:style="solid"/>
 
 
     <com.lyric.android.app.widget.progressbar.CircleProgressBar
         android:id="@+id/custom_progress6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:style="line"
         app:draw_progress_text="false"
         app:progress_background_color="@color/holo_darker_gray"
         app:progress_color="@color/holo_green_light"
         app:progress_text_color="@color/holo_green_light"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
-
+        app:style="line"/>
 
 </LinearLayout>

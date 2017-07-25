@@ -25,15 +25,18 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.Constants;
-import com.lyric.android.app.test.mvvm.view.LoginActivity;
-import com.lyric.android.app.test.video.VideoListActivity;
+import com.lyric.android.app.base.BaseFragmentActivity;
+import com.lyric.android.app.fragment.ListFragment;
+import com.lyric.android.app.fragment.LoadingFragment;
+import com.lyric.android.app.fragment.LoginFragment;
+import com.lyric.android.app.fragment.ProgressBarFragment;
+import com.lyric.android.app.fragment.ServiceFragment;
+import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.view.AddPicturePopup;
 import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
-import com.lyric.android.library.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +50,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
-    private ImageView iv_user_avatar;
+    private ImageView ivUserAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,17 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onFabClicked() {
-//        Test.getInstance().test();
-
-//        ActivityUtils.startActivity(MainActivity.this, PraiseActivity.class);
-
-//        ActivityUtils.startActivity(MainActivity.this, HeaderListViewActivity.class);
-
-//        ActivityUtils.startActivity(MainActivity.this, ViewTestActivity.class);
-
-//        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(this, WebFragment.class));
-
-        ActivityUtils.startActivity(MainActivity.this, ServiceTestActivity.class);
+        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ServiceFragment.class));
     }
 
     private void showListSelectDialog() {
@@ -177,8 +170,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        iv_user_avatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
-        iv_user_avatar.setOnClickListener(new View.OnClickListener() {
+        ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
+        ivUserAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddPictureUtils.getInstance().showPopup(v);
@@ -188,32 +181,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
                     case R.id.nav_login: {
-                        ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, LoginFragment.class));
                     }
-                    break;
+                        break;
                     case R.id.nav_loading: {
-                        ActivityUtils.startActivity(MainActivity.this, LoadingActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, LoadingFragment.class));
                     }
-                    break;
+                        break;
                     case R.id.nav_progress: {
-                        ActivityUtils.startActivity(MainActivity.this, CircleProgressBarActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ProgressBarFragment.class));
                     }
-                    break;
+                        break;
                     case R.id.nav_web: {
-                        ActivityUtils.startActivity(MainActivity.this, WebActivity.class);
+                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, WebFragment.class));
                     }
-                    break;
-                    case R.id.menu_item_about: {
+                        break;
+                    case R.id.menu_item_video: {
                         ActivityUtils.startActivity(MainActivity.this, VideoListActivity.class);
                     }
-                    break;
+                        break;
                     case R.id.menu_item_exit: {
-                        showListSelectDialog();
+                        finish();
                     }
                     break;
+                }
+                if (mDrawerLayout != null) {
+                    mDrawerLayout.closeDrawers();
                 }
                 return true;
             }
@@ -239,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                     if (bitmap == null) {
                         return;
                     }
-                    iv_user_avatar.setImageBitmap(bitmap);
+                    ivUserAvatar.setImageBitmap(bitmap);
                 }
             }
             break;
@@ -249,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                     if (bitmap == null) {
                         return;
                     }
-                    iv_user_avatar.setImageBitmap(bitmap);
+                    ivUserAvatar.setImageBitmap(bitmap);
                 }
             }
             break;
@@ -264,18 +259,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         AddPictureUtils.getInstance().destroy();
     }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        // 当GC准备回收一个Java Object（所有Java对象都是Object的子类）的时候，GC会调用这个Object的finalize方法。
-        super.finalize();
-        // 可用来测试内存泄漏
-        LogUtils.d(Constants.TAG, "Activity has been recycled.");
-    }
-
 }

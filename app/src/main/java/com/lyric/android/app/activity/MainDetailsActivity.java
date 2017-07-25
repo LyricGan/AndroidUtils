@@ -2,13 +2,14 @@ package com.lyric.android.app.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.test.Test;
+import com.lyric.android.app.base.BaseFragmentActivity;
+import com.lyric.android.app.fragment.PraiseFragment;
+import com.lyric.android.library.utils.ActivityUtils;
 
 public class MainDetailsActivity extends AppCompatActivity {
 
@@ -25,9 +26,6 @@ public class MainDetailsActivity extends AppCompatActivity {
     }
 
     public void onCheck(View view) {
-        Snackbar.make(view, "连续点击应用将崩溃", Snackbar.LENGTH_SHORT).show();
-
-        Test.getInstance().printMemoryInfo(this);
-        Test.getInstance().newLeaky();
+        ActivityUtils.startActivity(this, BaseFragmentActivity.newIntent(this, PraiseFragment.class));
     }
 }

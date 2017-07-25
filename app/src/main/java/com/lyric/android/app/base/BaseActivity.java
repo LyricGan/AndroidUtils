@@ -19,6 +19,11 @@ import com.lyric.android.app.widget.swipe.SwipeBackLayout;
 import com.lyric.android.library.utils.BuildVersionUtils;
 import com.lyric.android.library.utils.ViewUtils;
 
+/**
+ * 基类Activity
+ * @author ganyu
+ * @time 2016/5/26 13:59
+ */
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, Constants, SwipeBackActivityBase {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;

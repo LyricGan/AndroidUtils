@@ -1,19 +1,21 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.fragment;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseCompatActivity;
-import com.lyric.android.app.view.TitleBar;
+import com.lyric.android.app.base.BaseFragment;
 import com.lyric.android.app.widget.progressbar.CircleProgressBar;
 
 /**
- * @author lyric
- * @description
- * @time 2016/6/14 13:36
+ * 加载进度页面
+ * @author ganyu
+ * @date 2017/7/25 14:24
  */
-public class CircleProgressBarActivity extends BaseCompatActivity {
+public class ProgressBarFragment extends BaseFragment {
     private CircleProgressBar mLineProgressBar;
     private CircleProgressBar mSolidProgressBar;
     private CircleProgressBar mCustomProgressBar1;
@@ -24,25 +26,32 @@ public class CircleProgressBarActivity extends BaseCompatActivity {
     private CircleProgressBar mCustomProgressBar6;
 
     @Override
-    public void onTitleCreated(TitleBar titleBar) {
-        titleBar.setText("CircleProgressBar");
+    protected void initExtras(Bundle savedInstanceState) {
     }
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_circle_progress_bar);
-        mLineProgressBar = (CircleProgressBar) findViewById(R.id.line_progress);
-        mSolidProgressBar = (CircleProgressBar) findViewById(R.id.solid_progress);
-        mCustomProgressBar1 = (CircleProgressBar) findViewById(R.id.custom_progress1);
-        mCustomProgressBar2 = (CircleProgressBar) findViewById(R.id.custom_progress2);
-        mCustomProgressBar3 = (CircleProgressBar) findViewById(R.id.custom_progress3);
-        mCustomProgressBar4 = (CircleProgressBar) findViewById(R.id.custom_progress4);
-        mCustomProgressBar5 = (CircleProgressBar) findViewById(R.id.custom_progress5);
-        mCustomProgressBar6 = (CircleProgressBar) findViewById(R.id.custom_progress6);
+    protected int getLayoutId() {
+        return R.layout.fragment_progress_bar;
     }
 
     @Override
-    protected void onResume() {
+    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mLineProgressBar = findViewById(R.id.line_progress);
+        mSolidProgressBar = findViewById(R.id.solid_progress);
+        mCustomProgressBar1 = findViewById(R.id.custom_progress1);
+        mCustomProgressBar2 = findViewById(R.id.custom_progress2);
+        mCustomProgressBar3 = findViewById(R.id.custom_progress3);
+        mCustomProgressBar4 = findViewById(R.id.custom_progress4);
+        mCustomProgressBar5 = findViewById(R.id.custom_progress5);
+        mCustomProgressBar6 = findViewById(R.id.custom_progress6);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
         simulateProgress();
     }

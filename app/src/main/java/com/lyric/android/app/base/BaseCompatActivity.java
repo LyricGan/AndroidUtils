@@ -7,11 +7,12 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.view.TitleBar;
 
 /**
- * @author lyricgan
- * @description
+ * 带标题栏的基类Activity
+ * @author ganyu
  * @time 2016/5/26 13:59
  */
 public abstract class BaseCompatActivity extends BaseActivity {
+    private TitleBar mTitleBar;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -20,23 +21,27 @@ public abstract class BaseCompatActivity extends BaseActivity {
 
     @Override
     public void setContentView(View view) {
-        TitleBar titleBar = new TitleBar(this);
-        titleBar.setLeftDrawable(R.drawable.icon_back);
-        titleBar.setLeftClickListener(new View.OnClickListener() {
+        mTitleBar = new TitleBar(this);
+        mTitleBar.setLeftDrawable(R.drawable.icon_back);
+        mTitleBar.setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        onTitleCreated(titleBar);
+        onTitleCreated(mTitleBar);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(titleBar, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        linearLayout.addView(mTitleBar, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linearLayout.addView(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         super.setContentView(linearLayout);
     }
 
-    public abstract void onTitleCreated(TitleBar titleBar);
+    protected TitleBar getTitleBar() {
+        return mTitleBar;
+    }
+
+    protected abstract void onTitleCreated(TitleBar titleBar);
 
 }

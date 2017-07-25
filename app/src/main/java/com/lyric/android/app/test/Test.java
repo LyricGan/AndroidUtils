@@ -8,10 +8,8 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.SparseArray;
-import android.view.DragEvent;
 import android.view.View;
 
 import com.lyric.android.app.base.BaseApp;
@@ -294,29 +292,6 @@ public class Test {
         TimeZone timeZone = TimeZone.getDefault();
         Loggers.d("id:" + timeZone.getID() + ",displayName:" + timeZone.getDisplayName() + ",rawOffset:" + timeZone.getRawOffset());
         return timeZone;
-    }
-
-    public static class TestView extends View {
-
-        public TestView(Context context) {
-            super(context);
-        }
-
-        public TestView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public TestView(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-
-            this.setOnDragListener(new OnDragListener() {
-                @Override
-                public boolean onDrag(View v, DragEvent event) {
-                    return false;
-                }
-            });
-        }
-
     }
 
 }

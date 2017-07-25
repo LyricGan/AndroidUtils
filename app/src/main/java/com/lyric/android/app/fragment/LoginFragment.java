@@ -1,34 +1,41 @@
-package com.lyric.android.app.test.mvvm.view;
+package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
-import android.view.View;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseCompatActivity;
+import com.lyric.android.app.base.BaseFragment;
 import com.lyric.android.app.test.mvvm.model.User;
 import com.lyric.android.app.test.mvvm.viewmodel.LoginViewModel;
-import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.ToastUtils;
 
 /**
- * @author lyric
- * @description
- * @time 2016/5/31 16:31
+ * 登录页面
+ * @author ganyu
+ * @date 2017/7/25 15:19
  */
-public class LoginActivity extends BaseCompatActivity implements LoginViewModel.OnActionListener {
+public class LoginFragment extends BaseFragment implements LoginViewModel.OnActionListener {
     private LoginViewModel mLoginViewModel;
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
-        View view = View.inflate(this, R.layout.activity_login, null);
-        setContentView(view);
-        mLoginViewModel = new LoginViewModel(view, this);
+    protected void initExtras(Bundle savedInstanceState) {
     }
 
     @Override
-    public void onTitleCreated(TitleBar titleBar) {
-        titleBar.setText("登录");
+    protected int getLayoutId() {
+        return R.layout.fragment_login;
+    }
+
+    @Override
+    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mLoginViewModel = new LoginViewModel(getRootView(), this);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -50,7 +57,7 @@ public class LoginActivity extends BaseCompatActivity implements LoginViewModel.
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mLoginViewModel.destroy();
     }

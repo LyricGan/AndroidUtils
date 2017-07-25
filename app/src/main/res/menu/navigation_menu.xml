@@ -17,15 +17,15 @@
         <item
             android:id="@+id/nav_web"
             android:icon="@mipmap/mine_vip"
-            android:title="@string/menu_item_webview"/>
+            android:title="@string/menu_item_web"/>
     </group>
 
     <item android:title="@string/item_others">
         <menu>
             <item
-                android:id="@+id/menu_item_about"
+                android:id="@+id/menu_item_video"
                 android:icon="@mipmap/ic_mine_recommend"
-                android:title="@string/menu_item_about"/>
+                android:title="@string/menu_item_video"/>
             <item
                 android:id="@+id/menu_item_exit"
                 android:icon="@mipmap/mine_setting"

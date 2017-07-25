@@ -1,8 +1,9 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -20,22 +21,35 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lyric.android.app.base.BaseCompatActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.base.BaseFragment;
 import com.lyric.android.app.widget.span.SpanTextUtils;
-import com.lyric.android.app.view.TitleBar;
 import com.lyric.android.library.utils.KeywordUtils;
 
-public class SpannableTestActivity extends BaseCompatActivity {
+/**
+ * @author ganyu
+ * @date 2017/7/25 15:01
+ */
+public class SpannableFragment extends BaseFragment {
+    @Override
+    protected void initExtras(Bundle savedInstanceState) {
+
+    }
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_spannable_test);
-        TextView tv_spannable = (TextView) findViewById(R.id.tv_spannable);
-        TextView tv_spannable_keywords = (TextView) findViewById(R.id.tv_spannable_keywords);
-        TextView tv_spannable_keywords2 = (TextView) findViewById(R.id.tv_spannable_keywords2);
+    protected int getLayoutId() {
+        return R.layout.fragment_spannable;
+    }
+
+    @Override
+    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        TextView tv_spannable = findViewById(R.id.tv_spannable);
+        TextView tv_spannable_keywords = findViewById(R.id.tv_spannable_keywords);
+        TextView tv_spannable_keywords2 = findViewById(R.id.tv_spannable_keywords2);
 
         // 创建一个SpannableString对象
         SpannableString spannableString = new SpannableString("字体测试字体大小一半两倍前景色背景色正常粗体斜体粗斜体下划线删除线x1x2电话邮件网站短信彩信地图X轴综合/bot/bot");
@@ -92,7 +106,7 @@ public class SpannableTestActivity extends BaseCompatActivity {
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
         spannableString.setSpan(new ImageSpan(drawable), 53, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ImageSpan(this, R.mipmap.ic_launcher, ImageSpan.ALIGN_BOTTOM), 57, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ImageSpan(getActivity(), R.mipmap.ic_launcher, ImageSpan.ALIGN_BOTTOM), 57, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tv_spannable.setText(spannableString);
         tv_spannable.setMovementMethod(LinkMovementMethod.getInstance());
@@ -102,12 +116,12 @@ public class SpannableTestActivity extends BaseCompatActivity {
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
         tv_spannable_keywords.setText(KeywordUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
 
-        tv_spannable_keywords2.setText(SpanTextUtils.buildString(this, "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
+        tv_spannable_keywords2.setText(SpanTextUtils.buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
         tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
-    public void onTitleCreated(TitleBar titleBar) {
-        titleBar.setText("SpannableTest");
+    protected void initData(Bundle savedInstanceState) {
+
     }
 }

@@ -1,7 +1,6 @@
 package com.lyric.android.app.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.library.utils.ViewUtils;
 
 import java.util.List;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+    protected final String TAG = getClass().getName();
+    private View mRootView;
     private boolean mInterceptVisibleHint;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -34,7 +37,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView(inflater, container, savedInstanceState);
+        mRootView = getLayout(inflater);
+        initView(inflater, container, savedInstanceState);
+        return mRootView;
     }
 
     @Override
@@ -46,9 +51,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected void onPrepareCreate(Bundle savedInstanceState) {
     }
 
+    protected View getLayout(LayoutInflater inflater) {
+        return inflater.inflate(getLayoutId(), null);
+    }
+
     protected abstract void initExtras(Bundle savedInstanceState);
 
-    protected abstract View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+    protected abstract int getLayoutId();
+
+    protected abstract void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
     protected abstract void initData(Bundle savedInstanceState);
 
@@ -63,44 +74,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         onViewClick(v);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    protected View getRootView() {
+        return mRootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected <T extends View> T findViewById(int id) {
+        if (mRootView == null) {
+            return null;
+        }
+        return (T) mRootView.findViewById(id);
     }
 
     @Override
@@ -174,8 +156,36 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     }
 
+    protected void showLoadingDialog() {
+        showLoadingDialog("");
+    }
+
+    protected void showLoadingDialog(CharSequence message) {
+        if (getActivity() == null || getActivity().isFinishing()) {
+            return;
+        }
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(getActivity());
+        }
+        mLoadingDialog.setMessage(message);
+        mLoadingDialog.show();
+    }
+
+    protected void hideLoadingDialog() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dismiss();
+        }
+    }
+
     public boolean onBackPressed() {
         return false;
+    }
+
+    public void finish() {
+        if (getActivity() == null || getActivity().isFinishing()) {
+            return;
+        }
+        getActivity().finish();
     }
 
 }

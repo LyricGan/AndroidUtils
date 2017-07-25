@@ -2,7 +2,8 @@ package com.lyric.android.app.widget.span;
 
 import android.content.Context;
 
-import com.lyric.android.app.activity.SpannableTestActivity;
+import com.lyric.android.app.base.BaseFragmentActivity;
+import com.lyric.android.app.fragment.SpannableFragment;
 import com.lyric.android.library.utils.ActivityUtils;
 
 /**
@@ -22,7 +23,7 @@ public class TextSpanClickImpl implements ITextSpanClickListener {
     @Override
     public void onClick(int position) {
         if (1 == mType) {
-            ActivityUtils.startActivity(mContext, SpannableTestActivity.class);
+            ActivityUtils.startActivity(mContext, BaseFragmentActivity.newIntent(mContext, SpannableFragment.class));
         }
     }
 }

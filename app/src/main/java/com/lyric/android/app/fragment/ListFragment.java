@@ -1,17 +1,22 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.RecyclerViewAdapter;
+import com.lyric.android.app.base.BaseFragment;
 
-public class ListFragment extends Fragment {
+/**
+ * 列表页面
+ * @author ganyu
+ * @date 2017/7/25 14:22
+ */
+public class ListFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
 
     public static ListFragment newInstance() {
@@ -22,14 +27,22 @@ public class ListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.list_fragment, container, false);
-        return mRecyclerView;
+    protected void initExtras(Bundle savedInstanceState) {
+
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected int getLayoutId() {
+        return R.layout.list_fragment;
+    }
+
+    @Override
+    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRecyclerView = (RecyclerView) getRootView();
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         mRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
     }

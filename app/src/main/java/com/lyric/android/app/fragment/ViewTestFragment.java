@@ -1,14 +1,16 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseCompatActivity;
-import com.lyric.android.app.view.TitleBar;
+import com.lyric.android.app.base.BaseFragment;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.PieView;
 import com.lyric.android.library.logger.Loggers;
@@ -17,20 +19,28 @@ import com.lyric.android.library.utils.ImageUtils;
 import java.util.ArrayList;
 
 /**
- * @author lyric
- * @description
- * @time 2016/3/15 15:12
+ * 视图测试页面
+ * @author ganyu
+ * @date 2017/7/25 14:57
  */
-public class ViewTestActivity extends BaseCompatActivity {
+public class ViewTestFragment extends BaseFragment {
     private TabDigitLayout mTabDigitLayout;
     private ImageView imageCapture;
     private Bitmap mCaptureBitmap;
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_view_test);
-        PieView pieView = (PieView) findViewById(R.id.pie_view);
-        imageCapture = (ImageView) findViewById(R.id.image_capture);
+    protected void initExtras(Bundle savedInstanceState) {
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_view_test;
+    }
+
+    @Override
+    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        PieView pieView =  findViewById(R.id.pie_view);
+        imageCapture =  findViewById(R.id.image_capture);
 
         ArrayList<PieView.PieData> dataList = new ArrayList<>();
         PieView.PieData data;
@@ -42,20 +52,19 @@ public class ViewTestActivity extends BaseCompatActivity {
         pieView.setData(dataList);
         pieView.setStartAngle(0);
 
-        mTabDigitLayout = (TabDigitLayout) findViewById(R.id.tab_digit_layout);
+        mTabDigitLayout = findViewById(R.id.tab_digit_layout);
         mTabDigitLayout.setNumber(567890, 500L);
 
         findViewById(R.id.btn_start).setOnClickListener(this);
     }
 
     @Override
-    public void onTitleCreated(TitleBar titleBar) {
-        titleBar.setText(ViewTestActivity.class.getSimpleName());
+    protected void initData(Bundle savedInstanceState) {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    protected void onViewClick(View v) {
+        super.onViewClick(v);
         switch (v.getId()) {
             case R.id.btn_start:
                 takeViewCapture(mTabDigitLayout);
@@ -78,7 +87,7 @@ public class ViewTestActivity extends BaseCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (mCaptureBitmap != null && !mCaptureBitmap.isRecycled()) {
             mCaptureBitmap.recycle();

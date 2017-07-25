@@ -6,14 +6,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.view.TitleBar;
 
 /**
  * 基类，用于加载fragment
  * @author lyric
  * @time 2016/5/27 15:37
  */
-public class BaseFragmentActivity extends BaseActivity {
+public class BaseFragmentActivity extends BaseCompatActivity {
     private static final String EXTRA_FRAGMENT_NAME = "fragment_name";
+    private Fragment mFragment;
 
     public static Intent newIntent(Context context, Class<?> fragmentClass) {
         Intent intent = new Intent(context, BaseFragmentActivity.class);
@@ -30,6 +32,21 @@ public class BaseFragmentActivity extends BaseActivity {
     private void setupViews() {
         Bundle bundle = getIntent().getExtras();
         String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, Fragment.instantiate(this, fragmentName, bundle), fragmentName).commit();
+        mFragment = Fragment.instantiate(this, fragmentName, bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, mFragment, fragmentName).commit();
+    }
+
+    @Override
+    protected void onTitleCreated(TitleBar titleBar) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFragment != null && mFragment instanceof BaseFragment) {
+            if (((BaseFragment) mFragment).onBackPressed()) {
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }
