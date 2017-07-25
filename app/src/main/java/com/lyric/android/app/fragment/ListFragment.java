@@ -43,7 +43,7 @@ public class ListFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
     }
 }
