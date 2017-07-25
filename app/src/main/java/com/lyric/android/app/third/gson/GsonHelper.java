@@ -98,6 +98,11 @@ public class GsonHelper {
         // 添加自定义解析器
         gsonBuilder.registerTypeAdapter(String.class, new StringTypeAdapter());
         gsonBuilder.registerTypeAdapter(int.class, new IntegerTypeAdapter());
+        gsonBuilder.registerTypeAdapter(float.class, new FloatTypeAdapter());
+        gsonBuilder.registerTypeAdapter(double.class, new DoubleTypeAdapter());
+        gsonBuilder.registerTypeAdapter(long.class, new LongTypeAdapter());
+        gsonBuilder.registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
+        gsonBuilder.registerTypeAdapter(short.class, new ShortTypeAdapter());
 
         sGson = gsonBuilder.create();
     }

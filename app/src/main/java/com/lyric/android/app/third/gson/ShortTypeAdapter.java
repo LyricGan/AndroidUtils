@@ -9,23 +9,22 @@ import com.lyric.android.library.utils.StringUtils;
 import java.io.IOException;
 
 /**
- * 自定义json整型数据解析
  * @author ganyu
- * @time 2017/7/10 12:56
+ * @date 2017/7/25 10:21
  */
-public class IntegerTypeAdapter extends TypeAdapter<Integer> {
+public class ShortTypeAdapter extends TypeAdapter<Short> {
 
     @Override
-    public void write(JsonWriter out, Integer value) throws IOException {
+    public void write(JsonWriter out, Short value) throws IOException {
         out.value(value);
     }
 
     @Override
-    public Integer read(JsonReader in) throws IOException {
+    public Short read(JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
             in.nextNull();
             return 0;
         }
-        return StringUtils.parseInt(in.nextString(), 0);
+        return StringUtils.parseShort(in.nextString(), (short) 0);
     }
 }

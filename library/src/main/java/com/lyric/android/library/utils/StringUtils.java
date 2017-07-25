@@ -25,6 +25,8 @@ public class StringUtils {
     public static final int CASE_UPPER = 1;
     /** 小写标记 */
     public static final int CASE_LOWER = 2;
+
+    public static final String EMPTY = "";
 	
 	/**
      * is null or its length is 0
@@ -475,15 +477,6 @@ public class StringUtils {
     /**
      * 将字符串转换为整型
      * @param value 字符串
-     * @return
-     */
-    public static int parseInt(String value) {
-        return parseInt(value, 0);
-    }
-
-    /**
-     * 将字符串转换为整型
-     * @param value 字符串
      * @param defaultValue 默认值
      * @return
      */
@@ -502,6 +495,58 @@ public class StringUtils {
             }
         }
         return valueInt;
+    }
+
+    public static float parseFloat(String value, float defaultValue) {
+        if (TextUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        float valueFloat = defaultValue;
+        try {
+            valueFloat = Float.valueOf(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return valueFloat;
+    }
+
+    public static double parseDouble(String value, double defaultValue) {
+        if (TextUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        double valueDouble = defaultValue;
+        try {
+            valueDouble = Double.valueOf(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return valueDouble;
+    }
+
+    public static long parseLong(String value, long defaultValue) {
+        if (TextUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        long valueLong = defaultValue;
+        try {
+            valueLong = Long.valueOf(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return valueLong;
+    }
+
+    public static short parseShort(String value, short defaultValue) {
+        if (TextUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        short valueShort = defaultValue;
+        try {
+            valueShort = Short.valueOf(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return valueShort;
     }
 
     public static String getMd5Upper(String value) {
