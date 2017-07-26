@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.lyric.android.app.R;
 import com.lyric.android.library.utils.DisplayUtils;
-import com.lyric.android.library.utils.ViewUtils;
 
 /**
  * @author lyricgan
@@ -28,7 +27,7 @@ import com.lyric.android.library.utils.ViewUtils;
  */
 public class AddPicturePopup extends PopupWindow implements View.OnClickListener {
     private Context mContext;
-    private View view_menu_add_picture;
+    private View addPictureMenuView;
 
     private OnMenuClickListener mMenuClickListener;
 
@@ -54,12 +53,12 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
 
     private void initialize(Context context) {
         this.mContext = context;
-        FrameLayout rootLayout = new FrameLayout(mContext);
+        FrameLayout rootLayout = new FrameLayout(context);
         rootLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        view_menu_add_picture = View.inflate(mContext, R.layout.view_menu_add_picture, new FrameLayout(mContext));
-        TextView tv_take_photo = (TextView) view_menu_add_picture.findViewById(R.id.tv_take_photo);
-        TextView tv_photo_album = (TextView) view_menu_add_picture.findViewById(R.id.tv_photo_album);
-        Button btn_cancel = (Button) view_menu_add_picture.findViewById(R.id.btn_cancel);
+        addPictureMenuView = View.inflate(context, R.layout.view_menu_add_picture, new FrameLayout(context));
+        TextView tv_take_photo = (TextView) addPictureMenuView.findViewById(R.id.tv_take_photo);
+        TextView tv_photo_album = (TextView) addPictureMenuView.findViewById(R.id.tv_photo_album);
+        Button btn_cancel = (Button) addPictureMenuView.findViewById(R.id.btn_cancel);
 
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int dip_10 = DisplayUtils.dip2px(context, 10);
@@ -67,8 +66,6 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
         btnParams.rightMargin = dip_10;
         btnParams.topMargin = dip_10 / 2;
         btnParams.bottomMargin = dip_10 / 2;
-        int height = ViewUtils.getNavigationBarHeight(context);
-        btnParams.bottomMargin -= height;
         btn_cancel.setLayoutParams(btnParams);
 
         tv_take_photo.setOnClickListener(this);
@@ -77,17 +74,17 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-        view_menu_add_picture.setLayoutParams(params);
+        addPictureMenuView.setLayoutParams(params);
         rootLayout.setOnKeyListener(mOnKeyListener);
         rootLayout.setOnClickListener(mDismissClickListener);
-        rootLayout.addView(view_menu_add_picture);
+        rootLayout.addView(addPictureMenuView);
 
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setFocusable(true);
         this.setContentView(rootLayout);
         this.setAnimationStyle(R.style.popup_style);
-        this.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.half_transparent)));
+        this.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.half_transparent)));
         this.update();
     }
 
@@ -159,7 +156,7 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
     private void startShowAnimation() {
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_push_bottom_in);
         animation.setFillAfter(true);
-        view_menu_add_picture.setAnimation(animation);
+        addPictureMenuView.setAnimation(animation);
         animation.start();
     }
 
@@ -167,7 +164,7 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
     public void dismiss() {
         AnimationSet animation = (AnimationSet) AnimationUtils.loadAnimation(mContext, R.anim.anim_push_bottom_out);
         animation.setFillAfter(true);
-        view_menu_add_picture.clearAnimation();
+        addPictureMenuView.clearAnimation();
         animation.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
@@ -188,8 +185,8 @@ public class AddPicturePopup extends PopupWindow implements View.OnClickListener
                 });
             }
         });
-        view_menu_add_picture.setAnimation(animation);
-        view_menu_add_picture.invalidate();
+        addPictureMenuView.setAnimation(animation);
+        addPictureMenuView.invalidate();
         animation.startNow();
     }
 
