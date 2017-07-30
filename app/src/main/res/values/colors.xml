@@ -16,6 +16,7 @@
     <!-- 其它颜色 -->
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="transparent">#00000000</color>
     <color name="color_007eff">#ff007eff</color>
     <color name="color_title_bar_bg">#ff007eff</color>
     <color name="window_background">#FFF5F5F5</color>

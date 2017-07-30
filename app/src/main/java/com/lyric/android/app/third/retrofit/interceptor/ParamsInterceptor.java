@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.utils.PackageUtils;
 
 import java.io.IOException;

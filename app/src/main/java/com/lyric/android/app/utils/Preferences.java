@@ -1,6 +1,6 @@
 package com.lyric.android.app.utils;
 
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.preferences.PreferencesHelper;
 
 /**

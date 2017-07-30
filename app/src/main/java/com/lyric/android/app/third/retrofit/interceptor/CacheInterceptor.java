@@ -3,7 +3,7 @@ package com.lyric.android.app.third.retrofit.interceptor;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.utils.NetworkUtils;
 
 import java.io.IOException;

@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseCompatActivity;
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.test.video.VideoListAdapter;
 import com.lyric.android.app.test.video.VideoPlayer;
 import com.lyric.android.app.third.glide.ImageLoader;
-import com.lyric.android.app.view.TitleBar;
+import com.lyric.android.app.widget.TitleBar;
 
 /**
  * 视频列表页面

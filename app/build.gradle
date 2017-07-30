@@ -117,8 +117,4 @@ dependencies {
     //    compile dependencies.okhttpLogInterceptor
     compile dependencies.genius
     compile dependencies.butterKnife
-    compile files('libs/fastjson-1.2.9.jar')
-    compile project(path: ':pickerview')
-    compile project(path: ':lib_recyclerview')
-    compile project(path: ':ViewPagerIndicator')
 }

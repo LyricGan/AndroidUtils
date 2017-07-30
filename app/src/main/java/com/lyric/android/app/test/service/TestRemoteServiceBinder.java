@@ -3,7 +3,7 @@ package com.lyric.android.app.test.service;
 import android.os.RemoteException;
 
 import com.lyric.android.app.IServiceAidlInterface;
-import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.library.utils.LogUtils;
 
 /**

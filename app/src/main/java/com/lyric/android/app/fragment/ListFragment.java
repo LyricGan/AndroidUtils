@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.RecyclerViewAdapter;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseFragment;
 
 /**
  * 列表页面

@@ -16,7 +16,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.lyric.android.app.view.AddPicturePopup;
+import com.lyric.android.app.widget.AddPicturePopup;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,7 +1,7 @@
 package com.lyric.android.app.third.retrofit.multiple;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.app.third.retrofit.adapter.RxJavaCallAdapterFactory;
 import com.lyric.android.app.third.retrofit.interceptor.HttpLogInterceptor;
 

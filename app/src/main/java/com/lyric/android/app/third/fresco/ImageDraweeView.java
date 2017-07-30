@@ -18,7 +18,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.utils.DisplayUtils;
 
 import java.io.File;

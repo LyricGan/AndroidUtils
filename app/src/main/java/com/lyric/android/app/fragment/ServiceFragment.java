@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.test.service.TestService;
 import com.lyric.android.app.test.service.TestServiceBinder;
 import com.lyric.android.library.utils.LogUtils;

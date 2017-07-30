@@ -42,8 +42,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseCompatActivity;
-import com.lyric.android.app.view.TitleBar;
+import com.lyric.android.app.BaseCompatActivity;
+import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipemenu.BaseSwipListAdapter;
 import com.lyric.android.app.widget.swipemenu.SwipeMenu;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuCreator;

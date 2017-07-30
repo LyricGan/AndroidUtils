@@ -27,20 +27,21 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseCompatActivity;
-import com.lyric.android.app.view.TitleBar;
+import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipemenu.SwipeMenu;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuCreator;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuItem;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuListView;
+import com.lyric.android.library.utils.DisplayUtils;
 
 import java.util.List;
 
@@ -202,7 +203,6 @@ public class SwipeMenuActivity extends BaseCompatActivity {
     }
 
     private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
+        return DisplayUtils.dip2px(BaseApp.getContext(), dp);
     }
 }

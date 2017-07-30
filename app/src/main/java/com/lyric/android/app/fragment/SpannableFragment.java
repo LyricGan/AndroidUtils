@@ -26,7 +26,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.widget.span.SpanTextUtils;
 import com.lyric.android.library.utils.KeywordUtils;
 

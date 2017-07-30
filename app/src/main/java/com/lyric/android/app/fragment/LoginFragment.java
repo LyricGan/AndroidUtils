@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.test.mvvm.model.User;
 import com.lyric.android.app.test.mvvm.viewmodel.LoginViewModel;
 import com.lyric.android.library.utils.ToastUtils;

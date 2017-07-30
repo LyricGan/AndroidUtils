@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.app.test.Test;
 import com.lyric.android.library.utils.LogUtils;
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.test.mvvm.model.ApiFactory;
 import com.lyric.android.app.test.mvvm.model.Repository;
 import com.lyric.android.app.test.mvvm.model.User;

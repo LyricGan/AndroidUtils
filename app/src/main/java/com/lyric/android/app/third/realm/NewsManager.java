@@ -1,6 +1,6 @@
 package com.lyric.android.app.third.realm;
 
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.third.realm.entity.RealmNewsEntity;
 
 import java.util.ArrayList;

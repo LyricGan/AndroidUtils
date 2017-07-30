@@ -43,7 +43,7 @@ public class Utils {
      * @param context 上下文对象
      * @return 网络是否连接
      */
-    public boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
@@ -56,8 +56,8 @@ public class Utils {
      * @return 本地号码
      */
     public static String getLocalNumber(Context context) {
-        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tManager.getLine1Number();
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getLine1Number();
     }
 
     /**

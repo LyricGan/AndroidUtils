@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.lyric.android.app.base.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.library.utils.LogUtils;
 
 public class TestService extends Service {

@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.PieView;
 import com.lyric.android.library.logger.Loggers;

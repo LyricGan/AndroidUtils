@@ -3,7 +3,7 @@ package com.lyric.android.app.utils;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.utils.PreferencesUtils;
 
 /**

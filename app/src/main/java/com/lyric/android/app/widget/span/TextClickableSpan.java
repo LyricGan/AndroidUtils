@@ -6,7 +6,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 
 /**
  * @author lyric

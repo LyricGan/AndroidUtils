@@ -12,7 +12,7 @@ import android.util.Base64;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.lyric.android.app.base.BaseApp;
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.library.logger.Loggers;
 import com.lyric.android.library.utils.FileUtils;
 import com.lyric.android.library.utils.ImageUtils;

@@ -21,26 +21,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
-import com.bigkoo.pickerview.TimePickerView;
+import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.BaseFragmentActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
-import com.lyric.android.app.base.BaseApp;
-import com.lyric.android.app.base.BaseFragmentActivity;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
 import com.lyric.android.app.fragment.LoginFragment;
 import com.lyric.android.app.fragment.ProgressBarFragment;
-import com.lyric.android.app.fragment.ServiceFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
-import com.lyric.android.app.view.AddPicturePopup;
+import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
 import com.lyric.android.library.utils.ActivityUtils;
 import com.lyric.android.library.utils.DisplayUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onFabClicked();
+
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -97,20 +93,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showDatePicker() {
-        TimePickerView datePicker = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
-        Calendar calendar = Calendar.getInstance();
-        datePicker.setRangeYear(calendar.get(Calendar.YEAR) - 5, calendar.get(Calendar.YEAR) + 5);
-        datePicker.setTime(new Date());
-        datePicker.setCyclic(false);
-        datePicker.setCancelable(true);
-        datePicker.show();
-    }
-
-    private void onFabClicked() {
-        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ServiceFragment.class));
-    }
-
     private void showListSelectDialog() {
         List<ListSelectFragment.ListSelectEntity> itemEntityList = new ArrayList<>();
         ListSelectFragment.ListSelectEntity itemEntity;
@@ -132,13 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_overaction, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                ActivityUtils.startActivity(MainActivity.this, SettingsActivity.class);
+                return true;
             case android.R.id.home: {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
@@ -212,6 +197,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void updateAvatarView(Bitmap bitmap) {
+        if (bitmap != null) {
+            ivUserAvatar.setImageBitmap(bitmap);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -228,23 +219,17 @@ public class MainActivity extends AppCompatActivity {
             case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
                 if (resultCode == Activity.RESULT_OK) {
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(size, size);
-                    if (bitmap == null) {
-                        return;
-                    }
-                    ivUserAvatar.setImageBitmap(bitmap);
+                    updateAvatarView(bitmap);
                 }
             }
-            break;
+                break;
             case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
                 if (data != null && resultCode == Activity.RESULT_OK) {
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
-                    if (bitmap == null) {
-                        return;
-                    }
-                    ivUserAvatar.setImageBitmap(bitmap);
+                    updateAvatarView(bitmap);
                 }
             }
-            break;
+                break;
             default:
                 break;
         }

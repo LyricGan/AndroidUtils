@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseFragmentActivity;
+import com.lyric.android.app.BaseFragmentActivity;
 import com.lyric.android.app.fragment.PraiseFragment;
 import com.lyric.android.library.utils.ActivityUtils;
 

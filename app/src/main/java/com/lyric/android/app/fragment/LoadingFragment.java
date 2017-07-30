@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.base.BaseFragment;
+import com.lyric.android.app.BaseFragment;
 
 /**
  * 加载视图页面
