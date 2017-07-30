@@ -56,9 +56,9 @@ public class SwipeMenuActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_list);
+        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView);
 
         mAppList = getPackageManager().getInstalledApplications(0);
-        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView);
         mAdapter = new AppAdapter();
         listView.setAdapter(mAdapter);
 
@@ -194,7 +194,7 @@ public class SwipeMenuActivity extends BaseCompatActivity {
             ImageView iv_icon;
             TextView tv_name;
 
-            public ViewHolder(View view) {
+            private ViewHolder(View view) {
                 iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
                 tv_name = (TextView) view.findViewById(R.id.tv_name);
                 view.setTag(this);
