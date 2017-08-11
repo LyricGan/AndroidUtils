@@ -15,8 +15,8 @@ import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipe.SwipeBackLayout;
-import com.lyric.android.library.utils.BuildVersionUtils;
-import com.lyric.android.library.utils.ViewUtils;
+import com.lyric.utils.BuildVersionUtils;
+import com.lyric.utils.ViewUtils;
 
 /**
  * 基类Activity

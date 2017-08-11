@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lyric.android.app.R;
-import com.lyric.android.library.logger.Loggers;
 
 import java.util.ArrayList;
 import java.util.List;

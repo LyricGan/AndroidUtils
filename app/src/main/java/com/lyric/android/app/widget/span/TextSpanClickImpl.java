@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.lyric.android.app.BaseFragmentActivity;
 import com.lyric.android.app.fragment.SpannableFragment;
-import com.lyric.android.library.utils.ActivityUtils;
+import com.lyric.utils.ActivityUtils;
 
 /**
  * @author lyric

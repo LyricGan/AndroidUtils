@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.lyric.android.app.third.fresco.ImageHelper;
 import com.lyric.android.app.third.stetho.StethoUtils;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 

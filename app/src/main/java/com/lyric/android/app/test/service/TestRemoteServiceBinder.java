@@ -4,7 +4,7 @@ import android.os.RemoteException;
 
 import com.lyric.android.app.IServiceAidlInterface;
 import com.lyric.android.app.Constants;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 
 /**
  * @author lyricgan

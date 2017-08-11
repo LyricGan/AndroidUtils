@@ -11,8 +11,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lyric.android.library.utils.DisplayUtils;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.DisplayUtils;
+import com.lyric.utils.LogUtils;
 
 /**
  * @author lyricgan

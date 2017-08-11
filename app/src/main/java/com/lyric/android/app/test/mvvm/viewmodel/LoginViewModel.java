@@ -12,7 +12,7 @@ import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.test.mvvm.model.ApiFactory;
 import com.lyric.android.app.test.mvvm.model.Repository;
 import com.lyric.android.app.test.mvvm.model.User;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 
 import java.util.List;
 

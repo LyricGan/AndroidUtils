@@ -10,7 +10,7 @@ import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.test.mvvm.model.User;
 import com.lyric.android.app.test.mvvm.viewmodel.LoginViewModel;
-import com.lyric.android.library.utils.ToastUtils;
+import com.lyric.utils.ToastUtils;
 
 /**
  * 登录页面

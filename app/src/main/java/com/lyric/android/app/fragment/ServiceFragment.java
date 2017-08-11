@@ -16,8 +16,8 @@ import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.test.service.TestService;
 import com.lyric.android.app.test.service.TestServiceBinder;
-import com.lyric.android.library.utils.LogUtils;
-import com.lyric.android.library.utils.ToastUtils;
+import com.lyric.utils.LogUtils;
+import com.lyric.utils.ToastUtils;
 
 /**
  * 服务类测试页面

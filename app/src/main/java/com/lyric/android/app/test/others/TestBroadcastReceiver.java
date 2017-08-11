@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.lyric.android.app.Constants;
 import com.lyric.android.app.test.Test;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 
 /**
  * @author lyricgan

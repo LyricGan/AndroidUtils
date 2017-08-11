@@ -1,6 +1,6 @@
 package com.lyric.android.app.test.deadlock;
 
-import com.lyric.android.library.logger.Loggers;
+import com.lyric.android.app.test.logger.Loggers;
 
 /**
  * @author lyricgan

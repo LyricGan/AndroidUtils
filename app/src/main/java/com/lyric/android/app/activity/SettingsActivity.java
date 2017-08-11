@@ -11,7 +11,7 @@ import com.lyric.android.app.adapter.BaseRecyclerAdapter;
 import com.lyric.android.app.adapter.SettingsListAdapter;
 import com.lyric.android.app.entity.SettingsEntity;
 import com.lyric.android.app.widget.TitleBar;
-import com.lyric.android.library.utils.ActivityUtils;
+import com.lyric.utils.ActivityUtils;
 
 import java.util.ArrayList;
 import java.util.List;

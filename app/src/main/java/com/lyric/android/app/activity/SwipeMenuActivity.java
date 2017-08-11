@@ -41,7 +41,7 @@ import com.lyric.android.app.widget.swipemenu.SwipeMenu;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuCreator;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuItem;
 import com.lyric.android.app.widget.swipemenu.SwipeMenuListView;
-import com.lyric.android.library.utils.DisplayUtils;
+import com.lyric.utils.DisplayUtils;
 
 import java.util.List;
 

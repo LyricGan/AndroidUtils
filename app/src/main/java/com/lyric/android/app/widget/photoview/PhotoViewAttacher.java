@@ -36,7 +36,7 @@ import android.widget.ImageView.ScaleType;
 import com.lyric.android.app.widget.photoview.gesture.OnGestureListener;
 import com.lyric.android.app.widget.photoview.gesture.VersionedGestureDetector;
 import com.lyric.android.app.widget.photoview.scrollerproxy.ScrollerProxy;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 
 import java.lang.ref.WeakReference;
 

@@ -2,7 +2,7 @@ package com.lyric.android.app.network;
 
 import android.text.TextUtils;
 
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.utils.LogUtils;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;

@@ -46,7 +46,7 @@ dependencies {
 
 def siteUrl = 'https://github.com/lyricgan/android-utils'                        // #CONFIG# // project homepage
 def gitUrl = 'https://github.com/lyricgan/android-utils.git'                     // #CONFIG# // project git
-group = "com.lyric.android.library"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
+group = "com.lyric.android.library"                                              // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
 
 //install {
 //    repositories.mavenInstaller {

@@ -33,8 +33,8 @@ import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
-import com.lyric.android.library.utils.ActivityUtils;
-import com.lyric.android.library.utils.DisplayUtils;
+import com.lyric.utils.ActivityUtils;
+import com.lyric.utils.DisplayUtils;
 
 import java.util.ArrayList;
 import java.util.List;

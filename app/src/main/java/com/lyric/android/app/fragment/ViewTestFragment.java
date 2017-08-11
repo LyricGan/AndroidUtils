@@ -13,8 +13,8 @@ import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.PieView;
-import com.lyric.android.library.logger.Loggers;
-import com.lyric.android.library.utils.ImageUtils;
+import com.lyric.android.app.test.logger.Loggers;
+import com.lyric.utils.ImageUtils;
 
 import java.util.ArrayList;
 

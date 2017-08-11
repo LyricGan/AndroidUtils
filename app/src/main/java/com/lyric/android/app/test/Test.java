@@ -13,10 +13,10 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.android.library.logger.Loggers;
-import com.lyric.android.library.utils.FileUtils;
-import com.lyric.android.library.utils.ImageUtils;
-import com.lyric.android.library.utils.LogUtils;
+import com.lyric.android.app.test.logger.Loggers;
+import com.lyric.utils.FileUtils;
+import com.lyric.utils.ImageUtils;
+import com.lyric.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

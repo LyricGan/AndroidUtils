@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
-import com.lyric.android.library.utils.DisplayUtils;
+import com.lyric.utils.DisplayUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

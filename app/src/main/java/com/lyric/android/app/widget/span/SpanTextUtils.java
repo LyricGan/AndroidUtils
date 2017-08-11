@@ -7,7 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 
-import com.lyric.android.library.utils.DisplayUtils;
+import com.lyric.utils.DisplayUtils;
 
 /**
  * @author lyric

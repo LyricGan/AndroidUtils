@@ -7,7 +7,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.lyric.android.library.logger.Loggers;
+import com.lyric.android.app.test.logger.Loggers;
 
 import java.util.ArrayList;
 

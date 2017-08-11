@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.widget.dialog.LoadingDialog;
-import com.lyric.android.library.utils.ViewUtils;
+import com.lyric.utils.ViewUtils;
 
 import java.util.List;
 
