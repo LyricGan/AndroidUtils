@@ -480,4 +480,20 @@ public class ViewUtils {
         return false;
     }
 
+    public static void setAlpha(View view, float alpha) {
+        if (view == null) {
+            return;
+        }
+        view.setAlpha(alpha);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            if (viewGroup.getChildCount() > 0) {
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    View childView = viewGroup.getChildAt(i);
+                    setAlpha(childView, alpha);
+                }
+            }
+        }
+    }
+
 }
