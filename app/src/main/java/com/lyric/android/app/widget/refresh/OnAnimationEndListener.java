@@ -1,6 +1,6 @@
 package com.lyric.android.app.widget.refresh;
 
-public interface OnAnimaitonEndListener {
+public interface OnAnimationEndListener {
 
     void onAnimationEnd();
 }

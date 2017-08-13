@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lyric.android.app.widget.refresh.IHeader;
-import com.lyric.android.app.widget.refresh.OnAnimaitonEndListener;
+import com.lyric.android.app.widget.refresh.OnAnimationEndListener;
 
 public class ProgressLayout extends FrameLayout implements IHeader {
     private int mCircleWidth;
@@ -205,12 +205,12 @@ public class ProgressLayout extends FrameLayout implements IHeader {
     }
 
     @Override
-    public void onFinish(final OnAnimaitonEndListener animEndListener) {
+    public void onFinish(final OnAnimationEndListener listener) {
         mCircleView.animate().scaleX(0).scaleY(0).alpha(0).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 reset();
-                animEndListener.onAnimationEnd();
+                listener.onAnimationEnd();
             }
         }).start();
     }

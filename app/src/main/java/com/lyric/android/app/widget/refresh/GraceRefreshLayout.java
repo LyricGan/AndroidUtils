@@ -847,7 +847,7 @@ public class GraceRefreshLayout extends RelativeLayout implements PullListener, 
         if (!coreProcessor.isEnableKeepIView() && !coreProcessor.isRefreshing()) {
             return;
         }
-        mHeadView.onFinish(new OnAnimaitonEndListener() {
+        mHeadView.onFinish(new OnAnimationEndListener() {
             @Override
             public void onAnimationEnd() {
                 coreProcessor.finishRefreshAfterAnimation();

@@ -12,10 +12,10 @@ public class OverScrollDecorator extends Decorator {
     // 满足越界的手势的最低速度(默认3000)
     private static final int OVER_SCROLL_MIN_VX = 3000;
 
-    //针对View的延时策略
-    private static final int MSG_START_COMPUTE_SCROLL = 0; //开始计算
-    private static final int MSG_CONTINUE_COMPUTE_SCROLL = 1;//继续计算
-    private static final int MSG_STOP_COMPUTE_SCROLL = 2; //停止计算
+    // 针对View的延时策略
+    private static final int MSG_START_COMPUTE_SCROLL = 0; // 开始计算
+    private static final int MSG_CONTINUE_COMPUTE_SCROLL = 1;// 继续计算
+    private static final int MSG_STOP_COMPUTE_SCROLL = 2; // 停止计算
 
     private int cur_delay_times = 0; //当前计算次数
     private static final int ALL_DELAY_TIMES = 60;  //10ms计算一次,总共计算20次

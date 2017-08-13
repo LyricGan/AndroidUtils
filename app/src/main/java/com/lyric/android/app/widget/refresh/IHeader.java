@@ -24,7 +24,7 @@ public interface IHeader {
 
     void startAnimation(float maxHeight, float height);
 
-    void onFinish(OnAnimaitonEndListener animEndListener);
+    void onFinish(OnAnimationEndListener listener);
 
     void reset();
 }

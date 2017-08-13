@@ -4,8 +4,8 @@ public abstract class Decorator implements IDecorator {
     protected IDecorator decorator;
     protected GraceRefreshLayout.CoreProcessor coreProcessor;
 
-    public Decorator(GraceRefreshLayout.CoreProcessor processor, IDecorator decorator1) {
+    public Decorator(GraceRefreshLayout.CoreProcessor processor, IDecorator iDecorator) {
         coreProcessor = processor;
-        decorator = decorator1;
+        decorator = iDecorator;
     }
 }

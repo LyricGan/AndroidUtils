@@ -5,17 +5,18 @@ import android.view.ViewConfiguration;
 
 public class RefreshProcessor implements IDecorator {
     protected GraceRefreshLayout.CoreProcessor coreProcessor;
-
-    public RefreshProcessor(GraceRefreshLayout.CoreProcessor processor) {
-        if (processor == null) throw new NullPointerException("The coprocessor can not be null.");
-        coreProcessor = processor;
-    }
-
     private float mTouchX, mTouchY;
     private boolean intercepted = false;
-    private boolean willAnimHead = false;
-    private boolean willAnimBottom = false;
+    private boolean willAnimationHeader = false;
+    private boolean willAnimationFooter = false;
     private boolean downEventSent = false;
+
+    public RefreshProcessor(GraceRefreshLayout.CoreProcessor processor) {
+        if (processor == null) {
+            throw new NullPointerException("The coreProcessor can not be null.");
+        }
+        coreProcessor = processor;
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -25,7 +26,6 @@ public class RefreshProcessor implements IDecorator {
                 intercepted = false;
                 mTouchX = ev.getX();
                 mTouchY = ev.getY();
-
                 if (coreProcessor.isEnableKeepIView()) {
                     if (!coreProcessor.isRefreshing()) {
                         coreProcessor.setPrepareFinishRefresh(false);
@@ -34,7 +34,6 @@ public class RefreshProcessor implements IDecorator {
                         coreProcessor.setPrepareFinishLoadMore(false);
                     }
                 }
-
                 coreProcessor.dispatchTouchEventSuper(ev);
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -89,9 +88,9 @@ public class RefreshProcessor implements IDecorator {
             case MotionEvent.ACTION_UP:
                 if (intercepted) {
                     if (coreProcessor.isStatePTD()) {
-                        willAnimHead = true;
+                        willAnimationHeader = true;
                     } else if (coreProcessor.isStatePBU()) {
-                        willAnimBottom = true;
+                        willAnimationFooter = true;
                     }
                     intercepted = false;
                     return true;
@@ -103,7 +102,7 @@ public class RefreshProcessor implements IDecorator {
 
     private MotionEvent mLastMoveEvent;
 
-    //发送cancel事件解决selection问题
+    // 发送cancel事件解决selection问题
     private void sendCancelEvent() {
         if (mLastMoveEvent == null) {
             return;
@@ -135,19 +134,19 @@ public class RefreshProcessor implements IDecorator {
 
     @Override
     public void onFingerUp(MotionEvent ev, boolean isFling) {
-        if (!isFling && willAnimHead) {
+        if (!isFling && willAnimationHeader) {
             coreProcessor.getAnimProcessor().dealPullDownRelease();
         }
-        if (!isFling && willAnimBottom) {
+        if (!isFling && willAnimationFooter) {
             coreProcessor.getAnimProcessor().dealPullUpRelease();
         }
-        willAnimHead = false;
-        willAnimBottom = false;
+        willAnimationHeader = false;
+        willAnimationFooter = false;
     }
 
     @Override
     public void onFingerScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY, float velocityX, float velocityY) {
-        //手指在屏幕上滚动，如果此时正处在刷新状态，可隐藏
+        // 手指在屏幕上滚动，如果此时正处在刷新状态，可隐藏
         int mTouchSlop = coreProcessor.getTouchSlop();
         if (coreProcessor.isRefreshVisible() && distanceY >= mTouchSlop && !coreProcessor.isOpenFloatRefresh()) {
             coreProcessor.getAnimProcessor().animationHeaderHideByVy((int) velocityY);
