@@ -192,4 +192,26 @@
         <attr name="numberColor" format="color"/>
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="GraceRefreshLayout">
+        <attr name="grl_max_head_height" format="dimension"/>
+        <attr name="grl_head_height" format="dimension"/>
+        <attr name="grl_max_footer_height" format="dimension"/>
+        <attr name="grl_footer_height" format="dimension"/>
+        <attr name="grl_overScroll_height" format="dimension"/>
+        <attr name="grl_enable_refresh" format="boolean"/>
+        <attr name="grl_enable_loadMore" format="boolean"/>
+        <attr name="grl_pureScrollMode_on" format="boolean"/>
+        <attr name="grl_overScroll_header_show" format="boolean"/>
+        <attr name="grl_overScroll_footer_show" format="boolean"/>
+        <attr name="grl_enable_overScroll" format="boolean"/>
+        <attr name="grl_headerView" format="dimension"/>
+        <attr name="grl_footerView" format="dimension"/>
+        <attr name="grl_floatRefresh" format="boolean"/>
+        <attr name="grl_autoLoadMore" format="boolean"/>
+        <attr name="grl_enable_keepIView" format="boolean"/>
+        <attr name="grl_showRefreshingWhenOverScroll" format="boolean"/>
+        <attr name="grl_showLoadingWhenOverScroll" format="boolean"/>
+    </declare-styleable>
+
 </resources>
