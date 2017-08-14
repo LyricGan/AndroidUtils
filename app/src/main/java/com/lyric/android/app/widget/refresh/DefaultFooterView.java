@@ -16,13 +16,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultFooterView extends View implements IFooter {
-    public static final int DEFAULT_SIZE = 50; //dp
-    private float circleSpacing;
+    public static final int DEFAULT_SIZE = 50;
+    private float mCircleSpacing;
     private float[] scaleFloats = new float[]{1f, 1f, 1f};
 
     private ArrayList<ValueAnimator> mAnimators;
     private Map<ValueAnimator, ValueAnimator.AnimatorUpdateListener> mUpdateListeners = new HashMap<>();
     private Paint mPaint;
+    private int mNormalColor = 0xffeeeeee;
+    private int mAnimatingColor = 0xffe75946;
 
     public DefaultFooterView(Context context) {
         this(context, null);
@@ -34,13 +36,11 @@ public class DefaultFooterView extends View implements IFooter {
 
     public DefaultFooterView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        int default_size = RefreshUtils.dp2px(context, DEFAULT_SIZE);
-        LayoutParams params = new LayoutParams(default_size, default_size, Gravity.CENTER);
+        int defaultSize = RefreshUtils.dp2px(context, DEFAULT_SIZE);
+        LayoutParams params = new LayoutParams(defaultSize, defaultSize, Gravity.CENTER);
         setLayoutParams(params);
 
-        circleSpacing = RefreshUtils.dp2px(context, 4);
-
+        mCircleSpacing = RefreshUtils.dp2px(context, 4);
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL);
@@ -51,25 +51,22 @@ public class DefaultFooterView extends View implements IFooter {
         mPaint.setColor(color);
     }
 
-    private int normalColor = 0xffeeeeee;
-    private int animatingColor = 0xffe75946;
-
     public void setNormalColor(@ColorInt int color) {
-        normalColor = color;
+        mNormalColor = color;
     }
 
     public void setAnimatingColor(@ColorInt int color) {
-        animatingColor = color;
+        mAnimatingColor = color;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        float radius = (Math.min(getWidth(), getHeight()) - circleSpacing * 2) / 6;
-        float x = getWidth() / 2 - (radius * 2 + circleSpacing);
+        float radius = (Math.min(getWidth(), getHeight()) - mCircleSpacing * 2) / 6;
+        float x = getWidth() / 2 - (radius * 2 + mCircleSpacing);
         float y = getHeight() / 2;
         for (int i = 0; i < 3; i++) {
             canvas.save();
-            float translateX = x + (radius * 2) * i + circleSpacing * i;
+            float translateX = x + (radius * 2) * i + mCircleSpacing * i;
             canvas.translate(translateX, y);
             canvas.scale(scaleFloats[i], scaleFloats[i]);
             canvas.drawCircle(0, 0, radius, mPaint);
@@ -80,8 +77,10 @@ public class DefaultFooterView extends View implements IFooter {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mAnimators != null) for (int i = 0; i < mAnimators.size(); i++) {
-            mAnimators.get(i).cancel();
+        if (mAnimators != null) {
+            for (int i = 0; i < mAnimators.size(); i++) {
+                mAnimators.get(i).cancel();
+            }
         }
     }
 
@@ -97,15 +96,14 @@ public class DefaultFooterView extends View implements IFooter {
         }
         for (int i = 0; i < mAnimators.size(); i++) {
             ValueAnimator animator = mAnimators.get(i);
-
-            //when the animator restart , add the updateListener again because they was removed by animator stop .
+            // when the animator restart, add the updateListener again because they was removed by animator stop.
             ValueAnimator.AnimatorUpdateListener updateListener = mUpdateListeners.get(animator);
             if (updateListener != null) {
                 animator.addUpdateListener(updateListener);
             }
             animator.start();
         }
-        setIndicatorColor(animatingColor);
+        setIndicatorColor(mAnimatingColor);
     }
 
     public void stopAnimation() {
@@ -117,7 +115,7 @@ public class DefaultFooterView extends View implements IFooter {
                 }
             }
         }
-        setIndicatorColor(normalColor);
+        setIndicatorColor(mNormalColor);
     }
 
     private boolean isStarted() {
@@ -132,7 +130,6 @@ public class DefaultFooterView extends View implements IFooter {
         int[] delays = new int[]{120, 240, 360};
         for (int i = 0; i < 3; i++) {
             final int index = i;
-
             ValueAnimator scaleAnimator = ValueAnimator.ofFloat(1, 0.3f, 1);
             scaleAnimator.setDuration(750);
             scaleAnimator.setRepeatCount(ValueAnimator.INFINITE);

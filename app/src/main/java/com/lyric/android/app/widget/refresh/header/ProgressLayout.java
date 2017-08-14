@@ -54,6 +54,9 @@ public class ProgressLayout extends FrameLayout implements IHeader {
         createProgressView();
         ViewCompat.setChildrenDrawingOrderEnabled(this, true);
         // the absolute offset has to take into account that the circle starts at an offset
+        int[] colorResIds = new int[] { android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light };
+        setColorSchemeResources(colorResIds);
     }
 
     private void createProgressView() {
