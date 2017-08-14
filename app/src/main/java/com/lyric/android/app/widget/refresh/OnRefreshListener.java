@@ -1,6 +1,6 @@
 package com.lyric.android.app.widget.refresh;
 
-public abstract class PullListenerWrapper implements PullListener {
+public abstract class OnRefreshListener implements IPullListener {
 
     @Override
     public void onPullingDown(GraceRefreshLayout refreshLayout, float fraction) {

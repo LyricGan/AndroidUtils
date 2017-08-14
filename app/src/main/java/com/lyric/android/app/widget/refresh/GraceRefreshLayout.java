@@ -23,7 +23,7 @@ import com.lyric.android.app.R;
 
 import java.lang.reflect.Constructor;
 
-public class GraceRefreshLayout extends RelativeLayout implements PullListener, NestedScrollingChild {
+public class GraceRefreshLayout extends RelativeLayout implements IPullListener, NestedScrollingChild {
     //波浪的高度,最大扩展高度
     protected float mMaxHeadHeight;
     protected float mMaxBottomHeight;
@@ -103,7 +103,7 @@ public class GraceRefreshLayout extends RelativeLayout implements PullListener, 
     private CoreProcessor coreProcessor;
     private final int mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     // 设置手势动作的监听器
-    private PullListener pullListener = this;
+    private IPullListener pullListener = this;
 
     private final NestedScrollingChildHelper mChildHelper;
 
@@ -174,10 +174,10 @@ public class GraceRefreshLayout extends RelativeLayout implements PullListener, 
                     Constructor ct = headClazz.getDeclaredConstructor(Context.class);
                     setHeaderView((IHeader) ct.newInstance(getContext()));
                 } catch (Exception e) {
-                    setHeaderView(new DefaultHeaderView(getContext()));
+                    setHeaderView(new DefaultHeader(getContext()));
                 }
             } else {
-                setHeaderView(new DefaultHeaderView(getContext()));
+                setHeaderView(new DefaultHeader(getContext()));
             }
         }
     }
@@ -198,10 +198,10 @@ public class GraceRefreshLayout extends RelativeLayout implements PullListener, 
                     Constructor ct = clazz.getDeclaredConstructor(Context.class);
                     setBottomView((IFooter) ct.newInstance(getContext()));
                 } catch (Exception e) {
-                    setBottomView(new DefaultFooterView(getContext()));
+                    setBottomView(new DefaultFooter(getContext()));
                 }
             } else {
-                setBottomView(new DefaultFooterView(getContext()));
+                setBottomView(new DefaultFooter(getContext()));
             }
         }
     }
@@ -774,9 +774,9 @@ public class GraceRefreshLayout extends RelativeLayout implements PullListener, 
     /**
      * 设置刷新控件监听器
      */
-    private PullListenerWrapper refreshListener;
+    private OnRefreshListener refreshListener;
 
-    public void setOnRefreshListener(PullListenerWrapper refreshListener) {
+    public void setOnRefreshListener(OnRefreshListener refreshListener) {
         if (refreshListener != null) {
             this.refreshListener = refreshListener;
         }

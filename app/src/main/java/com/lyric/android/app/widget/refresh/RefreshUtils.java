@@ -7,10 +7,8 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.ScrollView;
@@ -207,7 +205,6 @@ public class RefreshUtils {
             if (manager == null || manager.getItemCount() == 0) {
                 return false;
             }
-
             if (manager instanceof LinearLayoutManager) {
                 // 处理item高度超过一屏幕时的情况
                 View lastVisibleChild = recyclerView.getChildAt(recyclerView.getChildCount() - 1);
@@ -225,7 +222,6 @@ public class RefreshUtils {
                 }
             } else if (manager instanceof StaggeredGridLayoutManager) {
                 StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) manager;
-
                 int[] out = layoutManager.findLastCompletelyVisibleItemPositions(null);
                 int lastPosition = layoutManager.getItemCount() - 1;
                 for (int position : out) {
@@ -239,10 +235,13 @@ public class RefreshUtils {
     }
 
     public static void scrollAViewBy(View view, int height) {
-        if (view instanceof RecyclerView) ((RecyclerView) view).scrollBy(0, height);
-        else if (view instanceof ScrollView) ((ScrollView) view).smoothScrollBy(0, height);
-        else if (view instanceof AbsListView) ((AbsListView) view).smoothScrollBy(height, 0);
-        else {
+        if (view instanceof RecyclerView) {
+            ((RecyclerView) view).scrollBy(0, height);
+        } else if (view instanceof ScrollView) {
+            ((ScrollView) view).smoothScrollBy(0, height);
+        } else if (view instanceof AbsListView) {
+            ((AbsListView) view).smoothScrollBy(height, 0);
+        } else {
             try {
                 Method method = view.getClass().getDeclaredMethod("smoothScrollBy", Integer.class, Integer.class);
                 method.invoke(view, 0, height);
@@ -291,15 +290,15 @@ public class RefreshUtils {
     }
 
     public static void scrollToBottom(View view) {
-        if (view instanceof RecyclerView) scrollToBottom((RecyclerView) view);
-        if (view instanceof AbsListView) scrollToBottom((AbsListView) view);
-        if (view instanceof ScrollView) scrollToBottom((ScrollView) view);
+        if (view instanceof RecyclerView) {
+            scrollToBottom((RecyclerView) view);
+        }
+        if (view instanceof AbsListView) {
+            scrollToBottom((AbsListView) view);
+        }
+        if (view instanceof ScrollView) {
+            scrollToBottom((ScrollView) view);
+        }
     }
 
-    public static int getScreenHeight(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(dm);
-        return dm.heightPixels;
-    }
 }

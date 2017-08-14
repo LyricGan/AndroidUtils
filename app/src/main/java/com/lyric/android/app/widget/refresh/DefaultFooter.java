@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultFooterView extends View implements IFooter {
+public class DefaultFooter extends View implements IFooter {
     public static final int DEFAULT_SIZE = 50;
     private float mCircleSpacing;
     private float[] scaleFloats = new float[]{1f, 1f, 1f};
@@ -23,18 +23,18 @@ public class DefaultFooterView extends View implements IFooter {
     private ArrayList<ValueAnimator> mAnimators;
     private Map<ValueAnimator, ValueAnimator.AnimatorUpdateListener> mUpdateListeners = new HashMap<>();
     private Paint mPaint;
-    private int mNormalColor = 0xffeeeeee;
-    private int mAnimatingColor = 0xffe75946;
+    private int mNormalColor = 0x80323232;
+    private int mAnimatingColor = 0xff808080;
 
-    public DefaultFooterView(Context context) {
+    public DefaultFooter(Context context) {
         this(context, null);
     }
 
-    public DefaultFooterView(Context context, AttributeSet attrs) {
+    public DefaultFooter(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DefaultFooterView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DefaultFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         int defaultSize = RefreshUtils.dp2px(context, DEFAULT_SIZE);
         LayoutParams params = new LayoutParams(defaultSize, defaultSize, Gravity.CENTER);

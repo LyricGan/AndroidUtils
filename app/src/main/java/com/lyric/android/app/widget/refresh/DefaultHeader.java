@@ -5,17 +5,17 @@ import android.util.AttributeSet;
 
 import com.lyric.android.app.widget.refresh.header.ProgressLayout;
 
-public class DefaultHeaderView extends ProgressLayout {
+public class DefaultHeader extends ProgressLayout {
 
-    public DefaultHeaderView(Context context) {
+    public DefaultHeader(Context context) {
         super(context);
     }
 
-    public DefaultHeaderView(Context context, AttributeSet attrs) {
+    public DefaultHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DefaultHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DefaultHeader(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 }

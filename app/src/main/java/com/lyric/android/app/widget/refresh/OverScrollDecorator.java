@@ -13,12 +13,15 @@ public class OverScrollDecorator extends Decorator {
     private static final int OVER_SCROLL_MIN_VX = 3000;
 
     // 针对View的延时策略
-    private static final int MSG_START_COMPUTE_SCROLL = 0; // 开始计算
+    private static final int MSG_START_COMPUTE_SCROLL = 0;// 开始计算
     private static final int MSG_CONTINUE_COMPUTE_SCROLL = 1;// 继续计算
-    private static final int MSG_STOP_COMPUTE_SCROLL = 2; // 停止计算
+    private static final int MSG_STOP_COMPUTE_SCROLL = 2;// 停止计算
 
-    private int cur_delay_times = 0; //当前计算次数
-    private static final int ALL_DELAY_TIMES = 60;  //10ms计算一次,总共计算20次
+    private int mCurrentDelayTimes = 0;// 当前计算次数
+    private static final int ALL_DELAY_TIMES = 60;// 10ms计算一次,总共计算20次
+    private boolean preventTopOverScroll = false;
+    private boolean preventBottomOverScroll = false;
+    private boolean checkOverScroll = false;
 
     public OverScrollDecorator(GraceRefreshLayout.CoreProcessor processor, IDecorator decorator) {
         super(processor, decorator);
@@ -39,20 +42,17 @@ public class OverScrollDecorator extends Decorator {
         return decorator != null && decorator.dealTouchEvent(e);
     }
 
-    private boolean preventTopOverScroll = false;
-    private boolean preventBottomOverScroll = false;
-    private boolean checkOverScroll = false;
-
     @Override
     public void onFingerDown(MotionEvent ev) {
-        if (decorator != null) decorator.onFingerDown(ev);
+        if (decorator != null) {
+            decorator.onFingerDown(ev);
+        }
         preventTopOverScroll = RefreshUtils.isViewToTop(coreProcessor.getTargetView(), coreProcessor.getTouchSlop());
         preventBottomOverScroll = RefreshUtils.isViewToBottom(coreProcessor.getTargetView(), coreProcessor.getTouchSlop());
     }
 
     @Override
     public void onFingerUp(MotionEvent ev, boolean isFling) {
-
         if (decorator != null) {
             decorator.onFingerUp(ev, checkOverScroll && isFling);
         }
@@ -61,27 +61,34 @@ public class OverScrollDecorator extends Decorator {
 
     @Override
     public void onFingerScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY, float velocityX, float velocityY) {
-        if (decorator != null)
+        if (decorator != null) {
             decorator.onFingerScroll(e1, e2, distanceX, distanceY, velocityX, velocityY);
+        }
     }
 
     @Override
     public void onFingerFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if (decorator != null) decorator.onFingerFling(e1, e2, velocityX, velocityY);
-        //fling时才触发OverScroll，获取速度并采用演示策略估算View是否滚动到边界
-        if (!coreProcessor.enableOverScroll()) return;
-
+        if (decorator != null) {
+            decorator.onFingerFling(e1, e2, velocityX, velocityY);
+        }
+        // fling时才触发OverScroll，获取速度并采用演示策略估算View是否滚动到边界
+        if (!coreProcessor.enableOverScroll()) {
+            return;
+        }
         int dy = (int) (e2.getY() - e1.getY());
-        if (dy < -coreProcessor.getTouchSlop() && preventBottomOverScroll) return;//控件滚动在底部且向上fling
-        if (dy > coreProcessor.getTouchSlop() && preventTopOverScroll) return;//控件滚动在顶部且向下fling
-
+        if (dy < -coreProcessor.getTouchSlop() && preventBottomOverScroll) {
+            return;// 控件滚动在底部且向上fling
+        }
+        if (dy > coreProcessor.getTouchSlop() && preventTopOverScroll) {
+            return;// 控件滚动在顶部且向下fling
+        }
         mVelocityY = velocityY;
         if (Math.abs(mVelocityY) >= OVER_SCROLL_MIN_VX) {
             mHandler.sendEmptyMessage(MSG_START_COMPUTE_SCROLL);
             checkOverScroll = true;
         } else {
             mVelocityY = 0;
-            cur_delay_times = ALL_DELAY_TIMES;
+            mCurrentDelayTimes = ALL_DELAY_TIMES;
         }
     }
 
@@ -92,31 +99,32 @@ public class OverScrollDecorator extends Decorator {
             int mTouchSlop = coreProcessor.getTouchSlop();
             switch (msg.what) {
                 case MSG_START_COMPUTE_SCROLL:
-                    cur_delay_times = -1; //这里没有break,写作-1方便计数
+                    mCurrentDelayTimes = -1; // 这里没有break,写作-1方便计数
                 case MSG_CONTINUE_COMPUTE_SCROLL:
-                    cur_delay_times++;
+                    mCurrentDelayTimes++;
                     View mChildView = coreProcessor.getTargetView();
                     if (coreProcessor.allowOverScroll()) {
                         if (mVelocityY >= OVER_SCROLL_MIN_VX) {
                             if (RefreshUtils.isViewToTop(mChildView, mTouchSlop)) {
-                                coreProcessor.getAnimProcessor().animOverScrollTop(mVelocityY, cur_delay_times);
+                                coreProcessor.getAnimProcessor().animOverScrollTop(mVelocityY, mCurrentDelayTimes);
                                 mVelocityY = 0;
-                                cur_delay_times = ALL_DELAY_TIMES;
+                                mCurrentDelayTimes = ALL_DELAY_TIMES;
                             }
                         } else if (mVelocityY <= -OVER_SCROLL_MIN_VX) {
                             if (RefreshUtils.isViewToBottom(mChildView, mTouchSlop)) {
-                                coreProcessor.getAnimProcessor().animOverScrollBottom(mVelocityY, cur_delay_times);
+                                coreProcessor.getAnimProcessor().animOverScrollBottom(mVelocityY, mCurrentDelayTimes);
                                 mVelocityY = 0;
-                                cur_delay_times = ALL_DELAY_TIMES;
+                                mCurrentDelayTimes = ALL_DELAY_TIMES;
                             }
                         }
                     }
-                    //计算未超时，继续发送消息并循环计算
-                    if (cur_delay_times < ALL_DELAY_TIMES)
+                    // 计算未超时，继续发送消息并循环计算
+                    if (mCurrentDelayTimes < ALL_DELAY_TIMES) {
                         mHandler.sendEmptyMessageDelayed(MSG_CONTINUE_COMPUTE_SCROLL, 10);
+                    }
                     break;
                 case MSG_STOP_COMPUTE_SCROLL:
-                    cur_delay_times = ALL_DELAY_TIMES;
+                    mCurrentDelayTimes = ALL_DELAY_TIMES;
                     break;
             }
         }

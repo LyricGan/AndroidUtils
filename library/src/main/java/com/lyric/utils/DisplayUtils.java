@@ -26,25 +26,25 @@ public class DisplayUtils {
         float scale = getDensity(context);
         return (int) (pxValue / scale + 0.5f);
     }
+    public static DisplayMetrics getDisplayMetrics(Context context) {
+        CheckUtils.checkContext(context);
+        return context.getResources().getDisplayMetrics();
+    }
 
     private static float getDensity(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().density;
+        return getDisplayMetrics(context).density;
     }
 
     public static int getDensityDpi(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().densityDpi;
+        return getDisplayMetrics(context).densityDpi;
     }
 
     public static float getScaledDensity(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().scaledDensity;
+        return getDisplayMetrics(context).scaledDensity;
     }
 
     public static int[] getScreenDisplay(Context context) {
-        CheckUtils.checkContext(context);
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        DisplayMetrics metrics = getDisplayMetrics(context);
         int[] display = new int[2];
         display[0] = metrics.widthPixels;
         display[1] = metrics.heightPixels;
@@ -53,23 +53,19 @@ public class DisplayUtils {
     }
 
     public static int getScreenWidth(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().widthPixels;
+        return getDisplayMetrics(context).widthPixels;
     }
 
     public static int getScreenHeight(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().heightPixels;
+        return getDisplayMetrics(context).heightPixels;
     }
 
     public static float getXdpi(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().xdpi;
+        return getDisplayMetrics(context).xdpi;
     }
 
     public static float getYdpi(Context context) {
-        CheckUtils.checkContext(context);
-        return context.getResources().getDisplayMetrics().ydpi;
+        return getDisplayMetrics(context).ydpi;
     }
 
     /**

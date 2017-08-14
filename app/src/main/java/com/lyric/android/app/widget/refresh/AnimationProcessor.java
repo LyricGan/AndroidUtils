@@ -18,14 +18,13 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
     private static final float animFraction = 1f;
     // 动画的变化率
     private DecelerateInterpolator decelerateInterpolator;
+    private boolean scrollHeaderLocked = false;
+    private boolean scrollFooterLocked = false;
 
     public AnimationProcessor(GraceRefreshLayout.CoreProcessor coProcessor) {
         this.coreProcessor = coProcessor;
         decelerateInterpolator = new DecelerateInterpolator(8);
     }
-
-    private boolean scrollHeadLocked = false;
-    private boolean scrollBottomLocked = false;
 
     public void scrollHeaderByMove(float moveY) {
         float offsetY = decelerateInterpolator.getInterpolation(moveY / coreProcessor.getMaxHeadHeight() / 2) * moveY / 2;
@@ -39,7 +38,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
                 coreProcessor.getHeader().setVisibility(VISIBLE);
             }
         }
-        if (scrollHeadLocked && coreProcessor.isEnableKeepIView()) {
+        if (scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
             coreProcessor.getHeader().setTranslationY(offsetY - coreProcessor.getHeader().getLayoutParams().height);
         } else {
             coreProcessor.getHeader().setTranslationY(0);
@@ -65,7 +64,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
                 coreProcessor.getFooter().setVisibility(VISIBLE);
             }
         }
-        if (scrollBottomLocked && coreProcessor.isEnableKeepIView()) {
+        if (scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
             coreProcessor.getFooter().setTranslationY(coreProcessor.getFooter().getLayoutParams().height - offsetY);
         } else {
             coreProcessor.getFooter().setTranslationY(0);
@@ -108,29 +107,27 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         coreProcessor.getFooter().setTranslationY(coreProcessor.getFooter().getLayoutParams().height - offsetY);
     }
 
-    private boolean isAnimHeadToRefresh = false;
+    private boolean isAnimationHeadToRefresh = false;
 
     /**
      * 1.满足进入刷新的条件或者主动刷新时，把Head位移到刷新位置（当前位置 ~ HeadHeight）
      */
     public void animationHeaderToRefresh() {
-        isAnimHeadToRefresh = true;
+        isAnimationHeadToRefresh = true;
         animLayoutByTime(getVisibleHeadHeight(), coreProcessor.getHeadHeight(), animHeadUpListener, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-
-                isAnimHeadToRefresh = false;
+                isAnimationHeadToRefresh = false;
 
                 if (coreProcessor.getHeader().getVisibility() != VISIBLE) {
                     coreProcessor.getHeader().setVisibility(VISIBLE);
                 }
-
                 coreProcessor.setRefreshVisible(true);
                 if (coreProcessor.isEnableKeepIView()) {
-                    if (!scrollHeadLocked) {
+                    if (!scrollHeaderLocked) {
                         coreProcessor.setRefreshing(true);
                         coreProcessor.onRefresh();
-                        scrollHeadLocked = true;
+                        scrollHeaderLocked = true;
                     }
                 } else {
                     coreProcessor.setRefreshing(true);
@@ -140,26 +137,26 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         });
     }
 
-    private boolean isAnimHeadBack = false;
+    private boolean isAnimationHeadBack = false;
 
     /**
      * 2.动画结束或不满足进入刷新状态的条件，收起头部（当前位置 ~ 0）
      */
     public void animationHeaderBack(final boolean isFinishRefresh) {
-        isAnimHeadBack = true;
-        if (isFinishRefresh && scrollHeadLocked && coreProcessor.isEnableKeepIView()) {
+        isAnimationHeadBack = true;
+        if (isFinishRefresh && scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
             coreProcessor.setPrepareFinishRefresh(true);
         }
         animLayoutByTime(getVisibleHeadHeight(), 0, animHeadUpListener, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                isAnimHeadBack = false;
+                isAnimationHeadBack = false;
                 coreProcessor.setRefreshVisible(false);
-                if (isFinishRefresh && scrollHeadLocked && coreProcessor.isEnableKeepIView()) {
+                if (isFinishRefresh && scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
                     coreProcessor.getHeader().getLayoutParams().height = 0;
                     coreProcessor.getHeader().requestLayout();
                     coreProcessor.getHeader().setTranslationY(0);
-                    scrollHeadLocked = false;
+                    scrollHeaderLocked = false;
                     coreProcessor.setRefreshing(false);
                     coreProcessor.resetHeaderView();
                 }
@@ -167,17 +164,17 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         });
     }
 
-    private boolean isAnimBottomToLoad = false;
+    private boolean isAnimationBottomToLoad = false;
 
     /**
      * 3.满足进入加载更多的条件或者主动加载更多时，把Footer移到加载更多位置（当前位置 ~ BottomHeight）
      */
     public void animationFooterToLoad() {
-        isAnimBottomToLoad = true;
+        isAnimationBottomToLoad = true;
         animLayoutByTime(getVisibleFootHeight(), coreProcessor.getBottomHeight(), animBottomUpListener, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                isAnimBottomToLoad = false;
+                isAnimationBottomToLoad = false;
 
                 if (coreProcessor.getFooter().getVisibility() != VISIBLE) {
                     coreProcessor.getFooter().setVisibility(VISIBLE);
@@ -185,10 +182,10 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
 
                 coreProcessor.setLoadVisible(true);
                 if (coreProcessor.isEnableKeepIView()) {
-                    if (!scrollBottomLocked) {
+                    if (!scrollFooterLocked) {
                         coreProcessor.setLoadingMore(true);
                         coreProcessor.onLoadMore();
-                        scrollBottomLocked = true;
+                        scrollFooterLocked = true;
                     }
                 } else {
                     coreProcessor.setLoadingMore(true);
@@ -198,14 +195,14 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         });
     }
 
-    private boolean isAnimBottomBack = false;
+    private boolean isAnimationBottomBack = false;
 
     /**
      * 4.加载更多完成或者不满足进入加载更多模式的条件时，收起尾部（当前位置 ~ 0）
      */
     public void animationFooterBack(final boolean isFinishLoading) {
-        isAnimBottomBack = true;
-        if (isFinishLoading && scrollBottomLocked && coreProcessor.isEnableKeepIView()) {
+        isAnimationBottomBack = true;
+        if (isFinishLoading && scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
             coreProcessor.setPrepareFinishLoadMore(true);
         }
         animLayoutByTime(getVisibleFootHeight(), 0, new AnimatorUpdateListener() {
@@ -229,15 +226,15 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         }, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                isAnimBottomBack = false;
+                isAnimationBottomBack = false;
 
                 coreProcessor.setLoadVisible(false);
                 if (isFinishLoading) {
-                    if (scrollBottomLocked && coreProcessor.isEnableKeepIView()) {
+                    if (scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
                         coreProcessor.getFooter().getLayoutParams().height = 0;
                         coreProcessor.getFooter().requestLayout();
                         coreProcessor.getFooter().setTranslationY(0);
-                        scrollBottomLocked = false;
+                        scrollFooterLocked = false;
                         coreProcessor.resetBottomView();
                         coreProcessor.setLoadingMore(false);
                     }
@@ -319,7 +316,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         animLayoutByTime(getVisibleHeadHeight(), overHeight, time, overScrollTopUpListener, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (scrollHeadLocked && coreProcessor.isEnableKeepIView() && coreProcessor.showRefreshingWhenOverScroll()) {
+                if (scrollHeaderLocked && coreProcessor.isEnableKeepIView() && coreProcessor.showRefreshingWhenOverScroll()) {
                     animationHeaderToRefresh();
                     isAnimOsTop = false;
                     isOverScrollTopLocked = false;
@@ -353,7 +350,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         int oh = (int) Math.abs(vy / computeTimes / 2);
         final int overHeight = oh > coreProcessor.getOsHeight() ? coreProcessor.getOsHeight() : oh;
         final int time = overHeight <= 50 ? 115 : (int) (0.3 * overHeight + 100);
-        if (!scrollBottomLocked && coreProcessor.autoLoadMore()) {
+        if (!scrollFooterLocked && coreProcessor.autoLoadMore()) {
             coreProcessor.startLoadMore();
         } else {
             isOverScrollBottomLocked = true;
@@ -361,7 +358,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
             animLayoutByTime(0, overHeight, time, overScrollBottomUpListener, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    if (scrollBottomLocked && coreProcessor.isEnableKeepIView() && coreProcessor.showLoadingWhenOverScroll()) {
+                    if (scrollFooterLocked && coreProcessor.isEnableKeepIView() && coreProcessor.showLoadingWhenOverScroll()) {
                         animationFooterToLoad();
                         isAnimOsBottom = false;
                         isOverScrollBottomLocked = false;
@@ -383,7 +380,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             int height = (int) animation.getAnimatedValue();
-            if (scrollHeadLocked && coreProcessor.isEnableKeepIView()) {
+            if (scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
                 transHeader(height);
             } else {
                 coreProcessor.getHeader().getLayoutParams().height = height;
@@ -402,7 +399,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             int height = (int) animation.getAnimatedValue();
-            if (scrollBottomLocked && coreProcessor.isEnableKeepIView()) {
+            if (scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
                 transFooter(height);
             } else {
                 coreProcessor.getFooter().getLayoutParams().height = height;
@@ -427,7 +424,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
                     coreProcessor.getHeader().setVisibility(GONE);
                 }
             }
-            if (scrollHeadLocked && coreProcessor.isEnableKeepIView()) {
+            if (scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
                 transHeader(height);
             } else {
                 coreProcessor.getHeader().setTranslationY(0);
@@ -454,7 +451,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
                     coreProcessor.getFooter().setVisibility(GONE);
                 }
             }
-            if (scrollBottomLocked && coreProcessor.isEnableKeepIView()) {
+            if (scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
                 transFooter(height);
             } else {
                 coreProcessor.getFooter().getLayoutParams().height = height;

@@ -1,6 +1,6 @@
 package com.lyric.android.app.widget.refresh;
 
-public interface PullListener {
+public interface IPullListener {
 
     /**
      * 下拉中
