@@ -44,12 +44,9 @@ android {
         }
     }
 
-    // 友盟多渠道打包
+    // 多渠道打包
     productFlavors {
         common {}
-//        baidu {}
-//        yingyongbao {}
-//        wandoujia {}
     }
 
     productFlavors.all { flavor ->
@@ -88,25 +85,12 @@ dependencies {
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
     compile dependencies.rxAndroid
-    //    compile dependencies.swipelayout
-    //    compile dependencies.guava
-    //    compile dependencies.androidcommon
-    //    compile dependencies.xutils
-    //    compile dependencies.ion
-    //    compile dependencies.quickutils
-    //    compile dependencies.disklrucache
+
     debugCompile dependencies.leakcanarydebug
     releaseCompile dependencies.leakcanaryrelease
     compile dependencies.supportv4
     compile dependencies.retrofit2
-    //    compile dependencies.retrofit2AdapterRxJava
-    //    compile dependencies.retrofit2ConverterGson
-    //    compile dependencies.retrofit2ConverterJackson
-    //    compile dependencies.retrofit2ConverterMoshi
-    //    compile dependencies.retrofit2ConverterProtobuf
-    //    compile dependencies.retrofit2ConverterWire
-    //    compile dependencies.retrofit2ConverterSimpleXML
-//    compile dependencies.realm
+
     compile dependencies.picasso
     compile dependencies.glide
     compile dependencies.fresco
@@ -114,7 +98,7 @@ dependencies {
     compile dependencies.stetho_okhttp
     compile dependencies.stetho_urlconnection
     compile dependencies.okhttp
-    //    compile dependencies.okhttpLogInterceptor
+
     compile dependencies.genius
     compile dependencies.butterKnife
 }

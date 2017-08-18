@@ -5,90 +5,113 @@
               android:gravity="center_horizontal"
               android:orientation="vertical">
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/line_progress"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="@dimen/default_margin"/>
-
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/solid_progress"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:progress_stroke_width="3dp"
-        app:style="solid"/>
+        android:orientation="horizontal">
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/line_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/solid_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            app:progress_stroke_width="3dp"
+            app:style="solid"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_blue_light"
-        app:progress_stroke_width="1dp"
-        app:progress_text_color="@color/holo_blue_light"
-        app:style="line"/>
+        android:orientation="horizontal">
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_blue_light"
+            app:progress_stroke_width="1dp"
+            app:progress_text_color="@color/holo_blue_light"
+            app:style="line"/>
+
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_red_light"
+            app:progress_stroke_width="1dp"
+            app:progress_text_color="@color/holo_red_light"
+            app:progress_text_format_pattern="@string/progress_text_format_pattern"
+            app:style="solid"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_red_light"
-        app:progress_stroke_width="1dp"
-        app:progress_text_color="@color/holo_red_light"
-        app:progress_text_format_pattern="@string/progress_text_format_pattern"
-        app:style="solid"/>
+        android:orientation="horizontal">
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_orange_light"
+            app:progress_stroke_width="1dp"
+            app:progress_text_color="@color/holo_red_light"
+            app:progress_text_size="@dimen/progress_text_size"
+            app:style="line"/>
+
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            app:line_count="30"
+            app:line_width="4dp"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_purple"
+            app:progress_stroke_width="1dp"
+            app:progress_text_color="@color/holo_purple"
+            app:style="line"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_orange_light"
-        app:progress_stroke_width="1dp"
-        app:progress_text_color="@color/holo_red_light"
-        app:progress_text_size="@dimen/progress_text_size"
-        app:style="line"/>
+        android:orientation="horizontal">
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="@dimen/default_margin"
-        app:line_count="30"
-        app:line_width="4dp"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_purple"
-        app:progress_stroke_width="1dp"
-        app:progress_text_color="@color/holo_purple"
-        app:style="line"/>
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:draw_progress_text="false"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_green_light"
+            app:progress_stroke_width="5dp"
+            app:progress_text_color="@color/holo_green_light"
+            app:style="solid"/>
 
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress5"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="@dimen/default_margin"
-        app:draw_progress_text="false"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_green_light"
-        app:progress_stroke_width="3dp"
-        app:progress_text_color="@color/holo_green_light"
-        app:style="solid"/>
-
-
-    <com.lyric.android.app.widget.progressbar.CircleProgressBar
-        android:id="@+id/custom_progress6"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="@dimen/default_margin"
-        app:draw_progress_text="false"
-        app:progress_background_color="@color/holo_darker_gray"
-        app:progress_color="@color/holo_green_light"
-        app:progress_text_color="@color/holo_green_light"
-        app:style="line"/>
+        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            app:draw_progress_text="false"
+            app:progress_background_color="@color/holo_darker_gray"
+            app:progress_color="@color/holo_green_light"
+            app:progress_text_color="@color/holo_green_light"
+            app:style="line"/>
+    </LinearLayout>
 
 </LinearLayout>

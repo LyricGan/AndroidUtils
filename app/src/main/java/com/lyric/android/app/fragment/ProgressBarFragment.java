@@ -57,7 +57,7 @@ public class ProgressBarFragment extends BaseFragment {
     }
 
     private void simulateProgress() {
-        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        ValueAnimator animator = ValueAnimator.ofInt(0, 98);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -72,8 +72,7 @@ public class ProgressBarFragment extends BaseFragment {
                 mCustomProgressBar6.setProgress(progress);
             }
         });
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.setDuration(4000);
+        animator.setDuration(2000);
         animator.start();
     }
 }
