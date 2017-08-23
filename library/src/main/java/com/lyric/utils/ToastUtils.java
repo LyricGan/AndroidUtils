@@ -73,25 +73,21 @@ public class ToastUtils {
      * @param duration 持续时间
      */
     private static void showMessage(final Context context, final String message, final int duration) {
-        new Thread(new Runnable() {
-            public void run() {
-                mHandler.post(new Runnable() {
+        mHandler.post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        synchronized (mSynObject) {
-                            if (mToast != null) {
-                                mToast.setText(message);
-                                mToast.setDuration(duration);
-                            } else {
-                                mToast = Toast.makeText(context, message, duration);
-                            }
-                            mToast.show();
-                        }
+            @Override
+            public void run() {
+                synchronized (mSynObject) {
+                    if (mToast != null) {
+                        mToast.setText(message);
+                        mToast.setDuration(duration);
+                    } else {
+                        mToast = Toast.makeText(context, message, duration);
                     }
-                });
+                    mToast.show();
+                }
             }
-        }).start();
+        });
     }
 
     /**
