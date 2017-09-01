@@ -1,10 +1,16 @@
 package com.lyric.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.os.PowerManager;
 import android.text.TextUtils;
 
 import java.util.List;
+
+import static android.content.Context.KEYGUARD_SERVICE;
 
 /**
  * @author lyric
@@ -23,7 +29,6 @@ public class ActivityManagerUtils {
      * @return true of false
      */
     public static boolean isServiceRunning(Context context, String serviceName) {
-        CheckUtils.checkContext(context);
         if (TextUtils.isEmpty(serviceName)) {
             return false;
         }
@@ -45,7 +50,6 @@ public class ActivityManagerUtils {
      * @return true of false
      */
     public static boolean isAppRunning(Context context, String packageName) {
-        CheckUtils.checkContext(context);
         if (TextUtils.isEmpty(packageName)) {
             return false;
         }
@@ -56,6 +60,71 @@ public class ActivityManagerUtils {
             if (runningTaskInfo.topActivity.getPackageName().equals(packageName)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * 判断应用是否处于前台，需要同时满足两个条件：1、运行的进程中有当前应用进程，2、顶部activity对应的包与当前应用包名一致<br/>
+     * 需要权限android.Manifest.permission.GET_TASKS
+     * @param context Context
+     * @param packageName the package name of app
+     * @return true or false
+     */
+    public static boolean isAppOnForeground(Context context, String packageName) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        // 获取所有正在运行的进程
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null || appProcesses.size() <= 0) {
+            return false;
+        }
+        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(KEYGUARD_SERVICE);
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (TextUtils.equals(appProcess.processName, packageName)) {
+                // 判断是否位于后台
+                boolean isBackground = (appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE);
+                // 判断是否为锁屏状态
+                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
+                // 判断屏幕是否点亮
+                boolean isScreenOff = !powerManager.isScreenOn();
+                if (isBackground || isLockedState || isScreenOff) {
+                    return false;
+                } else {
+                    List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+                    if (tasks != null && !tasks.isEmpty()) {
+                        ComponentName topActivity = tasks.get(0).topActivity;
+                        if (topActivity.getPackageName().equals(packageName)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断指定的activity是否正在显示
+     * @param context Context
+     * @param activityCls 指定的activity
+     * @return true or false
+     */
+    public static boolean isActivityOnTop(Context context, Class<? extends Activity> activityCls) {
+        if (!isAppOnForeground(context, context.getPackageName())) {
+            return false;
+        }
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        try {
+            ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+            String className = cn.getClassName();
+            if (!TextUtils.isEmpty(className) && className.equals(activityCls.getName())) {
+                return true;
+            }
+        } catch (SecurityException ex) {
+            ex.printStackTrace();
         }
         return false;
     }

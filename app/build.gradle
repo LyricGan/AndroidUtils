@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -9,8 +8,8 @@ android {
         applicationId "com.lyric.android.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 131
-        versionName "1.3.1"
+        versionCode 132
+        versionName "1.3.2"
 
         // dex突破65535的限制
         multiDexEnabled true
@@ -31,16 +30,21 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        // 输出apk名称为android_v1.0_2017-02-20_wandoujia.apk
-//                        def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
+            def isDefaultOutput = true;
+            if (isDefaultOutput) {
+                // 默认
+            } else {
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            // 输出apk名称为AndroidUtils_v1.3.2_2017-09-01_common.apk
+                            def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -66,7 +70,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 
-def releaseTime() {
+def static releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
@@ -95,8 +99,6 @@ dependencies {
     compile dependencies.glide
     compile dependencies.fresco
     compile dependencies.stetho
-    compile dependencies.stetho_okhttp
-    compile dependencies.stetho_urlconnection
     compile dependencies.okhttp
 
     compile dependencies.genius

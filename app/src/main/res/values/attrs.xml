@@ -214,4 +214,21 @@
         <attr name="grl_showLoadingWhenOverScroll" format="boolean"/>
     </declare-styleable>
 
+    <!-- 圆环进度条 -->
+    <declare-styleable name="RingProgressBar">
+        <attr name="rpb_ringWidth" format="dimension|reference"/>
+        <attr name="rpb_ringBgColor" format="color"/>
+        <attr name="rpb_progressColor" format="color"/>
+        <attr name="rpb_text" format="string|reference"/>
+        <attr name="rpb_textSize" format="dimension|reference"/>
+        <attr name="rpb_textColor" format="color"/>
+        <attr name="rpb_smallText" format="string|reference"/>
+        <attr name="rpb_smallTextSize" format="dimension|reference"/>
+        <attr name="rpb_smallTextColor" format="color"/>
+        <attr name="rpb_isShowText" format="boolean"/>
+        <attr name="rpb_progress" format="float"/>
+        <attr name="rpb_maxProgress" format="float"/>
+        <attr name="rpb_alwaysShowAnimation" format="boolean"/>
+    </declare-styleable>
+
 </resources>

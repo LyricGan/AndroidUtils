@@ -10,38 +10,35 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 /**
+ * 应用入口，进行初始化
  * @author lyricgan
- * @description
  * @time 2015/10/7 14:04
  */
-public class BaseApp extends Application {
+public class BaseApp extends Application implements Constants {
     private static BaseApp mInstance;
-    private static RefWatcher mRefWatcher;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
         mInstance = this;
 
-        LogUtils.setDebug(Constants.DEBUG);
-        initRefWatcher(Constants.LEAK_DEBUG);
-        StethoUtils.initialize(this, Constants.DEBUG);
+        LogUtils.setDebug(DEBUG);
+        StethoUtils.initialize(this, DEBUG);
         ImageHelper.getInstance().initialize(this);
+
+        if (LEAK_DEBUG) {
+            setupLeakCanary();
+        }
 	}
 
 	public static Context getContext() {
 		return mInstance.getApplicationContext();
 	}
 
-    public static RefWatcher getRefWatcher() {
-        return mRefWatcher;
-    }
-
-    private void initRefWatcher(boolean isDebug) {
-        if (isDebug) {
-            mRefWatcher = LeakCanary.install(this);
-        } else {
-            mRefWatcher = RefWatcher.DISABLED;
+    private RefWatcher setupLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return RefWatcher.DISABLED;
         }
+        return LeakCanary.install(this);
     }
 }

@@ -7,7 +7,7 @@ package com.lyric.android.app.utils;
  */
 public class Resource {
 
-    public static class Color {
+    public static class ColorRes {
         public static final int WHITE = 0xffffffff;
         public static final int BLACK = 0xff000000;
         public static final int RED = 0xffe51c23;

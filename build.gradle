@@ -8,7 +8,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath "io.realm:realm-gradle-plugin:2.1.1"
     }
 }
 
@@ -31,7 +30,7 @@ ext {
     supportLibraryVersion = '24.2.0'
     retrofitVersion = '2.0.0-beta4'
     retrofit2Version = '2.1.0'
-    stethoVersion = '1.3.1'
+    stethoVersion = '1.5.0'
     okhttpVersion = '3.4.1'
 
     dependencies = [
@@ -57,12 +56,9 @@ ext {
             eventbus: 'org.greenrobot:eventbus:3.0.0',
             swipelayout: 'com.daimajia.swipelayout:library:1.2.0',
             guava: 'com.google.guava:guava:19.0',
-            androidcommon: 'cn.trinea.android.common:trinea-android-common:4.2.15',
-            xutils: 'org.xutils:xutils:3.3.22',
             ion: 'com.koushikdutta.ion:ion:2.1.7',
             leakcanarydebug: 'com.squareup.leakcanary:leakcanary-android:1.3.1',
             leakcanaryrelease: 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1',
-            quickutils: 'com.cesarferreira.quickutils:library:2.+',
             disklrucache: 'com.jakewharton:disklrucache:2.0.2',
 
             retrofit: "com.squareup.retrofit:retrofit:$retrofitVersion",
