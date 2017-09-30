@@ -73,7 +73,7 @@ public class JsonUtils {
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，字符串
-	 * @see {@link JSONObject#optString(String, String)}
+	 * @see JSONObject#optString(String, String)
 	 * @return String
 	 */
 	public static String getString(JSONObject jsonObject, String key, String defaultValue) {
@@ -92,8 +92,8 @@ public class JsonUtils {
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，整型值
-	 * @see {@link JSONObject#optInt(String, int)}
-	 * @return
+	 * @see JSONObject#optInt(String, int)
+	 * @return int
 	 */
 	public static int getInt(JSONObject jsonObject, String key, int defaultValue) {
 		if (jsonObject == null || TextUtils.isEmpty(key)) {
@@ -111,7 +111,7 @@ public class JsonUtils {
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，长整型值
-	 * @see {@link JSONObject#optLong(String, long)}
+	 * @see JSONObject#optLong(String, long)
 	 * @return long
 	 */
 	public static long getLong(JSONObject jsonObject, String key, long defaultValue) {
@@ -130,7 +130,7 @@ public class JsonUtils {
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，Boolean值
-	 * @see {@link JSONObject#optBoolean(String, boolean)}
+	 * @see JSONObject#optBoolean(String, boolean)
 	 * @return boolean
 	 */
 	public static boolean getBoolean(JSONObject jsonObject, String key, boolean defaultValue) {
@@ -149,7 +149,7 @@ public class JsonUtils {
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
 	 * @param defaultValue 默认值，Double值
-	 * @see {@link JSONObject#optDouble(String, double)}
+	 * @see JSONObject#optDouble(String, double)
 	 * @return double
 	 */
 	public static double getDouble(JSONObject jsonObject, String key, double defaultValue) {
@@ -163,7 +163,7 @@ public class JsonUtils {
 	 * 解析JSON字符串中指定的值
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
-	 * @see {@link JSONObject#optJSONObject(String)}
+	 * @see JSONObject#optJSONObject(String)
 	 * @return JSON对象
 	 */
 	public static JSONObject getJsonObject(JSONObject jsonObject, String key) {
@@ -177,7 +177,7 @@ public class JsonUtils {
 	 * 解析JSON字符串中指定的值
 	 * @param jsonObject JSON对象
 	 * @param key 指定的值
-	 * @see {@link JSONObject#optJSONArray(String)}
+	 * @see JSONObject#optJSONArray(String)
 	 * @return JSON数组
 	 */
 	public static JSONArray getJsonArray(JSONObject jsonObject, String key) {

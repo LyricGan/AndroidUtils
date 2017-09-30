@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
+import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -180,7 +182,7 @@ public class DefaultWebView extends WebView {
         });
     }
 
-    void justWebSettings() {
+    public void adjustWebSettings() {
         WebSettings webSettings = getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUserAgentString(webSettings.getUserAgentString());
@@ -298,6 +300,20 @@ public class DefaultWebView extends WebView {
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(allowed ? WebSettings.MIXED_CONTENT_ALWAYS_ALLOW : WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         }
+    }
+
+    /**
+     * 获取当前网页标题
+     * @return 网页标题
+     */
+    public String getCurrentTitle() {
+        String currentTitle = "";
+        WebBackForwardList backForwardList = copyBackForwardList();
+        WebHistoryItem historyItem = backForwardList.getCurrentItem();
+        if (historyItem != null) {
+            currentTitle = historyItem.getTitle();
+        }
+        return currentTitle;
     }
 
     public void onDestroy() {
