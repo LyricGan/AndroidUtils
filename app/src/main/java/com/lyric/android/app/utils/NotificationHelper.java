@@ -71,4 +71,22 @@ public class NotificationHelper {
     public static int randomNotifyId() {
         return new Random().nextInt(Integer.MAX_VALUE);
     }
+
+    public static void cancel(Context context, int id) {
+        cancel(context, null, id);
+    }
+
+    public static void cancel(Context context, String tag, int id) {
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null) {
+            nm.cancel(tag, id);
+        }
+    }
+
+    public static void cancelAll(Context context) {
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null) {
+            nm.cancelAll();
+        }
+    }
 }
