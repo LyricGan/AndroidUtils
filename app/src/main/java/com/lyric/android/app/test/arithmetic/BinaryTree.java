@@ -197,10 +197,7 @@ public class BinaryTree {
         System.out.println("深度为：" + binaryTree.getDepth());
     }
 
-    /**
-     * 二叉树结点
-     */
-    class Node<V> {
+    private static class Node<V> {
         private V value;
         private Node<V> leftChild;
         private Node<V> rightChild;
@@ -210,8 +207,6 @@ public class BinaryTree {
 
         public Node(V value) {
             this.value = value;
-            this.leftChild = null;
-            this.rightChild = null;
         }
 
         public V getValue() {
