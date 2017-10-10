@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.R;
-import com.lyric.android.app.utils.handler.WeakHandler;
+import com.lyric.android.app.test.handler.WeakHandler;
 
 /**
  * @author lyricgan

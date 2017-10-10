@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.test.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,11 +1,11 @@
-package com.lyric.utils;
+package com.lyric.android.app.test.handler;
 
 import android.os.Handler;
 import android.os.Looper;
 
 /**
+ * Handler工具类
  * @author lyricgan
- * @description Handler工具类
  * @time 2016/8/26 15:19
  */
 public class HandlerUtils {
