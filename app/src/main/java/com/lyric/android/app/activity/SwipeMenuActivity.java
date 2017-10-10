@@ -34,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipemenu.SwipeMenu;

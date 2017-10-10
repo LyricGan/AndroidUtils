@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseFragmentActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.fragment.ListFragment;

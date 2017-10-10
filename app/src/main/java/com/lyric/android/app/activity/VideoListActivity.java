@@ -5,7 +5,6 @@ import android.widget.ListView;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.test.video.VideoListAdapter;
 import com.lyric.android.app.test.video.VideoPlayer;
 import com.lyric.android.app.third.glide.ImageLoader;

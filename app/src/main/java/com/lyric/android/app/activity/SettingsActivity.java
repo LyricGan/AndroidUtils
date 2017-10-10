@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.lyric.android.app.BaseCompatActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.BaseRecyclerAdapter;
 import com.lyric.android.app.adapter.SettingsListAdapter;

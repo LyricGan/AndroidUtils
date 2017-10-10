@@ -1,8 +1,10 @@
-package com.lyric.android.app;
+package com.lyric.android.app.activity;
 
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.lyric.android.app.BaseActivity;
+import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 
 /**

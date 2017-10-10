@@ -19,7 +19,7 @@ import com.lyric.utils.BuildVersionUtils;
 import com.lyric.utils.ViewUtils;
 
 /**
- * 基类Activity
+ * Activity基类
  * @author ganyu
  * @time 2016/5/26 13:59
  */
@@ -112,6 +112,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         return false;
     }
 
+    protected boolean isAutoHideKeyboard() {
+        return false;
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -175,10 +179,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (MotionEvent.ACTION_DOWN == ev.getAction()) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                hideKeyboard(v.getWindowToken());
+        if (isAutoHideKeyboard()) {
+            if (MotionEvent.ACTION_DOWN == ev.getAction()) {
+                View v = getCurrentFocus();
+                if (isShouldHideKeyboard(v, ev)) {
+                    hideKeyboard(v.getWindowToken());
+                }
             }
         }
         return super.dispatchTouchEvent(ev);
@@ -205,5 +211,4 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 }

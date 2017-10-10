@@ -44,7 +44,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity
-            android:name=".BaseFragmentActivity"
+            android:name=".activity.BaseFragmentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
