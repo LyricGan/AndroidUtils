@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.test.network;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -27,16 +27,15 @@ public class GsonConverter implements Converter {
 
     @Override
     public <T> T convert(String json, Type type) {
-        T result;
         // 字符串直接返回，不做转换处理
         if (String.class.getClass().equals(type.getClass())) {
-            result = (T) json;
-        } else {
-            try {
-                result = mGson.fromJson(json, type);
-            } catch (JsonSyntaxException e) {
-                result = null;
-            }
+            return  (T) json;
+        }
+        T result = null;
+        try {
+            result = mGson.fromJson(json, type);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
         }
         return result;
     }

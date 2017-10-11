@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 测试类
  * @author lyricgan
- * @description
  * @time 2016/7/25 13:51
  */
 public class Test {
@@ -56,10 +56,6 @@ public class Test {
 
     public static Test getInstance() {
         return TestHolder.INSTANCE;
-    }
-
-    public void execute() {
-        start();
     }
 
     public void registerBroadcast(Context context, BroadcastReceiver receiver) {
@@ -275,11 +271,6 @@ public class Test {
         return new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
-    public void test() {
-        Loggers.d("classLoader:" + this.getClass().getClassLoader()
-                + "\n," + Context.class.getClassLoader());
-    }
-
     /**
      * 设置时区需要配置权限
      * <uses-permission android:name="android.permission.SET_TIME" />
@@ -294,4 +285,8 @@ public class Test {
         return timeZone;
     }
 
+    public void test() {
+        Loggers.d("classLoader:" + this.getClass().getClassLoader()
+                + "\n," + Context.class.getClassLoader());
+    }
 }

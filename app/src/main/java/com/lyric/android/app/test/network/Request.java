@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.test.network;
 
 import android.os.Message;
 
@@ -60,7 +60,7 @@ public class Request<T> implements HttpHandler.OnMessageCallback {
         mDispatcher.start();
     }
 
-    protected void processResponse(ResponseEntity responseEntity) {
+    public void processResponse(ResponseEntity responseEntity) {
         if (responseEntity.isSuccess()) {
             String response = responseEntity.getResponse();
             T result = GsonConverter.getInstance().convert(response, mType);

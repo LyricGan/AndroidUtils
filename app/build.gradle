@@ -83,16 +83,17 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile dependencies.appCompat
+    compile dependencies.supportv4
     compile dependencies.cardView
     compile dependencies.recyclerView
     compile dependencies.design
+
     compile dependencies.nineoldandroids
     compile dependencies.eventbus
     compile dependencies.rxAndroid
 
     debugCompile dependencies.leakcanarydebug
     releaseCompile dependencies.leakcanaryrelease
-    compile dependencies.supportv4
     compile dependencies.retrofit2
 
     compile dependencies.picasso

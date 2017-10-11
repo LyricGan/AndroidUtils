@@ -1,8 +1,8 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.test.utils;
 
 
-import com.lyric.android.app.network.DataLoader;
-import com.lyric.android.app.network.ResponseCallback;
+import com.lyric.android.app.test.network.DataLoader;
+import com.lyric.android.app.test.network.ResponseCallback;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class TestApi {
     // 引用聚合测试数据
     private static final String TEST_URL = "http://v.juhe.cn/toutiao/index";
-    private static TestApi mInstance;
+    private static volatile TestApi mInstance;
 
     private TestApi() {
     }

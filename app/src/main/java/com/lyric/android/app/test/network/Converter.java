@@ -1,4 +1,4 @@
-package com.lyric.android.app.network;
+package com.lyric.android.app.test.network;
 
 import java.lang.reflect.Type;
 
