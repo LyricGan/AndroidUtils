@@ -31,7 +31,6 @@ import com.lyric.android.app.fragment.ProgressBarFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
-import com.lyric.android.app.widget.dialogfragment.ListSelectFragment;
 import com.lyric.utils.ActivityUtils;
 import com.lyric.utils.DisplayUtils;
 
@@ -90,25 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
             }
         });
-    }
-
-    private void showListSelectDialog() {
-        List<ListSelectFragment.ListSelectEntity> itemEntityList = new ArrayList<>();
-        ListSelectFragment.ListSelectEntity itemEntity;
-        for (int i = 0; i < 10; i++) {
-            itemEntity = new ListSelectFragment.ListSelectEntity();
-            itemEntity.setTitle("点击退出" + (i + 1));
-            itemEntityList.add(itemEntity);
-        }
-        final ListSelectFragment fragment = ListSelectFragment.newInstance(itemEntityList);
-        fragment.setOnItemSelectListener(new ListSelectFragment.OnItemSelectListener() {
-            @Override
-            public void onItemSelect(int position, ListSelectFragment.ListSelectEntity object, View itemView) {
-                fragment.dismiss();
-                finish();
-            }
-        });
-        fragment.show(getSupportFragmentManager());
     }
 
     @Override

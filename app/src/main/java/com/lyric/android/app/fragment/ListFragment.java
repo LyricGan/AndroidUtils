@@ -53,7 +53,7 @@ public class ListFragment extends BaseFragment {
                     public void run() {
                         refreshLayout.finishRefreshing();
                     }
-                }, 2000);
+                }, 1000);
             }
 
             @Override

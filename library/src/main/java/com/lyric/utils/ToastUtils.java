@@ -74,7 +74,6 @@ public class ToastUtils {
      */
     private static void showMessage(final Context context, final String message, final int duration) {
         mHandler.post(new Runnable() {
-
             @Override
             public void run() {
                 synchronized (mSynObject) {
