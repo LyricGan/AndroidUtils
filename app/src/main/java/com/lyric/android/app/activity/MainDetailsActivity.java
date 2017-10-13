@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.fragment.PraiseFragment;
-import com.lyric.utils.ActivityUtils;
+import com.lyric.android.app.utils.ActivityUtils;
 
 public class MainDetailsActivity extends AppCompatActivity {
 

@@ -1,9 +1,11 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+
+import com.lyric.utils.CheckUtils;
 
 /**
  * @author 应用权限控制工具类

@@ -3,8 +3,6 @@ package com.lyric.android.app.test.mvvm.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 public class User implements Parcelable {
     public long id;
     public String name;
@@ -12,8 +10,7 @@ public class User implements Parcelable {
     public String email;
     public String login;
     public String location;
-    @SerializedName("avatar_url")
-    public String avatarUrl;
+    public String avatar_url;
 
     public User() {
     }
@@ -39,7 +36,7 @@ public class User implements Parcelable {
         dest.writeString(this.email);
         dest.writeString(this.login);
         dest.writeString(this.location);
-        dest.writeString(this.avatarUrl);
+        dest.writeString(this.avatar_url);
     }
 
     protected User(Parcel in) {
@@ -49,7 +46,7 @@ public class User implements Parcelable {
         this.email = in.readString();
         this.login = in.readString();
         this.location = in.readString();
-        this.avatarUrl = in.readString();
+        this.avatar_url = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -75,7 +72,7 @@ public class User implements Parcelable {
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (location != null ? !location.equals(user.location) : user.location != null)
             return false;
-        return !(avatarUrl != null ? !avatarUrl.equals(user.avatarUrl) : user.avatarUrl != null);
+        return !(avatar_url != null ? !avatar_url.equals(user.avatar_url) : user.avatar_url != null);
     }
 
     @Override
@@ -86,7 +83,7 @@ public class User implements Parcelable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (avatarUrl != null ? avatarUrl.hashCode() : 0);
+        result = 31 * result + (avatar_url != null ? avatar_url.hashCode() : 0);
         return result;
     }
 
@@ -99,7 +96,7 @@ public class User implements Parcelable {
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
                 ", location='" + location + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
+                ", avatar_url='" + avatar_url + '\'' +
                 '}';
     }
 }

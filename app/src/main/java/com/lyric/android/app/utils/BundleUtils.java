@@ -1,4 +1,4 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.os.Bundle;
 import android.os.Parcelable;

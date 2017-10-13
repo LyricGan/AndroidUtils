@@ -31,7 +31,7 @@ import com.lyric.android.app.fragment.ProgressBarFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
-import com.lyric.utils.ActivityUtils;
+import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.utils.DisplayUtils;
 
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
+        ivUserAvatar = navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
         ivUserAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
