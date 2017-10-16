@@ -20,8 +20,10 @@
     <string name="menu_item_progress_bar">ProgressBar</string>
     <string name="menu_item_web">Web</string>
     <string name="item_others">Others</string>
+    <string name="menu_item_view">View</string>
     <string name="menu_item_video">Video</string>
     <string name="menu_item_exit">Exit</string>
+
     <string name="cancel">取消</string>
     <string name="item_take_photo">相机获取</string>
     <string name="item_photo_album">相册获取</string>

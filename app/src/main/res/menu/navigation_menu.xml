@@ -23,6 +23,10 @@
     <item android:title="@string/item_others">
         <menu>
             <item
+                android:id="@+id/menu_item_view"
+                android:icon="@mipmap/mine_vip"
+                android:title="@string/menu_item_view"/>
+            <item
                 android:id="@+id/menu_item_video"
                 android:icon="@mipmap/ic_mine_recommend"
                 android:title="@string/menu_item_video"/>

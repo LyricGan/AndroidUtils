@@ -28,6 +28,7 @@ import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
 import com.lyric.android.app.fragment.LoginFragment;
 import com.lyric.android.app.fragment.ProgressBarFragment;
+import com.lyric.android.app.fragment.ViewTestFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
@@ -160,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_web: {
                         ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, WebFragment.class));
+                    }
+                        break;
+                    case R.id.menu_item_view: {
+                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ViewTestFragment.class));
                     }
                         break;
                     case R.id.menu_item_video: {

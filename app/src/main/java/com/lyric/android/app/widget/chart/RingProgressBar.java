@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.progressbar;
+package com.lyric.android.app.widget.chart;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -25,9 +25,9 @@ public class RingProgressBar extends View {
 
     private Paint mRingPaint;
     /** 圆环的颜色 */
-    private int mRingBgColor;
+    private int mRingColor;
     /** 圆环进度的颜色 */
-    private int mProgressColor;
+    private int mRingProgressColor;
     /** 渐变进度条 */
     private SweepGradient mRingSweepGradient;
     /** 渐变颜色值 */
@@ -46,6 +46,8 @@ public class RingProgressBar extends View {
     private float mHalfTextHeight;
     /** 是否显示文本 */
     private boolean mIsShowText;
+    /** 是否显示文本 */
+    private boolean mIsShowSmallText;
 
     private String mProgressText;
     private String mSmallText = _PERCENT_V;
@@ -81,8 +83,8 @@ public class RingProgressBar extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RingProgressBar);
         try {
             mRingWidth = typedArray.getDimension(R.styleable.RingProgressBar_rpb_ringWidth, 0);
-            mRingBgColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_ringBgColor, Color.GRAY);
-            mProgressColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_progressColor, Color.GREEN);
+            mRingColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_ringColor, Color.GRAY);
+            mRingProgressColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_ringProgressColor, Color.GREEN);
             mText = typedArray.getString(R.styleable.RingProgressBar_rpb_text);
             mTextSize = typedArray.getDimension(R.styleable.RingProgressBar_rpb_textSize, 0);
             mTextColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_textColor, Color.GREEN);
@@ -90,6 +92,7 @@ public class RingProgressBar extends View {
             mSmallTextSize = typedArray.getDimension(R.styleable.RingProgressBar_rpb_smallTextSize, 0);
             mSmallTextColor = typedArray.getColor(R.styleable.RingProgressBar_rpb_smallTextColor, Color.GREEN);
             mIsShowText = typedArray.getBoolean(R.styleable.RingProgressBar_rpb_isShowText, true);
+            mIsShowSmallText = typedArray.getBoolean(R.styleable.RingProgressBar_rpb_isShowSmallText, true);
             mCurrentProgress = typedArray.getFloat(R.styleable.RingProgressBar_rpb_progress, 0);
             mMaxProgress = typedArray.getFloat(R.styleable.RingProgressBar_rpb_maxProgress, MAX_PROGRESS);
             mAlwaysShowAnimation = typedArray.getBoolean(R.styleable.RingProgressBar_rpb_alwaysShowAnimation, false);
@@ -141,37 +144,19 @@ public class RingProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // 画最外层的大圆环
-        int centre = getWidth() / 2; // 获取圆心的x坐标
-        int radius = (int) (centre - mRingWidth / 2); // 圆环的半径
-        mRingPaint.setColor(mRingBgColor); // 设置圆环的颜色
+        // 绘制圆形背景
+        int centre = getWidth() / 2;
+        float radius = centre - mRingWidth / 2;
+        mRingPaint.setColor(mRingColor);
         mRingPaint.setShader(null);
-        canvas.drawCircle(centre, centre, radius, mRingPaint); // 画出圆环
+        canvas.drawCircle(centre, centre, radius, mRingPaint);
 
         if (mCurrentProgress <= 0) {
             return;
         }
-        if (mIsShowText) {
-            String text;
-            if (!TextUtils.isEmpty(mText)) {
-                text = mText;
-            } else {
-                text = mProgressText;
-            }
-            if (!TextUtils.isEmpty(text)) {
-                // 测量字体宽度，我们需要根据字体的宽度设置在圆环中间
-                float textWidth = mTextPaint.measureText(text);
-                if (!TextUtils.isEmpty(mSmallText)) {
-                    float smallTextWidth = mSmallTextPaint.measureText(mSmallText);
+        drawText(canvas, centre);
 
-                    canvas.drawText(text, centre - (textWidth + smallTextWidth) / 2, centre + mHalfTextHeight, mTextPaint);
-                    canvas.drawText(mSmallText, centre + (textWidth - smallTextWidth) / 2, centre + mHalfTextHeight, mSmallTextPaint);
-                } else {
-                    canvas.drawText(text, centre - textWidth / 2, centre + mHalfTextHeight, mTextPaint);
-                }
-            }
-        }
-        // 画圆弧 ，画圆环的进度
+        // 绘制圆弧，圆环的进度
         mOvalRectF.left = centre - radius;
         mOvalRectF.top = centre - radius;
         mOvalRectF.right = centre + radius;
@@ -183,11 +168,11 @@ public class RingProgressBar extends View {
                     mRingPaint.setColor(mGradientColors[0]);
                     mRingPaint.setShader(null);
                 } else {
-                    mRingSweepGradient = new SweepGradient(getWidth() / 2, getHeight() / 2, mGradientColors, null);
+                    initRingSweepGradient(getWidth() / 2, getHeight() / 2, mGradientColors);
                     mRingPaint.setShader(mRingSweepGradient);
                 }
             } else {
-                mRingPaint.setColor(mProgressColor);
+                mRingPaint.setColor(mRingProgressColor);
                 mRingPaint.setShader(null);
             }
         } else {
@@ -201,10 +186,39 @@ public class RingProgressBar extends View {
         if (mCurrentProgress == mMaxProgress) {
             sweepAngle = 360 * mCurrentProgress / mMaxProgress;
         }
+        // 根据进度绘制圆弧
         if (sweepAngle != 0) {
-            canvas.drawArc(mOvalRectF, fromAngle, sweepAngle, false, mRingPaint); // 根据进度画圆弧
+            canvas.drawArc(mOvalRectF, fromAngle, sweepAngle, false, mRingPaint);
         }
         mRingPaint.setStrokeWidth(mRingWidth);
+    }
+
+    private void drawText(Canvas canvas, int centre) {
+        if (!mIsShowText) {
+            return;
+        }
+        String text;
+        if (!TextUtils.isEmpty(mText)) {
+            text = mText;
+        } else {
+            text = mProgressText;
+        }
+        if (!TextUtils.isEmpty(text)) {
+            // 测量字体宽度，需要根据字体的宽度设置在圆环中间
+            float textWidth = mTextPaint.measureText(text);
+            if (mIsShowSmallText && !TextUtils.isEmpty(mSmallText)) {
+                float smallTextWidth = mSmallTextPaint.measureText(mSmallText);
+
+                canvas.drawText(text, centre - (textWidth + smallTextWidth) / 2, centre + mHalfTextHeight, mTextPaint);
+                canvas.drawText(mSmallText, centre + (textWidth - smallTextWidth) / 2, centre + mHalfTextHeight, mSmallTextPaint);
+            } else {
+                canvas.drawText(text, centre - textWidth / 2, centre + mHalfTextHeight, mTextPaint);
+            }
+        }
+    }
+
+    private void initRingSweepGradient(float cx, float cy, int[] gradientColors) {
+        mRingSweepGradient = new SweepGradient(cx, cy, gradientColors, null);
     }
 
     public float getRingWidth() {
@@ -217,19 +231,19 @@ public class RingProgressBar extends View {
     }
 
     public int getRingColor() {
-        return mRingBgColor;
+        return mRingColor;
     }
 
     public void setRingColor(int ringColor) {
-        this.mRingBgColor = ringColor;
+        this.mRingColor = ringColor;
     }
 
     public int getProgressColor() {
-        return mProgressColor;
+        return mRingProgressColor;
     }
 
     public void setProgressColor(int progressColor) {
-        this.mProgressColor = progressColor;
+        this.mRingProgressColor = progressColor;
     }
 
     public void setText(String text) {
@@ -288,6 +302,14 @@ public class RingProgressBar extends View {
         this.mGradientColors = colors;
     }
 
+    public boolean isAlwaysShowAnimation() {
+        return mAlwaysShowAnimation;
+    }
+
+    public void setAlwaysShowAnimation(boolean alwaysShowAnimation) {
+        this.mAlwaysShowAnimation = alwaysShowAnimation;
+    }
+
     public synchronized float getMaxProgress() {
         return mMaxProgress;
     }
@@ -300,7 +322,7 @@ public class RingProgressBar extends View {
         return mCurrentProgress;
     }
 
-    public synchronized void setProgress(float progress) {
+    public void setProgress(float progress) {
         setProgress(progress, MAX_PROGRESS);
     }
 
@@ -325,6 +347,7 @@ public class RingProgressBar extends View {
         }
         mProgress = progress;
         mCurrentProgress = 0;
+
         post(new Runnable() {
             @Override
             public void run() {
@@ -346,14 +369,6 @@ public class RingProgressBar extends View {
         postInvalidate();
     }
 
-    public boolean isAlwaysShowAnimation() {
-        return mAlwaysShowAnimation;
-    }
-
-    public void setAlwaysShowAnimation(boolean alwaysShowAnimation) {
-        this.mAlwaysShowAnimation = alwaysShowAnimation;
-    }
-
     private void startTimer() {
         // 实现动画绘制的倒计时
         final int totalTimerMillis = 1500;
@@ -369,12 +384,14 @@ public class RingProgressBar extends View {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    if (mCurrentProgress + mAnimationDeltaProgress < mProgress) {
-                        updateProgress(mCurrentProgress + mAnimationDeltaProgress);
-                    } else {
+                    float currentProgress = mCurrentProgress + mAnimationDeltaProgress;
+                    boolean isFinished = currentProgress >= mProgress;
+                    if (isFinished) {
                         updateProgress(mProgress);
                         cancelTimer();
+                        return;
                     }
+                    updateProgress(currentProgress);
                 }
             };
         }

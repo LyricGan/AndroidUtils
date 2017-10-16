@@ -217,8 +217,8 @@
     <!-- 圆环进度条 -->
     <declare-styleable name="RingProgressBar">
         <attr name="rpb_ringWidth" format="dimension|reference"/>
-        <attr name="rpb_ringBgColor" format="color"/>
-        <attr name="rpb_progressColor" format="color"/>
+        <attr name="rpb_ringColor" format="color"/>
+        <attr name="rpb_ringProgressColor" format="color"/>
         <attr name="rpb_text" format="string|reference"/>
         <attr name="rpb_textSize" format="dimension|reference"/>
         <attr name="rpb_textColor" format="color"/>
@@ -226,9 +226,16 @@
         <attr name="rpb_smallTextSize" format="dimension|reference"/>
         <attr name="rpb_smallTextColor" format="color"/>
         <attr name="rpb_isShowText" format="boolean"/>
+        <attr name="rpb_isShowSmallText" format="boolean"/>
         <attr name="rpb_progress" format="float"/>
         <attr name="rpb_maxProgress" format="float"/>
         <attr name="rpb_alwaysShowAnimation" format="boolean"/>
+    </declare-styleable>
+
+    <!-- 左右对阵图 -->
+    <declare-styleable name="ClashBar">
+        <attr name="clash_bar_left_color" format="color" />
+        <attr name="clash_bar_right_color" format="color" />
     </declare-styleable>
 
 </resources>
