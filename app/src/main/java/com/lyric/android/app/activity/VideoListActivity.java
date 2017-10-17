@@ -24,7 +24,7 @@ public class VideoListActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_video_list);
-        ListView listView = (ListView) findViewById(R.id.listview);
+        ListView listView = findViewById(R.id.listview);
 
         ImageLoader.initialize(BaseApp.getContext());
         listView.setAdapter(new VideoListAdapter(this));

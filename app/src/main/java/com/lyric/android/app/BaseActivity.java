@@ -2,7 +2,9 @@ package com.lyric.android.app;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
@@ -18,6 +20,8 @@ import com.lyric.android.app.widget.swipe.SwipeBackLayout;
 import com.lyric.utils.BuildVersionUtils;
 import com.lyric.utils.ViewUtils;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Activity基类
  * @author ganyu
@@ -28,10 +32,13 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     private LoadingDialog mLoadingDialog;
     private SwipeBackActivityHelper mSwipeHelper;
 
+    private BaseInnerHandler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        initHandler();
         if (isInjectStatusBar()) {
             injectStatusBar();
         }
@@ -42,6 +49,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
         onViewCreate(savedInstanceState);
+    }
+
+    private void initHandler() {
+        mHandler = new BaseInnerHandler(this);
     }
 
     @Override
@@ -125,18 +136,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     @Override
-    public View findViewById(int id) {
-        View view = super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return mSwipeHelper.findViewById(id);
-            }
-        }
-        return view;
+    public <T extends View> T findViewById(int id) {
+        return findViewWithId(id);
     }
 
-    protected <T extends View> T findViewWithId(int id) {
-        T view = (T) super.findViewById(id);
+    private  <T extends View> T findViewWithId(int id) {
+        T view = super.findViewById(id);
         if (isSwipeBackEnable()) {
             if (view == null && mSwipeHelper != null) {
                 return (T) mSwipeHelper.findViewById(id);
@@ -210,5 +215,33 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         }
         InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    protected Handler getHandler() {
+        return mHandler;
+    }
+
+    /**
+     * 处理消息回调，例如：getHandler().sendEmptyMessage(0);
+     * @param msg 消息实体
+     */
+    protected void handleMessage(Message msg) {
+    }
+
+    private static class BaseInnerHandler extends Handler {
+        private WeakReference<BaseActivity> mReference;
+
+        BaseInnerHandler(BaseActivity activity) {
+            mReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            BaseActivity activity = mReference.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
+            }
+        }
     }
 }
