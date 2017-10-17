@@ -44,7 +44,7 @@ public class SwipeMenuSimpleActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_list);
-        mListView = findViewById(R.id.listView);
+        mListView = findViewWithId(R.id.listView);
 
         mAppList = getPackageManager().getInstalledApplications(0);
         mAdapter = new AppAdapter();

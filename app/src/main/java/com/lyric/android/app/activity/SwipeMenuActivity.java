@@ -32,7 +32,7 @@ public class SwipeMenuActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_list);
-        SwipeMenuListView listView = findViewById(R.id.listView);
+        SwipeMenuListView listView = findViewWithId(R.id.listView);
 
         mAppList = getPackageManager().getInstalledApplications(0);
         mAdapter = new AppAdapter();

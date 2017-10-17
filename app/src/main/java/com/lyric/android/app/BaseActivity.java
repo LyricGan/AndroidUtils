@@ -136,12 +136,18 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     @Override
-    public <T extends View> T findViewById(int id) {
-        return findViewWithId(id);
+    public View findViewById(int id) {
+        View view = super.findViewById(id);
+        if (isSwipeBackEnable()) {
+            if (view == null && mSwipeHelper != null) {
+                return mSwipeHelper.findViewById(id);
+            }
+        }
+        return view;
     }
 
-    private  <T extends View> T findViewWithId(int id) {
-        T view = super.findViewById(id);
+    protected <T extends View> T findViewWithId(int id) {
+        T view = (T) super.findViewById(id);
         if (isSwipeBackEnable()) {
             if (view == null && mSwipeHelper != null) {
                 return (T) mSwipeHelper.findViewById(id);

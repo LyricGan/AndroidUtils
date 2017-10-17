@@ -29,7 +29,7 @@ public class SettingsActivity extends BaseCompatActivity {
     @Override
     public void onViewCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_settings);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewWithId(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SettingsListAdapter settingsListAdapter = new SettingsListAdapter(this);
