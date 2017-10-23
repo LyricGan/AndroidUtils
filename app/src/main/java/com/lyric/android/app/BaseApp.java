@@ -1,8 +1,11 @@
 package com.lyric.android.app;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 
+import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.android.app.third.fresco.ImageHelper;
 import com.lyric.android.app.third.stetho.StethoUtils;
 import com.lyric.utils.LogUtils;
@@ -23,12 +26,15 @@ public class BaseApp extends Application implements Constants {
         mInstance = this;
 
         LogUtils.setDebug(DEBUG);
+
         StethoUtils.initialize(this, DEBUG);
+
         ImageHelper.getInstance().initialize(this);
 
         if (LEAK_DEBUG) {
             setupLeakCanary();
         }
+        addRegisterActivityLifecycleCallbacks();
 	}
 
 	public static Context getContext() {
@@ -40,5 +46,48 @@ public class BaseApp extends Application implements Constants {
             return RefWatcher.DISABLED;
         }
         return LeakCanary.install(this);
+    }
+
+    private void addRegisterActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                debugMessage(activity, "onActivityCreated");
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                debugMessage(activity, "onActivityStarted");
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                debugMessage(activity, "onActivityResumed");
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                debugMessage(activity, "onActivityPaused");
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                debugMessage(activity, "onActivityStopped");
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                debugMessage(activity, "onActivitySaveInstanceState");
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                debugMessage(activity, "onActivityDestroyed");
+            }
+        });
+    }
+
+    private void debugMessage(Activity activity, String lifecycle) {
+        Loggers.d("activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
     }
 }

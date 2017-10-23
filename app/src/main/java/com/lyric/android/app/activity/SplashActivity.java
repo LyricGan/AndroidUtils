@@ -33,6 +33,7 @@ public class SplashActivity extends BaseActivity {
         findViewById(R.id.btn_skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                removeDelayedMessage();
                 jumpPage();
             }
         });
@@ -59,8 +60,12 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void handleMessage(Message msg) {
         super.handleMessage(msg);
-        if (WHAT_START == msg.what) {
-            jumpPage();
+        switch (msg.what) {
+            case WHAT_START:
+                jumpPage();
+                break;
+            default:
+                break;
         }
     }
 
