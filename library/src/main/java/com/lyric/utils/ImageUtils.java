@@ -123,27 +123,6 @@ public class ImageUtils {
 	public static Drawable bytesToDrawable(byte[] bytes) {
         return bitmapToDrawable(bytesToBitmap(bytes));
     }
-	
-	/**
-	 * 对指定的视图进行截图
-	 * @param view 视图
-	 * @return Bitmap
-	 */
-	public static Bitmap captureBitmap(View view) {
-        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
-            int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-            view.measure(measureSpec, measureSpec);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        }
-		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		canvas.translate(-view.getScrollX(), -view.getScrollY());
-		view.draw(canvas);
-		view.setDrawingCacheEnabled(true);
-		Bitmap newBitmap = view.getDrawingCache().copy(Config.ARGB_8888, true);
-		view.destroyDrawingCache();
-		return newBitmap;
-	}
 
     /**
      * 对指定的视图进行截图
@@ -160,13 +139,34 @@ public class ImageUtils {
         view.setDrawingCacheEnabled(false);
         return bitmap;
     }
+	
+	/**
+	 * 对指定的视图进行截图
+	 * @param view 视图
+	 * @return Bitmap
+	 */
+	public static Bitmap capture(View view) {
+        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+            int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            view.measure(measureSpec, measureSpec);
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        }
+		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		canvas.translate(-view.getScrollX(), -view.getScrollY());
+		view.draw(canvas);
+		view.setDrawingCacheEnabled(true);
+		Bitmap newBitmap = view.getDrawingCache().copy(Config.ARGB_8888, true);
+		view.destroyDrawingCache();
+		return newBitmap;
+	}
 
     /**
      * 对ScrollView截图
      * @param scrollView ScrollView
      * @return Bitmap
      */
-    public static Bitmap captureBitmap(ScrollView scrollView) {
+    public static Bitmap capture(ScrollView scrollView) {
         int height = 0;
         Bitmap bitmap;
         for (int i = 0; i < scrollView.getChildCount(); i++) {
@@ -184,7 +184,7 @@ public class ImageUtils {
      * @param webView WebView
      * @return Bitmap
      */
-    public static Bitmap captureBitmap(WebView webView) {
+    public static Bitmap capture(WebView webView) {
         float scale = webView.getScale();
         int height = (int) (webView.getContentHeight() * scale);
         final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
@@ -227,7 +227,7 @@ public class ImageUtils {
 	}
 	
 	/**
-	 * 图片去色,返回灰度图片
+	 * 图片去色，返回灰度图片
 	 * @param bitmap 传入的图片
 	 * @return 去色后的图片
 	 */
@@ -514,5 +514,4 @@ public class ImageUtils {
         }
         return outBitmap;
     }
-
 }
