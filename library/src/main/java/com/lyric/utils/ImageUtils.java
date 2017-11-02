@@ -26,7 +26,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.webkit.WebView;
 import android.widget.ScrollView;
 
@@ -147,9 +146,7 @@ public class ImageUtils {
 	 */
 	public static Bitmap capture(View view) {
         if (view.getWidth() <= 0 || view.getHeight() <= 0) {
-            int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-            view.measure(measureSpec, measureSpec);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+            return null;
         }
 		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);

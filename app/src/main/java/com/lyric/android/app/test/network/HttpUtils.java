@@ -2,8 +2,6 @@ package com.lyric.android.app.test.network;
 
 import android.text.TextUtils;
 
-import com.lyric.utils.LogUtils;
-
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -35,7 +33,6 @@ public class HttpUtils {
     public static ResponseEntity get(String url, Map<String, String> params, String encode, boolean isRefresh) {
         ResponseEntity responseEntity = new ResponseEntity();
         if (TextUtils.isEmpty(url)) {
-            LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
             responseEntity.setResponseCode(HttpConstants.URL_NULL);
             return responseEntity;
         }
@@ -49,7 +46,7 @@ public class HttpUtils {
 
             String response;
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                response = process(urlConnection.getInputStream());
+                response = readResponse(urlConnection.getInputStream());
             } else {
                 response = "Request failed.";
             }
@@ -73,7 +70,6 @@ public class HttpUtils {
     public static ResponseEntity post(String url, Map<String, String> params, String encode, boolean isRefresh) {
         ResponseEntity responseEntity = new ResponseEntity();
         if (TextUtils.isEmpty(url)) {
-            LogUtils.e(HttpConstants.HTTP_TAG, "Request url can not be null.");
             responseEntity.setResponseCode(HttpConstants.URL_NULL);
             return responseEntity;
         }
@@ -96,7 +92,7 @@ public class HttpUtils {
 
             String response;
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                response = process(urlConnection.getInputStream());
+                response = readResponse(urlConnection.getInputStream());
             } else {
                 response = "Request failed.";
             }
@@ -160,7 +156,7 @@ public class HttpUtils {
                 }
                 dataOutputStream.write(textParamsBuilder.toString().getBytes());
             }
-            InputStream inputStream = null;
+            InputStream inputStream;
             // 发送文件数据
             if (fileParams != null) {
                 StringBuilder fileParamsBuilder;
@@ -179,7 +175,7 @@ public class HttpUtils {
                     dataOutputStream.write(fileParamsBuilder.toString().getBytes());
                     InputStream is = new FileInputStream(file.getValue());
                     byte[] buffer = new byte[1024];
-                    int len = -1;
+                    int len;
                     while ((len = is.read(buffer)) != -1) {
                         dataOutputStream.write(buffer, 0, len);
                     }
@@ -225,9 +221,9 @@ public class HttpUtils {
         return urlConnection;
     }
 
-    private static String process(InputStream inputStream) throws IOException {
+    private static String readResponse(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024 * 2];// 2k
+        byte[] buffer = new byte[1024 * 2];
         int len;
         while ((len = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, len);

@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,7 +20,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
+import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.activity.MainActivity;
@@ -443,34 +444,20 @@ public class Utils {
         return fileSizeLong;
     }
 
-    /**
-     * 检查是否有新的版本
-     *
-     * @param appVersion 当前应用版本
-     * @param newVersion 服务器最新版本
-     * @param isForce    是否强制更新
-     * @return 0表示没有更新，1表示有更新，2表示强制更新（应用出现严重问题）
-     */
-    public static int checkUpdate(String appVersion, String newVersion, boolean isForce) {
-        int update = 0;
-        if (TextUtils.isEmpty(appVersion) || TextUtils.isEmpty(newVersion)) {
-            return update;
+    public static Bitmap debugSnapshot(Activity activity, List<View> ignoreViews) {
+        if (activity == null || activity.isFinishing()) {
+            return null;
         }
-        if (appVersion.equals(newVersion) || "1.0.0".equals(newVersion)) {
-            return update;
-        }
-        try {
-            appVersion = appVersion.replace(".", "");
-            newVersion = newVersion.replace(".", "");
-            int appVersionInt = Integer.parseInt(appVersion);
-            int newVersionInt = Integer.parseInt(newVersion);
-            if (newVersionInt > appVersionInt) {
-                update = isForce ? 2 : 1;
+        if (ignoreViews != null && ignoreViews.size() > 0) {
+            for (View ignoreView : ignoreViews) {
+                ignoreView.setVisibility(View.GONE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return update;
+        View decorView = activity.getWindow().getDecorView();
+        decorView.setDrawingCacheEnabled(true);
+        decorView.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(decorView.getDrawingCache());
+        decorView.setDrawingCacheEnabled(false);
+        return bitmap;
     }
-
 }
