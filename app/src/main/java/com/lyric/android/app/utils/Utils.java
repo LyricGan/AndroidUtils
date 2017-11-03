@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,7 +20,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.telephony.TelephonyManager;
 import android.view.View;
 
 import com.lyric.android.app.R;
@@ -33,8 +33,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * 工具类，封装部分常用方法
  * @author lyric
- * @description 工具类，封装一部分常用方法
  * @time 16/12/9
  */
 public class Utils {
@@ -45,20 +45,12 @@ public class Utils {
      * @return 网络是否连接
      */
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
-    /**
-     * 获取本地号码
-     *
-     * @param context 上下文对象
-     * @return 本地号码
-     */
-    public static String getLocalNumber(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getLine1Number();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            return (networkInfo != null && networkInfo.isConnected());
+        }
+        return false;
     }
 
     /**
@@ -95,49 +87,6 @@ public class Utils {
             return buffer.toString();
         }
         return null;
-    }
-
-    /**
-     * 判断当前网络连接状态
-     *
-     * @param context 上下文对象
-     * @return 网络是否连接
-     */
-    public static boolean isNetworkConnected(Context context) {
-        NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        // 判断网络信息是否为空
-        if (networkInfo != null) {
-            return networkInfo.isConnectedOrConnecting();
-        }
-        return false;
-    }
-
-    /**
-     * 获取手机运营商
-     *
-     * @param context 上下文对象
-     * @return 手机运营商
-     */
-    public static String getMobileOperator(Context context) {
-        // 获取手机的IMSI码
-        TelephonyManager telManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String sendNumber = null;
-        String strIMSI = telManager.getSubscriberId();
-        // 判断IMSI码是否为空
-        if (strIMSI != null) {
-            // 判断号码是否为移动号码
-            if (strIMSI.startsWith("46000") || strIMSI.startsWith("46002")) {
-                // 因为移动网络编号46000下的IMSI已经用完，所以虚拟了一个46002编号，134/159号段使用了此编号
-                sendNumber = "中国移动";
-            } else if (strIMSI.startsWith("46001")) {
-                sendNumber = "中国联通";
-            } else if (strIMSI.startsWith("46003")) {
-                sendNumber = "中国电信";
-            }
-        } else {
-            sendNumber = "集团号码";
-        }
-        return sendNumber;
     }
 
     /**
@@ -195,6 +144,7 @@ public class Utils {
         // 判断游标是否为空
         if (cursor != null && cursor.getCount() > 0) {
             isShortCutCreated = true;
+            cursor.close();
         }
         return isShortCutCreated;
     }
@@ -444,20 +394,33 @@ public class Utils {
         return fileSizeLong;
     }
 
-    public static Bitmap debugSnapshot(Activity activity, List<View> ignoreViews) {
+    /**
+     * 对页面进行截图
+     * @param activity
+     * @param isContainsStatusBar 是否包含状态栏
+     * @param extraHeight 额外指定的高度
+     * @return 截图生成的bitmap
+     */
+    public static Bitmap snapShot(Activity activity, boolean isContainsStatusBar, int extraHeight) {
         if (activity == null || activity.isFinishing()) {
             return null;
-        }
-        if (ignoreViews != null && ignoreViews.size() > 0) {
-            for (View ignoreView : ignoreViews) {
-                ignoreView.setVisibility(View.GONE);
-            }
         }
         View decorView = activity.getWindow().getDecorView();
         decorView.setDrawingCacheEnabled(true);
         decorView.buildDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(decorView.getDrawingCache());
+        Bitmap cacheBitmap = decorView.getDrawingCache();
+        int statusBarHeight = 0;
+        if (!isContainsStatusBar) {
+            Rect frameOutRect = new Rect();
+            decorView.getWindowVisibleDisplayFrame(frameOutRect);
+            statusBarHeight = frameOutRect.top;
+        }
+        int startHeight = statusBarHeight + extraHeight;
+        int screenWidth = activity.getWindowManager().getDefaultDisplay().getWidth();
+        int screenHeight = activity.getWindowManager().getDefaultDisplay().getHeight();
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap, 0, startHeight, screenWidth, screenHeight - startHeight);
         decorView.setDrawingCacheEnabled(false);
+        decorView.destroyDrawingCache();
         return bitmap;
     }
 }

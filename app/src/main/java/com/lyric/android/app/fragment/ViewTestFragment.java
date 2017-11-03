@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.lyric.android.app.R;
 import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
-import com.lyric.android.app.widget.chart.ClashBar;
-import com.lyric.android.app.widget.TabDigitLayout;
-import com.lyric.android.app.widget.chart.PieView;
+import com.lyric.android.app.R;
 import com.lyric.android.app.test.logger.Loggers;
+import com.lyric.android.app.widget.TabDigitLayout;
+import com.lyric.android.app.widget.chart.ClashBar;
+import com.lyric.android.app.widget.chart.PieView;
 import com.lyric.android.app.widget.chart.RingProgressBar;
 import com.lyric.utils.ImageUtils;
 
