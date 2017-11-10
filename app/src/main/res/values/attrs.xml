@@ -238,4 +238,12 @@
         <attr name="clash_bar_right_color" format="color" />
     </declare-styleable>
 
+    <!-- 水平比例图 -->
+    <declare-styleable name="HorizontalRatioBar">
+        <attr name="hrb_backgroundColor" format="color"/>
+        <attr name="hrb_textSize" format="dimension"/>
+        <attr name="hrb_textColor" format="color"/>
+        <attr name="hrb_showText" format="boolean"/>
+        <attr name="hrb_cornerRadius" format="dimension"/>
+    </declare-styleable>
 </resources>

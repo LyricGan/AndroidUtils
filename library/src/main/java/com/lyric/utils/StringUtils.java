@@ -596,4 +596,24 @@ public class StringUtils {
         return result;
     }
 
+    /**
+     * 对于浮点数进行格式化
+     * @param number 浮点数
+     * @param decimalsCount 保留的小数位数
+     * @param isRetainInteger 如果是整数是否保留小数点后面的0
+     * @return 格式化字符串
+     */
+    public static String formatDecimals(double number, int decimalsCount, boolean isRetainInteger) {
+        String value;
+        if (isRetainInteger) {
+            value = String.format(Locale.getDefault(), "%1$." + decimalsCount + "f", number);
+        } else {
+            if (Math.round(number) - number == 0) {
+                value = String.valueOf((long) number);
+            } else {
+                value = String.format(Locale.getDefault(), "%1$." + decimalsCount + "f", number);
+            }
+        }
+        return value;
+    }
 }

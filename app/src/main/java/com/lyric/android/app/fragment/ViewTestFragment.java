@@ -14,6 +14,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.ClashBar;
+import com.lyric.android.app.widget.chart.HorizontalRatioBar;
 import com.lyric.android.app.widget.chart.PieView;
 import com.lyric.android.app.widget.chart.RingProgressBar;
 import com.lyric.utils.ImageUtils;
@@ -80,6 +81,9 @@ public class ViewTestFragment extends BaseFragment {
                 testRingProgressBar();
             }
         });
+
+        HorizontalRatioBar horizontalRatioBar = findViewById(R.id.horizontal_radio_bar);
+        horizontalRatioBar.test();
     }
 
     @Override

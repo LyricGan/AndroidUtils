@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:orientation="vertical">
 
         <com.lyric.android.app.widget.chart.PieView
@@ -123,6 +124,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:text="刷新视图"/>
+
+        <com.lyric.android.app.widget.chart.HorizontalRatioBar
+            android:id="@+id/horizontal_radio_bar"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            app:hrb_backgroundColor="#ffe0e0e0"
+            app:hrb_cornerRadius="12dp"
+            app:hrb_showText="true"
+            app:hrb_textColor="@color/white"
+            app:hrb_textSize="12sp"/>
 
     </LinearLayout>
 
