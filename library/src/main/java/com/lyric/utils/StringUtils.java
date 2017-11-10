@@ -18,14 +18,8 @@ import java.util.regex.Pattern;
  * 
  * @author ganyu
  * @created 2015-05-28
- *
  */
 public class StringUtils {
-    /** 大写标记 */
-    public static final int CASE_UPPER = 1;
-    /** 小写标记 */
-    public static final int CASE_LOWER = 2;
-
     public static final String EMPTY = "";
 	
 	/**
@@ -549,31 +543,23 @@ public class StringUtils {
         return valueShort;
     }
 
-    public static String getMd5Upper(String value) {
-        return getMd5String(value, CASE_UPPER);
-    }
-
-    public static String getMd5Lower(String value) {
-        return getMd5String(value, CASE_LOWER);
-    }
-
     /**
      * 获取字符串MD5值
-     * @param value 字符串
-     * @param flag 大小写标记
+     * @param str 字符串
+     * @param isUpperCase 是否为大写标识
      * @return 转换过的字符串
      */
-    public static String getMd5String(String value, int flag) {
-        if (value == null) {
+    public static String getMd5String(String str, boolean isUpperCase) {
+        if (str == null) {
             return null;
         }
-        String result = null;
+        String md5String = null;
         // 16进制字符数组
         char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
-            md.update(value.getBytes());
+            md.update(str.getBytes());
             // MD5的计算结果是128位的长整数，用字节表示就是16个字节
             byte[] tmp = md.digest();
             char[] charArray = new char[16 * 2];
@@ -585,15 +571,15 @@ public class StringUtils {
                 charArray[pos++] = hexDigits[ch & 0xf];
             }
             Locale locale = Locale.getDefault();
-            if (flag == CASE_UPPER) {
-                result = new String(charArray).toUpperCase(locale);
+            if (isUpperCase) {
+                md5String = new String(charArray).toUpperCase(locale);
             } else {
-                result = new String(charArray).toLowerCase(locale);
+                md5String = new String(charArray).toLowerCase(locale);
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return result;
+        return md5String;
     }
 
     /**
