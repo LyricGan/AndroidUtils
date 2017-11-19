@@ -2,18 +2,16 @@ package com.lyric.android.app.test.handler;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
 /**
- * @author lyric
- * @description Handler
+ * Handler，采用弱引用，防止内存泄漏
+ * @author lyricgan
  * @time 2016/3/28 16:21
  */
 public class WeakHandler<T> extends Handler {
-    private final WeakReference<T> mReferenceObject;
-    private OnMessageCallback mCallback;
+    private final WeakReference<T> mReference;
 
     public WeakHandler(T object) {
         this(object, Looper.getMainLooper());
@@ -21,31 +19,10 @@ public class WeakHandler<T> extends Handler {
 
     public WeakHandler(T object, Looper looper) {
         super(looper);
-        this.mReferenceObject = new WeakReference<T>(object);
+        this.mReference = new WeakReference<>(object);
     }
 
     public T get() {
-        return mReferenceObject.get();
-    }
-
-    public void setCallback(OnMessageCallback callback) {
-        this.mCallback = callback;
-    }
-
-    public void removeCallback() {
-        this.mCallback = null;
-    }
-
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-        if (mCallback != null) {
-            mCallback.callback(msg);
-        }
-    }
-
-    public interface OnMessageCallback {
-
-        void callback(Message msg);
+        return mReference.get();
     }
 }

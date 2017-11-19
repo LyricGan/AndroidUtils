@@ -17,7 +17,7 @@ import com.squareup.leakcanary.RefWatcher;
  * @author lyricgan
  * @time 2015/10/7 14:04
  */
-public class BaseApp extends Application implements Constants {
+public class BaseApp extends Application {
     private static BaseApp mInstance;
 
 	@Override
@@ -25,13 +25,13 @@ public class BaseApp extends Application implements Constants {
 		super.onCreate();
         mInstance = this;
 
-        LogUtils.setDebug(DEBUG);
+        LogUtils.setDebug(Constants.DEBUG);
 
-        StethoUtils.initialize(this, DEBUG);
+        StethoUtils.initialize(this, Constants.DEBUG);
 
         ImageHelper.getInstance().initialize(this);
 
-        if (LEAK_DEBUG) {
+        if (Constants.LEAK_DEBUG) {
             setupLeakCanary();
         }
         addRegisterActivityLifecycleCallbacks();
