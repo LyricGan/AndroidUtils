@@ -1,5 +1,4 @@
-package com.lyric.android.app.test.utils;
-
+package com.lyric.android.app.test;
 
 import com.lyric.android.app.test.network.DataLoader;
 import com.lyric.android.app.test.network.ResponseCallback;
@@ -20,9 +19,13 @@ public class TestApi {
     private TestApi() {
     }
 
-    public static synchronized TestApi getInstance() {
+    public static TestApi getInstance() {
         if (mInstance == null) {
-            mInstance = new TestApi();
+            synchronized (TestApi.class) {
+                if (mInstance == null) {
+                    mInstance = new TestApi();
+                }
+            }
         }
         return mInstance;
     }

@@ -5,9 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-
-import com.lyric.android.app.test.logger.Loggers;
 
 import java.util.ArrayList;
 
@@ -17,6 +16,7 @@ import java.util.ArrayList;
  * @time 2016/11/16 14:22
  */
 public class PieView extends View {
+    private static final String TAG = PieView.class.getSimpleName();
     // 颜色表(注意: 此处定义颜色使用的是ARGB，带Alpha通道的)
     private int[] mDefaultColors = {0xFFCCFF00, 0xFF6495ED, 0xFFE32636, 0xFF800000, 0xFF808000, 0xFFFF8C69, 0xFF808080,
             0xFFE6B800, 0xFF7CFC00};
@@ -100,7 +100,7 @@ public class PieView extends View {
             pieData.setAngle(angle);
             sumAngle += angle;
 
-            Loggers.e("sumAngle:" + sumAngle);
+            Log.d(TAG, "sumAngle:" + sumAngle);
         }
     }
 

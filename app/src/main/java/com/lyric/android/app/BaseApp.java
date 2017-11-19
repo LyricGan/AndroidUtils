@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.android.app.third.fresco.ImageHelper;
 import com.lyric.android.app.third.stetho.StethoUtils;
 import com.lyric.utils.LogUtils;
@@ -18,6 +18,7 @@ import com.squareup.leakcanary.RefWatcher;
  * @time 2015/10/7 14:04
  */
 public class BaseApp extends Application {
+    private static final String TAG = BaseApp.class.getSimpleName();
     private static BaseApp mInstance;
 
 	@Override
@@ -88,6 +89,6 @@ public class BaseApp extends Application {
     }
 
     private void debugMessage(Activity activity, String lifecycle) {
-        Loggers.d("activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
+        Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
     }
 }

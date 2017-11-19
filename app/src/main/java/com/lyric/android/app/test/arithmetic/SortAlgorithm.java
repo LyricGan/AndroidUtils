@@ -1,8 +1,8 @@
 package com.lyric.android.app.test.arithmetic;
 
 /**
- * @author ganyu
- * @description 排序算法
+ * 排序算法
+ * @author lyricgan
  * @time 2016/1/19 13:15
  */
 public class SortAlgorithm {

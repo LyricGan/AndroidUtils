@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.handler;
+package com.lyric.android.app.test;
 
 import android.os.Handler;
 import android.os.Looper;

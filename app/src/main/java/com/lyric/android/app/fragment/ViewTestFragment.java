@@ -3,6 +3,7 @@ package com.lyric.android.app.fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
-import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.ClashBar;
 import com.lyric.android.app.widget.chart.HorizontalRatioBar;
@@ -110,10 +110,10 @@ public class ViewTestFragment extends BaseFragment {
         if (mCaptureBitmap != null) {
             imageCapture.setImageBitmap(mCaptureBitmap);
 
-            Loggers.d("memory1:" + ImageUtils.getBitmapMemory(mCaptureBitmap));
+            Log.d(TAG, "memory1:" + ImageUtils.getBitmapMemory(mCaptureBitmap));
             Bitmap blurBitmap = ImageUtils.blurBitmap(BaseApp.getContext(), mCaptureBitmap, 10.0f);
             imageCapture.setImageBitmap(blurBitmap);
-            Loggers.d("memory2:" + ImageUtils.getBitmapMemory(blurBitmap));
+            Log.d(TAG, "memory2:" + ImageUtils.getBitmapMemory(blurBitmap));
         }
     }
 
@@ -133,7 +133,7 @@ public class ViewTestFragment extends BaseFragment {
         mClashBar.setOnClashBarUpdatedListener(new ClashBar.OnClashBarUpdatedListener() {
             @Override
             public void onChanged(float leftData, float rightData, float leftProgressData, float rightProgressData, boolean isFinished) {
-                Loggers.d("leftData:" + leftData + ",rightData:" + rightData + ",leftProgressData:" + leftProgressData
+                Log.d(TAG, "leftData:" + leftData + ",rightData:" + rightData + ",leftProgressData:" + leftProgressData
                         + ",rightProgressData:" + rightProgressData + ",isFinished:" + isFinished);
             }
         });

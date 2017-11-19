@@ -3,18 +3,27 @@ package com.lyric.android.app.test.arithmetic;
 import java.util.LinkedList;
 
 /**
+ * 二叉树：是每个结点最多有两个子树的有序树，在使用二叉树的时候，数据并不是随便插入到节点中的，
+ * 一个节点的左子节点的关键值必须小于此节点，右子节点的关键值必须大于或者是等于此节点，所以又称二叉查找树、二叉排序树、二叉搜索树。
+ *
+ * 完全二叉树：若设二叉树的高度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第h层有叶子结点，
+ * 并且叶子结点都是从左到右依次排布，这就是完全二叉树。
+ *
+ * 满二叉树——除了叶结点外每一个结点都有左右子叶且叶子结点都处在最底层的二叉树。
+ *
+ * 深度——二叉树的层数，就是深度。
+ *
  * @author lyricgan
- * @description 二叉树
  * @time 16/12/7
  */
 public class BinaryTree {
     // 根结点
-    private Node<Integer> root;
+    private Node<Integer> rootNode;
     // 二叉树中结点数量
     private int size;
 
     public BinaryTree() {
-        root = new Node<>();
+        rootNode = new Node<>();
     }
 
     public BinaryTree(int[] values) {
@@ -28,8 +37,8 @@ public class BinaryTree {
         if (len == 0)
             return;
         LinkedList<Node<Integer>> queue = new LinkedList<Node<Integer>>();
-        root = new Node<Integer>(values[0]);
-        queue.addLast(root);
+        rootNode = new Node<Integer>(values[0]);
+        queue.addLast(rootNode);
         Node<Integer> parent = null;
         Node<Integer> current = null;
         for (int i = 1; i < len; i++) {
@@ -53,7 +62,7 @@ public class BinaryTree {
     // 递归中序遍历
     public void inorder() {
         System.out.print("binaryTree递归中序遍历:");
-        inorderTraverseRecursion(root);
+        inorderTraverseRecursion(rootNode);
         System.out.println();
     }
 
@@ -61,7 +70,7 @@ public class BinaryTree {
     public void layerOrder() {
         System.out.print("binaryTree层次遍历:");
         LinkedList<Node<Integer>> queue = new LinkedList<Node<Integer>>();
-        queue.addLast(root);
+        queue.addLast(rootNode);
         Node<Integer> current = null;
         while (!queue.isEmpty()) {
             current = queue.removeFirst();
@@ -78,7 +87,7 @@ public class BinaryTree {
 
     // 获得二叉树深度
     public int getDepth() {
-        return getDepthRecursion(root);
+        return getDepthRecursion(rootNode);
     }
 
     private int getDepthRecursion(Node<Integer> node) {
@@ -93,7 +102,7 @@ public class BinaryTree {
     // 递归先序遍历
     public void preorder() {
         System.out.print("binaryTree递归先序遍历:");
-        preorderTraverseRecursion(root);
+        preorderTraverseRecursion(rootNode);
         System.out.println();
     }
 
@@ -121,7 +130,7 @@ public class BinaryTree {
     public void preorderNoRecursion() {
         System.out.print("binaryTree非递归先序遍历:");
         LinkedList<Node<Integer>> stack = new LinkedList<Node<Integer>>();
-        stack.push(root);
+        stack.push(rootNode);
         Node<Integer> current = null;
         while (!stack.isEmpty()) {
             current = stack.pop();
@@ -141,7 +150,7 @@ public class BinaryTree {
     public void inorderNoRecursion() {
         System.out.print("binaryTree非递归中序遍历:");
         LinkedList<Node<Integer>> stack = new LinkedList<Node<Integer>>();
-        Node<Integer> current = root;
+        Node<Integer> current = rootNode;
         while (current != null || !stack.isEmpty()) {
             while (current != null) {
                 stack.push(current);
@@ -164,7 +173,7 @@ public class BinaryTree {
     public void postorderNoRecursion() {
         System.out.print("binaryTree非递归后序遍历:");
         Node<Integer> rNode = null;
-        Node<Integer> current = root;
+        Node<Integer> current = rootNode;
         LinkedList<Node<Integer>> stack = new LinkedList<Node<Integer>>();
         while (current != null || !stack.isEmpty()) {
             while (current != null) {
@@ -182,7 +191,9 @@ public class BinaryTree {
                 current = stack.pop();
             }
             stack.push(current);
-            current = current.getRightChild();
+            if (current != null) {
+                current = current.getRightChild();
+            }
         }
     }
 
@@ -197,9 +208,16 @@ public class BinaryTree {
         System.out.println("深度为：" + binaryTree.getDepth());
     }
 
+    /**
+     * 二叉树结构实体
+     * @param <V>
+     */
     private static class Node<V> {
+        /** 节点数值 */
         private V value;
+        /** 左子节点 */
         private Node<V> leftChild;
+        /** 右子节点 */
         private Node<V> rightChild;
 
         public Node() {
