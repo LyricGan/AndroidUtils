@@ -238,11 +238,17 @@ public class ViewUtils {
     public static int getStatusBarHeight(Context context) {
         int statusBarHeight = 0;
         try {
-            Class<?> clazz = Class.forName("com.android.internal.R$dimen");
-            Object obj = clazz.newInstance();
-            Field field = clazz.getField("status_bar_height");
-            int height = Integer.parseInt(field.get(obj).toString());
-            statusBarHeight = context.getResources().getDimensionPixelSize(height);
+            int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+            }
+            if (statusBarHeight <= 0) {
+                Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+                Object obj = clazz.newInstance();
+                Field field = clazz.getField("status_bar_height");
+                int height = Integer.parseInt(field.get(obj).toString());
+                statusBarHeight = context.getResources().getDimensionPixelSize(height);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

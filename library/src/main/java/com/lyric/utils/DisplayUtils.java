@@ -11,8 +11,8 @@ import android.view.WindowManager;
 import java.lang.reflect.Method;
 
 /**
- * @author lyric
- * @description
+ * 视图显示工具类{@link DisplayMetrics}
+ * @author lyricgan
  * @time 2016/3/12 15:04
  */
 public class DisplayUtils {
@@ -26,8 +26,16 @@ public class DisplayUtils {
         float scale = getDensity(context);
         return (int) (pxValue / scale + 0.5f);
     }
+
+    public static int sp2px(Context context, float spValue) {
+        return dip2px(context, spValue);
+    }
+
+    public static int px2sp(Context context, float pxValue) {
+        return px2dip(context, pxValue);
+    }
+
     public static DisplayMetrics getDisplayMetrics(Context context) {
-        CheckUtils.checkContext(context);
         return context.getResources().getDisplayMetrics();
     }
 
@@ -45,19 +53,15 @@ public class DisplayUtils {
 
     public static int[] getScreenDisplay(Context context) {
         DisplayMetrics metrics = getDisplayMetrics(context);
-        int[] display = new int[2];
-        display[0] = metrics.widthPixels;
-        display[1] = metrics.heightPixels;
-
-        return display;
+        return new int[]{metrics.widthPixels, metrics.heightPixels};
     }
 
     public static int getScreenWidth(Context context) {
-        return getDisplayMetrics(context).widthPixels;
+        return getScreenDisplay(context)[0];
     }
 
     public static int getScreenHeight(Context context) {
-        return getDisplayMetrics(context).heightPixels;
+        return getScreenDisplay(context)[1];
     }
 
     public static float getXdpi(Context context) {
@@ -76,7 +80,6 @@ public class DisplayUtils {
      * @return a pair to return the width and height
      */
     public static Pair<Integer, Integer> getResolution(Context context) {
-        CheckUtils.checkContext(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return getRealResolution(context);
         } else {
@@ -92,16 +95,19 @@ public class DisplayUtils {
     private static Pair<Integer, Integer> getRealResolutionOnOldDevice(Context context) {
         try {
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Method mGetRawWidth = Display.class.getMethod("getRawWidth");
-            Method mGetRawHeight = Display.class.getMethod("getRawHeight");
-            Integer realWidth = (Integer) mGetRawWidth.invoke(display);
-            Integer realHeight = (Integer) mGetRawHeight.invoke(display);
-            return new Pair<>(realWidth, realHeight);
+            if (wm != null) {
+                Display display = wm.getDefaultDisplay();
+                Method mGetRawWidth = Display.class.getMethod("getRawWidth");
+                Method mGetRawHeight = Display.class.getMethod("getRawHeight");
+                Integer realWidth = (Integer) mGetRawWidth.invoke(display);
+                Integer realHeight = (Integer) mGetRawHeight.invoke(display);
+                return new Pair<>(realWidth, realHeight);
+            }
         } catch (Exception e) {
-            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-            return new Pair<>(metrics.widthPixels, metrics.heightPixels);
+            e.printStackTrace();
         }
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return new Pair<>(metrics.widthPixels, metrics.heightPixels);
     }
 
     /**
@@ -110,9 +116,12 @@ public class DisplayUtils {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private static Pair<Integer, Integer> getRealResolution(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getRealMetrics(metrics);
-        return new Pair<>(metrics.widthPixels, metrics.heightPixels);
+        if (wm != null) {
+            Display display = wm.getDefaultDisplay();
+            DisplayMetrics metrics = new DisplayMetrics();
+            display.getRealMetrics(metrics);
+            return new Pair<>(metrics.widthPixels, metrics.heightPixels);
+        }
+        return null;
     }
 }
