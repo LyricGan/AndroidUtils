@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
-import com.lyric.utils.CheckUtils;
-
 /**
- * @author 应用权限控制工具类
- * @description
+ * 应用权限控制工具类
+ * @author lyricgan
  * @time 2016/6/24 11:41
  */
 public class PermissionUtils {
@@ -30,7 +28,7 @@ public class PermissionUtils {
      * @param permission 应用权限
      * @return returns true if permission is denied
      */
-    public static boolean check(Context context, String permission) {
+    public static boolean isPermissionDenied(Context context, String permission) {
         return (PackageManager.PERMISSION_DENIED == ContextCompat.checkSelfPermission(context, permission));
     }
 
@@ -40,10 +38,9 @@ public class PermissionUtils {
      * @param permissions 应用权限
      * @return returns true if permissions is denied
      */
-    public static boolean check(Context context, String... permissions) {
-        CheckUtils.checkContext(context);
+    public static boolean isAllPermissionDenied(Context context, String... permissions) {
         for (String permission : permissions) {
-            if (check(context, permission)) {
+            if (isPermissionDenied(context, permission)) {
                 return false;
             }
         }

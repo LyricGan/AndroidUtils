@@ -74,16 +74,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape"/>
 
-        <receiver
-            android:name=".test.others.TestBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.intent.action.APP_START"/>
-                <action android:name="com.intent.action.TEST"/>
-                <action android:name="com.intent.action.TEST_DEFAULT"/>
-            </intent-filter>
-        </receiver>
-
         <service
             android:name=".test.service.TestService"
             android:exported="false"/>

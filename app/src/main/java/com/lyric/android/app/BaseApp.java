@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.android.app.third.fresco.ImageHelper;
 import com.lyric.android.app.third.stetho.StethoUtils;
 import com.lyric.utils.LogUtils;
@@ -17,7 +17,8 @@ import com.squareup.leakcanary.RefWatcher;
  * @author lyricgan
  * @time 2015/10/7 14:04
  */
-public class BaseApp extends Application implements Constants {
+public class BaseApp extends Application {
+    private static final String TAG = BaseApp.class.getSimpleName();
     private static BaseApp mInstance;
 
 	@Override
@@ -25,13 +26,13 @@ public class BaseApp extends Application implements Constants {
 		super.onCreate();
         mInstance = this;
 
-        LogUtils.setDebug(DEBUG);
+        LogUtils.setDebug(Constants.DEBUG);
 
-        StethoUtils.initialize(this, DEBUG);
+        StethoUtils.initialize(this, Constants.DEBUG);
 
         ImageHelper.getInstance().initialize(this);
 
-        if (LEAK_DEBUG) {
+        if (Constants.LEAK_DEBUG) {
             setupLeakCanary();
         }
         addRegisterActivityLifecycleCallbacks();
@@ -88,6 +89,6 @@ public class BaseApp extends Application implements Constants {
     }
 
     private void debugMessage(Activity activity, String lifecycle) {
-        Loggers.d("activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
+        Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
     }
 }

@@ -9,14 +9,13 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.test.logger.Loggers;
 import com.lyric.utils.FileUtils;
 import com.lyric.utils.ImageUtils;
-import com.lyric.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -81,7 +80,7 @@ public class Test {
         ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(info);
 
-        Loggers.e("memory:" + memory + ",largeMemory:" + largeMemory);
+        Log.d(TAG, "memory:" + memory + ",largeMemory:" + largeMemory);
     }
 
     public void newLeaky() {
@@ -105,16 +104,13 @@ public class Test {
     }
 
     public void initialize() {
-        Loggers.init().setMethodCount(2).setLevelFull();
-        Loggers.e("sourceDir:" + extract(BaseApp.getContext()));
-
         File bitmapFile = FileUtils.getCacheDir(BaseApp.getContext(), "bitmap");
         if (bitmapFile != null) {
-            Loggers.e("file path:" + bitmapFile.getPath());
+            Log.d(TAG, "file path:" + bitmapFile.getPath());
         }
         File file = FileUtils.getCacheDir(BaseApp.getContext(), "file");
         if (file != null) {
-            Loggers.e("file path:" + file.getPath());
+            Log.d(TAG, "file path:" + file.getPath());
         }
 
         testEncode();
@@ -126,7 +122,6 @@ public class Test {
             paths.add(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "TestBase64.png");
         }
         String value = encodeBitmap(paths);
-        Loggers.e("value:" + value);
 
         decode(value);
     }
@@ -241,7 +236,7 @@ public class Test {
         @Override
         public void run() {
             try {
-                LogUtils.e(TAG, "add thread run:" + name);
+                Log.d(TAG, "add thread run:" + name);
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -281,12 +276,12 @@ public class Test {
      */
     public TimeZone getTimeZone() {
         TimeZone timeZone = TimeZone.getDefault();
-        Loggers.d("id:" + timeZone.getID() + ",displayName:" + timeZone.getDisplayName() + ",rawOffset:" + timeZone.getRawOffset());
+        Log.d(TAG, "id:" + timeZone.getID() + ",displayName:" + timeZone.getDisplayName() + ",rawOffset:" + timeZone.getRawOffset());
         return timeZone;
     }
 
     public void test() {
-        Loggers.d("classLoader:" + this.getClass().getClassLoader()
+        Log.d(TAG, "classLoader:" + this.getClass().getClassLoader()
                 + "\n," + Context.class.getClassLoader());
     }
 }
