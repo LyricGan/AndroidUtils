@@ -10,7 +10,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 
 /**
- * 基类，用于加载fragment
+ * 基类Activity，用于加载fragment
  * @author lyric
  * @time 2016/5/27 15:37
  */
@@ -32,9 +32,11 @@ public class BaseFragmentActivity extends BaseCompatActivity {
 
     private void setupViews() {
         Bundle bundle = getIntent().getExtras();
-        String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
-        mFragment = Fragment.instantiate(this, fragmentName, bundle);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, mFragment, fragmentName).commit();
+        if (bundle != null) {
+            String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
+            mFragment = Fragment.instantiate(this, fragmentName, bundle);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, mFragment, fragmentName).commit();
+        }
     }
 
     @Override
