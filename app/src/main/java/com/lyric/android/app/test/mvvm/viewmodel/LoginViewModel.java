@@ -24,13 +24,12 @@ import rx.schedulers.Schedulers;
 
 /**
  * @author lyric
- * @description
  * @time 2016/5/31 16:31
  */
 public class LoginViewModel implements ViewModel, View.OnClickListener {
     private static final String TAG = LoginViewModel.class.getSimpleName();
-    private EditText edit_user_name;
-    private EditText edit_password;
+    private EditText editUserName;
+    private EditText editPassword;
 
     private OnActionListener mActionListener;
 
@@ -45,8 +44,8 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
 
     public LoginViewModel(View view, OnActionListener listener) {
         this.mActionListener = listener;
-        edit_user_name = (EditText) view.findViewById(R.id.edit_user_name);
-        edit_password = (EditText) view.findViewById(R.id.edit_password);
+        editUserName = (EditText) view.findViewById(R.id.edit_user_name);
+        editPassword = (EditText) view.findViewById(R.id.edit_password);
         Button btn_login = (Button) view.findViewById(R.id.btn_login);
 
         btn_login.setOnClickListener(this);
@@ -56,17 +55,17 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login: {
-                String userName = edit_user_name.getText().toString().trim();
-                String password = edit_password.getText().toString().trim();
+                String userName = editUserName.getText().toString().trim();
+                String password = editPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(userName)) {
-                    edit_user_name.requestFocus();
+                    editUserName.requestFocus();
                     break;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    edit_password.requestFocus();
+                    editPassword.requestFocus();
                     break;
                 }
-                hideSoftKeyboard();
+                hideSoftKeyboard(editUserName);
                 login(userName, password);
             }
                 break;
@@ -77,9 +76,6 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
 
     private void login(String userName, String password) {
         mActionListener.showLoading();
-        LogUtils.d(TAG, "userName:" + userName + ",password:" + password);
-        userName = "lyricgan";
-
         ApiFactory.getUserApi().getRepositoryList(userName)
                 .flatMap(new Func1<List<Repository>, Observable<User>>() {
                     @Override
@@ -158,9 +154,14 @@ public class LoginViewModel implements ViewModel, View.OnClickListener {
 //        });
 //    }
 
-    private void hideSoftKeyboard() {
+    private void hideSoftKeyboard(EditText editText) {
+        if (editText == null) {
+            return;
+        }
         InputMethodManager imm = (InputMethodManager) BaseApp.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(edit_user_name.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        }
     }
 
     @Override

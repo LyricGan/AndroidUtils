@@ -49,7 +49,7 @@ public class LoginFragment extends BaseFragment implements LoginViewModel.OnActi
     public void loginSuccess(User user) {
         hideLoadingDialog();
         ToastUtils.showShort(BaseApp.getContext(), "登录成功，欢迎回来 " + user.name);
-        finish();
+        finishActivity();
     }
 
     @Override

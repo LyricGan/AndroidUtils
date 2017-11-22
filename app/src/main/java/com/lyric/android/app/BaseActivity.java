@@ -1,6 +1,7 @@
 package com.lyric.android.app;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,14 +18,13 @@ import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipe.SwipeBackLayout;
-import com.lyric.utils.BuildVersionUtils;
 import com.lyric.utils.ViewUtils;
 
 import java.lang.ref.WeakReference;
 
 /**
  * Activity基类
- * @author ganyu
+ * @author lyricgan
  * @time 2016/5/26 13:59
  */
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, Constants, SwipeBackActivityBase {
@@ -87,7 +87,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     protected boolean isDestroy() {
-        if (BuildVersionUtils.hasJellyBean()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return isDestroyed();
         }
         return mDestroy;
@@ -220,7 +220,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
             return;
         }
         InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (im != null) {
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     protected Handler getHandler() {

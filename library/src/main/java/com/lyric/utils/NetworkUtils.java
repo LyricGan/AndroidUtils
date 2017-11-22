@@ -25,7 +25,6 @@ public class NetworkUtils {
      * @param context 上下文对象
      */
     public static boolean isNetworkAvailable(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             return false;
@@ -50,7 +49,6 @@ public class NetworkUtils {
      * @return
      */
     public static boolean isMobileEnabled(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             return false;
@@ -71,7 +69,6 @@ public class NetworkUtils {
      * @return
      */
     public static boolean isWifiEnabled(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             return false;
@@ -92,7 +89,6 @@ public class NetworkUtils {
      * @return
      */
     public static boolean isNetworkRoaming(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             return false;
@@ -108,7 +104,6 @@ public class NetworkUtils {
     }
 
     public static int getConnectedType(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {
@@ -118,7 +113,6 @@ public class NetworkUtils {
     }
 
     public static NetType getAPNType(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
@@ -138,7 +132,6 @@ public class NetworkUtils {
     }
 
     public static int getNetWorkType(Context context) {
-        CheckUtils.checkContext(context);
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {

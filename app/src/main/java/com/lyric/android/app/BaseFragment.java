@@ -1,12 +1,8 @@
 package com.lyric.android.app;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +10,20 @@ import android.view.ViewGroup;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.utils.ViewUtils;
 
-import java.util.List;
-
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
-    private boolean mInterceptVisibleHint;
+    private boolean mViewVisible;
     private LoadingDialog mLoadingDialog;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        initExtras(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            initExtras(args);
+        }
     }
 
     @Nullable
@@ -55,7 +47,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return inflater.inflate(getLayoutId(), null);
     }
 
-    protected abstract void initExtras(Bundle savedInstanceState);
+    protected abstract void initExtras(Bundle args);
 
     protected abstract int getLayoutId();
 
@@ -92,7 +84,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (mInterceptVisibleHint) {
+            if (mViewVisible) {
                 View view = getView();
                 if (view != null) {
                     view.setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
@@ -102,58 +94,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public boolean getUserVisibleHint() {
-        return super.getUserVisibleHint();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 
-    public void setInterceptVisibleHint(boolean interceptVisibleHint) {
-        this.mInterceptVisibleHint = interceptVisibleHint;
+    public void setViewVisible(boolean viewVisible) {
+        this.mViewVisible = viewVisible;
+    }
+
+    public boolean isViewVisible() {
+        View view = getView();
+        return view != null && view.getVisibility() == View.VISIBLE;
     }
 
     public boolean isActivityDestroyed() {
         return getActivity() == null;
-    }
-
-    public void switchFragment(FragmentManager fragmentManager, SparseArray<? extends BaseFragment> fragmentSparseArray, int containerViewId, BaseFragment selectFragment) {
-        if (fragmentManager == null || fragmentSparseArray == null || containerViewId <= 0 || selectFragment == null) {
-            return;
-        }
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        for (int i = 0; i < fragmentSparseArray.size(); i++) {
-            BaseFragment itemFragment = fragmentSparseArray.valueAt(i);
-            if (itemFragment != null && itemFragment.isAdded()) {
-                fragmentTransaction.hide(itemFragment);
-                itemFragment.onHide();
-            }
-        }
-        if (selectFragment.isAdded()) {
-            fragmentTransaction.show(selectFragment);
-            selectFragment.onShow();
-        } else {
-            fragmentTransaction.add(containerViewId, selectFragment);
-        }
-        fragmentTransaction.commitAllowingStateLoss();
-    }
-
-    public void clearFragments(FragmentManager fragmentManager) {
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if (fragments != null && !fragments.isEmpty()) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            for (Fragment fragment : fragments) {
-                if (fragment != null && fragment.isAdded()) {
-                    transaction = transaction.remove(fragment);
-                }
-            }
-            transaction.commitAllowingStateLoss();
-        }
-    }
-
-    protected void onShow() {
-
-    }
-
-    protected void onHide() {
-
     }
 
     protected void showLoadingDialog() {
@@ -181,11 +136,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return false;
     }
 
-    public void finish() {
+    public void finishActivity() {
         if (getActivity() == null || getActivity().isFinishing()) {
             return;
         }
         getActivity().finish();
     }
-
 }

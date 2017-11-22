@@ -815,7 +815,6 @@ public class PackageUtils {
      * @return name of app
      */
     public static String getAppName(Context context) {
-        CheckUtils.checkContext(context);
         PackageManager packageManager = context.getPackageManager();
         return context.getApplicationInfo().loadLabel(packageManager).toString();
     }
@@ -826,7 +825,6 @@ public class PackageUtils {
      * @return version code of app
      */
     public static int getVersionCode(Context context) {
-        CheckUtils.checkContext(context);
         int versionCode = -1;
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
@@ -845,7 +843,6 @@ public class PackageUtils {
      * @return version name of app
      */
     public static String getVersionName(Context context) {
-        CheckUtils.checkContext(context);
         String versionName = null;
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
@@ -866,6 +863,9 @@ public class PackageUtils {
      */
     public static String getDeviceId(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
+        if (tm != null) {
+            return tm.getDeviceId();
+        }
+        return null;
     }
 }
