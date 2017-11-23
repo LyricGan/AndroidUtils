@@ -3,6 +3,7 @@ package com.lyric.android.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +32,11 @@ import com.lyric.android.app.fragment.LoginFragment;
 import com.lyric.android.app.fragment.ProgressBarFragment;
 import com.lyric.android.app.fragment.ViewTestFragment;
 import com.lyric.android.app.fragment.WebFragment;
+import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
-import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.utils.DisplayUtils;
+import com.lyric.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,13 +71,29 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
 
+        initExtras();
+
         initialize();
+    }
+
+    private void initExtras() {
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                final String schemaMask = "android_utils";
+                if (TextUtils.equals(schemaMask, uri.getScheme())) {
+                    String id = uri.getQueryParameter("id");
+                    LogUtils.d("lyric", "id:" + id);
+                }
+            }
+        }
     }
 
     private void initialize() {

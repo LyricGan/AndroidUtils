@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.lyric.android.app"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.lyric.android.app">
 
     <uses-sdk tools:overrideLibrary="com.zys.brokenview"/>
 
@@ -39,9 +39,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- 设置浏览器中打开app -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="android_utils"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.MainDetailsActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
@@ -52,7 +62,8 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait">
-        </activity><activity
+        </activity>
+        <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
         </activity>
@@ -99,7 +110,7 @@
 
         <meta-data
             android:name="ANDROID_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
+            android:value="${UMENG_CHANNEL_VALUE}"/>
     </application>
 
 </manifest>

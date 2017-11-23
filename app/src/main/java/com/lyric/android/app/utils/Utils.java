@@ -1,18 +1,12 @@
 package com.lyric.android.app.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -20,10 +14,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.view.View;
-
-import com.lyric.android.app.R;
-import com.lyric.android.app.activity.MainActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,66 +77,6 @@ public class Utils {
             return buffer.toString();
         }
         return null;
-    }
-
-    /**
-     * 创建快捷方式
-     */
-    public void createShortCut(Context context) {
-        Intent shortCutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-        // 设置属性
-        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, context.getResources().getString(R.string.app_name));
-        Intent.ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_launcher);
-        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, iconRes);
-        // 设置为不允许重复创建
-        shortCutIntent.putExtra("duplicate", false);
-        // 设置启动意图
-        Intent launchIntent = new Intent(Intent.ACTION_MAIN);
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        launchIntent.addFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
-        launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        launchIntent.setClass(context, MainActivity.class);
-        // 设置启动程序
-        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-        // 发送广播
-		context.sendBroadcast(shortCutIntent);
-    }
-
-    /**
-     * 删除程序的快捷方式
-     *
-     * @param context  上下文对象
-     * @param activity
-     */
-    public void deleteShortcut(Context context, Activity activity) {
-        Intent shortCutIntent = new Intent("com.android.launcher.action.UNINSTALL_SHORTCUT");
-        //快捷方式的名称
-        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, context.getString(R.string.app_name));
-        String appClass = context.getPackageName() + "." + activity.getLocalClassName();
-        ComponentName componentName = new ComponentName(context.getPackageName(), appClass);
-        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(Intent.ACTION_MAIN).setComponent(componentName));
-        context.sendBroadcast(shortCutIntent);
-    }
-
-    /**
-     * 判断应用快捷方式是否创建
-     *
-     * @param context 上下文对象
-     * @return 应用快捷方式是否创建
-     */
-    public boolean isShortCutCreated(Context context) {
-        boolean isShortCutCreated = false;
-        final ContentResolver cr = context.getContentResolver();
-        final String AUTHORITY = "com.android.launcher2.settings";
-        final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
-        Cursor cursor = cr.query(CONTENT_URI, new String[]{"title", "iconResource"}, "title=?",
-                new String[]{context.getString(R.string.app_name)}, null);
-        // 判断游标是否为空
-        if (cursor != null && cursor.getCount() > 0) {
-            isShortCutCreated = true;
-            cursor.close();
-        }
-        return isShortCutCreated;
     }
 
     /**
@@ -392,35 +322,5 @@ public class Utils {
                 break;
         }
         return fileSizeLong;
-    }
-
-    /**
-     * 对页面进行截图
-     * @param activity
-     * @param isContainsStatusBar 是否包含状态栏
-     * @param extraHeight 额外指定的高度
-     * @return 截图生成的bitmap
-     */
-    public static Bitmap snapShot(Activity activity, boolean isContainsStatusBar, int extraHeight) {
-        if (activity == null || activity.isFinishing()) {
-            return null;
-        }
-        View decorView = activity.getWindow().getDecorView();
-        decorView.setDrawingCacheEnabled(true);
-        decorView.buildDrawingCache();
-        Bitmap cacheBitmap = decorView.getDrawingCache();
-        int statusBarHeight = 0;
-        if (!isContainsStatusBar) {
-            Rect frameOutRect = new Rect();
-            decorView.getWindowVisibleDisplayFrame(frameOutRect);
-            statusBarHeight = frameOutRect.top;
-        }
-        int startHeight = statusBarHeight + extraHeight;
-        int screenWidth = activity.getWindowManager().getDefaultDisplay().getWidth();
-        int screenHeight = activity.getWindowManager().getDefaultDisplay().getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap, 0, startHeight, screenWidth, screenHeight - startHeight);
-        decorView.setDrawingCacheEnabled(false);
-        decorView.destroyDrawingCache();
-        return bitmap;
     }
 }

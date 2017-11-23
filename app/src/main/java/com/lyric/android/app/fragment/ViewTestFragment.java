@@ -1,7 +1,10 @@
 package com.lyric.android.app.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
+import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.ClashBar;
 import com.lyric.android.app.widget.chart.HorizontalRatioBar;
@@ -19,12 +23,13 @@ import com.lyric.android.app.widget.chart.PieView;
 import com.lyric.android.app.widget.chart.RingProgressBar;
 import com.lyric.utils.ImageUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * 视图测试页面
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 14:57
  */
 public class ViewTestFragment extends BaseFragment {
@@ -34,6 +39,7 @@ public class ViewTestFragment extends BaseFragment {
 
     private TabDigitLayout mTabDigitLayout;
     private ImageView imageCapture;
+    private ImageView ivQrcodeImage;
     private Bitmap mCaptureBitmap;
 
     private ClashBar mClashBar;
@@ -51,6 +57,7 @@ public class ViewTestFragment extends BaseFragment {
     protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         PieView pieView = findViewById(R.id.pie_view);
         imageCapture = findViewById(R.id.image_capture);
+        ivQrcodeImage = findViewById(R.id.iv_qrcode_image);
 
         ArrayList<PieView.PieData> dataList = new ArrayList<>();
         PieView.PieData data;
@@ -79,6 +86,12 @@ public class ViewTestFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 testRingProgressBar();
+            }
+        });
+        findViewById(R.id.btn_qr_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createQrCode();
             }
         });
 
@@ -155,5 +168,44 @@ public class ViewTestFragment extends BaseFragment {
         ringProgressBar3.setAlwaysShowAnimation(false);
         ringProgressBar3.setSweepGradientColors(mGreenGradientColors);
         ringProgressBar3.setProgress(64f, 100);
+    }
+
+    private void createQrCode() {
+        showLoadingDialog();
+        // /storage/emulated/0/Android/data/com.lyric.android.app/files/qr_test.jpg
+        final String filePath = getFileRoot(getActivity()) + File.separator
+                + "qr_test" + ".jpg";
+        // 二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean isSuccess = QRCodeUtils.createQRCode("https://www.github.com", 400, 400,
+                        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), filePath);
+                if (isSuccess) {
+                    if (ivQrcodeImage != null) {
+                        ivQrcodeImage.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                                ivQrcodeImage.setImageBitmap(bitmap);
+
+                                hideLoadingDialog();
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
+    }
+
+    // 文件存储根目录
+    private String getFileRoot(Context context) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File external = context.getExternalFilesDir(null);
+            if (external != null) {
+                return external.getAbsolutePath();
+            }
+        }
+        return context.getFilesDir().getAbsolutePath();
     }
 }
