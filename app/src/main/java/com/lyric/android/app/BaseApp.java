@@ -6,8 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.lyric.android.app.third.fresco.ImageHelper;
-import com.lyric.android.app.third.stetho.StethoUtils;
 import com.lyric.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -28,13 +26,6 @@ public class BaseApp extends Application {
 
         LogUtils.setDebug(Constants.DEBUG);
 
-        StethoUtils.initialize(this, Constants.DEBUG);
-
-        ImageHelper.getInstance().initialize(this);
-
-        if (Constants.LEAK_DEBUG) {
-            setupLeakCanary();
-        }
         addRegisterActivityLifecycleCallbacks();
 	}
 

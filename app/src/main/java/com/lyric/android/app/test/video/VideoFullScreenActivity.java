@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.third.eventbus.EventBusUtils;
+import com.lyric.android.app.eventbus.EventBusUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 

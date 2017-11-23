@@ -1,6 +1,6 @@
 package com.lyric.android.app.test.mvvm.model;
 
-import com.lyric.android.app.third.retrofit.Api;
+import com.lyric.android.app.retrofit.Api;
 
 /**
  * @author lyricgan

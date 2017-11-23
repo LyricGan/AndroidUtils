@@ -21,8 +21,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.lyric.android.app.R;
-import com.lyric.android.app.third.glide.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -165,7 +165,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
         ivStart.setVisibility(View.VISIBLE);
         llBottomControl.setVisibility(View.INVISIBLE);
         pbBottom.setVisibility(View.VISIBLE);
-        ImageLoader.load(getContext(), thumbUrl, ivCover);
+        Glide.with(getContext()).load(thumbUrl).into(ivCover);
 
         CURRENT_STATE = CURRENT_STATE_NORMAL;
         setTitleVisibility(View.VISIBLE);
@@ -737,7 +737,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener, Se
     }
 
     private void loadMp3Thum() {
-        ImageLoader.load(getContext(), thumbUrl, ivCover);
+        Glide.with(getContext()).load(thumbUrl).into(ivCover);
     }
 
     /**

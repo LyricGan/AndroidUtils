@@ -78,6 +78,11 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
 
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
@@ -85,27 +90,25 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
 
     compile 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.google.zxing:core:3.3.1'
+    compile 'com.github.bumptech.glide:glide:4.3.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    compile 'com.facebook.fresco:fresco:1.1.0'
 
-    Map<String, String> dependencies = rootProject.ext.dependencies
-    testCompile dependencies.jUnit
-    testCompile dependencies.mockito
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    compile 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 
-    compile dependencies.nineoldandroids
-    compile dependencies.rxAndroid
-    compile dependencies.gson
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
 
-    debugCompile dependencies.leakcanarydebug
-    releaseCompile dependencies.leakcanaryrelease
-    compile dependencies.retrofit2
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
 
-    compile dependencies.picasso
-    compile dependencies.glide
-    compile dependencies.fresco
-    compile dependencies.stetho
-    compile dependencies.okhttp
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
 
-    compile dependencies.genius
-    compile dependencies.butterKnife
+    compile 'com.github.qiujuer:genius:2.4.1'
 }

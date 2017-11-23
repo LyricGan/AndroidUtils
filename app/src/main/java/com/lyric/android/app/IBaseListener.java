@@ -5,8 +5,8 @@ import android.view.View;
 
 /**
  * 基础接口类
- * 
- * @author ganyu
+ *
+ * @author lyricgan
  * @version 2015-9-24
  */
 public interface IBaseListener {
