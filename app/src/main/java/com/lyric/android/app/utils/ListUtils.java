@@ -1,7 +1,5 @@
 package com.lyric.android.app.utils;
 
-import com.lyric.utils.ArrayUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 

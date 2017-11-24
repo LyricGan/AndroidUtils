@@ -1,4 +1,4 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,7 +8,7 @@ import android.widget.Toast;
 /**
  * Toast工具类，用来弹出提示
  * 
- * @author ganyu
+ * @author lyricgan
  * @created 2014-3-4
  * 
  */

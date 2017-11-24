@@ -16,8 +16,6 @@
  */
 package com.lyric.android.app.utils;
 
-import com.lyric.utils.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

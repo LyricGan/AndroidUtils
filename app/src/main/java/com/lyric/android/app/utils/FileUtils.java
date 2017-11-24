@@ -1,10 +1,12 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
+
+import com.lyric.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

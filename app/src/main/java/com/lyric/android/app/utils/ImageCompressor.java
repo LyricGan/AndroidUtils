@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * 图片压缩工具类，使用方式：<br />
- * ImageCompressor.get(BaseApp.getContext()).load(file).putGear(gear).setCompressListener(listener).launch();
+ * ImageCompressor.get(context).load(file).putGear(gear).setCompressListener(listener).launch();
  */
 public class ImageCompressor {
     private static final String TAG = ImageCompressor.class.getSimpleName();
@@ -53,6 +53,28 @@ public class ImageCompressor {
 
     private ImageCompressor(File cacheDir) {
         mCacheDir = cacheDir;
+    }
+
+    public static ImageCompressor get(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new ImageCompressor(ImageCompressor.getPhotoCacheDir(context));
+        }
+        return INSTANCE;
+    }
+
+    public void launch() {
+        if (mOnCompressListener != null) {
+            mOnCompressListener.onStart();
+        }
+        if (mFile == null) {
+            if (mOnCompressListener != null) {
+                mOnCompressListener.onError(new Throwable("the image file cannot be null, please call .load() before this method!"));
+            }
+            return;
+        }
+        if (mGear == ImageCompressor.FIRST_GEAR || mGear == ImageCompressor.THIRD_GEAR) {
+            compress(mGear);
+        }
     }
 
     /**
@@ -92,28 +114,6 @@ public class ImageCompressor {
             Log.e(TAG, "default disk cache dir is null");
         }
         return null;
-    }
-
-    public static ImageCompressor get(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new ImageCompressor(ImageCompressor.getPhotoCacheDir(context));
-        }
-        return INSTANCE;
-    }
-
-    public void launch() {
-        if (mOnCompressListener != null) {
-            mOnCompressListener.onStart();
-        }
-        if (mFile == null) {
-            if (mOnCompressListener != null) {
-                mOnCompressListener.onError(new Throwable("the image file cannot be null, please call .load() before this method!"));
-            }
-            return;
-        }
-        if (mGear == ImageCompressor.FIRST_GEAR || mGear == ImageCompressor.THIRD_GEAR) {
-            compress(mGear);
-        }
     }
 
     private void compress(final int gear) {

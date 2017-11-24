@@ -14,7 +14,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.utils.FileUtils;
+import com.lyric.android.app.utils.FileUtils;
 import com.lyric.utils.ImageUtils;
 
 import java.io.ByteArrayOutputStream;
