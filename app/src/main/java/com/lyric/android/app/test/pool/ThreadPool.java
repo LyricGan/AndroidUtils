@@ -81,7 +81,7 @@ public final class ThreadPool {
         private boolean isRunning = true;
 
         /*
-         * 关键所在啊，如果任务队列不空，则取出任务执行，若任务队列空，则等待
+         * 关键所在，如果任务队列不空，则取出任务执行，若任务队列空，则等待
          */
         @Override
         public void run() {

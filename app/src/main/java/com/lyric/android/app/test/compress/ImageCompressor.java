@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.test.compress;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,7 +26,7 @@ public class ImageCompressor {
     public static final int THIRD_GEAR = 3;
 
     private static final String DEFAULT_DISK_CACHE_DIR = "image_disk_cache";
-    private static volatile ImageCompressor INSTANCE;
+    private static ImageCompressor sInstance;
     private final File mCacheDir;
     private OnCompressListener mOnCompressListener;
     private int mGear = THIRD_GEAR;
@@ -55,11 +55,11 @@ public class ImageCompressor {
         mCacheDir = cacheDir;
     }
 
-    public static ImageCompressor get(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new ImageCompressor(ImageCompressor.getPhotoCacheDir(context));
+    public static ImageCompressor getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new ImageCompressor(ImageCompressor.getPhotoCacheDir(context));
         }
-        return INSTANCE;
+        return sInstance;
     }
 
     public void launch() {
