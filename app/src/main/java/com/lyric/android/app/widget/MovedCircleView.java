@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.lyric.utils.DisplayUtils;
-import com.lyric.utils.LogUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 /**
  * @author lyricgan

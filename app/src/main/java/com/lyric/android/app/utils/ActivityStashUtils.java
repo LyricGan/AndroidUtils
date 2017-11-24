@@ -13,7 +13,6 @@ import java.util.Map;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/19 14:58
  */
 public class ActivityStashUtils {

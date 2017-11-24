@@ -18,7 +18,7 @@ import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipe.SwipeBackLayout;
-import com.lyric.utils.ViewUtils;
+import com.lyric.android.app.utils.ViewUtils;
 
 import java.lang.ref.WeakReference;
 

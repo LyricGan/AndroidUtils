@@ -37,12 +37,11 @@ import java.io.FileNotFoundException;
 /**
  * 图片工具类
  * 
- * @author ganyu
- * 
+ * @author lyricgan
  */
 public class ImageUtils {
 
-	ImageUtils() {
+	private ImageUtils() {
 	}
 	
 	/**
@@ -139,63 +138,6 @@ public class ImageUtils {
         return bitmap;
     }
 	
-	/**
-	 * 对指定的视图进行截图
-	 * @param view 视图
-	 * @return Bitmap
-	 */
-	public static Bitmap capture(View view) {
-        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
-            return null;
-        }
-		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		canvas.translate(-view.getScrollX(), -view.getScrollY());
-		view.draw(canvas);
-		view.setDrawingCacheEnabled(true);
-		Bitmap newBitmap = view.getDrawingCache().copy(Config.ARGB_8888, true);
-		view.destroyDrawingCache();
-		return newBitmap;
-	}
-
-    /**
-     * 对ScrollView截图
-     * @param scrollView ScrollView
-     * @return Bitmap
-     */
-    public static Bitmap capture(ScrollView scrollView) {
-        int height = 0;
-        Bitmap bitmap;
-        for (int i = 0; i < scrollView.getChildCount(); i++) {
-            height += scrollView.getChildAt(i).getHeight();
-            scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
-        }
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(bitmap);
-        scrollView.draw(canvas);
-        return bitmap;
-    }
-
-    /**
-     * 对WebView截图
-     * @param webView WebView
-     * @return Bitmap
-     */
-    public static Bitmap capture(WebView webView) {
-        float scale = webView.getScale();
-        int height = (int) (webView.getContentHeight() * scale);
-        final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(bitmap);
-        webView.draw(canvas);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        final byte[] bytes = stream.toByteArray();
-        if (!bitmap.isRecycled()) {
-            bitmap.recycle();
-        }
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
-
 	/**
 	 * 按宽高缩放图片
 	 * @param bitmap Bitmap
@@ -510,5 +452,62 @@ public class ImageUtils {
             rs.destroy();
         }
         return outBitmap;
+    }
+
+    /**
+     * 对指定的视图进行截图
+     * @param view 视图
+     * @return Bitmap
+     */
+    public static Bitmap capture(View view) {
+        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.translate(-view.getScrollX(), -view.getScrollY());
+        view.draw(canvas);
+        view.setDrawingCacheEnabled(true);
+        Bitmap newBitmap = view.getDrawingCache().copy(Config.ARGB_8888, true);
+        view.destroyDrawingCache();
+        return newBitmap;
+    }
+
+    /**
+     * 对ScrollView截图
+     * @param scrollView ScrollView
+     * @return Bitmap
+     */
+    public static Bitmap capture(ScrollView scrollView) {
+        int height = 0;
+        Bitmap bitmap;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            height += scrollView.getChildAt(i).getHeight();
+            scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
+        }
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * 对WebView截图
+     * @param webView WebView
+     * @return Bitmap
+     */
+    public static Bitmap capture(WebView webView) {
+        float scale = webView.getScale();
+        int height = (int) (webView.getContentHeight() * scale);
+        final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        webView.draw(canvas);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        final byte[] bytes = stream.toByteArray();
+        if (!bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

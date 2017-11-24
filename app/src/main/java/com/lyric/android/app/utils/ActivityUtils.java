@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 /**
+ * 页面跳转工具类
  * @author lyricgan
- * @description
  * @time 2016/1/20 14:41
  */
 public class ActivityUtils {

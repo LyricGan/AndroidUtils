@@ -12,10 +12,14 @@ import java.util.Random;
 
 /**
  * 通知工具类
- * @author ganyu
+ * @author lyricgan
  * @date 2017/9/30 15:02
  */
 public class NotificationHelper {
+
+    public static NotificationManager getNotificationManager(Context context) {
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 
     public static Notification build(Context context, CharSequence title, CharSequence content, Intent intent) {
         return build(context, title, content, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -62,7 +66,7 @@ public class NotificationHelper {
     }
 
     public static void notify(Context context, String tag, int id, Notification notification) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = getNotificationManager(context);
         if (nm != null) {
             nm.notify(tag, id, notification);
         }
@@ -77,14 +81,14 @@ public class NotificationHelper {
     }
 
     public static void cancel(Context context, String tag, int id) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = getNotificationManager(context);
         if (nm != null) {
             nm.cancel(tag, id);
         }
     }
 
     public static void cancelAll(Context context) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = getNotificationManager(context);
         if (nm != null) {
             nm.cancelAll();
         }

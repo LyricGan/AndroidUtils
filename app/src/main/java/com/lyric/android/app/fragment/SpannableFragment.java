@@ -25,10 +25,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lyric.android.app.R;
 import com.lyric.android.app.BaseFragment;
+import com.lyric.android.app.R;
 import com.lyric.android.app.widget.span.SpanTextUtils;
-import com.lyric.utils.KeywordUtils;
+import com.lyric.utils.StringUtils;
 
 /**
  * @author ganyu
@@ -114,7 +114,7 @@ public class SpannableFragment extends BaseFragment {
         String keywordString = "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
-        tv_spannable_keywords.setText(KeywordUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
+        tv_spannable_keywords.setText(StringUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
 
         tv_spannable_keywords2.setText(SpanTextUtils.buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
         tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());

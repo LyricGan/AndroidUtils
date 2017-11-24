@@ -2,7 +2,7 @@ package com.lyric.android.app.test.network;
 
 import android.text.TextUtils;
 
-import com.lyric.utils.LogUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

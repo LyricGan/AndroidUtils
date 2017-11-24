@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.widget.dialog.LoadingDialog;
-import com.lyric.utils.ViewUtils;
+import com.lyric.android.app.utils.ViewUtils;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected final String TAG = getClass().getName();

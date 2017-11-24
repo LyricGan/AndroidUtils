@@ -8,7 +8,7 @@ import android.os.Vibrator;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.utils.ViewUtils;
+import com.lyric.android.app.utils.ViewUtils;
 
 /**
  * 滑动关闭帮助类

@@ -3,7 +3,7 @@ package com.lyric.android.app.eventbus;
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * register()与unregister()需配套使用
+ * EventBus工具类，register()与unregister()需同时使用
  * @author lyricgan
  * @time 2016/3/30 14:29
  */

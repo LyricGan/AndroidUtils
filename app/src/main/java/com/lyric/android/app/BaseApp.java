@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.lyric.utils.LogUtils;
+import com.lyric.android.app.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 

@@ -77,13 +77,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-        <activity
-            android:name=".activity.VideoListActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".test.video.VideoFullScreenActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape"/>
 
         <service
             android:name=".test.service.TestService"
@@ -97,7 +90,7 @@
         </service>
 
         <provider
-            android:name=".test.others.TestContentProvider"
+            android:name=".test.TestContentProvider"
             android:authorities="com.lyric.provider.test"
             android:exported="true"
             android:permission="TEST_PROVIDER_WRITE"

@@ -28,7 +28,6 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
-import com.lyric.android.app.fragment.LoginFragment;
 import com.lyric.android.app.fragment.ProgressBarFragment;
 import com.lyric.android.app.fragment.ViewTestFragment;
 import com.lyric.android.app.fragment.WebFragment;
@@ -36,7 +35,7 @@ import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.utils.DisplayUtils;
-import com.lyric.utils.LogUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()) {
                     case R.id.nav_login: {
-                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, LoginFragment.class));
                     }
                         break;
                     case R.id.nav_loading: {
@@ -187,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                         break;
                     case R.id.menu_item_video: {
-                        ActivityUtils.startActivity(MainActivity.this, VideoListActivity.class);
                     }
                         break;
                     case R.id.menu_item_exit: {

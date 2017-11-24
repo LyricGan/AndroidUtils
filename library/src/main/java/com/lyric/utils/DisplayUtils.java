@@ -11,9 +11,10 @@ import android.view.WindowManager;
 import java.lang.reflect.Method;
 
 /**
- * 视图显示工具类{@link DisplayMetrics}
+ * 视图显示工具类
  * @author lyricgan
  * @time 2016/3/12 15:04
+ * @see DisplayMetrics
  */
 public class DisplayUtils {
 

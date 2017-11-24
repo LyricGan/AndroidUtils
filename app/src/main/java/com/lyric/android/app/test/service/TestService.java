@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.lyric.android.app.Constants;
-import com.lyric.utils.LogUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 public class TestService extends Service {
     private TestServiceBinder mServiceBinder;

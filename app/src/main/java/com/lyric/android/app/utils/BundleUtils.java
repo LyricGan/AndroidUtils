@@ -8,8 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * @author lyric
- * @description
+ * @author lyricgan
  * @time 2016/3/22 19:49
  */
 public class BundleUtils {

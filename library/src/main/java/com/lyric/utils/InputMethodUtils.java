@@ -9,8 +9,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**
- * @author lyric
- * @description
+ * 软键盘工具类
+ * @author lyricgan
  * @time 2016/4/6 11:14
  */
 public class InputMethodUtils {

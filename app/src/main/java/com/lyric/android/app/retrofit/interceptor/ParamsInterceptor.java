@@ -5,7 +5,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.lyric.android.app.BaseApp;
-import com.lyric.utils.PackageUtils;
+import com.lyric.android.app.utils.PackageUtils;
 
 import java.io.IOException;
 
