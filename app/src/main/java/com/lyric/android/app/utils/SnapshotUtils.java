@@ -31,7 +31,6 @@ public class SnapshotUtils {
         View decorView = activity.getWindow().getDecorView();
         decorView.setDrawingCacheEnabled(true);
         decorView.buildDrawingCache();
-        Bitmap cacheBitmap = decorView.getDrawingCache();
         int statusBarHeight = 0;
         if (!isContainsStatusBar) {
             Rect frameOutRect = new Rect();
@@ -42,7 +41,7 @@ public class SnapshotUtils {
         Display display = activity.getWindowManager().getDefaultDisplay();
         int screenWidth = display.getWidth();
         int screenHeight = display.getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap, 0, actualStartHeight, screenWidth, screenHeight - actualStartHeight);
+        Bitmap bitmap = Bitmap.createBitmap(decorView.getDrawingCache(), 0, actualStartHeight, screenWidth, screenHeight - actualStartHeight);
         decorView.setDrawingCacheEnabled(false);
         decorView.destroyDrawingCache();
         return bitmap;
@@ -59,6 +58,7 @@ public class SnapshotUtils {
         if (view == null) {
             return null;
         }
+        // 判断视图宽高是否需要重新测量
         if (view.getWidth() <= 0 || view.getHeight() <= 0) {
             int widthMeasureSpec;
             if (exactlyWidth <= 0) {
@@ -78,10 +78,13 @@ public class SnapshotUtils {
                 return null;
             }
         }
+        return snapShot(view);
+    }
+
+    public static Bitmap snapShot(View view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
-        Bitmap cacheBitmap = view.getDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap, 0, 0, view.getWidth(), view.getHeight());
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache(), 0, 0, view.getWidth(), view.getHeight());
         view.setDrawingCacheEnabled(false);
         view.destroyDrawingCache();
         return bitmap;

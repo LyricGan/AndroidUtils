@@ -1,6 +1,7 @@
 package com.lyric.android.app.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 /**
- * 二维码生成工具类
+ * 二维码工具类
  *
  * @author lyricgan
  * @date 2017/11/23 12:59
@@ -37,7 +38,20 @@ public class QRCodeUtils {
      * @return Bitmap or null
      */
     public static Bitmap createQRCodeBitmap(String content, int width, int height) {
-        return createQRCodeBitmap(content, width, height, "UTF-8", "H", "2", Color.BLACK, Color.WHITE);
+        return createQRCodeBitmap(content, width, height, 1);
+    }
+
+    /**
+     * 创建二维码位图
+     *
+     * @param content 字符串内容(支持中文)
+     * @param width 位图宽度(单位:px)
+     * @param height 位图高度(单位:px)
+     * @param margin 空白边距，要求>=0
+     * @return Bitmap or null
+     */
+    public static Bitmap createQRCodeBitmap(String content, int width, int height, int margin) {
+        return createQRCodeBitmap(content, width, height, "UTF-8", "H", margin + "", Color.BLACK, Color.WHITE);
     }
 
     /**
@@ -101,6 +115,23 @@ public class QRCodeUtils {
      * @param height 图片高度
      * @param logoBitmap 二维码中心的Logo图标（可以为null）
      * @param filePath  用于存储二维码图片的文件路径
+     * @return 生成的二维码图片
+     */
+    public static Bitmap createQRCodeBitmap(String content, int width, int height, Bitmap logoBitmap, String filePath) {
+        boolean isSuccess = QRCodeUtils.createQRCode(content, width, height, logoBitmap, filePath);
+        if (isSuccess) {
+            return BitmapFactory.decodeFile(filePath);
+        }
+        return null;
+    }
+
+    /**
+     * 生成二维码Bitmap
+     * @param content   内容
+     * @param width  图片宽度
+     * @param height 图片高度
+     * @param logoBitmap 二维码中心的Logo图标（可以为null）
+     * @param filePath  用于存储二维码图片的文件路径
      * @return 生成二维码及保存文件是否成功
      */
     public static boolean createQRCode(String content, int width, int height, Bitmap logoBitmap, String filePath) {
@@ -109,7 +140,7 @@ public class QRCodeUtils {
             if (logoBitmap != null) {
                 bitmap = composeLogo(bitmap, logoBitmap);
             }
-            // 必须使用compress方法将bitmap保存到文件中再进行读取。直接返回的bitmap是没有任何压缩的，内存消耗巨大！
+            // 由于直接返回的bitmap没有任何压缩，内存消耗比较大，使用compress方法将bitmap保存到文件中再进行读取
             return bitmap != null && bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(filePath));
         } catch (IOException e) {
             e.printStackTrace();

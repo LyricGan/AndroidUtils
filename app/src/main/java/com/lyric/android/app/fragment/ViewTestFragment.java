@@ -1,10 +1,8 @@
 package com.lyric.android.app.fragment;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +13,7 @@ import android.widget.ImageView;
 import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
+import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.ClashBar;
@@ -172,22 +171,21 @@ public class ViewTestFragment extends BaseFragment {
 
     private void createQrCode() {
         showLoadingDialog();
-        // /storage/emulated/0/Android/data/com.lyric.android.app/files/qr_test.jpg
-        final String filePath = getFileRoot(getActivity()) + File.separator
-                + "qr_test" + ".jpg";
+        // /data/data/com.lyric.android.app/files/qr_test0001.jpg
+        final String filePath = getContext().getFilesDir().getAbsolutePath() + File.separator + "qr_test0001.jpg";
+        LogUtils.d("lyricgan", "filePath:" + filePath);
         // 二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean isSuccess = QRCodeUtils.createQRCode("https://www.github.com", 400, 400,
+                final Bitmap qrCodeBitmap = QRCodeUtils.createQRCodeBitmap("https://www.github.com", 400, 400,
                         BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), filePath);
-                if (isSuccess) {
+                if (qrCodeBitmap != null) {
                     if (ivQrcodeImage != null) {
                         ivQrcodeImage.post(new Runnable() {
                             @Override
                             public void run() {
-                                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                                ivQrcodeImage.setImageBitmap(bitmap);
+                                ivQrcodeImage.setImageBitmap(qrCodeBitmap);
 
                                 hideLoadingDialog();
                             }
@@ -196,16 +194,5 @@ public class ViewTestFragment extends BaseFragment {
                 }
             }
         }).start();
-    }
-
-    // 文件存储根目录
-    private String getFileRoot(Context context) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File external = context.getExternalFilesDir(null);
-            if (external != null) {
-                return external.getAbsolutePath();
-            }
-        }
-        return context.getFilesDir().getAbsolutePath();
     }
 }
