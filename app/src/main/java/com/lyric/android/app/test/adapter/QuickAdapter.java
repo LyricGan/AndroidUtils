@@ -51,6 +51,7 @@ public abstract class QuickAdapter<T> extends BaseQuickAdapter<T, BaseAdapterHel
         super(context, layoutResId, data);
     }
 
+    @Override
     protected BaseAdapterHelper getAdapterHelper(int position, View convertView, ViewGroup parent) {
         return get(context, convertView, parent, layoutResId, position);
     }

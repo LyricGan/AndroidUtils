@@ -397,7 +397,7 @@ public class BaseAdapterHelper {
      * @return The BaseAdapterHelper for chaining.
      */
     public BaseAdapterHelper setChecked(int viewId, boolean checked) {
-        Checkable view = (Checkable) retrieveView(viewId);
+        Checkable view = retrieveView(viewId);
         view.setChecked(checked);
         return this;
     }
@@ -424,9 +424,10 @@ public class BaseAdapterHelper {
      * @throws IllegalArgumentException If the position hasn't been set at the construction of the this helper.
      */
     public int getPosition() {
-        if (position == -1)
+        if (position == -1) {
             throw new IllegalStateException("Use BaseAdapterHelper constructor " +
                     "with position if you need to retrieve the position.");
+        }
         return position;
     }
 
