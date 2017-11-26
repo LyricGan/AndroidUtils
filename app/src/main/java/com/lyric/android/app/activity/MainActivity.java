@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 主页面
  * @author lyricgan
  * @time 2016/1/19 17:47
  */
@@ -152,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         }
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
+        // 设置缓存页数
+        mViewPager.setOffscreenPageLimit(titles.length);
         tabLayout.setupWithViewPager(mViewPager);
     }
 
