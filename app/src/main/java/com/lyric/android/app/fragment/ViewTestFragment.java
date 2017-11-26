@@ -43,6 +43,13 @@ public class ViewTestFragment extends BaseFragment {
 
     private ClashBar mClashBar;
 
+    public static ViewTestFragment newInstance() {
+        Bundle args = new Bundle();
+        ViewTestFragment fragment = new ViewTestFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initExtras(Bundle savedInstanceState) {
     }

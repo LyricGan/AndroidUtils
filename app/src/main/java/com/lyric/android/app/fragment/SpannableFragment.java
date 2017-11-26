@@ -31,13 +31,20 @@ import com.lyric.android.app.widget.span.SpanTextUtils;
 import com.lyric.utils.StringUtils;
 
 /**
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 15:01
  */
 public class SpannableFragment extends BaseFragment {
+
+    public static SpannableFragment newInstance() {
+        Bundle args = new Bundle();
+        SpannableFragment fragment = new SpannableFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initExtras(Bundle savedInstanceState) {
-
     }
 
     @Override

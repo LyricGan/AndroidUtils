@@ -20,6 +20,13 @@ import com.lyric.android.app.widget.praiseview.PraisePopupWindow;
 public class PraiseFragment extends BaseFragment {
     private PraisePopupWindow mPraisePopupWindow;
 
+    public static PraiseFragment newInstance() {
+        Bundle args = new Bundle();
+        PraiseFragment fragment = new PraiseFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initExtras(Bundle savedInstanceState) {
     }
