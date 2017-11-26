@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 线程池
  * @author lyricgan
- * @description
  * @time 2016/1/27 17:01
  */
 public final class ThreadPool {
@@ -13,9 +13,8 @@ public final class ThreadPool {
     private static int sWorkerNum = 5;
     // 工作线程
     private WorkThread[] workThreads;
-
-    // 任务队列，作为一个缓冲,List线程不安全
-    private final List<Runnable> taskQueue = new LinkedList<Runnable>();
+    // 任务队列，作为一个缓冲，List线程不安全
+    private final List<Runnable> taskQueue = new LinkedList<>();
 
     private static ThreadPool threadPool;
 
@@ -24,7 +23,7 @@ public final class ThreadPool {
         this(5);
     }
 
-    // 创建线程池,worker_num为线程池中工作线程的个数
+    // 创建线程池,workerNum为线程池中工作线程的个数
     private ThreadPool(int workerNum) {
         ThreadPool.sWorkerNum = workerNum;
         workThreads = new WorkThread[workerNum];
@@ -41,9 +40,10 @@ public final class ThreadPool {
 
     // 单态模式，获得一个指定线程个数的线程池,sWorkerNum(>0)为线程池中工作线程的个数
     // sWorkerNum<=0创建默认的工作线程个数
-    public static ThreadPool getThreadPool(int worker_num1) {
-        if (threadPool == null)
-            threadPool = new ThreadPool(worker_num1);
+    public static ThreadPool getThreadPool(int workerNum) {
+        if (threadPool == null) {
+            threadPool = new ThreadPool(workerNum);
+        }
         return threadPool;
     }
 
@@ -85,7 +85,7 @@ public final class ThreadPool {
          */
         @Override
         public void run() {
-            Runnable r = null;
+            Runnable runnable = null;
             while (isRunning) {// 注意，若线程无效则自然结束run方法，该线程就没用了
                 synchronized (taskQueue) {
                     while (isRunning && taskQueue.isEmpty()) {// 队列为空
@@ -96,12 +96,12 @@ public final class ThreadPool {
                         }
                     }
                     if (!taskQueue.isEmpty())
-                        r = taskQueue.remove(0);// 取出任务
+                        runnable = taskQueue.remove(0);// 取出任务
                 }
-                if (r != null) {
-                    r.run();// 执行任务
+                if (runnable != null) {
+                    runnable.run();// 执行任务
                 }
-                r = null;
+                runnable = null;
             }
         }
 
