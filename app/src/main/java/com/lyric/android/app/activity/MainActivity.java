@@ -137,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         // 设置为可滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        Fragment[] fragments = {ListFragment.newInstance(), LoadingFragment.newInstance(), PraiseFragment.newInstance(),
+                ProgressBarFragment.newInstance(), ServiceFragment.newInstance(), SpannableFragment.newInstance(),
+                ViewTestFragment.newInstance(), WebFragment.newInstance()};
+        List<Fragment> fragmentList = Arrays.asList(fragments);
         String[] titles = {ListFragment.class.getSimpleName(), LoadingFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
                 ProgressBarFragment.class.getSimpleName(), ServiceFragment.class.getSimpleName(), SpannableFragment.class.getSimpleName(),
                 ViewTestFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
@@ -145,10 +150,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
         }
-        Fragment[] fragments = {ListFragment.newInstance(), LoadingFragment.newInstance(), PraiseFragment.newInstance(),
-                ProgressBarFragment.newInstance(), ServiceFragment.newInstance(), SpannableFragment.newInstance(),
-                ViewTestFragment.newInstance(), WebFragment.newInstance()};
-        List<Fragment> fragmentList = Arrays.asList(fragments);
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager);
