@@ -1,9 +1,12 @@
 package com.lyric.android.app.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.lyric.utils.StringUtils;
@@ -305,14 +308,15 @@ public class FileUtils {
      * @return byte 单位 kb
      */
     public static long getDiskAvailableSize() {
-        if (!isSdcardExists()) return 0;
-        File path = Environment.getExternalStorageDirectory(); // 取得sdcard文件路径
+        if (!isSdcardExists()) {
+            return 0;
+        }
+        // 取得sdcard文件路径
+        File path = Environment.getExternalStorageDirectory();
         StatFs stat = new StatFs(path.getAbsolutePath());
         long blockSize = stat.getBlockSize();
         long availableBlocks = stat.getAvailableBlocks();
         return availableBlocks * blockSize;
-        // (availableBlocks * blockSize)/1024 KIB 单位
-        // (availableBlocks * blockSize)/1024 /1024 MIB单位
     }
 
     /**
@@ -320,7 +324,7 @@ public class FileUtils {
      * @return true or false
      */
     public static boolean isSdcardExists() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
     public static long getFileOrDirSize(File file) {
@@ -925,40 +929,40 @@ public class FileUtils {
 
     /**
      * 清除应用内部缓存(/data/data/com.xxx.xxx/cache)
-     * @param context 应用上下文
+     * @param context 上下文
      */
-    public static void cleanInternalCache(Context context) {
+    public static void clearInternalCache(Context context) {
         deleteFilesByDirectory(context.getCacheDir());
     }
 
     /**
      * 清除应用数据库(/data/data/com.xxx.xxx/databases)
-     * @param context 应用上下文
+     * @param context 上下文
      */
-    public static void cleanDatabase(Context context) {
+    public static void clearDatabase(Context context) {
         deleteFilesByDirectory(new File(Environment.getDataDirectory() + "/" + context.getPackageName() + "/databases"));
     }
 
     /**
      * 清除应用指定名称的数据库
-     * @param context 应用上下文
+     * @param context 上下文
      * @param dbName 数据库名称
      */
-    public static void cleanDatabase(Context context, String dbName) {
+    public static void clearDatabase(Context context, String dbName) {
         context.deleteDatabase(dbName);
     }
 
     /**
      * 清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs)
-     * @param context 应用上下文
+     * @param context 上下文
      */
-    public static void cleanSharedPreference(Context context) {
+    public static void clearSharedPreferences(Context context) {
         deleteFilesByDirectory(new File(Environment.getDataDirectory() + "/" + context.getPackageName() + "/shared_prefs"));
     }
 
     /**
      * 清除/data/data/com.xxx.xxx/files下的内容
-     * @param context 应用上下文
+     * @param context 上下文
      */
     public static void cleanFiles(Context context) {
         deleteFilesByDirectory(context.getFilesDir());
@@ -966,10 +970,10 @@ public class FileUtils {
 
     /**
      * 清除外部cache下的内容(/mnt/sdcard/android/data/com.xxx.xxx/cache)
-     * @param context 应用上下文
+     * @param context 上下文
      */
     public static void cleanExternalCache(Context context) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (isSdcardExists()) {
             deleteFilesByDirectory(context.getExternalCacheDir());
         }
     }
@@ -978,26 +982,25 @@ public class FileUtils {
      * 清除自定义路径下的文件
      * @param filePath 文件目录
      */
-    public static void cleanCustomCache(String filePath) {
+    public static void clearCustomCache(String filePath) {
         deleteFilesByDirectory(new File(filePath));
     }
 
     /**
      * 清除应用数据
-     * @param context 应用上下文
+     * @param context 上下文
      * @param filePaths 文件目录集
      */
-    public static void cleanApplicationData(Context context, String... filePaths) {
-        cleanInternalCache(context);
+    public static void clearApplicationData(Context context, String... filePaths) {
+        clearInternalCache(context);
         cleanExternalCache(context);
-        cleanDatabase(context);
-        cleanSharedPreference(context);
+        clearDatabase(context);
+        clearSharedPreferences(context);
         cleanFiles(context);
-        if (filePaths == null) {
-            return;
-        }
-        for (String filePath : filePaths) {
-            cleanCustomCache(filePath);
+        if (filePaths != null && filePaths.length > 0) {
+            for (String filePath : filePaths) {
+                clearCustomCache(filePath);
+            }
         }
     }
 
@@ -1015,28 +1018,28 @@ public class FileUtils {
 
     /**
      * 获取文件大小<br />
-     * Context.getExternalFilesDir() --> SDCard/Android/data/应用的包名/files/目录，一般放一些长时间保存的数据<br />
+     * Context.getExternalFilesDir() --> SDCard/Android/data/应用包名/files/目录，一般放一些长时间保存的数据<br />
      * Context.getExternalCacheDir() --> SDCard/Android/data/应用包名/cache/目录，一般存放临时缓存数据<br />
      * @param file 文件
      * @return long
-     * @throws Exception
      * @see Context#getExternalCacheDir()
      * @see Context#getExternalFilesDir(String)
      */
-    public static long getFolderSize(File file) throws Exception {
+    public static long getFileSize(File file) {
         long size = 0;
-        try {
-            File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
-                // 判断是否为文件夹
-                if (fileList[i].isDirectory()) {
-                    size = size + getFolderSize(fileList[i]);
-                } else {
-                    size = size + fileList[i].length();
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null && files.length > 0) {
+                for (File childFile : files) {
+                    if (childFile.isDirectory()) {
+                        size += getFileSize(childFile);
+                    } else {
+                        size += childFile.length();
+                    }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            size += file.length();
         }
         return size;
     }
@@ -1045,45 +1048,24 @@ public class FileUtils {
      * 删除指定目录下文件及目录文件
      *
      * @param filePath 文件路径
-     * @param isDelete 是否删除目录文件
+     * @param isDeleteDir 是否删除目录文件
      */
-    public static void deleteFolderFile(String filePath, boolean isDelete) {
+    public static void deleteFolder(String filePath, boolean isDeleteDir) {
         if (TextUtils.isEmpty(filePath)) {
             return;
         }
-        try {
-            File file = new File(filePath);
-            // 判断是否为文件夹
-            if (file.isDirectory()) {
-                File files[] = file.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    deleteFolderFile(files[i].getAbsolutePath(), true);
+        File file = new File(filePath);
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null && files.length > 0) {
+                for (File childFile : files) {
+                    deleteFolder(childFile.getAbsolutePath(), isDeleteDir);
                 }
             }
-            if (isDelete) {
-                // 判断是否为文件夹
-                if (!file.isDirectory()) {
-                    file.delete();
-                } else {
-                    // 判断目录下是否有文件
-                    if (file.listFiles().length == 0) {
-                        file.delete();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
-
-    /**
-     * 获取缓存文件大小
-     * @param file File
-     * @return String
-     * @throws Exception
-     */
-    public static String getCacheSize(File file) throws Exception {
-        return getFormatSize(getFolderSize(file));
+        if (isDeleteDir) {
+            file.delete();
+        }
     }
 
     /**
@@ -1142,7 +1124,7 @@ public class FileUtils {
 
     /**
      * 清除WebView默认缓存
-     * @param context 应用上下文
+     * @param context 上下文
      */
     public static void clearWebCache(Context context) {
         if (context == null) {
@@ -1150,5 +1132,27 @@ public class FileUtils {
         }
         context.getApplicationContext().deleteDatabase("webview.db");
         context.getApplicationContext().deleteDatabase("webviewCache.db");
+    }
+
+    /**
+     * 保存图片到系统相册
+     * @param context 上下文
+     * @param imagePath 图片路径
+     * @param name 图片指定名称
+     * @param description 图片描述
+     * @param isNotifyAlbum 是否通知相册更新
+     */
+    public static void insertImage(Context context, String imagePath, String name, String description, boolean isNotifyAlbum) {
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), imagePath, name, description);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (isNotifyAlbum) {
+            // 发送广播通知相册更新
+            Uri uri = Uri.fromFile(new File((imagePath)));
+            // 扫描SD卡的广播：Intent.ACTION_MEDIA_MOUNTED，扫描期间SD卡无法访问影响体验，使用Intent.ACTION_MEDIA_SCANNER_SCAN_FILE扫描单个文件提升访问速度
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+        }
     }
 }
