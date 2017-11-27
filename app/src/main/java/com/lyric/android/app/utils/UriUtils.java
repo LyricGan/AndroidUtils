@@ -50,8 +50,7 @@ public class UriUtils {
      * @return true if uri's scheme is equal to "file"
      */
     public static boolean isLocalFileUri(@Nullable Uri uri) {
-        final String scheme = getSchemeOrNull(uri);
-        return LOCAL_FILE_SCHEME.equals(scheme);
+        return LOCAL_FILE_SCHEME.equals(getSchemeOrNull(uri));
     }
 
     /**
@@ -61,8 +60,7 @@ public class UriUtils {
      * @return true if uri's scheme is equal to "content"
      */
     public static boolean isLocalContentUri(@Nullable Uri uri) {
-        final String scheme = getSchemeOrNull(uri);
-        return LOCAL_CONTENT_SCHEME.equals(scheme);
+        return LOCAL_CONTENT_SCHEME.equals(getSchemeOrNull(uri));
     }
 
     /**
@@ -72,8 +70,7 @@ public class UriUtils {
      * @return true if uri's scheme is equal to "asset"
      */
     public static boolean isLocalAssetUri(@Nullable Uri uri) {
-        final String scheme = getSchemeOrNull(uri);
-        return LOCAL_ASSET_SCHEME.equals(scheme);
+        return LOCAL_ASSET_SCHEME.equals(getSchemeOrNull(uri));
     }
 
     /**
@@ -83,8 +80,7 @@ public class UriUtils {
      * @return true if uri's scheme is equal to {@link #LOCAL_RESOURCE_SCHEME}
      */
     public static boolean isLocalResourceUri(@Nullable Uri uri) {
-        final String scheme = getSchemeOrNull(uri);
-        return LOCAL_RESOURCE_SCHEME.equals(scheme);
+        return LOCAL_RESOURCE_SCHEME.equals(getSchemeOrNull(uri));
     }
 
     /**
@@ -119,8 +115,8 @@ public class UriUtils {
     /**
      * Method for return file path of Gallery image
      *
-     * @param context
-     * @param uri
+     * @param context The context.
+     * @param uri The Uri to query.
      * @return path of the selected image file from gallery
      */
     public static String getPath(Context context, final Uri uri) {
