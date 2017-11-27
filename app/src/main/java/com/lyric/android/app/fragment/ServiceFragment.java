@@ -20,12 +20,19 @@ import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.ToastUtils;
 
 /**
- * 服务类测试页面
- * @author ganyu
+ * 服务测试页面
+ * @author lyricgan
  * @date 2017/7/25 15:05
  */
 public class ServiceFragment extends BaseFragment {
     private boolean mServiceConnected = false;
+
+    public static ServiceFragment newInstance() {
+        Bundle args = new Bundle();
+        ServiceFragment fragment = new ServiceFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initExtras(Bundle savedInstanceState) {

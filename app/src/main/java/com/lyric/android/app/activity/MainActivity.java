@@ -28,19 +28,23 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.FragmentAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
+import com.lyric.android.app.fragment.PraiseFragment;
 import com.lyric.android.app.fragment.ProgressBarFragment;
+import com.lyric.android.app.fragment.ServiceFragment;
+import com.lyric.android.app.fragment.SpannableFragment;
 import com.lyric.android.app.fragment.ViewTestFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
+import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.utils.DisplayUtils;
-import com.lyric.android.app.utils.LogUtils;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 主页面
  * @author lyricgan
  * @time 2016/1/19 17:47
  */
@@ -132,23 +136,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        List<String> titleList = new ArrayList<>();
-        titleList.add("选项卡一");
-        titleList.add("选项卡二");
-        titleList.add("选项卡三");
-        titleList.add("选项卡四");
-        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(0)));
-        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(1)));
-        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(2)));
-        tabLayout.addTab(tabLayout.newTab().setText(titleList.get(3)));
+        // 设置为可滚动模式
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(ListFragment.newInstance());
-        fragmentList.add(ListFragment.newInstance());
-        fragmentList.add(ListFragment.newInstance());
-        fragmentList.add(ListFragment.newInstance());
+        Fragment[] fragments = {ListFragment.newInstance(), LoadingFragment.newInstance(), PraiseFragment.newInstance(),
+                ProgressBarFragment.newInstance(), ServiceFragment.newInstance(), SpannableFragment.newInstance(),
+                ViewTestFragment.newInstance(), WebFragment.newInstance()};
+        List<Fragment> fragmentList = Arrays.asList(fragments);
+        String[] titles = {ListFragment.class.getSimpleName(), LoadingFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
+                ProgressBarFragment.class.getSimpleName(), ServiceFragment.class.getSimpleName(), SpannableFragment.class.getSimpleName(),
+                ViewTestFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
+        List<String> titleList = Arrays.asList(titles);
+        int size = titleList.size();
+        for (int i = 0; i < size; i++) {
+            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
+        }
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
+        // 设置缓存页数
+        mViewPager.setOffscreenPageLimit(titles.length);
         tabLayout.setupWithViewPager(mViewPager);
     }
 

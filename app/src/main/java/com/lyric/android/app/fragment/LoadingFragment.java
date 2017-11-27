@@ -10,10 +10,17 @@ import com.lyric.android.app.BaseFragment;
 
 /**
  * 加载视图页面
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 14:14
  */
 public class LoadingFragment extends BaseFragment {
+
+    public static LoadingFragment newInstance() {
+        Bundle args = new Bundle();
+        LoadingFragment fragment = new LoadingFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initExtras(Bundle savedInstanceState) {

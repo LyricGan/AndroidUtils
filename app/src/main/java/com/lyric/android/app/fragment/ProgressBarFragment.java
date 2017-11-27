@@ -12,7 +12,7 @@ import com.lyric.android.app.widget.progressbar.CircleProgressBar;
 
 /**
  * 加载进度页面
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 14:24
  */
 public class ProgressBarFragment extends BaseFragment {
@@ -24,6 +24,13 @@ public class ProgressBarFragment extends BaseFragment {
     private CircleProgressBar mCustomProgressBar4;
     private CircleProgressBar mCustomProgressBar5;
     private CircleProgressBar mCustomProgressBar6;
+
+    public static ProgressBarFragment newInstance() {
+        Bundle args = new Bundle();
+        ProgressBarFragment fragment = new ProgressBarFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initExtras(Bundle savedInstanceState) {

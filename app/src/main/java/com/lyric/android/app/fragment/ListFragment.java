@@ -16,7 +16,7 @@ import com.lyric.android.app.widget.refresh.OnRefreshListener;
 
 /**
  * 列表页面
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 14:22
  */
 public class ListFragment extends BaseFragment {

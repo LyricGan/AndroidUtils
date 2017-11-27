@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
  * @time 2016/3/28 16:21
  */
 public class WeakHandler<T> extends Handler {
-    private final WeakReference<T> mReference;
+    private WeakReference<T> mReference;
 
     public WeakHandler(T object) {
         this(object, Looper.getMainLooper());
@@ -23,6 +23,15 @@ public class WeakHandler<T> extends Handler {
     }
 
     public T get() {
-        return mReference.get();
+        if (mReference != null) {
+            return mReference.get();
+        }
+        return null;
+    }
+
+    public void clear() {
+        if (mReference != null) {
+            mReference.clear();
+        }
     }
 }

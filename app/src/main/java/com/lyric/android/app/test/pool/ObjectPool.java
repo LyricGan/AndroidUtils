@@ -4,8 +4,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
+ * 对象池
  * @author lyricgan
- * @description 对象池
  * @time 2016/1/27 17:52
  */
 public class ObjectPool {
@@ -135,16 +135,16 @@ public class ObjectPool {
         if (objects == null) {
             return;
         }
-        PooledObject pObj = null;
+        PooledObject pooledObject;
         Enumeration enumerate = objects.elements();
         while (enumerate.hasMoreElements()) {
-            pObj = (PooledObject) enumerate.nextElement();
+            pooledObject = (PooledObject) enumerate.nextElement();
             // 如果忙，等5秒
-            if (pObj.isBusy()) {
+            if (pooledObject.isBusy()) {
                 wait(5000); // 等5秒
             }
             // 从对象池向量中删除它
-            objects.removeElement(pObj);
+            objects.removeElement(pooledObject);
         }
         // 置对象池为空
         objects = null;
@@ -153,10 +153,11 @@ public class ObjectPool {
     /**
      * 使程序等待给定的毫秒数
      */
-    private void wait(int mSeconds) {
+    private void wait(int seconds) {
         try {
-            Thread.sleep(mSeconds);
+            Thread.sleep(seconds);
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -164,12 +165,12 @@ public class ObjectPool {
      * 内部使用的用于保存对象池中对象的类。
      * 此类中有两个成员，一个是对象，另一个是指示此对象是否正在使用的标志 。
      */
-    class PooledObject {
+    private static class PooledObject {
         Object objection = null;// 对象
         boolean busy = false; // 此对象是否正在使用的标志，默认没有正在使用
 
         // 构造函数，根据一个 Object 构告一个 PooledObject 对象
-        public PooledObject(Object objection) {
+        PooledObject(Object objection) {
             this.objection = objection;
         }
 

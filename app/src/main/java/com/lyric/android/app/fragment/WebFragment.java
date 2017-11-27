@@ -19,6 +19,13 @@ public class WebFragment extends BaseFragment {
 
     private DefaultWebLayout mWebLayout;
 
+    public static WebFragment newInstance() {
+        Bundle args = new Bundle();
+        WebFragment fragment = new WebFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initExtras(Bundle savedInstanceState) {
     }
