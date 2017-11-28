@@ -1,9 +1,7 @@
 package com.lyric.android.app.utils;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import java.io.File;
 import java.util.Locale;
@@ -19,72 +17,51 @@ public class IntentUtils {
     }
 
     /**
-     * 跳转到拨号界面
-     * @param context 上下文
-     * @param phoneNumber 电话号码
+     * 获取应用程序Intent
+     * @param url 链接地址
+     * @return 应用程序Intent
      */
-    public static void toCall(Context context, String phoneNumber) {
+    public static Intent getAppIntent(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        return intent;
+    }
+
+    /**
+     * 获取拨号Intent
+     * @param phoneNumber 电话号码
+     * @return 拨号Intent
+     */
+    public static Intent getDialIntent(String phoneNumber) {
         Uri uri = Uri.parse("tel:" + phoneNumber);
         Intent intent = new Intent(Intent.ACTION_DIAL, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        return intent;
     }
 
     /**
-     * 跳转到短信发送界面
-     * @param context 上下文
-     * @param smsContent 短信内容
-     */
-    public static void smsTo(Context context , String smsContent) {
-        smsTo(context, smsContent, "");
-    }
-
-    /**
-     * 跳转到短信发送界面
-     * @param context 上下文
+     * 获取发送短信Intent
      * @param smsContent 短信内容
      * @param phoneNumber 联系人号码
+     * @return 发送短信Intent
      */
-    public static void smsTo(Context context , String smsContent, String phoneNumber) {
-        Uri uri = Uri.parse("smsto:" + phoneNumber);
+    public static Intent getSmsIntent(String smsContent, String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.putExtra("sms_body", smsContent);
         intent.setType("vnd.android-dir/mms-sms");
-        intent.setData(uri);
-        try {
-            // 跳转到短信发送界面，此处需要捕捉异常
-            context.startActivity(intent);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        intent.setData(Uri.parse("smsto:" + phoneNumber));
+        return intent;
     }
 
     /**
-     * 跳转到相关的应用程序
-     * @param context 上下文
-     * @param url 链接地址
-     */
-    public static void toUrl(Context context, String url) {
-        if (context == null || TextUtils.isEmpty(url)) {
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
-    }
-
-    /**
-     * 跳转到邮件发送界面
-     * @param context 上下文
+     * 获取发送邮件Intent
      * @param emailAddress 邮箱地址
+     * @return 发送邮件Intent
      */
-    public static void toEmail(Context context, String emailAddress) {
-        if (context == null || TextUtils.isEmpty(emailAddress)) {
-            return;
-        }
+    public static Intent getEmailIntent(String emailAddress) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:" + emailAddress));
-        context.startActivity(intent);
+        return intent;
     }
 
     /**
@@ -121,7 +98,7 @@ public class IntentUtils {
         } else if (end.equals("rar")) {
             return getRarFileIntent(filePath);
         } else {
-            return getAllIntent(filePath);
+            return getAllFileIntent(filePath);
         }
     }
 
@@ -130,7 +107,7 @@ public class IntentUtils {
      * @param filePath 文件路径
      * @return Intent
      */
-    public static Intent getAllIntent(String filePath) {
+    public static Intent getAllFileIntent(String filePath) {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
@@ -202,7 +179,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getImageFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "image/*");
         return intent;
@@ -214,7 +191,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getPptFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
         return intent;
@@ -226,7 +203,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getExcelFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/vnd.ms-excel");
         return intent;
@@ -238,7 +215,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getWordFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/msword");
         return intent;
@@ -250,7 +227,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getChmFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/x-chm");
         return intent;
@@ -262,7 +239,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getTextFileIntent(String filePath, boolean paramBoolean) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         if (paramBoolean) {
             Uri uri1 = Uri.parse(filePath);
             intent.setDataAndType(uri1, "text/plain");
@@ -279,7 +256,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getPdfFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/pdf");
         return intent;
@@ -291,7 +268,7 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getZipFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/zip");
         return intent;
@@ -303,13 +280,13 @@ public class IntentUtils {
      * @return Intent
      */
     public static Intent getRarFileIntent(String filePath) {
-        Intent intent = getFileIntent();
+        Intent intent = getFileInnerIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/rar");
         return intent;
     }
 
-    private static Intent getFileIntent() {
+    private static Intent getFileInnerIntent() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
