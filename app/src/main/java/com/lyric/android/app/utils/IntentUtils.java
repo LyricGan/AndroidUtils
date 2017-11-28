@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * 意图工具类
+ * Intent工具类
  * @author lyricgan
  * @time 2016/6/6 14:14
  */
@@ -126,7 +126,7 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开所有文件的Intent
+     * 获取用于打开所有文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
@@ -140,7 +140,7 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开APK文件的Intent
+     * 获取用于打开APK文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
@@ -154,12 +154,12 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开VIDEO文件的Intent
+     * 获取用于打开VIDEO文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getVideoFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("oneshot", 0);
         intent.putExtra("configchange", 0);
@@ -169,12 +169,12 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开AUDIO文件的Intent
+     * 获取用于打开AUDIO文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getAudioFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("oneshot", 0);
         intent.putExtra("configchange", 0);
@@ -184,97 +184,85 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开HTML文件的Intent
+     * 获取用于打开HTML文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getHtmlFileIntent(String filePath) {
         Uri uri = Uri.parse(filePath).buildUpon().encodedAuthority("com.android.htmlfileprovider")
                 .scheme("content").encodedPath(filePath).build();
-        Intent intent = new Intent("android.intent.action.VIEW");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "text/html");
         return intent;
     }
 
     /**
-     * Android获取用于打开图片文件的Intent
+     * 获取用于打开图片文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getImageFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "image/*");
         return intent;
     }
 
     /**
-     * Android获取用于打开PPT文件的Intent
+     * 获取用于打开PPT文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getPptFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
         return intent;
     }
 
     /**
-     * Android获取用于打开Excel文件的Intent
+     * 获取用于打开Excel文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getExcelFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/vnd.ms-excel");
         return intent;
     }
 
     /**
-     * Android获取用于打开Word文件的Intent
+     * 获取用于打开Word文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getWordFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/msword");
         return intent;
     }
 
     /**
-     * Android获取用于打开CHM文件的Intent
+     * 获取用于打开CHM文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getChmFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/x-chm");
         return intent;
     }
 
     /**
-     * Android获取用于打开文本文件的Intent
+     * 获取用于打开文本文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getTextFileIntent(String filePath, boolean paramBoolean) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         if (paramBoolean) {
             Uri uri1 = Uri.parse(filePath);
             intent.setDataAndType(uri1, "text/plain");
@@ -286,44 +274,45 @@ public class IntentUtils {
     }
 
     /**
-     * Android获取用于打开PDF文件的Intent
+     * 获取用于打开PDF文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getPdfFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }
 
     /**
-     * Android获取用于打开ZIP文件的Intent
+     * 获取用于打开ZIP文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getZipFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/zip");
         return intent;
     }
 
     /**
-     * Android获取用于打开RAR文件的Intent
+     * 获取用于打开RAR文件的Intent
      * @param filePath 文件路径
      * @return Intent
      */
     public static Intent getRarFileIntent(String filePath) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = getFileIntent();
         Uri uri = Uri.fromFile(new File(filePath));
         intent.setDataAndType(uri, "application/rar");
+        return intent;
+    }
+
+    private static Intent getFileIntent() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }
 }
