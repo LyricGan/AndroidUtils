@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/3 16:49
  */
 public class TestContentProvider extends ContentProvider {

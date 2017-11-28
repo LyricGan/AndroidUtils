@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.R;
+import com.lyric.android.app.widget.TitleBar;
 
 /**
  * 启动页面
@@ -38,6 +39,11 @@ public class SplashActivity extends BaseActivity {
             }
         });
         mStartTime = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onTitleCreated(TitleBar titleBar) {
+        titleBar.setVisibility(View.GONE);
     }
 
     @Override

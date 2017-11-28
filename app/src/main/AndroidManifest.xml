@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.lyric.android.app">
-
-    <uses-sdk tools:overrideLibrary="com.zys.brokenview"/>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -60,22 +57,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".activity.SwipeMenuSimpleActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
-        <activity
-            android:name=".activity.SwipeMenuActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
         <service
@@ -96,10 +79,6 @@
             android:permission="TEST_PROVIDER_WRITE"
             android:readPermission="app.permission.TEST_PROVIDER_READ"
             android:writePermission="app.permission.TEST_PROVIDER_WRITE"/>
-
-        <meta-data
-            android:name="com.lyric.android.app.glide.ImageModule"
-            android:value="ImageModule"/>
 
         <meta-data
             android:name="ANDROID_CHANNEL"

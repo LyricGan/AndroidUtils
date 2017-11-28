@@ -909,4 +909,15 @@ public class PackageUtils {
         }
         return null;
     }
+
+    /**
+     * 获取设备安装的应用程序列表
+     * @param context 上下文
+     * @param flag 选项标识
+     * @return 安装的应用程序列表
+     */
+    public static List<ApplicationInfo> getInstalledApplications(Context context, int flag) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.getInstalledApplications(flag);
+    }
 }

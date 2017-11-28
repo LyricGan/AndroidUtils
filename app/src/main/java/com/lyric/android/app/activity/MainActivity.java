@@ -79,9 +79,24 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
 
-        initExtras();
+        initAddPictureUtils();
 
-        initialize();
+        initExtras();
+    }
+
+    private void initAddPictureUtils() {
+        AddPictureUtils.getInstance().initialize(this);
+        AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
+            @Override
+            public void takePhoto(PopupWindow window) {
+                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
+            }
+
+            @Override
+            public void openPhotoAlbum(PopupWindow window) {
+                AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
+            }
+        });
     }
 
     private void initExtras() {
@@ -99,21 +114,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initialize() {
-        AddPictureUtils.getInstance().initialize(this);
-        AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
-            @Override
-            public void takePhoto(PopupWindow window) {
-                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
-            }
-
-            @Override
-            public void openPhotoAlbum(PopupWindow window) {
-                AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
-            }
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                ActivityUtils.startActivity(MainActivity.this, SettingsActivity.class);
                 return true;
             case android.R.id.home: {
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -169,25 +168,21 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
                 switch (menuItem.getItemId()) {
                     case R.id.nav_login: {
+                        ActivityUtils.startActivity(MainActivity.this, SplashActivity.class);
                     }
                         break;
                     case R.id.nav_loading: {
-                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, LoadingFragment.class));
                     }
                         break;
                     case R.id.nav_progress: {
-                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ProgressBarFragment.class));
                     }
                         break;
                     case R.id.nav_web: {
-                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, WebFragment.class));
                     }
                         break;
                     case R.id.menu_item_view: {
-                        ActivityUtils.startActivity(MainActivity.this, BaseFragmentActivity.newIntent(MainActivity.this, ViewTestFragment.class));
                     }
                         break;
                     case R.id.menu_item_video: {
@@ -198,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 }
+                menuItem.setChecked(true);
                 return true;
             }
         });
@@ -220,10 +216,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
         switch (requestCode) {
             case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
                 if (resultCode == Activity.RESULT_OK) {
+                    int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(size, size);
                     updateAvatarView(bitmap);
                 }
@@ -231,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
                 if (data != null && resultCode == Activity.RESULT_OK) {
+                    int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
                     updateAvatarView(bitmap);
                 }

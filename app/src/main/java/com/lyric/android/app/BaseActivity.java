@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import com.lyric.android.app.utils.ViewUtils;
+import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipe.SwipeBackLayout;
-import com.lyric.android.app.utils.ViewUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -33,6 +35,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     private SwipeBackActivityHelper mSwipeHelper;
 
     private BaseInnerHandler mHandler;
+    private TitleBar mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,30 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
         onViewCreate(savedInstanceState);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        setContentView(getLayoutInflater().inflate(layoutResID, null));
+    }
+
+    @Override
+    public void setContentView(View view) {
+        mTitleBar = new TitleBar(this);
+        mTitleBar.setLeftDrawable(R.drawable.icon_back);
+        mTitleBar.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        onTitleCreated(mTitleBar);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(mTitleBar, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        linearLayout.addView(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        super.setContentView(linearLayout);
     }
 
     private void initHandler() {
@@ -85,6 +112,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
         mDestroy = true;
         super.onDestroy();
     }
+
+    protected TitleBar getTitleBar() {
+        return mTitleBar;
+    }
+
+    protected abstract void onTitleCreated(TitleBar titleBar);
 
     protected boolean isDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

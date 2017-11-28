@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.lyric.android.app.BaseActivity;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 
 /**
  * 基类Activity，用于加载fragment
- * @author lyric
+ * @author lyricgan
  * @time 2016/5/27 15:37
  */
-public class BaseFragmentActivity extends BaseCompatActivity {
+public class BaseFragmentActivity extends BaseActivity {
     private static final String EXTRA_FRAGMENT_NAME = "fragment_name";
     private Fragment mFragment;
 
@@ -41,20 +42,6 @@ public class BaseFragmentActivity extends BaseCompatActivity {
 
     @Override
     protected void onTitleCreated(TitleBar titleBar) {
-    }
-
-    @Override
-    public void setTitle(int titleId) {
-        if (getTitleBar() != null) {
-            getTitleBar().setText(titleId);
-        }
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        if (getTitleBar() != null) {
-            getTitleBar().setText(title);
-        }
     }
 
     @Override

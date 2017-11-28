@@ -1,15 +1,21 @@
 package com.lyric.android.app.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.BulletSpan;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
@@ -22,12 +28,15 @@ import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
-import com.lyric.android.app.widget.span.SpanTextUtils;
+import com.lyric.android.app.activity.BaseFragmentActivity;
+import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.utils.StringUtils;
 
 /**
@@ -123,12 +132,67 @@ public class SpannableFragment extends BaseFragment {
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
         tv_spannable_keywords.setText(StringUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
 
-        tv_spannable_keywords2.setText(SpanTextUtils.buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
+        tv_spannable_keywords2.setText(buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
         tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+    }
+
+    public CharSequence buildString(Context context, String action, String name, String content) {
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(action);
+        builder.append(" ");
+        SpannableString spannableString = new SpannableString(name);
+        spannableString.setSpan(new TextClickableSpan(new TextSpanClickImpl(context), 0), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.append(spannableString);
+        builder.append(" ");
+        builder.append(content);
+        return builder;
+    }
+
+    static class TextSpanClickImpl implements ITextSpanClickListener {
+        private Context mContext;
+
+        TextSpanClickImpl(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        public void onClick(int position) {
+            ActivityUtils.startActivity(mContext, BaseFragmentActivity.newIntent(mContext, SpannableFragment.class));
+        }
+    }
+
+    static class TextClickableSpan extends ClickableSpan implements View.OnClickListener {
+        private final ITextSpanClickListener mListener;
+        private int mPosition;
+
+        TextClickableSpan(ITextSpanClickListener listener, int position) {
+            mListener = listener;
+            mPosition = position;
+        }
+
+        @Override
+        public void onClick(View widget) {
+            if (mListener != null) {
+                mListener.onClick(mPosition);
+            }
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(ContextCompat.getColor(BaseApp.getContext(), R.color.color_007eff));
+            ds.setUnderlineText(false);
+            ds.clearShadowLayer();
+        }
+    }
+
+    public interface ITextSpanClickListener {
+
+        void onClick(int position);
     }
 }
