@@ -8,22 +8,21 @@ import java.util.Map;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/6/22 14:04
  */
-public class TestApi {
+public class DataApi {
     // 引用聚合测试数据
     private static final String TEST_URL = "http://v.juhe.cn/toutiao/index";
-    private static volatile TestApi mInstance;
+    private static volatile DataApi mInstance;
 
-    private TestApi() {
+    private DataApi() {
     }
 
-    public static TestApi getInstance() {
+    public static DataApi getInstance() {
         if (mInstance == null) {
-            synchronized (TestApi.class) {
+            synchronized (DataApi.class) {
                 if (mInstance == null) {
-                    mInstance = new TestApi();
+                    mInstance = new DataApi();
                 }
             }
         }

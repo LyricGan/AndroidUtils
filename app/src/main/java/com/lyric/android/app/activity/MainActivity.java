@@ -11,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -25,7 +26,7 @@ import android.widget.PopupWindow;
 
 import com.lyric.android.app.BaseApp;
 import com.lyric.android.app.R;
-import com.lyric.android.app.adapter.FragmentAdapter;
+import com.lyric.android.app.adapter.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
 import com.lyric.android.app.fragment.PraiseFragment;
@@ -49,6 +50,7 @@ import java.util.List;
  * @time 2016/1/19 17:47
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
     private ImageView ivUserAvatar;
@@ -163,14 +165,14 @@ public class MainActivity extends AppCompatActivity {
     private void initExtras() {
         Intent intent = getIntent();
         String action = intent.getAction();
-        LogUtils.d("lyricgan", "action:" + action);
+        LogUtils.d(TAG, "action:" + action);
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
                 final String schemaMask = "android_utils";
                 if (TextUtils.equals(schemaMask, uri.getScheme())) {
                     String id = uri.getQueryParameter("id");
-                    LogUtils.d("lyricgan", "id:" + id);
+                    LogUtils.d(TAG, "id:" + id);
                 }
             }
         }
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
         }
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        PagerAdapter adapter = new BaseFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
         // 设置缓存页数
         mViewPager.setOffscreenPageLimit(titles.length);

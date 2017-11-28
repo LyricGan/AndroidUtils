@@ -180,7 +180,7 @@ public class ViewTestFragment extends BaseFragment {
         showLoadingDialog();
         // /data/data/com.lyric.android.app/files/qr_test0001.jpg
         final String filePath = getContext().getFilesDir().getAbsolutePath() + File.separator + "qr_test0001.jpg";
-        LogUtils.d("lyricgan", "filePath:" + filePath);
+        LogUtils.d(TAG, "filePath:" + filePath);
         // 二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
         new Thread(new Runnable() {
             @Override

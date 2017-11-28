@@ -81,8 +81,8 @@
             android:writePermission="app.permission.TEST_PROVIDER_WRITE"/>
 
         <meta-data
-            android:name="ANDROID_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}"/>
+            android:name="APP_CHANNEL"
+            android:value="${APP_CHANNEL_VALUE}"/>
     </application>
 
 </manifest>

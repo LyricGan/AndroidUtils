@@ -14,7 +14,7 @@ android {
         // dex突破65535的限制
         multiDexEnabled true
 
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "common"]
+        manifestPlaceholders = [APP_CHANNEL_VALUE: "common"]
     }
     buildTypes {
         debug {
@@ -54,7 +54,7 @@ android {
     }
 
     productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        flavor.manifestPlaceholders = [APP_CHANNEL_VALUE: name]
     }
 
     sourceSets {
