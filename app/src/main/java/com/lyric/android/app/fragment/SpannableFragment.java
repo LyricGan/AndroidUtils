@@ -53,7 +53,7 @@ public class SpannableFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle savedInstanceState) {
+    protected void initExtras(Bundle args) {
     }
 
     @Override

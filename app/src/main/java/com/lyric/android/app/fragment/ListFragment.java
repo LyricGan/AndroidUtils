@@ -30,7 +30,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle savedInstanceState) {
+    protected void initExtras(Bundle args) {
     }
 
     @Override
@@ -66,7 +66,6 @@ public class ListFragment extends BaseFragment {
                 }, 2000);
             }
         });
-        refreshLayout.startRefresh();
     }
 
     @Override

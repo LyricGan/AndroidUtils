@@ -33,7 +33,7 @@ public class ProgressBarFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle savedInstanceState) {
+    protected void initExtras(Bundle args) {
     }
 
     @Override

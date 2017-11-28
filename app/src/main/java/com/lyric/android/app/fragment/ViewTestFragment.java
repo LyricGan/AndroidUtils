@@ -51,7 +51,7 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle savedInstanceState) {
+    protected void initExtras(Bundle args) {
     }
 
     @Override

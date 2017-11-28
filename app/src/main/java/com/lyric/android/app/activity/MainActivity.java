@@ -84,36 +84,6 @@ public class MainActivity extends AppCompatActivity {
         initExtras();
     }
 
-    private void initAddPictureUtils() {
-        AddPictureUtils.getInstance().initialize(this);
-        AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
-            @Override
-            public void takePhoto(PopupWindow window) {
-                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
-            }
-
-            @Override
-            public void openPhotoAlbum(PopupWindow window) {
-                AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
-            }
-        });
-    }
-
-    private void initExtras() {
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(action)) {
-            Uri uri = intent.getData();
-            if (uri != null) {
-                final String schemaMask = "android_utils";
-                if (TextUtils.equals(schemaMask, uri.getScheme())) {
-                    String id = uri.getQueryParameter("id");
-                    LogUtils.d("lyric", "id:" + id);
-                }
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -126,83 +96,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home: {
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                if (mDrawerLayout != null) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupViewPager() {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        // 设置为可滚动模式
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        Fragment[] fragments = {ListFragment.newInstance(), LoadingFragment.newInstance(), PraiseFragment.newInstance(),
-                ProgressBarFragment.newInstance(), ServiceFragment.newInstance(), SpannableFragment.newInstance(),
-                ViewTestFragment.newInstance(), WebFragment.newInstance()};
-        List<Fragment> fragmentList = Arrays.asList(fragments);
-        String[] titles = {ListFragment.class.getSimpleName(), LoadingFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
-                ProgressBarFragment.class.getSimpleName(), ServiceFragment.class.getSimpleName(), SpannableFragment.class.getSimpleName(),
-                ViewTestFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
-        List<String> titleList = Arrays.asList(titles);
-        int size = titleList.size();
-        for (int i = 0; i < size; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
-        }
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
-        mViewPager.setAdapter(adapter);
-        // 设置缓存页数
-        mViewPager.setOffscreenPageLimit(titles.length);
-        tabLayout.setupWithViewPager(mViewPager);
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
-        ivUserAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddPictureUtils.getInstance().showPopup(v);
-            }
-        });
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_login: {
-                        ActivityUtils.startActivity(MainActivity.this, SplashActivity.class);
-                    }
-                        break;
-                    case R.id.nav_loading: {
-                    }
-                        break;
-                    case R.id.nav_progress: {
-                    }
-                        break;
-                    case R.id.nav_web: {
-                    }
-                        break;
-                    case R.id.menu_item_view: {
-                    }
-                        break;
-                    case R.id.menu_item_video: {
-                    }
-                        break;
-                    case R.id.menu_item_exit: {
-                        finish();
-                    }
-                    break;
-                }
-                menuItem.setChecked(true);
-                return true;
-            }
-        });
-    }
-
-    private void updateAvatarView(Bitmap bitmap) {
-        if (bitmap != null) {
-            ivUserAvatar.setImageBitmap(bitmap);
-        }
     }
 
     @Override
@@ -243,5 +143,100 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AddPictureUtils.getInstance().destroy();
+    }
+
+    private void initAddPictureUtils() {
+        AddPictureUtils.getInstance().initialize(this);
+        AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
+            @Override
+            public void takePhoto(PopupWindow window) {
+                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
+            }
+
+            @Override
+            public void openPhotoAlbum(PopupWindow window) {
+                AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
+            }
+        });
+    }
+
+    private void initExtras() {
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        LogUtils.d("lyricgan", "action:" + action);
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                final String schemaMask = "android_utils";
+                if (TextUtils.equals(schemaMask, uri.getScheme())) {
+                    String id = uri.getQueryParameter("id");
+                    LogUtils.d("lyricgan", "id:" + id);
+                }
+            }
+        }
+    }
+
+    private void setupViewPager() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        // 设置为可滚动模式
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        Fragment[] fragments = {ListFragment.newInstance(), LoadingFragment.newInstance(), PraiseFragment.newInstance(),
+                ProgressBarFragment.newInstance(), ServiceFragment.newInstance(), SpannableFragment.newInstance(),
+                ViewTestFragment.newInstance(), WebFragment.newInstance()};
+        List<Fragment> fragmentList = Arrays.asList(fragments);
+        String[] titles = {ListFragment.class.getSimpleName(), LoadingFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
+                ProgressBarFragment.class.getSimpleName(), ServiceFragment.class.getSimpleName(), SpannableFragment.class.getSimpleName(),
+                ViewTestFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
+        List<String> titleList = Arrays.asList(titles);
+        int size = titleList.size();
+        for (int i = 0; i < size; i++) {
+            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
+        }
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        mViewPager.setAdapter(adapter);
+        // 设置缓存页数
+        mViewPager.setOffscreenPageLimit(titles.length);
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
+        ivUserAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddPictureUtils.getInstance().showPopup(v);
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_options_01:
+                        ActivityUtils.startActivity(MainActivity.this, SplashActivity.class);
+                        break;
+                    case R.id.nav_options_02:
+                        break;
+                    case R.id.nav_options_03:
+                        break;
+                    case R.id.nav_options_04:
+                        break;
+                    case R.id.menu_item_01:
+                        break;
+                    case R.id.menu_item_02:
+                        break;
+                    case R.id.menu_item_03:
+                        break;
+                }
+                menuItem.setChecked(true);
+                return true;
+            }
+        });
+    }
+
+    private void updateAvatarView(Bitmap bitmap) {
+        if (bitmap != null) {
+            ivUserAvatar.setImageBitmap(bitmap);
+        }
     }
 }
