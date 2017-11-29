@@ -13,7 +13,7 @@ import com.lyric.android.app.widget.webview.DefaultWebLayout;
  * @time 2017/6/28 9:45
  */
 public class WebFragment extends BaseFragment {
-    private static final String TEST_URL = "http://www.baidu.com";
+    private static final String TEST_URL = "https://github.com/";
 
     private DefaultWebLayout mWebLayout;
 
@@ -45,8 +45,10 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public boolean onBackPressed() {
-        if (!mWebLayout.onBackPressed()) {
-            return true;
+        if (mWebLayout != null) {
+            if (mWebLayout.onBackPressed()) {
+                return true;
+            }
         }
         return super.onBackPressed();
     }
@@ -54,6 +56,8 @@ public class WebFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mWebLayout.destroy();
+        if (mWebLayout != null) {
+            mWebLayout.destroy();
+        }
     }
 }
