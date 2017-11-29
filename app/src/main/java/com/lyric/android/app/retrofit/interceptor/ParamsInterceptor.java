@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.utils.PackageUtils;
 
 import java.io.IOException;
@@ -65,6 +65,6 @@ public class ParamsInterceptor implements Interceptor {
     }
 
     private Context getContext() {
-        return BaseApp.getContext();
+        return AndroidApplication.getContext();
     }
 }

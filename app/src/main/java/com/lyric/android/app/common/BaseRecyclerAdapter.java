@@ -1,4 +1,4 @@
-package com.lyric.android.app.adapter;
+package com.lyric.android.app.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * RecyclerView适配器基类
  * @author lyricgan
- * @description adapter for recycler view
  * @time 2016/8/12 11:51
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -38,7 +38,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
-        final ViewHolder holder = new ViewHolder(itemView);
+        final RecyclerView.ViewHolder holder = new InnerViewHolder(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,49 +100,49 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void add(T object) {
-        this.add(this.mDataList.size(), object);
+        add(mDataList.size(), object);
     }
 
     public void add(int location, T object) {
-        if (location < 0 || location > this.mDataList.size()) {
+        if (location < 0 || location > mDataList.size()) {
             return;
         }
         if (object != null) {
-            this.mDataList.add(location, object);
-            this.notifyDataSetChanged();
+            mDataList.add(location, object);
+            notifyDataSetChanged();
         }
     }
 
     public void add(List<T> dataList) {
         if (dataList != null && dataList.size() > 0) {
-            this.mDataList.addAll(dataList);
-            this.notifyDataSetChanged();
+            mDataList.addAll(dataList);
+            notifyDataSetChanged();
         }
     }
 
     public void remove(T object) {
         if (object != null) {
-            this.mDataList.remove(object);
-            this.notifyDataSetChanged();
+            mDataList.remove(object);
+            notifyDataSetChanged();
         }
     }
 
     public void remove(int location) {
-        if (location < 0 || location >= this.mDataList.size()) {
+        if (location < 0 || location >= mDataList.size()) {
             return;
         }
-        this.mDataList.remove(location);
-        this.notifyDataSetChanged();
+        mDataList.remove(location);
+        notifyDataSetChanged();
     }
 
     public void clear() {
-        this.mDataList.clear();
-        this.notifyDataSetChanged();
+        mDataList.clear();
+        notifyDataSetChanged();
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class InnerViewHolder extends RecyclerView.ViewHolder {
 
-        ViewHolder(View itemView) {
+        InnerViewHolder(View itemView) {
             super(itemView);
         }
     }

@@ -1,4 +1,4 @@
-package com.lyric.android.app;
+package com.lyric.android.app.common;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.adapter.BaseRecyclerAdapter;
-import com.lyric.android.app.Constants;
+import com.lyric.android.app.common.BaseRecyclerAdapter;
+import com.lyric.android.app.common.Constants;
 
 import java.io.Serializable;
 import java.util.List;

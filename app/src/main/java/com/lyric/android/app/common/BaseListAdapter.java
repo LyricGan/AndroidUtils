@@ -1,4 +1,4 @@
-package com.lyric.android.app.adapter;
+package com.lyric.android.app.common;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 适配器基类{@link BaseAdapter}
  * @author lyricgan
- * @description base adapter for list, {@link BaseAdapter}
  * @time 16/3/10
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
@@ -37,7 +37,12 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public T getItem(int position) {
-		return mDataList.get(position);
+        if (mDataList != null) {
+            if (position >= 0 && position < mDataList.size()) {
+                return mDataList.get(position);
+            }
+        }
+		return null;
 	}
 
 	@Override
@@ -61,9 +66,6 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public List<T> getDataList() {
-        if (mDataList == null) {
-            mDataList = new ArrayList<>();
-        }
         return mDataList;
     }
 
@@ -72,43 +74,43 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void add(T object) {
-        this.add(this.mDataList.size(), object);
+        add(mDataList.size(), object);
     }
 
     public void add(int location, T object) {
-        if (location < 0 || location > this.mDataList.size()) {
+        if (location < 0 || location > mDataList.size()) {
             return;
         }
         if (object != null) {
-            this.mDataList.add(location, object);
-            this.notifyDataSetChanged();
+            mDataList.add(location, object);
+            notifyDataSetChanged();
         }
     }
 
     public void add(List<T> dataList) {
         if (dataList != null && dataList.size() > 0) {
-            this.mDataList.addAll(dataList);
-            this.notifyDataSetChanged();
+            mDataList.addAll(dataList);
+            notifyDataSetChanged();
         }
     }
 
     public void remove(T object) {
         if (object != null) {
-            this.mDataList.remove(object);
-            this.notifyDataSetChanged();
+            mDataList.remove(object);
+            notifyDataSetChanged();
         }
     }
 
     public void remove(int location) {
-        if (location < 0 || location >= this.mDataList.size()) {
+        if (location < 0 || location >= mDataList.size()) {
             return;
         }
-        this.mDataList.remove(location);
-        this.notifyDataSetChanged();
+        mDataList.remove(location);
+        notifyDataSetChanged();
     }
 
     public void clear() {
-        this.mDataList.clear();
-        this.notifyDataSetChanged();
+        mDataList.clear();
+        notifyDataSetChanged();
     }
 }

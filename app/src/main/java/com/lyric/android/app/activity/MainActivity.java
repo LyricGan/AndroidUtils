@@ -24,9 +24,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
-import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.app.adapter.BaseFragmentStatePagerAdapter;
+import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.LoadingFragment;
 import com.lyric.android.app.fragment.PraiseFragment;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
                 if (resultCode == Activity.RESULT_OK) {
-                    int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
+                    int size = DisplayUtils.dip2px(AndroidApplication.getContext(), 72);
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(size, size);
                     updateAvatarView(bitmap);
                 }
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
                 if (data != null && resultCode == Activity.RESULT_OK) {
-                    int size = DisplayUtils.dip2px(BaseApp.getContext(), 72);
+                    int size = DisplayUtils.dip2px(AndroidApplication.getContext(), 72);
                     Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
                     updateAvatarView(bitmap);
                 }

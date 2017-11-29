@@ -1,4 +1,4 @@
-package com.lyric.android.app.adapter;
+package com.lyric.android.app.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -3,7 +3,7 @@ package com.lyric.android.app.retrofit.interceptor;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.lyric.android.app.BaseApp;
+import com.lyric.android.app.AndroidApplication;
 import com.lyric.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -60,6 +60,6 @@ public class CacheInterceptor implements Interceptor {
     }
 
     private Context getContext() {
-        return BaseApp.getContext();
+        return AndroidApplication.getContext();
     }
 }

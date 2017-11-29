@@ -6,7 +6,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.lyric.android.app.BaseActivity;
+import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 

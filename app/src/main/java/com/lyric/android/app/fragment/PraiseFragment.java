@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.BaseFragment;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.widget.praiseview.PraisePopupWindow;
 
 /**

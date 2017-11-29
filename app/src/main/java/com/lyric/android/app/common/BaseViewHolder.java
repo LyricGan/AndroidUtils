@@ -1,4 +1,4 @@
-package com.lyric.android.app.adapter;
+package com.lyric.android.app.common;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.SparseArray;
@@ -16,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -26,8 +23,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
+ * 适配器ViewHolder
  * @author lyricgan
- * @description view holder for adapter
  * @time 16/3/10
  */
 public class BaseViewHolder {
@@ -36,7 +33,7 @@ public class BaseViewHolder {
     private View mConvertView;
     private Object mAssociatedObject;
 
-    public BaseViewHolder(ViewGroup parent, int layoutId) {
+    private BaseViewHolder(ViewGroup parent, int layoutId) {
         this.mContext = parent.getContext();
         this.mViewArray = new SparseArray<View>();
         this.mConvertView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
@@ -326,16 +323,6 @@ public class BaseViewHolder {
 
     public BaseViewHolder addTextChangedListener(int viewId, TextWatcher watcher){
         ((TextView) getView(viewId)).addTextChangedListener(watcher);
-        return this;
-    }
-
-    public BaseViewHolder setAdapter(int viewId, Adapter adapter) {
-        ((AdapterView) getView(viewId)).setAdapter(adapter);
-        return this;
-    }
-
-    public BaseViewHolder setRecyclerAdapter(int viewId, RecyclerView.Adapter adapter) {
-        ((RecyclerView) getView(viewId)).setAdapter(adapter);
         return this;
     }
 }

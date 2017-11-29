@@ -18,7 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ZoomButtonsController;
 
-import com.lyric.android.app.Constants;
+import com.lyric.android.app.common.Constants;
 
 import java.lang.reflect.Field;
 

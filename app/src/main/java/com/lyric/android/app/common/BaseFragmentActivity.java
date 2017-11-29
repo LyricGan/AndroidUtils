@@ -1,12 +1,10 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.common;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.lyric.android.app.BaseActivity;
-import com.lyric.android.app.BaseFragment;
 import com.lyric.android.app.R;
 import com.lyric.android.app.widget.TitleBar;
 

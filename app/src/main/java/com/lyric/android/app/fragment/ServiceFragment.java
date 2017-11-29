@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseFragment;
+import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.test.service.TestService;
 import com.lyric.android.app.test.service.TestServiceBinder;
 import com.lyric.android.app.utils.LogUtils;
@@ -78,30 +78,30 @@ public class ServiceFragment extends BaseFragment {
         super.onViewClick(v);
         switch (v.getId()) {
             case R.id.btn_start_service: {
-                ToastUtils.showShort(BaseApp.getContext(), "启动服务");
+                ToastUtils.showShort(AndroidApplication.getContext(), "启动服务");
                 Intent service = new Intent(getActivity(), TestService.class);
                 getActivity().startService(service);
             }
                 break;
             case R.id.btn_stop_service: {
-                ToastUtils.showShort(BaseApp.getContext(), "停止服务");
+                ToastUtils.showShort(AndroidApplication.getContext(), "停止服务");
                 Intent service = new Intent(getActivity(), TestService.class);
                 getActivity().stopService(service);
             }
                 break;
             case R.id.btn_bind_service: {
-                ToastUtils.showShort(BaseApp.getContext(), "绑定服务");
+                ToastUtils.showShort(AndroidApplication.getContext(), "绑定服务");
                 Intent service = new Intent(getActivity(), TestService.class);
                 getActivity().bindService(service, mServiceConnection, Context.BIND_AUTO_CREATE);
             }
                 break;
             case R.id.btn_unbind_service: {
                 if (mServiceConnected) {
-                    ToastUtils.showShort(BaseApp.getContext(), "解绑服务");
+                    ToastUtils.showShort(AndroidApplication.getContext(), "解绑服务");
                     getActivity().unbindService(mServiceConnection);
                     mServiceConnected = false;
                 } else {
-                    ToastUtils.showShort(BaseApp.getContext(), "服务未绑定");
+                    ToastUtils.showShort(AndroidApplication.getContext(), "服务未绑定");
                 }
             }
                 break;

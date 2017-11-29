@@ -1,11 +1,11 @@
 package com.lyric.android.app;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.lyric.android.app.common.BaseApplication;
+import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.utils.LogUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -15,22 +15,16 @@ import com.squareup.leakcanary.RefWatcher;
  * @author lyricgan
  * @time 2015/10/7 14:04
  */
-public class BaseApp extends Application {
-    private static final String TAG = BaseApp.class.getSimpleName();
-    private static BaseApp mInstance;
+public class AndroidApplication extends BaseApplication {
+    private static final String TAG = AndroidApplication.class.getSimpleName();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        mInstance = this;
 
         LogUtils.setDebug(Constants.DEBUG);
 
         addRegisterActivityLifecycleCallbacks();
-	}
-
-	public static Context getContext() {
-		return mInstance.getApplicationContext();
 	}
 
     private RefWatcher setupLeakCanary() {

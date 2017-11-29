@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseFragment;
+import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
@@ -130,7 +130,7 @@ public class ViewTestFragment extends BaseFragment {
             imageCapture.setImageBitmap(mCaptureBitmap);
 
             Log.d(TAG, "memory1:" + ImageUtils.getBitmapMemory(mCaptureBitmap));
-            Bitmap blurBitmap = ImageUtils.blurBitmap(BaseApp.getContext(), mCaptureBitmap, 10.0f);
+            Bitmap blurBitmap = ImageUtils.blurBitmap(AndroidApplication.getContext(), mCaptureBitmap, 10.0f);
             imageCapture.setImageBitmap(blurBitmap);
             Log.d(TAG, "memory2:" + ImageUtils.getBitmapMemory(blurBitmap));
         }

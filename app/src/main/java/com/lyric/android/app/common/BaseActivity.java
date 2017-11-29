@@ -1,4 +1,4 @@
-package com.lyric.android.app;
+package com.lyric.android.app.common;
 
 import android.content.Context;
 import android.os.Build;
@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
@@ -149,7 +151,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
     }
 
     protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(BaseApp.getContext(), R.color.color_title_bar_bg));
+        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_title_bar_bg));
     }
 
     protected boolean isSwipeBackEnable() {

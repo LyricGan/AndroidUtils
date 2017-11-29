@@ -32,10 +32,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lyric.android.app.BaseApp;
-import com.lyric.android.app.BaseFragment;
+import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.R;
-import com.lyric.android.app.activity.BaseFragmentActivity;
+import com.lyric.android.app.common.BaseFragmentActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.utils.StringUtils;
 
@@ -185,7 +185,7 @@ public class SpannableFragment extends BaseFragment {
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(ContextCompat.getColor(BaseApp.getContext(), R.color.color_007eff));
+            ds.setColor(ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_007eff));
             ds.setUnderlineText(false);
             ds.clearShadowLayer();
         }
