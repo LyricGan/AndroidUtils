@@ -3,7 +3,6 @@ package com.lyric.android.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +35,6 @@ import com.lyric.android.app.fragment.ViewTestFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
-import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.utils.DisplayUtils;
 
@@ -50,7 +47,6 @@ import java.util.List;
  * @time 2016/1/19 17:47
  */
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
     private ImageView ivUserAvatar;
@@ -82,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager();
 
         initAddPictureUtils();
-
-        initExtras();
     }
 
     @Override
@@ -160,22 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
             }
         });
-    }
-
-    private void initExtras() {
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        LogUtils.d(TAG, "action:" + action);
-        if (Intent.ACTION_VIEW.equals(action)) {
-            Uri uri = intent.getData();
-            if (uri != null) {
-                final String schemaMask = "android_utils";
-                if (TextUtils.equals(schemaMask, uri.getScheme())) {
-                    String id = uri.getQueryParameter("id");
-                    LogUtils.d(TAG, "id:" + id);
-                }
-            }
-        }
     }
 
     private void setupViewPager() {
