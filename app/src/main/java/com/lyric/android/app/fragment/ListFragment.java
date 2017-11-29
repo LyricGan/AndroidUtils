@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.RecyclerViewAdapter;
@@ -39,7 +37,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         GraceRefreshLayout refreshLayout = findViewById(R.id.refresh_layout);
         mRecyclerView = findViewById(R.id.recycler_view);
 

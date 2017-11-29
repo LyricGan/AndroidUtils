@@ -3,9 +3,7 @@ package com.lyric.android.app.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.lyric.android.app.R;
@@ -37,7 +35,7 @@ public class PraiseFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
     }
 
     @Override
@@ -51,7 +49,7 @@ public class PraiseFragment extends BaseFragment {
     }
 
     @Override
-    protected void onViewClick(View v) {
+    public void onViewClick(View v) {
         super.onViewClick(v);
         switch (v.getId()) {
             case R.id.good:

@@ -5,14 +5,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.widget.TabDigitLayout;
@@ -60,7 +58,7 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         PieView pieView = findViewById(R.id.pie_view);
         imageCapture = findViewById(R.id.image_capture);
         ivQrcodeImage = findViewById(R.id.iv_qrcode_image);
@@ -113,7 +111,7 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     @Override
-    protected void onViewClick(View v) {
+    public void onViewClick(View v) {
         super.onViewClick(v);
         switch (v.getId()) {
             case R.id.btn_start:

@@ -10,7 +10,12 @@ import android.view.ViewGroup;
 import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.utils.ViewUtils;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+/**
+ * Fragment基类
+ * @author lyricgan
+ * @time 2017/11/26 13:59
+ */
+public abstract class BaseFragment extends Fragment implements IBaseListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
     private boolean mViewVisible;
@@ -30,7 +35,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = getLayout(inflater);
-        initView(inflater, container, savedInstanceState);
+        onViewCreate(savedInstanceState);
         return mRootView;
     }
 
@@ -40,22 +45,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         initData(savedInstanceState);
     }
 
-    protected void onPrepareCreate(Bundle savedInstanceState) {
+    @Override
+    public void onPrepareCreate(Bundle savedInstanceState) {
     }
 
     protected View getLayout(LayoutInflater inflater) {
         return inflater.inflate(getLayoutId(), null);
     }
 
-    protected abstract void initExtras(Bundle args);
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
-
-    protected abstract void initData(Bundle savedInstanceState);
-
-    protected void onViewClick(View v) {
+    @Override
+    public void onViewClick(View v) {
     }
 
     @Override
@@ -65,6 +64,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
         onViewClick(v);
     }
+
+    protected abstract void initExtras(Bundle args);
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initData(Bundle savedInstanceState);
 
     protected View getRootView() {
         return mRootView;

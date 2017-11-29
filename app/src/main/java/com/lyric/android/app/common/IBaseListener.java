@@ -9,7 +9,7 @@ import android.view.View;
  * @author lyricgan
  * @version 2015-9-24
  */
-public interface IBaseListener {
+public interface IBaseListener extends View.OnClickListener {
 
     /**
      * 在super.onCreate()之前调用

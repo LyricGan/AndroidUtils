@@ -2,8 +2,6 @@ package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -36,7 +34,7 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         mWebLayout = findViewById(R.id.layout_web);
     }
 

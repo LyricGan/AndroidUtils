@@ -3,8 +3,6 @@ package com.lyric.android.app.fragment;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -42,7 +40,7 @@ public class ProgressBarFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         mLineProgressBar = findViewById(R.id.line_progress);
         mSolidProgressBar = findViewById(R.id.solid_progress);
         mCustomProgressBar1 = findViewById(R.id.custom_progress1);

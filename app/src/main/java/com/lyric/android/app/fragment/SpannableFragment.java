@@ -27,14 +27,12 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.BaseFragmentActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.utils.StringUtils;
@@ -62,7 +60,7 @@ public class SpannableFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         TextView tv_spannable = findViewById(R.id.tv_spannable);
         TextView tv_spannable_keywords = findViewById(R.id.tv_spannable_keywords);
         TextView tv_spannable_keywords2 = findViewById(R.id.tv_spannable_keywords2);

@@ -7,12 +7,10 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.lyric.android.app.R;
 import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.test.service.TestService;
 import com.lyric.android.app.test.service.TestServiceBinder;
@@ -44,7 +42,7 @@ public class ServiceFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreate(@Nullable Bundle savedInstanceState) {
         findViewById(R.id.btn_start_service).setOnClickListener(this);
         findViewById(R.id.btn_stop_service).setOnClickListener(this);
         findViewById(R.id.btn_bind_service).setOnClickListener(this);

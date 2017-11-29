@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,7 +30,7 @@ import java.lang.ref.WeakReference;
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends FragmentActivity implements OnClickListener, IBaseListener, Constants, SwipeBackActivityBase {
+public abstract class BaseActivity extends FragmentActivity implements IBaseListener, Constants, SwipeBackActivityBase {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
     private SwipeBackActivityHelper mSwipeHelper;
