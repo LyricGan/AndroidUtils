@@ -3,11 +3,11 @@ package com.lyric.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -25,14 +25,15 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ScrollView;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.Closeable;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 图片工具类
@@ -59,14 +60,15 @@ public class ImageUtils {
 	/**
 	 * 将Bitmap转换为字节数组
 	 * @param bitmap Bitmap
+	 * @param format 图片格式
 	 * @return byte[]
 	 */
-	public static byte[] bitmapToBytes(Bitmap bitmap) {
+	public static byte[] bitmapToBytes(Bitmap bitmap, Bitmap.CompressFormat format) {
         if (bitmap == null) {
             return null;
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        bitmap.compress(format, 100, outputStream);
         return outputStream.toByteArray();
     }
 	
@@ -107,10 +109,11 @@ public class ImageUtils {
 	/**
 	 * 将Drawable转换为字节数组
 	 * @param drawable Drawable
+	 * @param format 图片格式
 	 * @return byte[]
 	 */
-	public static byte[] drawableToBytes(Drawable drawable) {
-        return bitmapToBytes(drawableToBitmap(drawable));
+	public static byte[] drawableToBytes(Drawable drawable, Bitmap.CompressFormat format) {
+        return bitmapToBytes(drawableToBitmap(drawable), format);
     }
 	
 	/**
@@ -123,30 +126,193 @@ public class ImageUtils {
     }
 
     /**
-     * 对指定的视图进行截图
-     * @param view 视图
-     * @return Bitmap
+     * 获取图片（Bitmap）所占内存大小
+     * @param bitmap Bitmap
+     * @return 图片占用内存大小
      */
-    public static Bitmap captureSimpleBitmap(View view) {
-        view.setDrawingCacheEnabled(true);
-        // 启用DrawingCache并创建位图
-        view.buildDrawingCache();
-        // 创建一个DrawingCache的拷贝，因为DrawingCache得到的位图在禁用后会被回收
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-        // 禁用DrawingCache否则会影响性能
-        view.setDrawingCacheEnabled(false);
-        return bitmap;
+    public static long getBitmapMemory(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled()) {
+            return -1;
+        }
+        long size = 0;
+        Config config = bitmap.getConfig();
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        if (config == Config.ALPHA_8) {
+            size = width * height;
+        } else if (config == Config.ARGB_4444) {
+            size = width * height * 2;
+        } else if (config == Config.ARGB_8888) {
+            size = width * height * 4;
+        } else if (config == Config.RGB_565) {
+            size = width * height * 2;
+        }
+        return size;
     }
-	
-	/**
-	 * 按宽高缩放图片
-	 * @param bitmap Bitmap
-	 * @param newWidth 指定宽度
-	 * @param newHeight 指定高度
-	 * @return Bitmap
-	 */
-	public static Bitmap scale(Bitmap bitmap, int newWidth, int newHeight) {
-		return scale(bitmap, (float) newWidth / bitmap.getWidth(), (float) newHeight / bitmap.getHeight());
+
+    /**
+     * 通过URI获取图片
+     * @param context 上下文对象
+     * @param uri 图片URI
+     * @return Bitmap or null
+     */
+    public static Bitmap decodeBitmap(Context context, Uri uri) {
+        if (null == context || uri == null) {
+            return null;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = context.getContentResolver().openInputStream(uri);
+            return decodeStream(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuietly(inputStream);
+        }
+        return null;
+    }
+
+    public static Bitmap decodeBitmap(Context context, int drawableId) {
+        Resources resources = context.getResources();
+        InputStream inputStream = resources.openRawResource(drawableId);
+        try {
+            return decodeStream(inputStream);
+        } finally {
+            closeQuietly(inputStream);
+        }
+    }
+
+    public static Bitmap decodeBitmap(String imageFilePath, int width, int height) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(imageFilePath);
+            return decodeStream(inputStream, null, width, height);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuietly(inputStream);
+        }
+        return null;
+    }
+
+    private static void closeQuietly(Closeable closeable) {
+        if (closeable != null){
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Bitmap decodeResource(Resources resources, int resId) {
+        return decodeResource(resources, resId, 0, 0);
+    }
+
+    public static Bitmap decodeResource(Resources resources, int resId, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(resources, resId, options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(resources, resId, options);
+    }
+
+    public static Bitmap decodeStream(InputStream inputStream) {
+        return decodeStream(inputStream, null, 0, 0);
+    }
+
+    public static Bitmap decodeStream(InputStream inputStream, Rect outPadding, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(inputStream, outPadding, options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(inputStream, outPadding, options);
+    }
+
+    public static Bitmap decodeFileDescriptor(FileDescriptor fd) {
+        return decodeFileDescriptor(fd, null, 0, 0);
+    }
+
+    public static Bitmap decodeFileDescriptor(FileDescriptor fd, Rect outPadding, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFileDescriptor(fd, outPadding, options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFileDescriptor(fd, outPadding, options);
+    }
+
+    /**
+     * 计算图片的缩放倍数
+     * @param options BitmapFactory.Options
+     * @param width 图片的宽
+     * @param height 图片的高
+     * @return 缩放倍数，缩放大小为原图的1/x * 1/x
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int width, int height) {
+        int inSampleSize = 1;
+        if (width <= 0 || height <= 0) {
+            return inSampleSize;
+        }
+        final int outWidth = options.outWidth;
+        final int outHeight = options.outHeight;
+        if (outWidth > width || outHeight > height) {
+            final int widthRatio = Math.round((float) outWidth / (float) width);
+            final int heightRatio = Math.round((float) outHeight / (float) height);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        if (inSampleSize < 1) {
+            inSampleSize = 1;
+        }
+        return inSampleSize;
+    }
+
+    /**
+     * 压缩图片到指定大小，先通过宽高压缩再进行质量压缩
+     * @param bitmap 图片
+     * @param targetKbSize 图片预计内存大小，单位为KB
+     * @param width 图片宽度
+     * @param height 图片高度
+     * @return Bitmap or null
+     */
+    public static Bitmap compressBitmap(Bitmap bitmap, int targetKbSize, int width, int height) {
+        if (bitmap == null || targetKbSize <= 0) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        Bitmap newBitmap = decodeStream(inputStream, null, width, height);
+        return compressBitmap(newBitmap, targetKbSize);
+    }
+
+    /**
+     * 压缩图片到指定大小，通过质量压缩
+     * @param bitmap 图片
+     * @param targetKbSize 图片预计内存大小，单位为KB
+     * @return Bitmap or null
+     */
+    public static Bitmap compressBitmap(Bitmap bitmap, int targetKbSize) {
+        if (bitmap == null || targetKbSize <= 0) {
+            return null;
+        }
+        int quality = 100;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        quality -= 10;
+        while (outputStream.toByteArray().length > targetKbSize * 1024) {
+            outputStream.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            quality -= 10;
+        }
+        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        return BitmapFactory.decodeStream(inputStream, null, null);
+    }
+
+	public static Bitmap scaleBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+		return scaleBitmap(bitmap, (float) newWidth / bitmap.getWidth(), (float) newHeight / bitmap.getHeight());
 	}
 
 	/**
@@ -156,7 +322,7 @@ public class ImageUtils {
 	 * @param scaleHeight 缩放高度
 	 * @return Bitmap
 	 */
-	public static Bitmap scale(Bitmap bitmap, float scaleWidth, float scaleHeight) {
+	public static Bitmap scaleBitmap(Bitmap bitmap, float scaleWidth, float scaleHeight) {
 		if (bitmap == null) {
 			return null;
 		}
@@ -170,7 +336,7 @@ public class ImageUtils {
 	 * @param bitmap 传入的图片
 	 * @return 去色后的图片
 	 */
-	public static Bitmap toGrayScale(Bitmap bitmap) {
+	public static Bitmap grayScaleBitmap(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		Bitmap grayBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -185,17 +351,6 @@ public class ImageUtils {
 		return grayBitmap;
 	}
 
-   /**
-    * 去色同时加圆角
-    * @param bitmap 原图
-    * @param pixels 圆角弧度
-    * @param color 圆边颜色
-    * @return 修改后的图片
-    */
-   public static Bitmap toGrayScale(Bitmap bitmap, int pixels, int color) {
-       return toRoundCorner(toGrayScale(bitmap), pixels, color);
-   }
-   
     /**
      * 把图片变成圆角
      * @param bitmap 需要修改的图片
@@ -203,7 +358,7 @@ public class ImageUtils {
      * @param color 圆边颜色
      * @return 圆角图片
      */
-	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels, int color) {
+	public static Bitmap roundCornerBitmap(Bitmap bitmap, int pixels, int color) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);
 		final Paint paint = new Paint();
@@ -220,30 +375,36 @@ public class ImageUtils {
 		return output;
 	}
 	
-	/**
-	 * 获取图片（Bitmap）所占内存
-	 * @param bitmap Bitmap
-	 * @return long
-	 */
-	public static long getBitmapMemory(Bitmap bitmap) {
-		if (bitmap == null || bitmap.isRecycled()) {
-			return -1;
-		}
-		long size = 0;
-		Config config = bitmap.getConfig();
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		if (config == Config.ALPHA_8) {
-			size = width * height;
-		} else if (config == Config.ARGB_4444) {
-			size = width * height * 2;
-		} else if (config == Config.ARGB_8888) {
-			size = width * height * 4;
-		} else if (config == Config.RGB_565) {
-			size = width * height * 2;
-		}
-		return size;
-	}
+    /**
+     * 对图片做高斯模糊
+     * @param context 上下文
+     * @param bitmap Bitmap
+     * @param radius 模糊范围：(0, 25]
+     * @return 高斯模糊后的图片
+     */
+    public static Bitmap blurBitmap(Context context, Bitmap bitmap, float radius) {
+        if (context == null || bitmap == null) {
+            return null;
+        }
+        if (radius <= 0 || radius > 25) {
+            radius = 10.0f;
+        }
+        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            RenderScript rs = RenderScript.create(context);
+            ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+            // set the radius of the blur: 0 < radius <= 25
+            intrinsicBlur.setRadius(radius);
+            intrinsicBlur.setInput(allIn);
+            intrinsicBlur.forEach(allOut);
+            allOut.copyTo(outBitmap);
+            bitmap.recycle();
+            rs.destroy();
+        }
+        return outBitmap;
+    }
 
     /**
      * 备注：android:scaleType用来控制图片进行resized/moved来匹配ImageView的size
@@ -275,239 +436,5 @@ public class ImageUtils {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 不进行人脸检测
         activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static Bitmap decodeBitmap(Context context, int drawableId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeStream(context.getResources().openRawResource(drawableId), new Rect(), options);
-    }
-
-    /**
-     * 解析本地图片
-     * @param filePath 文件路径
-     * @return Bitmap
-     */
-    public static Bitmap decodeBitmap(String filePath) {
-        Bitmap bitmap = null;
-        File file = new File(filePath);
-        // 判断文件是否存在
-        if (file.exists()) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = 1;
-            options.inPreferredConfig = Config.RGB_565;
-            try {
-                bitmap = BitmapFactory.decodeFile(filePath, options);
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-            }
-        }
-        return bitmap;
-    }
-
-    /**
-     * 通过URI获取图片
-     * @param context 上下文对象
-     * @param uri 图片URI
-     * @return Bitmap
-     */
-    public static Bitmap decodeBitmap(Context context, Uri uri) {
-        if (null == context || uri == null) {
-            return null;
-        }
-        Bitmap bitmap;
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Config.RGB_565;
-            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bitmap;
-    }
-
-    /**
-     * 压缩图片大小
-     * @param bitmap Bitmap
-     * @param kbSize 图片大小KB
-     * @return Bitmap
-     */
-    public static Bitmap compressBitmap(Bitmap bitmap, int kbSize) {
-        if (bitmap == null || kbSize < 0) {
-            return null;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        int quality = 90;
-        while (baos.toByteArray().length > kbSize * 1024) {
-            baos.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
-            quality -= 10;
-        }
-        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-        return BitmapFactory.decodeStream(bais, null, null);
-    }
-
-    /**
-     * 压缩图片
-     * @param bitmap 图片
-     * @param kbSize 图片占内存大小
-     * @return Bitmap
-     */
-    public static Bitmap compress(Bitmap bitmap, int kbSize) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        if (baos.toByteArray().length > 1024 * 1024) {
-            baos.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
-        }
-        ByteArrayInputStream byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
-        BitmapFactory.Options newOpts = new BitmapFactory.Options();
-        newOpts.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
-        newOpts.inJustDecodeBounds = false;
-        int outWidth = newOpts.outWidth;
-        int outHeight = newOpts.outHeight;
-        float defaultHeight = 800f;
-        float defaultWidth = 480f;
-        int inSampleSize = 1;
-        if (outWidth > outHeight && outWidth > defaultWidth) {// 如果宽度大的话根据宽度固定大小缩放
-            inSampleSize = (int) (newOpts.outWidth / defaultWidth);
-        } else if (outWidth < outHeight && outHeight > defaultHeight) {// 如果高度高的话根据宽度固定大小缩放
-            inSampleSize = (int) (newOpts.outHeight / defaultHeight);
-        }
-        if (inSampleSize <= 0) {
-            inSampleSize = 1;
-        }
-        newOpts.inSampleSize = inSampleSize;
-        byteArrayInStream = new ByteArrayInputStream(baos.toByteArray());
-		Bitmap newBitmap = BitmapFactory.decodeStream(byteArrayInStream, null, newOpts);
-        return compressBitmap(newBitmap, kbSize);
-    }
-
-    /**
-     * 获取压缩后的本地图片
-     * @param imagePath 本地图片地址
-     * @param width 图片宽度
-     * @param height 图片高度
-     * @return Bitmap
-     */
-    public static Bitmap getCompressBitmap(String imagePath, int width, int height) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, options);
-        options.inSampleSize = calculateInSampleSize(options, width, height);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(imagePath, options);
-    }
-
-    /**
-     * 计算图片的缩放值
-     * @param options BitmapFactory.Options
-     * @param width 图片的宽
-     * @param height 图片的高
-     * @return inSampleSize
-     */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int width, int height) {
-        int outWidth = options.outWidth;
-        int outHeight = options.outHeight;
-        int inSampleSize = 1;
-        if (outWidth > width || outHeight > height) {
-            final int widthRatio = Math.round((float) outWidth / (float) width);
-            final int heightRatio = Math.round((float) outHeight / (float) height);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return inSampleSize;
-    }
-
-    /**
-     * 对图片做高斯模糊
-     * @param context Context
-     * @param bitmap Bitmap
-     * @param radius 模糊范围：[0, 25)
-     * @return 高斯模糊后的图片
-     */
-    public static Bitmap blurBitmap(Context context, Bitmap bitmap, float radius) {
-        if (context == null || bitmap == null) {
-            return null;
-        }
-        if (radius <= 0 || radius > 25) {
-            radius = 10.0f;
-        }
-        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            RenderScript rs = RenderScript.create(context);
-            ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
-            // set the radius of the blur: 0 < radius <= 25
-            intrinsicBlur.setRadius(radius);
-            intrinsicBlur.setInput(allIn);
-            intrinsicBlur.forEach(allOut);
-            allOut.copyTo(outBitmap);
-            bitmap.recycle();
-            rs.destroy();
-        }
-        return outBitmap;
-    }
-
-    /**
-     * 对指定的视图进行截图
-     * @param view 视图
-     * @return Bitmap
-     */
-    public static Bitmap capture(View view) {
-        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
-            return null;
-        }
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.translate(-view.getScrollX(), -view.getScrollY());
-        view.draw(canvas);
-        view.setDrawingCacheEnabled(true);
-        Bitmap newBitmap = view.getDrawingCache().copy(Config.ARGB_8888, true);
-        view.destroyDrawingCache();
-        return newBitmap;
-    }
-
-    /**
-     * 对ScrollView截图
-     * @param scrollView ScrollView
-     * @return Bitmap
-     */
-    public static Bitmap capture(ScrollView scrollView) {
-        int height = 0;
-        Bitmap bitmap;
-        for (int i = 0; i < scrollView.getChildCount(); i++) {
-            height += scrollView.getChildAt(i).getHeight();
-            scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
-        }
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(bitmap);
-        scrollView.draw(canvas);
-        return bitmap;
-    }
-
-    /**
-     * 对WebView截图
-     * @param webView WebView
-     * @return Bitmap
-     */
-    public static Bitmap capture(WebView webView) {
-        float scale = webView.getScale();
-        int height = (int) (webView.getContentHeight() * scale);
-        final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(bitmap);
-        webView.draw(canvas);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        final byte[] bytes = stream.toByteArray();
-        if (!bitmap.isRecycled()) {
-            bitmap.recycle();
-        }
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

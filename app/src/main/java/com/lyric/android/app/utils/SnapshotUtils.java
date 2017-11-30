@@ -2,10 +2,16 @@ package com.lyric.android.app.utils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Display;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.ScrollView;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * 截图工具类
@@ -81,6 +87,11 @@ public class SnapshotUtils {
         return snapShot(view);
     }
 
+    /**
+     * 对指定的视图进行截图
+     * @param view 视图
+     * @return Bitmap
+     */
     public static Bitmap snapShot(View view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -109,5 +120,43 @@ public class SnapshotUtils {
         canvas.save(Canvas.ALL_SAVE_FLAG);
         canvas.restore();
         return newBitmap;
+    }
+
+    /**
+     * 对ScrollView截图
+     * @param scrollView ScrollView
+     * @return Bitmap
+     */
+    public static Bitmap snapShot(ScrollView scrollView) {
+        int height = 0;
+        Bitmap bitmap;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            height += scrollView.getChildAt(i).getHeight();
+            scrollView.getChildAt(i).setBackgroundColor(Color.WHITE);
+        }
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * 对WebView截图
+     * @param webView WebView
+     * @return Bitmap
+     */
+    public static Bitmap snapShot(WebView webView) {
+        float scale = webView.getScale();
+        int height = (int) (webView.getContentHeight() * scale);
+        final Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        webView.draw(canvas);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        final byte[] bytes = stream.toByteArray();
+        if (!bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }
