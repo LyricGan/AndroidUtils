@@ -12,7 +12,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 /**
- * 网络管理类，基于retrofit
+ * 网络请求管理类，基于retrofit
  * @author lyricgan
  * @time 2016/6/3 11:41
  */

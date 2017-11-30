@@ -2,7 +2,6 @@ package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
@@ -40,21 +39,13 @@ import java.util.List;
  */
 public class FileUtils {
     public final static String FILE_EXTENSION_SEPARATOR = ".";
-    /**
-     * Byte与Byte的倍数
-     */
+    /** Byte与Byte的倍数 */
     public static final int BYTE = 1;
-    /**
-     * KB与Byte的倍数
-     */
+    /** KB与Byte的倍数 */
     public static final int KB = 1024;
-    /**
-     * MB与Byte的倍数
-     */
+    /** MB与Byte的倍数 */
     public static final int MB = 1048576;
-    /**
-     * GB与Byte的倍数
-     */
+    /** GB与Byte的倍数 */
     public static final int GB = 1073741824;
 
     public enum MemoryUnit {
@@ -64,7 +55,7 @@ public class FileUtils {
         GB
     }
 
-    FileUtils() {
+    private FileUtils() {
     }
 
     /**
@@ -120,12 +111,6 @@ public class FileUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static void closeQuietly(Cursor cursor) {
-        if (cursor != null) {
-            cursor.close();
         }
     }
 
@@ -374,44 +359,6 @@ public class FileUtils {
             }
         }
         return result;
-    }
-
-    public static String getFileFromAssets(Context context, String fileName) {
-        if (context == null || StringUtils.isEmpty(fileName)) {
-            return null;
-        }
-        StringBuilder s = new StringBuilder("");
-        try {
-            InputStreamReader in = new InputStreamReader(context.getResources().getAssets().open(fileName));
-            BufferedReader br = new BufferedReader(in);
-            String line;
-            while ((line = br.readLine()) != null) {
-                s.append(line);
-            }
-            return s.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static String getFileFromRaw(Context context, int resId) {
-        if (context == null) {
-            return null;
-        }
-        StringBuilder s = new StringBuilder();
-        try {
-            InputStreamReader in = new InputStreamReader(context.getResources().openRawResource(resId));
-            BufferedReader br = new BufferedReader(in);
-            String line;
-            while ((line = br.readLine()) != null) {
-                s.append(line);
-            }
-            return s.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -1130,8 +1077,12 @@ public class FileUtils {
         if (context == null) {
             return;
         }
-        context.getApplicationContext().deleteDatabase("webview.db");
-        context.getApplicationContext().deleteDatabase("webviewCache.db");
+        context.deleteDatabase("webview.db");
+        context.deleteDatabase("webviewCache.db");
+    }
+
+    public static String insertImage(Context context, String imagePath, String name) {
+        return insertImage(context, imagePath, name, "", true);
     }
 
     /**
@@ -1141,10 +1092,12 @@ public class FileUtils {
      * @param name 图片指定名称
      * @param description 图片描述
      * @param isNotifyAlbum 是否通知相册更新
+     * @return 图片的URI，格式类似：content://media/external/images/media/123456
      */
-    public static void insertImage(Context context, String imagePath, String name, String description, boolean isNotifyAlbum) {
+    public static String insertImage(Context context, String imagePath, String name, String description, boolean isNotifyAlbum) {
+        String imageUri = null;
         try {
-            MediaStore.Images.Media.insertImage(context.getContentResolver(), imagePath, name, description);
+            imageUri = MediaStore.Images.Media.insertImage(context.getContentResolver(), imagePath, name, description);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -1154,5 +1107,6 @@ public class FileUtils {
             // 扫描SD卡的广播：Intent.ACTION_MEDIA_MOUNTED，扫描期间SD卡无法访问影响体验，使用Intent.ACTION_MEDIA_SCANNER_SCAN_FILE扫描单个文件提升访问速度
             context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
         }
+        return imageUri;
     }
 }

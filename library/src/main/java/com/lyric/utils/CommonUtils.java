@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.text.TextUtils;
 
@@ -21,10 +22,18 @@ public class CommonUtils {
     }
 
     /**
+     * 判断是否在主线程
+     * @return true or false
+     */
+    public static boolean isMainThread() {
+        return (Looper.myLooper() == Looper.getMainLooper());
+    }
+
+    /**
      * 判断服务是否已启动
      * @param context Context
      * @param serviceName the service name
-     * @return true of false
+     * @return true or false
      */
     public static boolean isServiceRunning(Context context, String serviceName) {
         if (TextUtils.isEmpty(serviceName)) {
@@ -48,7 +57,7 @@ public class CommonUtils {
      * 判断应用是否启动
      * @param context Context
      * @param packageName the package name of app
-     * @return true of false
+     * @return true or false
      */
     public static boolean isAppRunning(Context context, String packageName) {
         if (TextUtils.isEmpty(packageName)) {
