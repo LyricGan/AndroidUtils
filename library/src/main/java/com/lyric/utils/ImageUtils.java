@@ -205,19 +205,6 @@ public class ImageUtils {
         }
     }
 
-    public static Bitmap decodeResource(Resources resources, int resId) {
-        return decodeResource(resources, resId, 0, 0);
-    }
-
-    public static Bitmap decodeResource(Resources resources, int resId, int width, int height) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(resources, resId, options);
-        options.inSampleSize = calculateInSampleSize(options, width, height);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(resources, resId, options);
-    }
-
     public static Bitmap decodeStream(InputStream inputStream) {
         return decodeStream(inputStream, null, 0, 0);
     }
@@ -229,6 +216,19 @@ public class ImageUtils {
         options.inSampleSize = calculateInSampleSize(options, width, height);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeStream(inputStream, outPadding, options);
+    }
+
+    public static Bitmap decodeResource(Resources resources, int resId) {
+        return decodeResource(resources, resId, 0, 0);
+    }
+
+    public static Bitmap decodeResource(Resources resources, int resId, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(resources, resId, options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(resources, resId, options);
     }
 
     public static Bitmap decodeFileDescriptor(FileDescriptor fd) {
@@ -301,17 +301,18 @@ public class ImageUtils {
         int quality = 100;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        quality -= 10;
-        while (outputStream.toByteArray().length > targetKbSize * 1024) {
+        while (outputStream.toByteArray().length > targetKbSize * 1024 && ((quality -= 10) > 0)) {
             outputStream.reset();
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            quality -= 10;
         }
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return BitmapFactory.decodeStream(inputStream, null, null);
     }
 
 	public static Bitmap scaleBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+        if (bitmap == null) {
+            return null;
+        }
 		return scaleBitmap(bitmap, (float) newWidth / bitmap.getWidth(), (float) newHeight / bitmap.getHeight());
 	}
 
@@ -332,35 +333,43 @@ public class ImageUtils {
 	}
 	
 	/**
-	 * 图片去色，返回灰度图片
-	 * @param bitmap 传入的图片
+	 * 对图片做灰度处理
+	 * @param bitmap 需要修改的图片
 	 * @return 去色后的图片
 	 */
 	public static Bitmap grayScaleBitmap(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
-		Bitmap grayBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
-		Canvas canvas = new Canvas(grayBitmap);
-		Paint paint = new Paint();
+		Bitmap convertBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
+
 		ColorMatrix colorMatrix = new ColorMatrix();
 		colorMatrix.setSaturation(0);
 		ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
+
+        Canvas canvas = new Canvas(convertBitmap);
+        Paint paint = new Paint();
 		paint.setColorFilter(colorMatrixFilter);
 		canvas.drawBitmap(bitmap, 0, 0, paint);
 		
-		return grayBitmap;
+		return convertBitmap;
 	}
 
     /**
-     * 把图片变成圆角
+     * 对图片做圆角处理
      * @param bitmap 需要修改的图片
      * @param pixels 圆角的弧度
      * @param color 圆边颜色
      * @return 圆角图片
      */
 	public static Bitmap roundCornerBitmap(Bitmap bitmap, int pixels, int color) {
-		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
+        if (bitmap == null) {
+            return null;
+        }
+		Bitmap convertBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(convertBitmap);
 		final Paint paint = new Paint();
 		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		final RectF rectF = new RectF(rect);
@@ -372,7 +381,7 @@ public class ImageUtils {
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		
-		return output;
+		return convertBitmap;
 	}
 	
     /**
@@ -389,21 +398,21 @@ public class ImageUtils {
         if (radius <= 0 || radius > 25) {
             radius = 10.0f;
         }
-        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap convertBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            RenderScript rs = RenderScript.create(context);
-            ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+            RenderScript renderScript = RenderScript.create(context);
+            ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
+            Allocation allIn = Allocation.createFromBitmap(renderScript, bitmap);
+            Allocation allOut = Allocation.createFromBitmap(renderScript, convertBitmap);
             // set the radius of the blur: 0 < radius <= 25
             intrinsicBlur.setRadius(radius);
             intrinsicBlur.setInput(allIn);
             intrinsicBlur.forEach(allOut);
-            allOut.copyTo(outBitmap);
+            allOut.copyTo(convertBitmap);
             bitmap.recycle();
-            rs.destroy();
+            renderScript.destroy();
         }
-        return outBitmap;
+        return convertBitmap;
     }
 
     /**
@@ -428,10 +437,10 @@ public class ImageUtils {
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 2);
         intent.putExtra("aspectY", 1);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
         intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         intent.putExtra("return-data", false);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 不进行人脸检测
