@@ -1,8 +1,8 @@
 package com.lyric.android.app.test.cache;
 
 /**
+ * 缓存类型，分为内存缓存、磁盘缓存和网络缓存
  * @author lyricgan
- * @description cache type
  * @time 16/1/17 下午10:41
  */
 public enum CacheType {

@@ -1,20 +1,18 @@
 package com.lyric.android.app.test.cache;
 
+import android.text.TextUtils;
+
 import java.util.HashMap;
 
 /**
+ * 缓存管理类，依次读取内存缓存、磁盘缓存、网络缓存
  * @author lyricgan
- * @description 缓存管理类，默认不做磁盘缓存
  * @time 16/1/17 下午9:36
  */
 public abstract class CacheManager<T> implements CacheFactory<T> {
     private String mKey;
 
     public CacheManager(String key) {
-        setKey(key);
-    }
-
-    public void setKey(String key) {
         this.mKey = key;
     }
 
@@ -45,28 +43,35 @@ public abstract class CacheManager<T> implements CacheFactory<T> {
 
     @Override
     public boolean cacheInMemory(T object) {
+        if (TextUtils.isEmpty(mKey)) {
+            return false;
+        }
         if (object == null) {
             return false;
         }
-        MemoryCacheManager.instance.put(mKey, object);
+        MemoryCacheManager.instance.getCache().put(mKey, object);
         return true;
     }
 
     @Override
     public boolean cacheInDisk(T object) {
-        return false;
+        if (TextUtils.isEmpty(mKey)) {
+            return false;
+        }
+        if (object == null) {
+            return false;
+        }
+        DiskCacheManager.getInstance().put(mKey, object);
+        return true;
     }
 
     @Override
     public T getFromMemory(HashMap<String, Object> params) {
-        if (mKey == null) {
-            return null;
-        }
-        return (T) MemoryCacheManager.instance.get(mKey);
+        return (T) MemoryCacheManager.instance.getCache().get(mKey);
     }
 
     @Override
     public T getFromDisk(HashMap<String, Object> params) {
-        return null;
+        return (T) DiskCacheManager.getInstance().get(params);
     }
 }

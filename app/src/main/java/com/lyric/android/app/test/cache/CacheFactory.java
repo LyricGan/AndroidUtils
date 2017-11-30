@@ -3,8 +3,8 @@ package com.lyric.android.app.test.cache;
 import java.util.HashMap;
 
 /**
+ * 缓存接口类
  * @author lyricgan
- * @description 缓存接口类
  * @time 16/1/17 下午10:44
  */
 public interface CacheFactory<T> {
