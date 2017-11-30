@@ -17,10 +17,15 @@ import retrofit2.Retrofit;
  * @time 2016/6/3 11:41
  */
 public class NetworkManager {
+    /** 默认连接超时，30s */
     private static final long CONNECT_TIMEOUT = 30L;
+    /** 默认读数据超时，30s */
     private static final long READ_TIMEOUT = 30L;
+    /** 默认写数据超时，120s */
+    private static final long WRITE_TIMEOUT = 120L;
+
     private static volatile NetworkManager mInstance;
-    private static Retrofit mRetrofit;
+    private Retrofit mRetrofit;
 
     private NetworkManager() {
     }
@@ -40,6 +45,7 @@ public class NetworkManager {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
+        builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         builder.retryOnConnectionFailure(true);
         if (Constants.DEBUG) {
             builder.addNetworkInterceptor(new HttpLogInterceptor());
@@ -50,15 +56,12 @@ public class NetworkManager {
     }
 
     private Retrofit getDefaultRetrofit() {
-        if (mRetrofit == null) {
-            mRetrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .client(buildDefaultClient())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-        }
-        return mRetrofit;
+        return new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .client(buildDefaultClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
     }
 
     public <T> T build(Class<T> cls) {
@@ -69,6 +72,11 @@ public class NetworkManager {
         if (retrofit == null) {
             retrofit = getDefaultRetrofit();
         }
+        this.mRetrofit = retrofit;
         return retrofit.create(cls);
+    }
+
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }
