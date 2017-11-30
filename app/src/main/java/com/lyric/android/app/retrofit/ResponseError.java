@@ -1,8 +1,8 @@
 package com.lyric.android.app.retrofit;
 
 /**
+ * 网络请求错误定义
  * @author lyricgan
- * @description 网络请求错误
  * @time 2016/9/5 10:38
  */
 public class ResponseError {

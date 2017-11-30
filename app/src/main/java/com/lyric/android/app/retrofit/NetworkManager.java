@@ -12,22 +12,26 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 /**
- * @author lyric
- * @description network api
+ * 网络管理类，基于retrofit
+ * @author lyricgan
  * @time 2016/6/3 11:41
  */
-public class Api {
+public class NetworkManager {
     private static final long CONNECT_TIMEOUT = 30L;
     private static final long READ_TIMEOUT = 30L;
-    private static Api mInstance;
+    private static volatile NetworkManager mInstance;
     private static Retrofit mRetrofit;
 
-    private Api() {
+    private NetworkManager() {
     }
 
-    public static synchronized Api getInstance() {
+    public static NetworkManager getInstance() {
         if (mInstance == null) {
-            mInstance = new Api();
+            synchronized (NetworkManager.class) {
+                if (mInstance == null) {
+                    mInstance = new NetworkManager();
+                }
+            }
         }
         return mInstance;
     }
@@ -45,29 +49,25 @@ public class Api {
         return builder.build();
     }
 
-    private void buildRetrofit() {
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .client(buildDefaultClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-    }
-
-    private Retrofit getRetrofit() {
+    private Retrofit getDefaultRetrofit() {
         if (mRetrofit == null) {
-            buildRetrofit();
+            mRetrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.BASE_URL)
+                    .client(buildDefaultClient())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
         }
         return mRetrofit;
     }
 
     public <T> T build(Class<T> cls) {
-        return build(getRetrofit(), cls);
+        return build(getDefaultRetrofit(), cls);
     }
 
     public <T> T build(Retrofit retrofit, Class<T> cls) {
         if (retrofit == null) {
-            throw new NullPointerException("retrofit is null");
+            retrofit = getDefaultRetrofit();
         }
         return retrofit.create(cls);
     }

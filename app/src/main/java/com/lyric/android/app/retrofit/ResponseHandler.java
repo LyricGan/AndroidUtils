@@ -1,8 +1,8 @@
 package com.lyric.android.app.retrofit;
 
 /**
+ * 网络请求响应错误处理类，通过错误码来处理提示
  * @author lyricgan
- * @description 响应数据处理类
  * @time 2016/7/27 12:40
  */
 public class ResponseHandler {

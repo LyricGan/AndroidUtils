@@ -5,8 +5,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * 网络请求默认回调类
  * @author lyricgan
- * @description 请求默认回调
  * @time 2016/7/26 17:55
  */
 public abstract class ResponseCallback<T> implements Callback<T> {
