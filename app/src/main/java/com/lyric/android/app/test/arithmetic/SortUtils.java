@@ -1,13 +1,13 @@
 package com.lyric.android.app.test.arithmetic;
 
 /**
- * 排序算法
+ * 排序工具类
  * @author lyricgan
  * @time 2016/1/19 13:15
  */
-public class SortAlgorithm {
+public class SortUtils {
 
-    private SortAlgorithm() {
+    private SortUtils() {
     }
 
     /**
@@ -111,30 +111,5 @@ public class SortAlgorithm {
         array[i + 1] = array[high];
         array[high] = temp;
         return (i + 1);
-    }
-
-    /**
-     * 二分查找
-     * @param array 查找的数组
-     * @param value 查找的值
-     * @return int
-     */
-    public static int binarySearch(int[] array, int value) {
-        if (array == null || array.length == 0) {
-            return -1;
-        }
-        int left = 0;
-        int right = array.length - 1;
-        while (left <= right) {
-            int middle = left + ((right - left) >> 2);
-            if (array[middle] > value) {
-                right = middle - 1;
-            } else if (array[middle] < value) {
-                left = middle + 1;
-            } else {
-                return middle;
-            }
-        }
-        return -1;
     }
 }
