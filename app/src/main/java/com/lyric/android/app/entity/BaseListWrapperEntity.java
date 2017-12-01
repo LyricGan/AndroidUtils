@@ -1,17 +1,15 @@
 package com.lyric.android.app.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/3 11:43
  */
 public class BaseListWrapperEntity<T> {
     private int start;
     private int more;
-    private List<T> data = new ArrayList<>();
+    private List<T> data;
 
     public int getStart() {
         return start;

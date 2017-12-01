@@ -2,7 +2,6 @@ package com.lyric.android.app.entity;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/3 11:41
  */
 public class BaseListEntity<T> {
