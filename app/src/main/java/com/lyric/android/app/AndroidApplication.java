@@ -27,7 +27,7 @@ public class AndroidApplication extends BaseApplication {
         addRegisterActivityLifecycleCallbacks();
 	}
 
-    private RefWatcher setupLeakCanary() {
+    protected RefWatcher setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return RefWatcher.DISABLED;
         }

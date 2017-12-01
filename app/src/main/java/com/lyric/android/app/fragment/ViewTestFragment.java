@@ -13,6 +13,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
+import com.lyric.android.app.utils.SnapshotUtils;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.android.app.widget.chart.ClashBar;
 import com.lyric.android.app.widget.chart.HorizontalRatioBar;
@@ -123,7 +124,7 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     private void takeViewCapture(View view) {
-        mCaptureBitmap = ImageUtils.captureSimpleBitmap(view);
+        mCaptureBitmap = SnapshotUtils.snapShot(view);
         if (mCaptureBitmap != null) {
             imageCapture.setImageBitmap(mCaptureBitmap);
 

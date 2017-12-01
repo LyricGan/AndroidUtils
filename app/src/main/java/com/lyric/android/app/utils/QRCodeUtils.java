@@ -38,7 +38,7 @@ public class QRCodeUtils {
      * @return Bitmap or null
      */
     public static Bitmap createQRCodeBitmap(String content, int width, int height) {
-        return createQRCodeBitmap(content, width, height, 1);
+        return createQRCodeBitmap(content, width, height, 0);
     }
 
     /**
@@ -51,7 +51,7 @@ public class QRCodeUtils {
      * @return Bitmap or null
      */
     public static Bitmap createQRCodeBitmap(String content, int width, int height, int margin) {
-        return createQRCodeBitmap(content, width, height, "UTF-8", "H", margin + "", Color.BLACK, Color.WHITE);
+        return createQRCodeBitmap(content, width, height, "UTF-8", ErrorCorrectionLevel.M, margin, Color.BLACK, Color.WHITE);
     }
 
     /**
@@ -67,7 +67,7 @@ public class QRCodeUtils {
      * @param whiteColor 白色色块的自定义颜色值
      * @return Bitmap or null
      */
-    public static Bitmap createQRCodeBitmap(String content, int width, int height, String characterSet, String errorCorrection, String margin, int blackColor, int whiteColor) {
+    public static Bitmap createQRCodeBitmap(String content, int width, int height, String characterSet, ErrorCorrectionLevel errorCorrection, int margin, int blackColor, int whiteColor) {
         if (TextUtils.isEmpty(content)) {
             return null;
         }
@@ -76,16 +76,12 @@ public class QRCodeUtils {
         }
         try {
             // 设置二维码相关配置，生成BitMatrix(位矩阵)对象
-            Hashtable<EncodeHintType, String> hints = new Hashtable<>();
+            Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
             if (!TextUtils.isEmpty(characterSet)) {
                 hints.put(EncodeHintType.CHARACTER_SET, characterSet);
             }
-            if (!TextUtils.isEmpty(errorCorrection)) {
-                hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrection);
-            }
-            if (!TextUtils.isEmpty(margin)) {
-                hints.put(EncodeHintType.MARGIN, margin);
-            }
+            hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrection);
+            hints.put(EncodeHintType.MARGIN, margin);
             BitMatrix bitMatrix = new QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
             // 创建像素数组，并根据BitMatrix(位矩阵)对象为数组元素赋颜色值
             int[] pixels = new int[width * height];

@@ -1,7 +1,6 @@
 package com.lyric.android.app.retrofit;
 
 import com.lyric.android.app.common.Constants;
-import com.lyric.android.app.retrofit.adapter.RxJavaCallAdapterFactory;
 import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
 import com.lyric.android.app.retrofit.interceptor.CacheInterceptorHelper;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
@@ -10,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * 网络请求管理类，基于retrofit

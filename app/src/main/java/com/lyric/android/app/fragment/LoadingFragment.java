@@ -31,7 +31,6 @@ public class LoadingFragment extends BaseFragment {
 
     @Override
     public void onViewCreate(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override
