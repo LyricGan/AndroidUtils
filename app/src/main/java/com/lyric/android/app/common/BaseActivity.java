@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -31,6 +32,7 @@ import java.lang.ref.WeakReference;
  * @time 2016/5/26 13:59
  */
 public abstract class BaseActivity extends FragmentActivity implements IBaseListener, SwipeBackActivityBase {
+    protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
     private SwipeBackActivityHelper mSwipeHelper;
@@ -42,6 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        loggingMessage("onCreate");
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             onExtrasInitialize(bundle);
@@ -139,15 +142,41 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        loggingMessage("onRestart");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loggingMessage("onStart");
+    }
+
+    @Override
     protected void onResume() {
         mDestroy = false;
         super.onResume();
+        loggingMessage("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loggingMessage("onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        loggingMessage("onStop");
     }
 
     @Override
     protected void onDestroy() {
         mDestroy = true;
         super.onDestroy();
+        loggingMessage("onDestroy");
     }
 
     protected TitleBar getTitleBar() {
@@ -272,6 +301,10 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
         if (im != null) {
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    private void loggingMessage(String message) {
+        Log.d(TAG, message);
     }
 
     protected Handler getHandler() {

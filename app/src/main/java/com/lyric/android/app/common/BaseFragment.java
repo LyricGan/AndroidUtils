@@ -1,9 +1,11 @@
 package com.lyric.android.app.common;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +25,16 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     private LoadingDialog mLoadingDialog;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        loggingMessage("onAttach");
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        loggingMessage("onCreate");
         Bundle bundle = getArguments();
         if (bundle != null) {
             onExtrasInitialize(bundle);
@@ -34,6 +43,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        loggingMessage("onCreateView");
         View rootView = inflater.inflate(getLayoutId(), null);
         mRootView = rootView;
         return rootView;
@@ -42,12 +52,14 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loggingMessage("onViewCreated");
         onViewInitialize(view, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        loggingMessage("onActivityCreated");
         onDataInitialize(savedInstanceState);
     }
 
@@ -82,6 +94,48 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
             return null;
         }
         return (T) rootView.findViewById(id);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loggingMessage("onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loggingMessage("onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        loggingMessage("onPause");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        loggingMessage("onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        loggingMessage("onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        loggingMessage("onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        loggingMessage("onDetach");
     }
 
     protected View getRootView() {
@@ -154,5 +208,9 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
             return;
         }
         activity.finish();
+    }
+
+    private void loggingMessage(String message) {
+        Log.d(TAG, message);
     }
 }
