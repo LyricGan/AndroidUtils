@@ -38,42 +38,42 @@ public class AndroidApplication extends BaseApplication {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                debugMessage(activity, "onActivityCreated");
+                loggingMessage(activity, "onActivityCreated");
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-                debugMessage(activity, "onActivityStarted");
+                loggingMessage(activity, "onActivityStarted");
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-                debugMessage(activity, "onActivityResumed");
+                loggingMessage(activity, "onActivityResumed");
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-                debugMessage(activity, "onActivityPaused");
+                loggingMessage(activity, "onActivityPaused");
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-                debugMessage(activity, "onActivityStopped");
+                loggingMessage(activity, "onActivityStopped");
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                debugMessage(activity, "onActivitySaveInstanceState");
+                loggingMessage(activity, "onActivitySaveInstanceState");
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                debugMessage(activity, "onActivityDestroyed");
+                loggingMessage(activity, "onActivityDestroyed");
             }
         });
     }
 
-    private void debugMessage(Activity activity, String lifecycle) {
+    private void loggingMessage(Activity activity, String lifecycle) {
         Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
     }
 }

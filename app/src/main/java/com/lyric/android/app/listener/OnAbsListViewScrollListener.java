@@ -4,45 +4,38 @@ import android.view.View;
 import android.widget.AbsListView;
 
 /**
- * AbsListView滚动到底部事件监听
+ * 列表滚动到底部事件监听
  * @author lyricgan
  * @time 2016/5/6 12:18
  */
-public class OnAbsListViewScrollListener implements AbsListView.OnScrollListener {
-    private OnBottomCallback mCallback;
-    private int mGetLastVisiblePosition = 0;
+public abstract class OnAbsListViewScrollListener implements AbsListView.OnScrollListener {
+    private int mLastVisiblePosition = 0;
     private int mLastVisiblePositionY = 0;
-
-    public interface OnBottomCallback {
-
-        void callback();
-    }
-
-    public OnAbsListViewScrollListener(OnBottomCallback callback) {
-        this.mCallback = callback;
-    }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
             // 判断是否滚动到底部
             if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
-                View v = view.getChildAt(view.getChildCount() - 1);
+                View childView = view.getChildAt(view.getChildCount() - 1);
+                // 获取在屏幕内的绝对坐标
                 int[] location = new int[2];
-                v.getLocationOnScreen(location);// 获取在整个屏幕内的绝对坐标
-                int y = location[1];
-                if (view.getLastVisiblePosition() != mGetLastVisiblePosition && mLastVisiblePositionY != y) {// 第一次拖至底部
-                    mGetLastVisiblePosition = view.getLastVisiblePosition();
-                    mLastVisiblePositionY = y;
+                childView.getLocationOnScreen(location);
+                int childY = location[1];
+                int lastVisiblePosition = view.getLastVisiblePosition();
+                // 判断是否第一次滑动到底部
+                if (lastVisiblePosition != mLastVisiblePosition && mLastVisiblePositionY != childY) {
+                    mLastVisiblePosition = lastVisiblePosition;
+                    mLastVisiblePositionY = childY;
                     return;
-                } else if (view.getLastVisiblePosition() == mGetLastVisiblePosition && mLastVisiblePositionY == y) {// 第二次拖至底部
-                    if (mCallback != null) {
-                        mCallback.callback();
-                    }
+                }
+                // 判断是否第二次滑动到底部
+                if (lastVisiblePosition == mLastVisiblePosition && mLastVisiblePositionY == childY) {
+                    onScrollToBottom(view, scrollState, lastVisiblePosition, childY);
                 }
             }
             // 未滚动到底部，初始化
-            mGetLastVisiblePosition = 0;
+            mLastVisiblePosition = 0;
             mLastVisiblePositionY = 0;
         }
     }
@@ -50,4 +43,6 @@ public class OnAbsListViewScrollListener implements AbsListView.OnScrollListener
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
     }
+
+    public abstract void onScrollToBottom(AbsListView view, int scrollState, int lastVisiblePosition, int childY);
 }
