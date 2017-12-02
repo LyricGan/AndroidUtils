@@ -21,7 +21,7 @@ public interface IBaseListener extends View.OnClickListener {
      * 初始化传递参数
      * @param bundle 传递参数
      */
-    void initExtras(Bundle bundle);
+    void onExtrasInitialize(Bundle bundle);
 
     /**
      * 获取布局ID

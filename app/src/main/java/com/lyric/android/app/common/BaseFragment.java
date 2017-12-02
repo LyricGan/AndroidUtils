@@ -28,7 +28,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            initExtras(bundle);
+            onExtrasInitialize(bundle);
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     }
 
     @Override
-    public void initExtras(Bundle bundle) {
+    public void onExtrasInitialize(Bundle bundle) {
     }
 
     @Override

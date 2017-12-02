@@ -44,7 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            initExtras(bundle);
+            onExtrasInitialize(bundle);
         }
         initHandler();
 
@@ -97,7 +97,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
     }
 
     @Override
-    public void initExtras(Bundle bundle) {
+    public void onExtrasInitialize(Bundle bundle) {
     }
 
     @Override
