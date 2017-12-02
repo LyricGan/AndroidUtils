@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
-import com.lyric.android.app.widget.webview.DefaultWebLayout;
+import com.lyric.android.app.widget.webview.WebLayout;
 
 /**
  * 网页显示页面
@@ -13,9 +13,7 @@ import com.lyric.android.app.widget.webview.DefaultWebLayout;
  * @time 2017/6/28 9:45
  */
 public class WebFragment extends BaseFragment {
-    private static final String TEST_URL = "https://github.com/";
-
-    private DefaultWebLayout mWebLayout;
+    private WebLayout mWebLayout;
 
     public static WebFragment newInstance() {
         Bundle args = new Bundle();
@@ -36,7 +34,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onDataInitialize(Bundle savedInstanceState) {
-        mWebLayout.loadUrl(TEST_URL);
+        mWebLayout.loadUrl("https://github.com");
     }
 
     @Override

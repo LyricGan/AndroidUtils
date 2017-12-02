@@ -1,6 +1,5 @@
 package com.lyric.android.app.widget.webview;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -23,8 +22,8 @@ import com.lyric.android.app.common.Constants;
 import java.lang.reflect.Field;
 
 /**
- * @author lyric
- * @description 默认WebView
+ * 自定义WebView
+ * @author lyricgan
  * @time 2016/6/23 10:36
  */
 public class DefaultWebView extends WebView {
@@ -83,7 +82,6 @@ public class DefaultWebView extends WebView {
             webSettings.setDatabasePath(databaseDir);
         }
         setMixedContentAllowed(webSettings, true);
-        addJavascriptInterface(new JsInterfaceImpl(getContext()), JsInterfaceImpl.INTERFACE_NAME);
 
         addListener();
     }
@@ -265,12 +263,10 @@ public class DefaultWebView extends WebView {
         if (canGoBack()) {
             goBack();
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
-    @SuppressLint("NewApi")
     protected static void setAllowAccessFromFileUrls(final WebSettings webSettings, final boolean allowed) {
         if (Build.VERSION.SDK_INT >= 16) {
             webSettings.setAllowFileAccessFromFileURLs(allowed);
@@ -278,12 +274,10 @@ public class DefaultWebView extends WebView {
         }
     }
 
-    @SuppressWarnings("static-method")
     public void setCookiesEnabled(final boolean enabled) {
         CookieManager.getInstance().setAcceptCookie(enabled);
     }
 
-    @SuppressLint("NewApi")
     public void setThirdPartyCookiesEnabled(final boolean enabled) {
         if (Build.VERSION.SDK_INT >= 21) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(this, enabled);
@@ -294,8 +288,6 @@ public class DefaultWebView extends WebView {
         setMixedContentAllowed(getSettings(), allowed);
     }
 
-    @SuppressWarnings("static-method")
-    @SuppressLint("NewApi")
     protected void setMixedContentAllowed(final WebSettings webSettings, final boolean allowed) {
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(allowed ? WebSettings.MIXED_CONTENT_ALWAYS_ALLOW : WebSettings.MIXED_CONTENT_NEVER_ALLOW);
