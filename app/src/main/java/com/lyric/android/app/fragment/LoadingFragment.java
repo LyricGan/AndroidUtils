@@ -1,7 +1,7 @@
 package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -21,19 +21,11 @@ public class LoadingFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_loading;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
     }
 }

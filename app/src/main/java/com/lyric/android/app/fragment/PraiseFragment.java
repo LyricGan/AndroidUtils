@@ -2,7 +2,6 @@ package com.lyric.android.app.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,25 +25,22 @@ public class PraiseFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_praise;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-        findViewById(R.id.good).setOnClickListener(this);
-        findViewById(R.id.good2).setOnClickListener(this);
-        findViewById(R.id.collection).setOnClickListener(this);
-        findViewById(R.id.bookmark).setOnClickListener(this);
-        findViewById(R.id.btn_reset).setOnClickListener(this);
+    public void onDataInitialize(Bundle savedInstanceState) {
+        super.onDataInitialize(savedInstanceState);
+        findViewWithId(R.id.good).setOnClickListener(this);
+        findViewWithId(R.id.good2).setOnClickListener(this);
+        findViewWithId(R.id.collection).setOnClickListener(this);
+        findViewWithId(R.id.bookmark).setOnClickListener(this);
+        findViewWithId(R.id.btn_reset).setOnClickListener(this);
         mPraisePopupWindow = new PraisePopupWindow(getActivity());
     }
 
@@ -95,10 +91,10 @@ public class PraiseFragment extends BaseFragment {
     }
 
     public void reset() {
-        ((ImageView) findViewById(R.id.good)).setImageResource(R.mipmap.good);
-        ((ImageView) findViewById(R.id.good2)).setImageResource(R.mipmap.good);
-        ((ImageView) findViewById(R.id.collection)).setImageResource(R.mipmap.collection);
-        ((ImageView) findViewById(R.id.bookmark)).setImageResource(R.mipmap.bookmark);
+        ((ImageView) findViewWithId(R.id.good)).setImageResource(R.mipmap.good);
+        ((ImageView) findViewWithId(R.id.good2)).setImageResource(R.mipmap.good);
+        ((ImageView) findViewWithId(R.id.collection)).setImageResource(R.mipmap.collection);
+        ((ImageView) findViewWithId(R.id.bookmark)).setImageResource(R.mipmap.bookmark);
         mPraisePopupWindow.reset();
     }
 }

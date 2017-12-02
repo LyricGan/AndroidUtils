@@ -1,5 +1,6 @@
 package com.lyric.android.app.common;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.utils.ViewUtils;
+import com.lyric.android.app.widget.dialog.LoadingDialog;
 
 /**
  * Fragment基类
@@ -25,32 +26,41 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null) {
-            initExtras(args);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            initExtras(bundle);
         }
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = getLayout(inflater);
-        onViewCreate(savedInstanceState);
-        return mRootView;
+        View rootView = inflater.inflate(getLayoutId(), null);
+        mRootView = rootView;
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        onViewInitialize(view, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData(savedInstanceState);
+        onDataInitialize(savedInstanceState);
     }
 
     @Override
     public void onPrepareCreate(Bundle savedInstanceState) {
     }
 
-    protected View getLayout(LayoutInflater inflater) {
-        return inflater.inflate(getLayoutId(), null);
+    @Override
+    public void initExtras(Bundle bundle) {
+    }
+
+    @Override
+    public void onDataInitialize(Bundle savedInstanceState) {
     }
 
     @Override
@@ -65,21 +75,17 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
         onViewClick(v);
     }
 
-    protected abstract void initExtras(Bundle args);
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initData(Bundle savedInstanceState);
+    @Override
+    public  <T extends View> T findViewWithId(int id) {
+        View rootView = getRootView();
+        if (rootView == null) {
+            return null;
+        }
+        return (T) rootView.findViewById(id);
+    }
 
     protected View getRootView() {
         return mRootView;
-    }
-
-    protected <T extends View> T findViewById(int id) {
-        if (mRootView == null) {
-            return null;
-        }
-        return (T) mRootView.findViewById(id);
     }
 
     @Override
@@ -121,11 +127,12 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     }
 
     protected void showLoadingDialog(CharSequence message) {
-        if (getActivity() == null || getActivity().isFinishing()) {
+        Activity activity = getActivity();
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(getActivity());
+            mLoadingDialog = new LoadingDialog(activity);
         }
         mLoadingDialog.setMessage(message);
         mLoadingDialog.show();
@@ -142,9 +149,10 @@ public abstract class BaseFragment extends Fragment implements IBaseListener {
     }
 
     public void finishActivity() {
-        if (getActivity() == null || getActivity().isFinishing()) {
+        Activity activity = getActivity();
+        if (activity == null || activity.isFinishing()) {
             return;
         }
-        getActivity().finish();
+        activity.finish();
     }
 }

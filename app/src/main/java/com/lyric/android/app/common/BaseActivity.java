@@ -30,7 +30,7 @@ import java.lang.ref.WeakReference;
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends FragmentActivity implements IBaseListener, Constants, SwipeBackActivityBase {
+public abstract class BaseActivity extends FragmentActivity implements IBaseListener, SwipeBackActivityBase {
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
     private SwipeBackActivityHelper mSwipeHelper;
@@ -42,7 +42,12 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            initExtras(bundle);
+        }
         initHandler();
+
         if (isInjectStatusBar()) {
             injectStatusBar();
         }
@@ -52,7 +57,11 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
             setSwipeBackEnable(true);
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
-        onViewCreate(savedInstanceState);
+        setContentView(getLayoutId());
+        View view = getWindow().getDecorView();
+        onViewInitialize(view, savedInstanceState);
+
+        onDataInitialize(savedInstanceState);
     }
 
     @Override
@@ -84,10 +93,15 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
     }
 
     @Override
-    public abstract void onViewCreate(Bundle savedInstanceState);
+    public void onPrepareCreate(Bundle savedInstanceState) {
+    }
 
     @Override
-    public void onPrepareCreate(Bundle savedInstanceState) {
+    public void initExtras(Bundle bundle) {
+    }
+
+    @Override
+    public void onDataInitialize(Bundle savedInstanceState) {
     }
 
     @Override
@@ -100,6 +114,28 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
             return;
         }
         onViewClick(v);
+    }
+
+    @Override
+    public  <T extends View> T findViewWithId(int id) {
+        T view = (T) super.findViewById(id);
+        if (isSwipeBackEnable()) {
+            if (view == null && mSwipeHelper != null) {
+                return (T) mSwipeHelper.findViewById(id);
+            }
+        }
+        return view;
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View view = super.findViewById(id);
+        if (isSwipeBackEnable()) {
+            if (view == null && mSwipeHelper != null) {
+                return mSwipeHelper.findViewById(id);
+            }
+        }
+        return view;
     }
 
     @Override
@@ -167,27 +203,6 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseList
         if (isSwipeBackEnable()) {
             mSwipeHelper.onPostCreate();
         }
-    }
-
-    @Override
-    public View findViewById(int id) {
-        View view = super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return mSwipeHelper.findViewById(id);
-            }
-        }
-        return view;
-    }
-
-    protected <T extends View> T findViewWithId(int id) {
-        T view = (T) super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return (T) mSwipeHelper.findViewById(id);
-            }
-        }
-        return view;
     }
 
     @Override

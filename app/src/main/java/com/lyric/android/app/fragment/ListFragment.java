@@ -2,9 +2,9 @@ package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.RecyclerViewAdapter;
@@ -28,18 +28,14 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.list_fragment;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        GraceRefreshLayout refreshLayout = findViewById(R.id.refresh_layout);
-        mRecyclerView = findViewById(R.id.recycler_view);
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        GraceRefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
+        mRecyclerView = findViewWithId(R.id.recycler_view);
 
         refreshLayout.setAutoLoadMore(true);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -67,7 +63,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onDataInitialize(Bundle savedInstanceState) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
     }

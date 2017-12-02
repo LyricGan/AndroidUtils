@@ -3,7 +3,6 @@ package com.lyric.android.app.fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,19 +49,15 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_view_test;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        PieView pieView = findViewById(R.id.pie_view);
-        imageCapture = findViewById(R.id.image_capture);
-        ivQrcodeImage = findViewById(R.id.iv_qrcode_image);
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        PieView pieView = findViewWithId(R.id.pie_view);
+        imageCapture = findViewWithId(R.id.image_capture);
+        ivQrcodeImage = findViewWithId(R.id.iv_qrcode_image);
 
         ArrayList<PieView.PieData> dataList = new ArrayList<>();
         PieView.PieData data;
@@ -74,38 +69,37 @@ public class ViewTestFragment extends BaseFragment {
         pieView.setData(dataList);
         pieView.setStartAngle(0);
 
-        mTabDigitLayout = findViewById(R.id.tab_digit_layout);
+        mTabDigitLayout = findViewWithId(R.id.tab_digit_layout);
         mTabDigitLayout.setNumber(567890, 500L);
 
-        findViewById(R.id.btn_start).setOnClickListener(this);
+        findViewWithId(R.id.btn_start).setOnClickListener(this);
 
-        mClashBar = findViewById(R.id.clash_bar);
-        findViewById(R.id.btn_clash_bar).setOnClickListener(new View.OnClickListener() {
+        mClashBar = findViewWithId(R.id.clash_bar);
+        findViewWithId(R.id.btn_clash_bar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testClashBar();
             }
         });
 
-        findViewById(R.id.btn_ring_progress_bar).setOnClickListener(new View.OnClickListener() {
+        findViewWithId(R.id.btn_ring_progress_bar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testRingProgressBar();
             }
         });
-        findViewById(R.id.btn_qr_code).setOnClickListener(new View.OnClickListener() {
+        findViewWithId(R.id.btn_qr_code).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createQrCode();
             }
         });
-
-        HorizontalRatioBar horizontalRatioBar = findViewById(R.id.horizontal_radio_bar);
+        HorizontalRatioBar horizontalRatioBar = findViewWithId(R.id.horizontal_radio_bar);
         horizontalRatioBar.test();
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onDataInitialize(Bundle savedInstanceState) {
         testClashBar();
 
         testRingProgressBar();
@@ -158,9 +152,9 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     private void testRingProgressBar() {
-        RingProgressBar ringProgressBar1 = findViewById(R.id.ring_progress_bar_1);
-        RingProgressBar ringProgressBar2 = findViewById(R.id.ring_progress_bar_2);
-        RingProgressBar ringProgressBar3 = findViewById(R.id.ring_progress_bar_3);
+        RingProgressBar ringProgressBar1 = findViewWithId(R.id.ring_progress_bar_1);
+        RingProgressBar ringProgressBar2 = findViewWithId(R.id.ring_progress_bar_2);
+        RingProgressBar ringProgressBar3 = findViewWithId(R.id.ring_progress_bar_3);
 
         ringProgressBar1.setAlwaysShowAnimation(true);
         ringProgressBar1.setSweepGradientColors(mRedGradientColors);

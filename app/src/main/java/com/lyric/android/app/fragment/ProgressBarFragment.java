@@ -2,7 +2,7 @@ package com.lyric.android.app.fragment;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -31,28 +31,20 @@ public class ProgressBarFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_progress_bar;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        mLineProgressBar = findViewById(R.id.line_progress);
-        mSolidProgressBar = findViewById(R.id.solid_progress);
-        mCustomProgressBar1 = findViewById(R.id.custom_progress1);
-        mCustomProgressBar2 = findViewById(R.id.custom_progress2);
-        mCustomProgressBar3 = findViewById(R.id.custom_progress3);
-        mCustomProgressBar4 = findViewById(R.id.custom_progress4);
-        mCustomProgressBar5 = findViewById(R.id.custom_progress5);
-        mCustomProgressBar6 = findViewById(R.id.custom_progress6);
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        mLineProgressBar = findViewWithId(R.id.line_progress);
+        mSolidProgressBar = findViewWithId(R.id.solid_progress);
+        mCustomProgressBar1 = findViewWithId(R.id.custom_progress1);
+        mCustomProgressBar2 = findViewWithId(R.id.custom_progress2);
+        mCustomProgressBar3 = findViewWithId(R.id.custom_progress3);
+        mCustomProgressBar4 = findViewWithId(R.id.custom_progress4);
+        mCustomProgressBar5 = findViewWithId(R.id.custom_progress5);
+        mCustomProgressBar6 = findViewWithId(R.id.custom_progress6);
     }
 
     @Override

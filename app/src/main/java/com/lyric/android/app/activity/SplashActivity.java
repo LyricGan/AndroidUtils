@@ -23,14 +23,17 @@ public class SplashActivity extends BaseActivity {
     private long mStartTime;
 
     @Override
-    public void onViewCreate(Bundle savedInstanceState) {
+    public int getLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
         // 防止HOME键重复启动
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
         }
-        setContentView(R.layout.activity_splash);
-
         findViewById(R.id.btn_skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.lyric.android.app.AndroidApplication;
@@ -33,24 +32,16 @@ public class ServiceFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_service;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        findViewById(R.id.btn_start_service).setOnClickListener(this);
-        findViewById(R.id.btn_stop_service).setOnClickListener(this);
-        findViewById(R.id.btn_bind_service).setOnClickListener(this);
-        findViewById(R.id.btn_unbind_service).setOnClickListener(this);
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        findViewWithId(R.id.btn_start_service).setOnClickListener(this);
+        findViewWithId(R.id.btn_stop_service).setOnClickListener(this);
+        findViewWithId(R.id.btn_bind_service).setOnClickListener(this);
+        findViewWithId(R.id.btn_unbind_service).setOnClickListener(this);
     }
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {

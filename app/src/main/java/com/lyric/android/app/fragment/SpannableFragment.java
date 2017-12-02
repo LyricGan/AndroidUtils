@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -51,19 +50,15 @@ public class SpannableFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_spannable;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        TextView tv_spannable = findViewById(R.id.tv_spannable);
-        TextView tv_spannable_keywords = findViewById(R.id.tv_spannable_keywords);
-        TextView tv_spannable_keywords2 = findViewById(R.id.tv_spannable_keywords2);
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        TextView tv_spannable = findViewWithId(R.id.tv_spannable);
+        TextView tv_spannable_keywords = findViewWithId(R.id.tv_spannable_keywords);
+        TextView tv_spannable_keywords2 = findViewWithId(R.id.tv_spannable_keywords2);
 
         // 创建一个SpannableString对象
         SpannableString spannableString = new SpannableString("字体测试字体大小一半两倍前景色背景色正常粗体斜体粗斜体下划线删除线x1x2电话邮件网站短信彩信地图X轴综合/bot/bot");
@@ -132,11 +127,6 @@ public class SpannableFragment extends BaseFragment {
 
         tv_spannable_keywords2.setText(buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
         tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-
     }
 
     public CharSequence buildString(Context context, String action, String name, String content) {

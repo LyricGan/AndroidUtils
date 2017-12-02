@@ -1,7 +1,7 @@
 package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -25,21 +25,17 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    protected void initExtras(Bundle args) {
-    }
-
-    @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.activity_web;
     }
 
     @Override
-    public void onViewCreate(@Nullable Bundle savedInstanceState) {
-        mWebLayout = findViewById(R.id.layout_web);
+    public void onViewInitialize(View view, Bundle savedInstanceState) {
+        mWebLayout = findViewWithId(R.id.layout_web);
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
+    public void onDataInitialize(Bundle savedInstanceState) {
         mWebLayout.loadUrl(TEST_URL);
     }
 
