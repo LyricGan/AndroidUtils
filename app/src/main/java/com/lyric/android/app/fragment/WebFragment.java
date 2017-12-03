@@ -34,6 +34,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onDataInitialize(Bundle savedInstanceState) {
+        super.onDataInitialize(savedInstanceState);
         mWebLayout.loadUrl("https://github.com");
     }
 

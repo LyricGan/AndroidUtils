@@ -11,7 +11,7 @@ import com.lyric.android.app.widget.praiseview.PraisePopupWindow;
 
 /**
  * 点赞视图页面
- * @author ganyu
+ * @author lyricgan
  * @date 2017/7/25 14:30
  */
 public class PraiseFragment extends BaseFragment {
@@ -31,16 +31,12 @@ public class PraiseFragment extends BaseFragment {
 
     @Override
     public void onViewInitialize(View view, Bundle savedInstanceState) {
-    }
-
-    @Override
-    public void onDataInitialize(Bundle savedInstanceState) {
-        super.onDataInitialize(savedInstanceState);
         findViewWithId(R.id.good).setOnClickListener(this);
         findViewWithId(R.id.good2).setOnClickListener(this);
         findViewWithId(R.id.collection).setOnClickListener(this);
         findViewWithId(R.id.bookmark).setOnClickListener(this);
         findViewWithId(R.id.btn_reset).setOnClickListener(this);
+
         mPraisePopupWindow = new PraisePopupWindow(getActivity());
     }
 

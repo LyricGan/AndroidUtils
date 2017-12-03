@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/10/9 15:31
  */
 public class TimeInvocationHandler implements InvocationHandler {
