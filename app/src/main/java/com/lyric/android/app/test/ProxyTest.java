@@ -1,12 +1,15 @@
-package com.lyric.android.app.test.proxy;
+package com.lyric.android.app.test;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class ProxyTest {
 	
 	public static void main(String[] args) {
-        TimeInvocationHandler handler = new TimeInvocationHandler(new OperateImpl());
-        Operate operate = (Operate) Proxy.newProxyInstance(Operate.class.getClassLoader(), new Class[] {Operate.class}, handler);
+        InvocationHandler handler = new TimeInvocationHandler(new OperateImpl());
+        Operate operate = (Operate) Proxy.newProxyInstance(Operate.class.getClassLoader(),
+                new Class[] {Operate.class}, handler);
         operate.method1();
         System.out.println();
         operate.method2();
@@ -49,6 +52,25 @@ public class ProxyTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static class TimeInvocationHandler implements InvocationHandler {
+        private Object mTarget;
+
+        public TimeInvocationHandler() {
+        }
+
+        public TimeInvocationHandler(Object target) {
+            this.mTarget = target;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            long start = System.currentTimeMillis();
+            Object object = method.invoke(mTarget, args);
+            System.out.println(method.getName() + " cost time is:" + (System.currentTimeMillis() - start));
+            return object;
         }
     }
 }
