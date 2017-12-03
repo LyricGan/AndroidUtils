@@ -1,6 +1,7 @@
 package com.lyric.android.app.common;
 
 import android.app.Application;
+import android.content.Context;
 
 /**
  * 应用入口
@@ -16,7 +17,11 @@ public class BaseApplication extends Application {
         mInstance = this;
     }
 
-    public static Application getContext() {
+    public static Application getApplication() {
         return mInstance;
+    }
+
+    public static Context getContext() {
+        return mInstance.getApplicationContext();
     }
 }

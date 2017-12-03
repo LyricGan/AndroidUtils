@@ -5,11 +5,10 @@ import android.view.View;
 
 /**
  * 基础接口类
- *
  * @author lyricgan
  * @version 2015-9-24
  */
-public interface IBaseListener extends View.OnClickListener {
+public interface BaseListener extends View.OnClickListener {
 
     /**
      * 在super.onCreate()之前调用

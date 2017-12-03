@@ -2,7 +2,7 @@ package com.lyric.android.app.test.service;
 
 import android.os.Binder;
 
-import com.lyric.android.app.common.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.app.utils.LogUtils;
 
 /**

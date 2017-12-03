@@ -121,6 +121,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void remove(T object) {
+        if (isEmpty()) {
+            return;
+        }
         if (object != null) {
             mDataList.remove(object);
             notifyDataSetChanged();
@@ -128,6 +131,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void remove(int location) {
+        if (isEmpty()) {
+            return;
+        }
         if (location < 0 || location >= mDataList.size()) {
             return;
         }
@@ -136,6 +142,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void clear() {
+        if (isEmpty()) {
+            return;
+        }
         mDataList.clear();
         notifyDataSetChanged();
     }

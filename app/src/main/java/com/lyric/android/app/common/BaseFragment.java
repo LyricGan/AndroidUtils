@@ -18,7 +18,7 @@ import com.lyric.android.app.widget.dialog.LoadingDialog;
  * @author lyricgan
  * @time 2017/11/26 13:59
  */
-public abstract class BaseFragment extends Fragment implements IBaseListener {
+public abstract class BaseFragment extends Fragment implements BaseListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
     private boolean mViewVisible;

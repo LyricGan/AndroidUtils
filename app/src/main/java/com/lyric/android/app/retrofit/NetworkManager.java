@@ -1,6 +1,6 @@
 package com.lyric.android.app.retrofit;
 
-import com.lyric.android.app.common.Constants;
+import com.lyric.android.app.Constants;
 import com.lyric.android.app.retrofit.converter.GsonConverterFactory;
 import com.lyric.android.app.retrofit.interceptor.CacheInterceptorHelper;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;

@@ -31,7 +31,7 @@ import java.lang.ref.WeakReference;
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends FragmentActivity implements IBaseListener, SwipeBackActivityBase {
+public abstract class BaseActivity extends FragmentActivity implements BaseListener, SwipeBackActivityBase {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;

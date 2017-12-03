@@ -95,6 +95,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void remove(T object) {
+        if (isEmpty()) {
+            return;
+        }
         if (object != null) {
             mDataList.remove(object);
             notifyDataSetChanged();
@@ -102,6 +105,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void remove(int location) {
+        if (isEmpty()) {
+            return;
+        }
         if (location < 0 || location >= mDataList.size()) {
             return;
         }
@@ -110,6 +116,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void clear() {
+        if (isEmpty()) {
+            return;
+        }
         mDataList.clear();
         notifyDataSetChanged();
     }
