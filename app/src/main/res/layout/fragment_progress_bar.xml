@@ -11,12 +11,12 @@
         android:layout_marginTop="@dimen/default_margin"
         android:orientation="horizontal">
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/line_progress"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/solid_progress"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -31,7 +31,7 @@
         android:layout_marginTop="@dimen/default_margin"
         android:orientation="horizontal">
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress1"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -41,7 +41,7 @@
             app:progress_text_color="@color/holo_blue_light"
             app:style="line"/>
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress2"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -60,7 +60,7 @@
         android:layout_marginTop="@dimen/default_margin"
         android:orientation="horizontal">
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress3"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -71,7 +71,7 @@
             app:progress_text_size="@dimen/progress_text_size"
             app:style="line"/>
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress4"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -91,7 +91,7 @@
         android:layout_marginTop="@dimen/default_margin"
         android:orientation="horizontal">
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress5"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -102,7 +102,7 @@
             app:progress_text_color="@color/holo_green_light"
             app:style="solid"/>
 
-        <com.lyric.android.app.widget.progressbar.CircleProgressBar
+        <com.lyric.android.app.widget.CircleProgressBar
             android:id="@+id/custom_progress6"
             android:layout_width="50dp"
             android:layout_height="50dp"

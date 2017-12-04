@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.viewpager;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * 竖直的ViewPager
+ * 自定义ViewPager，转换x，y坐标实现竖直切换效果
  * @author lyricgan
  * @time 2017/2/28 11:46
  */
@@ -32,8 +32,8 @@ public class VerticalViewPager extends ViewPager {
 
     /**
      * 转换X、Y坐标
-     * @param event
-     * @return
+     * @param event 事件类型
+     * @return 转换后的事件类型
      */
     private MotionEvent swapTouchEvent(MotionEvent event) {
         float width = getWidth();

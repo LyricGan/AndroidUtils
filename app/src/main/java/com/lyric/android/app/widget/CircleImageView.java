@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.image;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

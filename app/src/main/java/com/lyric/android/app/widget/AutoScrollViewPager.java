@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.viewpager;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.os.Handler;
@@ -148,7 +148,7 @@ public class AutoScrollViewPager extends ViewPager {
     }
 
     private void sendScrollMessage(long delayTimeInMills) {
-        /** remove messages before, keeps one message is running at most **/
+        // remove messages before, keeps one message is running at most
         handler.removeMessages(SCROLL_WHAT);
         handler.sendEmptyMessageDelayed(SCROLL_WHAT, delayTimeInMills);
     }
@@ -382,7 +382,7 @@ public class AutoScrollViewPager extends ViewPager {
      *
      * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-3-2
      */
-    public static class DurationScroller extends Scroller {
+    private static class DurationScroller extends Scroller {
         private double scrollFactor;
 
         public DurationScroller(Context context) {

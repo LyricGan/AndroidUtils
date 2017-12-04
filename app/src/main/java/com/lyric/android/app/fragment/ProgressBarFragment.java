@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
-import com.lyric.android.app.widget.progressbar.CircleProgressBar;
+import com.lyric.android.app.widget.CircleProgressBar;
 
 /**
  * 加载进度页面

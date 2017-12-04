@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.progressbar;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -86,7 +86,6 @@ public class CircleProgressBar extends ProgressBar {
     /**
      * Basic data initialization
      */
-    @SuppressWarnings("ResourceType")
     private void initFromAttributes(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar);
 

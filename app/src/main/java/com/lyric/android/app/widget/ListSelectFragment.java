@@ -1,7 +1,9 @@
-package com.lyric.android.app.widget.dialogfragment;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -20,8 +22,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 列表选择Fragment，继承于{@link BottomSheetDialogFragment}
  * @author lyricgan
- * @description 列表选择Fragment，继承于{@link BottomSheetDialogFragment}
  * @time 2016/11/14 14:31
  */
 public class ListSelectFragment extends BottomSheetDialogFragment {
@@ -52,7 +54,7 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         if (bundle == null) {
             return;
         }
-        List<ListSelectEntity> dataList = (List<ListSelectEntity>) bundle.getSerializable(Constants.EXTRAS_DATA);
+        List<ListSelectEntity> dataList = bundle.getParcelable(Constants.EXTRAS_DATA);
         mAdapter = new SelectAdapter(getContext());
         mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<ListSelectEntity>() {
             @Override
@@ -98,7 +100,7 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         void onItemSelect(int position, ListSelectEntity object, View itemView);
     }
 
-    public static class ListSelectEntity implements Serializable {
+    public static class ListSelectEntity implements Parcelable {
         private int id;
         private String title;
 
@@ -117,5 +119,36 @@ public class ListSelectFragment extends BottomSheetDialogFragment {
         public void setTitle(String title) {
             this.title = title;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.title);
+        }
+
+        public ListSelectEntity() {
+        }
+
+        protected ListSelectEntity(Parcel in) {
+            this.id = in.readInt();
+            this.title = in.readString();
+        }
+
+        public static final Parcelable.Creator<ListSelectEntity> CREATOR = new Parcelable.Creator<ListSelectEntity>() {
+            @Override
+            public ListSelectEntity createFromParcel(Parcel source) {
+                return new ListSelectEntity(source);
+            }
+
+            @Override
+            public ListSelectEntity[] newArray(int size) {
+                return new ListSelectEntity[size];
+            }
+        };
     }
 }
