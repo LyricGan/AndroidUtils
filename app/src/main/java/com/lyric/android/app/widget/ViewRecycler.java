@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 视图缓存类，可对视图进行回收处理
+ * 视图缓存类，将视图添加到缓存列表，取视图时移除引用，回收内存
  * @author lyricgan
  * @date 2017/12/4 13:22
  */
@@ -24,8 +24,8 @@ public class ViewRecycler<T extends View> {
     }
 
     public void cacheViews(List<T> views) {
-        for(T t : views){
-            mCacheList.add(new WeakReference<>(t));
+        for(T view : views){
+            cacheView(view);
         }
     }
 
@@ -40,10 +40,10 @@ public class ViewRecycler<T extends View> {
     }
 
     public T getCacheView() {
-        T itemView = null;
+        T view = null;
         if (mCacheList.size() > 0) {
-            itemView = mCacheList.remove(0).get();
+            view = mCacheList.remove(0).get();
         }
-        return itemView;
+        return view;
     }
 }
