@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.lyric.android.app.R;
 import com.lyric.utils.DisplayUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,68 +101,66 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
         if (childCount == 0 || mColumns == 0 || mViewBinder == null) {
             return;
         }
-        if (childCount > 0) {
-            cacheViews();
-            removeAllViews();
-            if (mShowFirstDividerLine) {
+        cacheViews();
+        removeAllViews();
+        if (mShowFirstDividerLine) {
+            View rowDivider = getRowDivider();
+            addView(rowDivider);
+        }
+        int rows = (childCount + mColumns - 1) / mColumns;
+        int temp = 0;
+        for (int i = 0; i < rows; i++) {
+            LinearLayout layout = mParentRecycler.getCacheView();
+            if (layout == null) {
+                layout = new LinearLayout(mContext);
+                layout.setOrientation(LinearLayout.HORIZONTAL);
+                layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            }
+            for (int j = 0; j < mColumns; j++) {
+                int position = i * mColumns + j;
+                View child = mChildRecycler.getCacheView();
+                if (child == null) {
+                    child = mInflater.inflate(mChildLayoutId, null);
+                }
+                if (position < childCount) {
+                    child = mViewBinder.setViewValue(child, position);
+                }
+                ViewGroup.LayoutParams originalParams = child.getLayoutParams();
+                int height = LayoutParams.WRAP_CONTENT;
+                if (originalParams != null) {
+                    height = originalParams.height;
+                }
+                LayoutParams leafLayoutParams = new LayoutParams(0, height, 1);
+                child.setLayoutParams(leafLayoutParams);
+                if (mAutoHeight) {
+                    child.setMinimumHeight((DisplayUtils.getScreenWidth(getContext()) - getPaddingLeft() - getPaddingRight()) / mColumns);
+                }
+                child.setPadding(DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingTop),
+                        DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingBottom));
+                layout.addView(child);
+                int index = temp++;
+                if (index < childCount) {
+                    child.setOnClickListener(this);
+                    child.setVisibility(View.VISIBLE);
+                } else {
+                    child.setVisibility(View.INVISIBLE);
+                }
+                // 添加 child mRowDivider
+                if ((index < childCount) && (j != mColumns - 1) && (mChildDivider != -1)) {
+                    View childDivider = new View(mContext);
+                    LayoutParams cdLayoutParams = new LayoutParams(getChildDividerWidth(), LayoutParams.MATCH_PARENT);
+                    childDivider.setLayoutParams(cdLayoutParams);
+                    childDivider.setBackgroundResource(mChildDivider);
+                    childDivider.setTag(DIVIDER_TAG);
+                    layout.addView(childDivider);
+                }
+            }
+            addView(layout);
+            // 添加divider
+            int rowDividerIndex = mShowFinalBottomLine ? rows : rows - 1;
+            if ((i < rowDividerIndex) && (mRowDivider != -1)) {
                 View rowDivider = getRowDivider();
                 addView(rowDivider);
-            }
-            int rows = (childCount + mColumns - 1) / mColumns;
-            int temp = 0;
-            for (int i = 0; i < rows; i++) {
-                LinearLayout layout = mParentRecycler.getCacheView();
-                if (layout == null) {
-                    layout = new LinearLayout(mContext);
-                    layout.setOrientation(LinearLayout.HORIZONTAL);
-                    layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                }
-                for (int j = 0; j < mColumns; j++) {
-                    int position = i * mColumns + j;
-                    View child = mChildRecycler.getCacheView();
-                    if (child == null) {
-                        child = mInflater.inflate(mChildLayoutId, null);
-                    }
-                    if (position < childCount) {
-                        child = mViewBinder.setViewValue(child, position);
-                    }
-                    ViewGroup.LayoutParams originalParams = child.getLayoutParams();
-                    int height = LayoutParams.WRAP_CONTENT;
-                    if (originalParams != null) {
-                        height = originalParams.height;
-                    }
-                    LayoutParams leafLayoutParams = new LayoutParams(0, height, 1);
-                    child.setLayoutParams(leafLayoutParams);
-                    if (mAutoHeight) {
-                        child.setMinimumHeight((DisplayUtils.getScreenWidth(getContext()) - getPaddingLeft() - getPaddingRight()) / mColumns);
-                    }
-                    child.setPadding(DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingTop),
-                            DisplayUtils.dip2px(getContext(), childPadding), DisplayUtils.dip2px(getContext(), childPaddingBottom));
-                    layout.addView(child);
-                    int index = temp++;
-                    if (index < childCount) {
-                        child.setOnClickListener(this);
-                        child.setVisibility(View.VISIBLE);
-                    } else {
-                        child.setVisibility(View.INVISIBLE);
-                    }
-                    // 添加 child mRowDivider
-                    if ((index < childCount) && (j != mColumns - 1) && (mChildDivider != -1)) {
-                        View childDivider = new View(mContext);
-                        LayoutParams cdLayoutParams = new LayoutParams(getChildDividerWidth(), LayoutParams.MATCH_PARENT);
-                        childDivider.setLayoutParams(cdLayoutParams);
-                        childDivider.setBackgroundResource(mChildDivider);
-                        childDivider.setTag(DIVIDER_TAG);
-                        layout.addView(childDivider);
-                    }
-                }
-                addView(layout);
-                // 添加divider
-                int rowDividerIndex = mShowFinalBottomLine ? rows : rows - 1;
-                if ((i < rowDividerIndex) && (mRowDivider != -1)) {
-                    View rowDivider = getRowDivider();
-                    addView(rowDivider);
-                }
             }
         }
     }
@@ -215,7 +212,7 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
         for (int i = 0; i < count; i++) {
             View child = rowLayout.getChildAt(i);
             Object tag = child.getTag();
-            if (tag == null) {// mRowDivider view设置了tag
+            if (tag == null) {
                 mChildRecycler.cacheView(child);
             }
         }
@@ -225,40 +222,5 @@ public class ColumnLayout<T> extends LinearLayout implements View.OnClickListene
     public interface ViewBinder {
 
         View setViewValue(View childView, int position);
-    }
-
-    /**
-     * 视图缓存类
-     * @param <T>
-     */
-    private static class ViewRecycler<T extends View> {
-        private final List<WeakReference<T>> mCacheList = new ArrayList<>();
-
-        public void cacheView(T view) {
-            mCacheList.add(new WeakReference<T>(view));
-        }
-
-        public void cacheViews(List<T> views) {
-            for(T t : views){
-                mCacheList.add(new WeakReference<T>(t));
-            }
-        }
-
-        public void cacheViews(ViewGroup viewGroup) {
-            if (null != viewGroup) {
-                int count = viewGroup.getChildCount();
-                for (int i = 0; i < count; i++) {
-                    cacheView((T) viewGroup.getChildAt(i));
-                }
-            }
-        }
-
-        public T getCacheView() {
-            T item = null;
-            if (mCacheList.size() > 0) {
-                item = mCacheList.remove(0).get();
-            }
-            return item;
-        }
     }
 }
