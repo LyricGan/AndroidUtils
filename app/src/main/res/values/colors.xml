@@ -4,23 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!-- 字体颜色 -->
-    <color name="font_color_default">#ff555555</color>
-    <color name="font_color_white">#ffffffff</color>
-    <color name="font_color_black">#ff222222</color>
-    <color name="font_color_hint">#ff999999</color>
-
-    <!-- 背景颜色 -->
-    <color name="bg_color_divider">#ffe0e0e0</color>
-
-    <!-- 其它颜色 -->
-    <color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
-    <color name="transparent">#00000000</color>
-    <color name="color_007eff">#ff007eff</color>
-    <color name="color_title_bar_bg">#ff007eff</color>
-    <color name="window_background">#FFF5F5F5</color>
-    <color name="half_transparent">#90000000</color>
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
     <!-- A light Holo shade of gray -->
@@ -49,6 +32,24 @@
     <color name="holo_lighter_gray">#ffdddddd</color>
     <!-- A really darker Holo shade of gray -->
     <color name="holo_darker_gray">#ffaaaaaa</color>
+
+    <!-- 字体颜色 -->
+    <color name="font_color_default">#ff555555</color>
+    <color name="font_color_white">#ffffffff</color>
+    <color name="font_color_black">#ff222222</color>
+    <color name="font_color_hint">#ff999999</color>
+
+    <!-- 背景颜色 -->
+    <color name="bg_color_divider">#ffe0e0e0</color>
+
+    <!-- 其它颜色 -->
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_blue_loading">#ff007eff</color>
+    <color name="color_title_bar_bg">@color/color_blue_loading</color>
+    <color name="window_background">#FFF5F5F5</color>
+    <color name="half_transparent">#90000000</color>
 
     <color name="biz_audio_progress_bg">#ff0000</color>
     <color name="biz_audio_progress_first">#ffffff</color>

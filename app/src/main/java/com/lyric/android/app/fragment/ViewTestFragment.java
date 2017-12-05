@@ -94,6 +94,12 @@ public class ViewTestFragment extends BaseFragment {
                 createQrCode();
             }
         });
+        findViewWithId(R.id.btn_show_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoadingDialog();
+            }
+        });
         HorizontalRatioBar horizontalRatioBar = findViewWithId(R.id.horizontal_radio_bar);
         horizontalRatioBar.test();
     }

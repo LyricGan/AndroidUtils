@@ -18,8 +18,8 @@ import android.widget.LinearLayout;
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
+import com.lyric.android.app.widget.LoadingDialog;
 import com.lyric.android.app.widget.TitleBar;
-import com.lyric.android.app.widget.dialog.LoadingDialog;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipe.SwipeBackLayout;
@@ -197,10 +197,16 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
     }
 
     protected void showLoadingDialog(CharSequence message) {
+        showLoadingDialog(message, true, false);
+    }
+
+    protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(this);
         }
         mLoadingDialog.setMessage(message);
+        mLoadingDialog.setCancelable(cancelable);
+        mLoadingDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
         mLoadingDialog.show();
     }
 

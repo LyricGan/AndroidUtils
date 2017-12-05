@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyric.android.app.utils.ViewUtils;
-import com.lyric.android.app.widget.dialog.LoadingDialog;
+import com.lyric.android.app.widget.LoadingDialog;
 
 /**
  * Fragment基类
@@ -181,6 +181,10 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     }
 
     protected void showLoadingDialog(CharSequence message) {
+        showLoadingDialog(message, true, false);
+    }
+
+    protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
         Activity activity = getActivity();
         if (activity == null || activity.isFinishing()) {
             return;
@@ -189,6 +193,8 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
             mLoadingDialog = new LoadingDialog(activity);
         }
         mLoadingDialog.setMessage(message);
+        mLoadingDialog.setCancelable(cancelable);
+        mLoadingDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
         mLoadingDialog.show();
     }
 

@@ -173,7 +173,7 @@ public class SpannableFragment extends BaseFragment {
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_007eff));
+            ds.setColor(ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_blue_loading));
             ds.setUnderlineText(false);
             ds.clearShadowLayer();
         }

@@ -11,12 +11,12 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <com.lyric.android.app.widget.dialog.LoadingView
+        <com.lyric.android.app.widget.loadingindicator.LoadingIndicatorView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            app:indicator_color="@color/color_007eff"/>
+            app:indicator_color="@color/color_blue_loading"/>
 
         <TextView
             android:id="@+id/tv_message"
