@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.sidebar;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -19,7 +19,6 @@ import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/25 13:35
  */
 public class SideBar2 extends View {

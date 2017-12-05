@@ -14,10 +14,10 @@ import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.utils.SnapshotUtils;
 import com.lyric.android.app.widget.TabDigitLayout;
-import com.lyric.android.app.widget.chart.ClashBar;
-import com.lyric.android.app.widget.chart.HorizontalRatioBar;
-import com.lyric.android.app.widget.chart.PieView;
-import com.lyric.android.app.widget.chart.RingProgressBar;
+import com.lyric.android.app.widget.ClashBar;
+import com.lyric.android.app.widget.HorizontalRatioBar;
+import com.lyric.android.app.widget.PieView;
+import com.lyric.android.app.widget.RingProgressBar;
 import com.lyric.utils.ImageUtils;
 
 import java.io.File;

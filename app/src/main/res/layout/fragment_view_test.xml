@@ -12,7 +12,7 @@
         android:layout_marginBottom="64dp"
         android:orientation="vertical">
 
-        <com.lyric.android.app.widget.chart.PieView
+        <com.lyric.android.app.widget.PieView
             android:id="@+id/pie_view"
             android:layout_width="160dp"
             android:layout_height="160dp"
@@ -53,7 +53,7 @@
             android:layout_marginTop="16dp"
             android:contentDescription="@null"/>
 
-        <com.lyric.android.app.widget.chart.ClashBar
+        <com.lyric.android.app.widget.ClashBar
             android:id="@+id/clash_bar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -78,7 +78,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <com.lyric.android.app.widget.chart.RingProgressBar
+            <com.lyric.android.app.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_1"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -90,7 +90,7 @@
                 app:rpb_textColor="@color/black"
                 app:rpb_textSize="16sp"/>
 
-            <com.lyric.android.app.widget.chart.RingProgressBar
+            <com.lyric.android.app.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_2"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -103,7 +103,7 @@
                 app:rpb_textColor="@color/black"
                 app:rpb_textSize="16sp"/>
 
-            <com.lyric.android.app.widget.chart.RingProgressBar
+            <com.lyric.android.app.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_3"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -125,7 +125,7 @@
             android:layout_marginTop="16dp"
             android:text="刷新视图"/>
 
-        <com.lyric.android.app.widget.chart.HorizontalRatioBar
+        <com.lyric.android.app.widget.HorizontalRatioBar
             android:id="@+id/horizontal_radio_bar"
             android:layout_width="match_parent"
             android:layout_height="24dp"

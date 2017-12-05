@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.chart;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 
 /**
  * 左右对阵图，分为左右两部分，可自定义颜色，监听视图变化。添加了线程同步，为线程安全控件
- * @author ganyu
+ * @author lyricgan
  * @date 2017/10/16 10:02
  */
 public class ClashBar extends View {

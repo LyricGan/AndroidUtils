@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.sidebar;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/8/25 11:05
  */
 public class SideBar extends View {
@@ -23,7 +22,7 @@ public class SideBar extends View {
     private OnLetterChangedListener mOnLetterChangedListener;
     private int mChoose = -1;// 选中
     private Paint mPaint = new Paint();
-    private TextView tvDialog;
+    private TextView tvLetter;
     private int mTextSize;
 
     public SideBar(Context context) {
@@ -69,11 +68,6 @@ public class SideBar extends View {
         }
     }
 
-    private int sp2px(Context context, float spValue) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (spValue * scale + 0.5f);
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         final int action = event.getAction();
@@ -86,8 +80,8 @@ public class SideBar extends View {
                 setBackgroundColor(0x00000000);
                 mChoose = -1;//
                 invalidate();
-                if (tvDialog != null) {
-                    tvDialog.setVisibility(View.INVISIBLE);
+                if (tvLetter != null) {
+                    tvLetter.setVisibility(View.INVISIBLE);
                 }
                 break;
             default:
@@ -97,9 +91,9 @@ public class SideBar extends View {
                         if (listener != null) {
                             listener.onChanged(LETTERS[c]);
                         }
-                        if (tvDialog != null) {
-                            tvDialog.setText(LETTERS[c]);
-                            tvDialog.setVisibility(View.VISIBLE);
+                        if (tvLetter != null) {
+                            tvLetter.setText(LETTERS[c]);
+                            tvLetter.setVisibility(View.VISIBLE);
                         }
                         mChoose = c;
                         invalidate();
@@ -110,8 +104,13 @@ public class SideBar extends View {
         return true;
     }
 
-    public void setTextView(TextView dialog) {
-        this.tvDialog = dialog;
+    public int sp2px(Context context, float value) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (value * scale + 0.5f);
+    }
+
+    public void setTextView(TextView textView) {
+        this.tvLetter = textView;
     }
 
     public void setOnLetterChangedListener(OnLetterChangedListener listener) {

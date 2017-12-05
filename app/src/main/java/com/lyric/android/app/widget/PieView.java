@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.chart;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/11/16 14:22
  */
 public class PieView extends View {

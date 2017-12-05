@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.checkbox;
+package com.lyric.android.app.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

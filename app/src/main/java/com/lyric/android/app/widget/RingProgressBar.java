@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.chart;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,7 +16,7 @@ import com.lyric.android.app.R;
 
 /**
  * 圆环进度条，包括圆环背景和进度条
- * @author ganyu
+ * @author lyricgan
  * @date 2017/8/23 15:52
  */
 public class RingProgressBar extends View {
