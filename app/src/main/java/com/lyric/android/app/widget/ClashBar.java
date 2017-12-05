@@ -98,8 +98,10 @@ public class ClashBar extends View {
             return;
         }
         // 判断是否强制刷新，如果不是则判断数据是否一致，如果一致则不刷新视图
-        if (!isForceRefresh && (mLeftData == leftData && mRightData == rightData)) {
-            return;
+        if (mLeftData == leftData && mRightData == rightData) {
+            if (!isForceRefresh) {
+                return;
+            }
         }
         mLeftData = leftData;
         mRightData = rightData;
@@ -109,13 +111,7 @@ public class ClashBar extends View {
         mLeftDeltaData = mLeftData / intervalTimes;
         mRightDeltaData = mRightData / intervalTimes;
 
-        // 延迟加载，防止页面初始化未完成直接调用引起的卡顿问题
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                update(mLeftProgressData, mRightProgressData, false);
-            }
-        }, 300L);
+        update(mLeftProgressData, mRightProgressData, false);
     }
 
     private synchronized void update(float leftProgressData, float rightProgressData, boolean isFinished) {

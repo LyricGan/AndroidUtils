@@ -145,9 +145,8 @@ public class ViewTestFragment extends BaseFragment {
     }
 
     private void testClashBar() {
-        float leftData = 37.5f + new Random().nextInt(1000);
-        float rightData = 12.5f + new Random().nextInt(1000);
-        mClashBar.setData(leftData, rightData);
+        final float leftData = 37.5f + new Random().nextInt(1000);
+        final float rightData = 12.5f + new Random().nextInt(1000);
         mClashBar.setOnClashBarUpdatedListener(new ClashBar.OnClashBarUpdatedListener() {
             @Override
             public void onChanged(float leftData, float rightData, float leftProgressData, float rightProgressData, boolean isFinished) {
@@ -155,6 +154,13 @@ public class ViewTestFragment extends BaseFragment {
                         + ",rightProgressData:" + rightProgressData + ",isFinished:" + isFinished);
             }
         });
+        // 延迟加载，防止页面初始化未完成直接调用引起的卡顿问题
+        mClashBar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mClashBar.setData(leftData, rightData, true);
+            }
+        }, 300L);
     }
 
     private void testRingProgressBar() {
