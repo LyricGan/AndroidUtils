@@ -15,10 +15,9 @@ import java.util.Random;
  * @author lyricgan
  * @date 2017/9/30 15:02
  */
-public class NotificationHelper {
+public class NotificationUtils {
 
-    public static NotificationManager getNotificationManager(Context context) {
-        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    private NotificationUtils() {
     }
 
     public static Notification build(Context context, CharSequence title, CharSequence content, Intent intent) {
@@ -92,5 +91,9 @@ public class NotificationHelper {
         if (nm != null) {
             nm.cancelAll();
         }
+    }
+
+    public static NotificationManager getNotificationManager(Context context) {
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 }
