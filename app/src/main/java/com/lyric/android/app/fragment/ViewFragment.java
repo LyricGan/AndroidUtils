@@ -40,6 +40,7 @@ import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.utils.SnapshotUtils;
+import com.lyric.android.app.utils.ToastUtils;
 import com.lyric.android.app.widget.CircleProgressBar;
 import com.lyric.android.app.widget.ClashBar;
 import com.lyric.android.app.widget.HorizontalRatioBar;
@@ -107,14 +108,14 @@ public class ViewFragment extends BaseFragment {
         findViewWithId(R.id.btn_clash_bar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testClashBar();
+                clashBar();
             }
         });
 
         findViewWithId(R.id.btn_ring_progress_bar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testRingProgressBar();
+                ringProgressBar();
             }
         });
         findViewWithId(R.id.btn_qr_code).setOnClickListener(new View.OnClickListener() {
@@ -135,9 +136,13 @@ public class ViewFragment extends BaseFragment {
 
     @Override
     public void onDataInitialize(Bundle savedInstanceState) {
-        testClashBar();
+        simulateProgress();
 
-        testRingProgressBar();
+        clashBar();
+
+        ringProgressBar();
+
+        spannableText();
     }
 
     @Override
@@ -150,13 +155,6 @@ public class ViewFragment extends BaseFragment {
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        simulateProgress();
     }
 
     private void simulateProgress() {
@@ -209,7 +207,7 @@ public class ViewFragment extends BaseFragment {
         }
     }
 
-    private void testClashBar() {
+    private void clashBar() {
         final float leftData = 37.5f + new Random().nextInt(1000);
         final float rightData = 12.5f + new Random().nextInt(1000);
         mClashBar.setOnClashBarUpdatedListener(new ClashBar.OnClashBarUpdatedListener() {
@@ -228,7 +226,7 @@ public class ViewFragment extends BaseFragment {
         }, 300L);
     }
 
-    private void testRingProgressBar() {
+    private void ringProgressBar() {
         RingProgressBar ringProgressBar1 = findViewWithId(R.id.ring_progress_bar_1);
         RingProgressBar ringProgressBar2 = findViewWithId(R.id.ring_progress_bar_2);
         RingProgressBar ringProgressBar3 = findViewWithId(R.id.ring_progress_bar_3);
@@ -368,11 +366,12 @@ public class ViewFragment extends BaseFragment {
 
         @Override
         public void onClick(String value) {
+            ToastUtils.showShort(mContext, value);
         }
     }
 
     private static class TextClickableSpan extends ClickableSpan implements View.OnClickListener {
-        private final ITextSpanClickListener mListener;
+        private ITextSpanClickListener mListener;
         private String mValue;
 
         TextClickableSpan(ITextSpanClickListener listener, String value) {
@@ -381,7 +380,7 @@ public class ViewFragment extends BaseFragment {
         }
 
         @Override
-        public void onClick(View widget) {
+        public void onClick(View view) {
             if (mListener != null) {
                 mListener.onClick(mValue);
             }
