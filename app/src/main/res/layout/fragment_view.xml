@@ -117,22 +117,18 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <com.lyric.android.app.widget.MovedCircleView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+        <com.lyric.android.app.widget.MovedCircleView
+            android:id="@+id/circle_view"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="20dp"/>
 
         <com.lyric.android.app.widget.TabDigitLayout
             android:id="@+id/tab_digit_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"/>
 
         <Button

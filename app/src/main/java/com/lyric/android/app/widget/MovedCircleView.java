@@ -1,34 +1,28 @@
 package com.lyric.android.app.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 
 import com.lyric.utils.DisplayUtils;
-import com.lyric.android.app.utils.LogUtils;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/3/15 15:07
  */
 public class MovedCircleView extends View {
     private static final String TAG = MovedCircleView.class.getSimpleName();
+    private static final int DEFAULT_COLOR = 0xff007eff;
+    private static final int PRESSED_COLOR = 0x88007eff;
     private TextPaint mPaint = new TextPaint();
-    private int mDefaultRadius = 0;
-    private float mStartX;
-    private float mStartY;
+    private float mLastX;
+    private float mLastY;
     private float mCurrentX;
     private float mCurrentY;
-    private float mDefaultPositionX;
-    private float mDefaultPositionY;
     private int mMinDistance;
 
     public MovedCircleView(Context context) {
@@ -40,95 +34,82 @@ public class MovedCircleView extends View {
     }
 
     public MovedCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MovedCircleView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         initialize(context);
     }
 
     private void initialize(Context context) {
-        mDefaultRadius = DisplayUtils.dip2px(context, 64);
-        mDefaultPositionX = DisplayUtils.getScreenWidth(context) * 0.5f;
-        mDefaultPositionY = DisplayUtils.getScreenHeight(context) * 0.5f - mDefaultRadius * 0.8f;
-        mMinDistance = mDefaultRadius / 16;
+        mMinDistance = DisplayUtils.dip2px(context, 16);
 
-        LogUtils.e(TAG, "mDefaultRadius:" + mDefaultRadius + ",mDefaultPositionX:" + mDefaultPositionX + ",mDefaultPositionY:" + mDefaultPositionY);
+        invalidate();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int widthMeasureSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthMeasureSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMeasureSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightMeasureSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+        // 处理wrap_content的情况
+        if (widthMeasureSpecMode == MeasureSpec.AT_MOST && heightMeasureSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(getDefaultWidth(), getDefaultHeight());
+        } else if (widthMeasureSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(getDefaultWidth(), heightMeasureSpecSize);
+        } else if (heightMeasureSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(widthMeasureSpecSize, getDefaultHeight());
+        }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    private int getDefaultWidth() {
+        return DisplayUtils.dip2px(getContext(), 64);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
+    private int getDefaultHeight() {
+        return DisplayUtils.dip2px(getContext(), 64);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int radius = getWidth() / 2;
         if (mCurrentX == 0 || mCurrentY == 0) {
-            mPaint.setColor(0xff007eff);
-            canvas.drawCircle(mDefaultPositionX, mDefaultPositionY, mDefaultRadius, mPaint);
+            mPaint.setColor(DEFAULT_COLOR);
+            canvas.drawCircle(radius, radius, radius, mPaint);
         } else {
-            canvas.drawCircle(mCurrentX, mCurrentY, mDefaultRadius, mPaint);
+            canvas.drawCircle(mCurrentX, mCurrentY, radius, mPaint);
         }
         canvas.restore();
-
-        drawRect(canvas);
-    }
-
-    private void drawRect(Canvas canvas) {
-        canvas.drawRect(new Rect(120, 120, 480, 480), mPaint);
-        canvas.drawRoundRect(new RectF(540, 120, 900, 480), 35, 50, mPaint);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        return super.dispatchTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
-        if (mCurrentX != 0 && mCurrentY != 0 && (x < (mCurrentX - mDefaultRadius) || x > (mCurrentX + mDefaultRadius) || y < (mCurrentY - mDefaultRadius) || y > (mCurrentY + mDefaultRadius))) {
-            return true;
-        }
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                mStartX = x;
-                mStartY = y;
-                mPaint.setColor(0x88007eff);
+            case MotionEvent.ACTION_DOWN:
+                ViewParent viewParent = getParent();
+                if (viewParent != null) {
+                    viewParent.requestDisallowInterceptTouchEvent(true);
+                }
+                mLastX = x;
+                mLastY = y;
+                mPaint.setColor(PRESSED_COLOR);
                 invalidate();
-            }
-                break;
-            case MotionEvent.ACTION_MOVE: {
+                return true;
+            case MotionEvent.ACTION_MOVE:
                 mCurrentX = x;
                 mCurrentY = y;
-                if (Math.abs(mCurrentX - mStartX) > mMinDistance || Math.abs(mCurrentY - mStartY) > mMinDistance) {
-                    mPaint.setColor(0x88007eff);
+                if (Math.abs(mCurrentX - mLastX) > mMinDistance || Math.abs(mCurrentY - mLastY) > mMinDistance) {
                     invalidate();
+                    return true;
                 }
-            }
                 break;
-            case MotionEvent.ACTION_UP: {
-                mPaint.setColor(0xff007eff);
+            case MotionEvent.ACTION_UP:
+                mPaint.setColor(DEFAULT_COLOR);
                 invalidate();
-            }
-                break;
-            default:
                 break;
         }
-        return true;
+        return super.onTouchEvent(event);
     }
 }
