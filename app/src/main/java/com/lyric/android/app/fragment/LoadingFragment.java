@@ -36,6 +36,6 @@ public class LoadingFragment extends BaseFragment {
             public void run() {
                 linearContent.setVisibility(View.VISIBLE);
             }
-        }, 5000L);
+        }, 3000L);
     }
 }
