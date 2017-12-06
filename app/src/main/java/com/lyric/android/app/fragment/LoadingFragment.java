@@ -2,6 +2,7 @@ package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
@@ -27,5 +28,14 @@ public class LoadingFragment extends BaseFragment {
 
     @Override
     public void onViewInitialize(View view, Bundle savedInstanceState) {
+        final LinearLayout linearContent = findViewWithId(R.id.linear_content);
+
+        linearContent.setVisibility(View.INVISIBLE);
+        linearContent.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                linearContent.setVisibility(View.VISIBLE);
+            }
+        }, 5000L);
     }
 }
