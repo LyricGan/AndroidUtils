@@ -37,7 +37,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
     private LoadingDialog mLoadingDialog;
     private SwipeBackActivityHelper mSwipeHelper;
 
-    private BaseInnerHandler mHandler;
+    private Handler mHandler;
     private TitleBar mTitleBar;
 
     @Override
@@ -45,12 +45,11 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         loggingMessage("onCreate");
+        mHandler = new InnerHandler(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             onExtrasInitialize(bundle);
         }
-        initHandler();
-
         if (isInjectStatusBar()) {
             injectStatusBar();
         }
@@ -89,10 +88,6 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         linearLayout.addView(mTitleBar, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linearLayout.addView(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         super.setContentView(linearLayout);
-    }
-
-    private void initHandler() {
-        mHandler = new BaseInnerHandler(this);
     }
 
     @Override
@@ -313,30 +308,28 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         Log.d(TAG, message);
     }
 
-    protected Handler getHandler() {
+    @Override
+    public Handler getHandler() {
         return mHandler;
     }
 
-    /**
-     * 处理消息回调，例如：getHandler().sendEmptyMessage(0);
-     * @param msg 消息实体
-     */
-    protected void handleMessage(Message msg) {
+    @Override
+    public void handleMessage(Message msg) {
     }
 
-    private static class BaseInnerHandler extends Handler {
-        private WeakReference<BaseActivity> mReference;
+    private static class InnerHandler extends Handler {
+        private WeakReference<BaseListener> mReference;
 
-        BaseInnerHandler(BaseActivity activity) {
-            mReference = new WeakReference<>(activity);
+        InnerHandler(BaseListener listener) {
+            mReference = new WeakReference<>(listener);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            BaseActivity activity = mReference.get();
-            if (activity != null) {
-                activity.handleMessage(msg);
+            BaseListener listener = mReference.get();
+            if (listener != null) {
+                listener.handleMessage(msg);
             }
         }
     }

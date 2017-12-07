@@ -3,6 +3,8 @@ package com.lyric.android.app.common;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.LoadingDialog;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Fragment基类
@@ -23,6 +27,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     private View mRootView;
     private boolean mViewVisible;
     private LoadingDialog mLoadingDialog;
+    private Handler mHandler;
 
     @Override
     public void onAttach(Context context) {
@@ -35,6 +40,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         loggingMessage("onCreate");
+        mHandler = new InnerHandler(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             onExtrasInitialize(bundle);
@@ -218,5 +224,31 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
 
     private void loggingMessage(String message) {
         Log.d(TAG, message);
+    }
+
+    @Override
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+    }
+
+    private static class InnerHandler extends Handler {
+        private WeakReference<BaseListener> mReference;
+
+        InnerHandler(BaseListener listener) {
+            mReference = new WeakReference<>(listener);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            BaseListener listener = mReference.get();
+            if (listener != null) {
+                listener.handleMessage(msg);
+            }
+        }
     }
 }
