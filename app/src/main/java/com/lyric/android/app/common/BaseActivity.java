@@ -20,9 +20,9 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.LoadingDialog;
 import com.lyric.android.app.widget.TitleBar;
-import com.lyric.android.app.widget.swipe.SwipeBackActivityBase;
-import com.lyric.android.app.widget.swipe.SwipeBackActivityHelper;
-import com.lyric.android.app.widget.swipe.SwipeBackLayout;
+import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
+import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
+import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
 
 import java.lang.ref.WeakReference;
 

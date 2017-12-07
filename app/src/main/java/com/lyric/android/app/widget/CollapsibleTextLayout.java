@@ -32,8 +32,8 @@ public class CollapsibleTextLayout extends RelativeLayout implements View.OnClic
     private int mMaxLines = MAX_LINES_DEFAULT;
     // 是否初始化标识
     private boolean mFirstLoad;
-    // 标识位
-    private boolean mFlag;
+    // 初始化标识位
+    private boolean mInitFlag;
     // 是否点击标识
     private boolean mClicked;
     // 状态标识
@@ -70,12 +70,12 @@ public class CollapsibleTextLayout extends RelativeLayout implements View.OnClic
         this.mMaxLines = maxLines;
         if (expendItem == null) {
             this.mFirstLoad = true;
-            this.mFlag = false;
+            this.mInitFlag = false;
             this.mClicked = false;
             this.mStatus = STATE_NONE;
         } else {
             this.mFirstLoad = expendItem.isFirstLoad();
-            this.mFlag = expendItem.isFlag();
+            this.mInitFlag = expendItem.isFlag();
             this.mClicked = expendItem.isClicked();
             this.mStatus = expendItem.getStatus();
         }
@@ -97,15 +97,15 @@ public class CollapsibleTextLayout extends RelativeLayout implements View.OnClic
     public void onClick(View v) {
         mClicked = true;
         mFirstLoad = false;
-        mFlag = false;
+        mInitFlag = false;
         requestLayout();
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (!mFlag) {
-            mFlag = true;
+        if (!mInitFlag) {
+            mInitFlag = true;
             if (tvTextContent.getLineCount() <= mMaxLines) {
                 tvTextContent.setMaxLines(mMaxLines);
                 tvTextStatus.setVisibility(View.GONE);
@@ -127,7 +127,7 @@ public class CollapsibleTextLayout extends RelativeLayout implements View.OnClic
     public void setStatus(int status) {
         if (mStatus != status) {
             if (mOnTextLayoutChangedListener != null) {
-                mOnTextLayoutChangedListener.onChanged(mFirstLoad, mFlag, mClicked, mStatus);
+                mOnTextLayoutChangedListener.onChanged(mFirstLoad, mInitFlag, mClicked, mStatus);
             }
         }
         this.mStatus = status;

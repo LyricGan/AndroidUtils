@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.recyclerview;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * 重写GridLayoutManager，用于ScrollView嵌套RecyclerView
  * @author lyricgan
- * @description 重写GridLayoutManager，用于ScrollView嵌套RecyclerView
  * @time 2016/10/26 11:22
  */
 public class FullyGridLayoutManager extends GridLayoutManager {

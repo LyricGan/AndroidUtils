@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
-import com.lyric.android.app.widget.webview.WebLayout;
+import com.lyric.android.app.widget.WebLayout;
 
 /**
  * 网页显示页面

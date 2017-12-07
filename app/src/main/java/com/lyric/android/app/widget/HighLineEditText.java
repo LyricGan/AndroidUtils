@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.text;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,26 +12,30 @@ import android.widget.EditText;
  * @author lyricgan
  * @time 2017/3/29 18:17
  */
-public class LineTextView extends EditText {
+public class HighLineEditText extends EditText {
     private static final float ITEM_HEIGHT = 125;
     private boolean mReLayout = false;
-    private TextWatcher mTextWatcher;
+    private OnTextWatcher mOnTextWatcher;
 
-    public LineTextView(Context context) {
-        super(context);
+    public HighLineEditText(Context context) {
+        this(context, null);
     }
 
-    public LineTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public HighLineEditText(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    public LineTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HighLineEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
         addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (mTextWatcher != null) {
-                    mTextWatcher.beforeTextChanged(s, start, count, after);
+                if (mOnTextWatcher != null) {
+                    mOnTextWatcher.beforeTextChanged(s, start, count, after);
                 }
             }
 
@@ -44,15 +48,15 @@ public class LineTextView extends EditText {
                 setGravity(Gravity.CENTER_VERTICAL);
                 int top = (int) ((add - getTextSize()) * 0.5f);
                 setPadding(getPaddingLeft(), top, getPaddingRight(), -top);
-                if (mTextWatcher != null) {
-                    mTextWatcher.onTextChanged(s, start, before, count);
+                if (mOnTextWatcher != null) {
+                    mOnTextWatcher.onTextChanged(s, start, before, count);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mTextWatcher != null) {
-                    mTextWatcher.afterTextChanged(s);
+                if (mOnTextWatcher != null) {
+                    mOnTextWatcher.afterTextChanged(s);
                 }
             }
         });
@@ -73,11 +77,11 @@ public class LineTextView extends EditText {
         }
     }
 
-    public void addTextWatcher(TextWatcher textWatcher) {
-        this.mTextWatcher = textWatcher;
+    public void addOnTextWatcher(OnTextWatcher textWatcher) {
+        this.mOnTextWatcher = textWatcher;
     }
 
-    public interface TextWatcher {
+    public interface OnTextWatcher {
 
         void beforeTextChanged(CharSequence s, int start, int count, int after);
 

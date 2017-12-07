@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.swipe;
+package com.lyric.android.app.widget.swipeback;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

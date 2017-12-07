@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.text;
+package com.lyric.android.app.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,14 +15,14 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AutoCompleteTextView;
 
 /**
- * @author ganyu
- * @description 带清除功能的EditText
+ * 带清除功能的EditText
+ * @author lyricgan
  * @time 2016/1/29 10:58
  */
 public class ClearEditText extends AutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
     private Drawable mClearDrawable;
     private boolean hasFocus;
-    private EditTextFocusChangeListener mEditTextFocusChangeListener;
+    private OnEditTextFocusChangeListener mOnEditTextFocusChangeListener;
 
     public ClearEditText(Context context) {
         this(context, null);
@@ -39,30 +39,31 @@ public class ClearEditText extends AutoCompleteTextView implements View.OnFocusC
 
     private void init() {
         mClearDrawable = getCompoundDrawables()[2];
-        if (mClearDrawable == null) {
-            // 设置默认图片
-            return;
-        }
-        mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
-        setCursorVisible(true);
-        // 默认设置隐藏图标
-        setClearIconVisible(false);
+        if (mClearDrawable != null) {
+            mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
+            setCursorVisible(true);
+            // 默认设置隐藏图标
+            setClearIconVisible(false);
 
-        setOnFocusChangeListener(this);
-        addTextChangedListener(this);
+            setOnFocusChangeListener(this);
+            addTextChangedListener(this);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (MotionEvent.ACTION_UP == event.getAction()) {
-            float x = event.getX();
-            int width = getWidth();
-            if (getCompoundDrawables()[2] != null) {
-                boolean touch = x > (width - getTotalPaddingRight()) && (x < (width - getPaddingRight()));
-                if (touch) {
-                    this.setText("");
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                float x = event.getX();
+                int width = getWidth();
+                // 监听触摸事件，判断是否点击了清除图标
+                if (mClearDrawable != null) {
+                    boolean isClear = x > (width - getTotalPaddingRight()) && (x < (width - getPaddingRight()));
+                    if (isClear) {
+                        setText("");
+                    }
                 }
-            }
+                break;
         }
         return super.onTouchEvent(event);
     }
@@ -75,14 +76,14 @@ public class ClearEditText extends AutoCompleteTextView implements View.OnFocusC
         } else {
             setClearIconVisible(false);
         }
-        if (mEditTextFocusChangeListener != null) {
-            mEditTextFocusChangeListener.onFocusChange(v, hasFocus);
+        if (mOnEditTextFocusChangeListener != null) {
+            mOnEditTextFocusChangeListener.onFocusChange(v, hasFocus);
         }
     }
 
     /**
      * 设置清除图标的显示与隐藏
-     * @param visible View.VISIBLE,View.GONE
+     * @param visible true or false
      */
     protected void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
@@ -104,27 +105,20 @@ public class ClearEditText extends AutoCompleteTextView implements View.OnFocusC
     public void afterTextChanged(Editable s) {
     }
 
-    public void setOnEditTextFocusChangeListener(EditTextFocusChangeListener editTextFocusChangeListener) {
-        this.mEditTextFocusChangeListener = editTextFocusChangeListener;
+    public void setOnEditTextFocusChangeListener(OnEditTextFocusChangeListener listener) {
+        this.mOnEditTextFocusChangeListener = listener;
     }
 
     /**
-     * 设置默认晃动动画
+     * 添加左右晃动动画
+     * @param counts 指定时间晃动多少次
+     * @param durationMillis 指定时间
      */
-    public void setDefaultAnimation() {
-        this.setAnimation(shakeAnimation(5));
-    }
-
-    /**
-     * 左右晃动动画
-     * @param counts 1秒钟晃动多少下
-     * @return Animation
-     */
-    public static Animation shakeAnimation(int counts) {
+    public void addAnimation(int counts, long durationMillis) {
         Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
         translateAnimation.setInterpolator(new CycleInterpolator(counts));
-        translateAnimation.setDuration(1000);
-        return translateAnimation;
+        translateAnimation.setDuration(durationMillis);
+        setAnimation(translateAnimation);
     }
 
     /**
@@ -141,7 +135,7 @@ public class ClearEditText extends AutoCompleteTextView implements View.OnFocusC
     /**
      * 可删除按钮的焦点发生变化的回调
      */
-    public interface EditTextFocusChangeListener {
+    public interface OnEditTextFocusChangeListener {
 
         void onFocusChange(View v, boolean hasFocus);
     }

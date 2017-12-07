@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lyric.android.app.widget.swipe;
+package com.lyric.android.app.widget.swipeback;
 
 import android.content.Context;
 import android.os.Build;

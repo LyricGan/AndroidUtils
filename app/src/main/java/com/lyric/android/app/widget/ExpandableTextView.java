@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget.text;
+package com.lyric.android.app.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -214,13 +214,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         tv_expand_collapse.setOnClickListener(this);
     }
 
-    private static boolean isPostHoneycomb() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private static void applyAlphaAnimation(View view, float alpha) {
-        if (isPostHoneycomb()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             view.setAlpha(alpha);
         } else {
             AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
