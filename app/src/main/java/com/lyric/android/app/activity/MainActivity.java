@@ -158,10 +158,12 @@ public class MainActivity extends AppCompatActivity {
         // 设置为可滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), PraiseFragment.newInstance(),
+        Fragment[] fragments = {ListFragment.newInstance(),
+                ViewFragment.newInstance(), PraiseFragment.newInstance(),
                 ServiceFragment.newInstance(), WebFragment.newInstance()};
         List<Fragment> fragmentList = Arrays.asList(fragments);
-        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
+        String[] titles = {ListFragment.class.getSimpleName(),
+                ViewFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
                 ServiceFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
         List<String> titleList = Arrays.asList(titles);
         int size = titleList.size();

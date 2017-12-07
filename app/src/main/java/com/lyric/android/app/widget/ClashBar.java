@@ -5,14 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.lyric.android.app.R;
-
-import java.lang.ref.WeakReference;
 
 /**
  * 左右对阵图，分为左右两部分，可自定义颜色，监听视图变化。添加了线程同步，为线程安全控件
@@ -40,8 +36,6 @@ public class ClashBar extends View {
     private float mLeftDeltaData;
     private float mRightDeltaData;
 
-    private InnerHandler mHandler;
-
     private OnClashBarUpdatedListener mOnClashBarUpdatedListener;
 
     public ClashBar(Context context) {
@@ -63,7 +57,6 @@ public class ClashBar extends View {
         }
 
         initPaints();
-        mHandler = new InnerHandler(this);
     }
 
     private void initPaints() {
@@ -114,7 +107,7 @@ public class ClashBar extends View {
         update(mLeftProgressData, mRightProgressData, false);
     }
 
-    private synchronized void update(float leftProgressData, float rightProgressData, boolean isFinished) {
+    private void update(float leftProgressData, float rightProgressData, boolean isFinished) {
         mLeftProgressData = leftProgressData;
         mRightProgressData = rightProgressData;
         postInvalidate();
@@ -125,40 +118,27 @@ public class ClashBar extends View {
         if (isFinished) {
             return;
         }
-        mHandler.sendEmptyMessageDelayed(0, DEFAULT_UPDATE_INTERVAL_TIME);
+        postDelayed(mUpdateAction, DEFAULT_UPDATE_INTERVAL_TIME);
+    }
+
+    private Runnable mUpdateAction = new Runnable() {
+        @Override
+        public void run() {
+            updateData(mLeftProgressData + mLeftDeltaData, mRightProgressData + mRightDeltaData);
+        }
+    };
+
+    private void updateData(float leftProgressData, float rightProgressData) {
+        boolean isFinished = (leftProgressData >= mLeftData && rightProgressData >= mRightData);
+        if (isFinished) {
+            leftProgressData = mLeftData;
+            rightProgressData = mRightData;
+        }
+        update(leftProgressData, rightProgressData, isFinished);
     }
 
     public void setOnClashBarUpdatedListener(OnClashBarUpdatedListener listener) {
         this.mOnClashBarUpdatedListener = listener;
-    }
-
-    private static class InnerHandler extends Handler {
-        private WeakReference<ClashBar> mClashBarReference;
-
-        InnerHandler(ClashBar clashBar) {
-            mClashBarReference = new WeakReference<>(clashBar);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            ClashBar clashBar = mClashBarReference.get();
-            if (clashBar == null) {
-                return;
-            }
-            updateData(clashBar);
-        }
-
-        private void updateData(ClashBar clashBar) {
-            float currentLeftProgressData = clashBar.mLeftProgressData + clashBar.mLeftDeltaData;
-            float currentRightProgressData = clashBar.mRightProgressData + clashBar.mRightDeltaData;
-            boolean isFinished = (currentLeftProgressData >= clashBar.mLeftData && currentRightProgressData >= clashBar.mRightData);
-            if (isFinished) {
-                currentLeftProgressData = clashBar.mLeftData;
-                currentRightProgressData = clashBar.mRightData;
-            }
-            clashBar.update(currentLeftProgressData, currentRightProgressData, isFinished);
-        }
     }
 
     /**
