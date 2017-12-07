@@ -107,6 +107,41 @@ public abstract class WebSecureView extends WebView {
         super.setWebViewClient(new SecureWebViewClient(client));
     }
 
+    @Override
+    public void loadUrl(String url) {
+        if (!isDependabilitySite(url)) {
+            return;
+        }
+        super.loadUrl(url);
+    }
+
+    @Override
+    public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
+        if (!isDependabilitySite(url)) {
+            return;
+        }
+        super.loadUrl(url, additionalHttpHeaders);
+    }
+
+    /**
+     * 判断是否为可信任的链接
+     * @param url 链接地址
+     * @return true or false
+     */
+    public boolean isDependabilitySite(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return false;
+        }
+        Uri uri = Uri.parse(url);
+        String scheme = uri.getScheme();
+        if (!TextUtils.isEmpty(scheme)) {
+            if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean handleJsInterface(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         String prefix = MSG_PROMPT_HEADER;
         if (!message.startsWith(prefix)) {
@@ -303,7 +338,7 @@ public abstract class WebSecureView extends WebView {
      * @param params 反射用到的参数
      * @return 返回值
      */
-    public static Object removeJavascriptInterface(WebView webView, String params) {
+    public Object removeJavascriptInterface(WebView webView, String params) {
         try {
             Method method = WebView.class.getMethod("removeJavascriptInterface", new Class[] { String.class });
             return method.invoke(webView, params);
@@ -311,28 +346,6 @@ public abstract class WebSecureView extends WebView {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * 判断是否为可信任的链接
-     * @param url 链接地址
-     * @return true or false
-     */
-    public static boolean isDependabilitySite(String url) {
-        if (TextUtils.isEmpty(url)) {
-            return false;
-        }
-        url = url.toLowerCase();
-        if (url.startsWith("file://")) {
-            return true;
-        }
-        String host = Uri.parse(url).getHost().toLowerCase();
-        if (!TextUtils.isEmpty(host)) {
-            if (host.startsWith("http://") || host.startsWith("https://")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

@@ -64,19 +64,7 @@ public class WebLayout extends RelativeLayout {
         mWebView.setWebDebuggingEnabled(Constants.DEBUG);
     }
 
-    public void loadUrl(String url) {
-        mWebView.loadUrl(url);
-    }
-
-    public void loadData(String data) {
-        mWebView.loadData(data, "text/html;charset=UTF-8", null);
-    }
-
-    public boolean onBackPressed() {
-        return mWebView.onBackPressed();
-    }
-
-    public void destroy() {
-        mWebView.onDestroy();
+    public WebCompatView getWebView() {
+        return mWebView;
     }
 }

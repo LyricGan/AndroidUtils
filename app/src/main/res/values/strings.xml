@@ -1,16 +1,11 @@
 <resources>
     <string name="app_name">AndroidUtils</string>
-    <string name="default_title">Android</string>
     <string name="status_expand">展开</string>
     <string name="status_collapse">收起</string>
     <string name="collapse_pack_up">收起</string>
     <string name="collapse_full_text">全文</string>
     <string name="skip">跳过</string>
-    <string name="login">登录</string>
-    <string name="user_name_hint">输入用户名</string>
-    <string name="password_hint">输入密码</string>
 
-    <string name="more_item_delete">删除</string>
     <string name="progress_text_format_pattern">t %d ps</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="action_settings">Settings</string>

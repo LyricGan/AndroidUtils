@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.lyric.android.app.R;
 
 /**
- * @author ganyu
- * @description title bar
+ * 自定义标题栏
+ * @author lyricgan
  * @time 2016/1/20 14:21
  */
 public class TitleBar extends FrameLayout {
@@ -37,7 +37,7 @@ public class TitleBar extends FrameLayout {
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
 
         ivTitleBarLeft.setVisibility(View.GONE);
-        setText(R.string.default_title);
+        setText(R.string.app_name);
     }
 
     public void setText(CharSequence title) {

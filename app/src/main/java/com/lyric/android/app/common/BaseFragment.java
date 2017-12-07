@@ -88,7 +88,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     }
 
     @Override
-    public  <T extends View> T findViewWithId(int id) {
+    public <T extends View> T findViewWithId(int id) {
         View rootView = getRootView();
         if (rootView == null) {
             return null;

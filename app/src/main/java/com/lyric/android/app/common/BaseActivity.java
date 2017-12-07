@@ -120,7 +120,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
     }
 
     @Override
-    public  <T extends View> T findViewWithId(int id) {
+    public <T extends View> T findViewWithId(int id) {
         T view = (T) super.findViewById(id);
         if (isSwipeBackEnable()) {
             if (view == null && mSwipeHelper != null) {

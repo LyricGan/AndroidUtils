@@ -39,8 +39,18 @@ import java.util.Locale;
  */
 public class ViewUtils {
 
+    private ViewUtils() {
+    }
+
     public static Resources getResources(Context context) {
         return context.getResources();
+    }
+
+    public <T extends View> T findViewWithId(View rootView, int id) {
+        if (rootView == null) {
+            return null;
+        }
+        return (T) rootView.findViewById(id);
     }
 
     /**

@@ -35,13 +35,13 @@ public class WebFragment extends BaseFragment {
     @Override
     public void onDataInitialize(Bundle savedInstanceState) {
         super.onDataInitialize(savedInstanceState);
-        mWebLayout.loadUrl("https://github.com");
+        mWebLayout.getWebView().loadUrl("https://github.com");
     }
 
     @Override
     public boolean onBackPressed() {
-        if (mWebLayout != null) {
-            if (mWebLayout.onBackPressed()) {
+        if (mWebLayout != null && mWebLayout.getWebView() != null) {
+            if (mWebLayout.getWebView().onBackPressed()) {
                 return true;
             }
         }
@@ -51,8 +51,8 @@ public class WebFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mWebLayout != null) {
-            mWebLayout.destroy();
+        if (mWebLayout != null && mWebLayout.getWebView() != null) {
+            mWebLayout.getWebView().destroy();
         }
     }
 }
