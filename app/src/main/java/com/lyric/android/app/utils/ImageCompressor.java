@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.compress;
+package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.compress;
+package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import java.io.BufferedOutputStream;
@@ -71,7 +73,7 @@ public class ImageCompressHelper {
     }
 
     public void compress(String srcImageUri, int outWidth, int outHeight, int maxFileSize, String outFilePath) {
-        new CompressTask().execute(srcImageUri, "" + outWidth, "" + outHeight, "" + maxFileSize, outFilePath);
+        new CompressTask(this, mCompressListener).execute(srcImageUri, "" + outWidth, "" + outHeight, "" + maxFileSize, outFilePath);
     }
 
     /**
@@ -92,29 +94,25 @@ public class ImageCompressHelper {
         // 根据原始图片的宽高比和期望的输出图片的宽高比计算最终输出的图片的宽和高
         float srcWidth = options.outWidth;
         float srcHeight = options.outHeight;
-        float maxWidth = outWidth;
-        float maxHeight = outHeight;
         float srcRatio = srcWidth / srcHeight;
-        float outRatio = maxWidth / maxHeight;
+        float outRatio = outWidth / outHeight;
         float actualOutWidth = srcWidth;
         float actualOutHeight = srcHeight;
-        /**
-         * 计算规则：
-         * 如果输入比率小于输出比率，则最终输出的宽度以maxHeight为准
-         * 例如输入比为10:20，输出比是300:10，如果要保证输出图片的宽高比和原始图片的宽高比相同，则最终输出图片的高为10，宽度为(10/20) * 10 = 5，最终输出图片的比率为5:10，和原始输入的比率相同。
-         * 如果输入比率大于输出比率，则最终输出的高度以maxHeight为准
-         * 例如输入比为20:10，输出比是5:100，如果要保证输出图片的宽高比和原始图片的宽高比相同，则最终输出图片的宽为5，高度需要根据输入图片的比率计算获得为5/(20/10)= 2.5，最终输出图片的比率为5:2.5 和原始输入的比率相同
-         */
-        if (srcWidth > maxWidth || srcHeight > maxHeight) {
+        // 计算规则：
+        // 如果输入比率小于输出比率，则最终输出的宽度以maxHeight为准
+        // 例如输入比为10:20，输出比是300:10，如果要保证输出图片的宽高比和原始图片的宽高比相同，则最终输出图片的高为10，宽度为(10/20) * 10 = 5，最终输出图片的比率为5:10，和原始输入的比率相同。
+        // 如果输入比率大于输出比率，则最终输出的高度以maxHeight为准
+        // 例如输入比为20:10，输出比是5:100，如果要保证输出图片的宽高比和原始图片的宽高比相同，则最终输出图片的宽为5，高度需要根据输入图片的比率计算获得为5/(20/10)= 2.5，最终输出图片的比率为5:2.5 和原始输入的比率相同
+        if (srcWidth > outWidth || srcHeight > outHeight) {
             if (srcRatio < outRatio) {
-                actualOutHeight = maxHeight;
+                actualOutHeight = outHeight;
                 actualOutWidth = actualOutHeight * srcRatio;
             } else if (srcRatio > outRatio) {
-                actualOutWidth = maxWidth;
+                actualOutWidth = outWidth;
                 actualOutHeight = actualOutWidth / srcRatio;
             } else {
-                actualOutWidth = maxWidth;
-                actualOutHeight = maxHeight;
+                actualOutWidth = outWidth;
+                actualOutHeight = outHeight;
             }
         }
         options.inSampleSize = computeSampleSize(options, actualOutWidth, actualOutHeight);
@@ -225,7 +223,14 @@ public class ImageCompressHelper {
         return (file.getAbsolutePath() + File.separator + srcFile.getName());
     }
 
-    private class CompressTask extends AsyncTask<String, Void, ImageCompressResult> {
+    private static class CompressTask extends AsyncTask<String, Void, ImageCompressResult> {
+        private ImageCompressHelper mCompressHelper;
+        private ImageCompressListener mCompressListener;
+
+        CompressTask(ImageCompressHelper compressHelper, ImageCompressListener listener) {
+            this.mCompressHelper = compressHelper;
+            this.mCompressListener = listener;
+        }
 
         @Override
         protected ImageCompressResult doInBackground(String... params) {
@@ -237,7 +242,7 @@ public class ImageCompressHelper {
             ImageCompressResult compressResult = new ImageCompressResult();
             String outPutPath = null;
             try {
-                outPutPath = ImageCompressHelper.this.execute(srcPath, outWidth, outHeight, maxFileSize, outFilePath);
+                outPutPath = mCompressHelper.execute(srcPath, outWidth, outHeight, maxFileSize, outFilePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -276,4 +281,72 @@ public class ImageCompressHelper {
         void onPostCompress(ImageCompressResult result);
     }
 
+    /**
+     * 图片压缩实体类
+     */
+    public static class ImageCompressResult implements Parcelable {
+        public static final int RESULT_OK = 0;
+        public static final int RESULT_ERROR = 1;
+
+        private int status = RESULT_OK;
+        private String srcPath;
+        private String outPath;
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getSrcPath() {
+            return srcPath;
+        }
+
+        public void setSrcPath(String srcPath) {
+            this.srcPath = srcPath;
+        }
+
+        public String getOutPath() {
+            return outPath;
+        }
+
+        public void setOutPath(String outPath) {
+            this.outPath = outPath;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.status);
+            dest.writeString(this.srcPath);
+            dest.writeString(this.outPath);
+        }
+
+        public ImageCompressResult() {
+        }
+
+        protected ImageCompressResult(Parcel in) {
+            this.status = in.readInt();
+            this.srcPath = in.readString();
+            this.outPath = in.readString();
+        }
+
+        public static final Parcelable.Creator<ImageCompressResult> CREATOR = new Parcelable.Creator<ImageCompressResult>() {
+            @Override
+            public ImageCompressResult createFromParcel(Parcel source) {
+                return new ImageCompressResult(source);
+            }
+
+            @Override
+            public ImageCompressResult[] newArray(int size) {
+                return new ImageCompressResult[size];
+            }
+        };
+    }
 }
