@@ -24,7 +24,7 @@ import java.util.TreeSet;
  * @author lyricgan
  * @time 2016/8/30 17:29
  */
-public abstract class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = ExceptionHandler.class.getSimpleName();
     /** 错误报告文件的扩展名 */
     private static final String CRASH_REPORTER_EXTENSION = ".cr";
@@ -213,5 +213,6 @@ public abstract class ExceptionHandler implements Thread.UncaughtExceptionHandle
      * 发送错误报告文件
      * @param file 错误收集文件
      */
-    public abstract void sendCrashReportFile(File file);
+    public void sendCrashReportFile(File file) {
+    }
 }
