@@ -5,6 +5,9 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.Selection;
 import android.text.Spannable;
@@ -499,5 +502,37 @@ public class ViewUtils {
         }
         sLastOperateTime = time;
         return false;
+    }
+
+    /**
+     * 获取背景Drawable，用于设置背景
+     * @param color 填充颜色
+     * @param cornerRadius 圆角半径
+     * @param strokeWidth 圆边宽度
+     * @param strokeColor 圆边颜色
+     * @return 背景Drawable
+     */
+    public static GradientDrawable getDrawable(int color, int cornerRadius, int strokeWidth, int strokeColor) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+        drawable.setColor(color);
+        drawable.setCornerRadius(cornerRadius);
+        drawable.setStroke(strokeWidth, strokeColor);
+        return drawable;
+    }
+
+    /**
+     * 获取背景Drawable，区分默认和按下
+     * @param normalDrawable 默认背景
+     * @param pressedDrawable 按下背景
+     * @return 背景Drawable，区分默认和按下
+     */
+    public static StateListDrawable getSelector(Drawable normalDrawable, Drawable pressedDrawable) {
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed}, pressedDrawable);
+        drawable.addState(new int[]{android.R.attr.state_enabled}, normalDrawable);
+        drawable.addState(new int[]{}, normalDrawable);
+        return drawable;
     }
 }

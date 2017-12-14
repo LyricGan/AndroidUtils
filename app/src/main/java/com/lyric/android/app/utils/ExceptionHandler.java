@@ -56,7 +56,9 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         if (handleException(ex, mContext)) {
             ex.printStackTrace();
         } else {
-            mHandler.uncaughtException(thread, ex);
+            if (mHandler != null) {
+                mHandler.uncaughtException(thread, ex);
+            }
         }
     }
 
@@ -214,5 +216,9 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
      * @param file 错误收集文件
      */
     public void sendCrashReportFile(File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+        Log.d(TAG, "file path:" + file.getPath());
     }
 }
