@@ -5,8 +5,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class ProxyTest {
-	
-	public static void main(String[] args) {
+
+    private ProxyTest() {
+    }
+
+    // test
+    public static void test() {
         InvocationHandler handler = new TimeInvocationHandler(new OperateImpl());
         Operate operate = (Operate) Proxy.newProxyInstance(Operate.class.getClassLoader(),
                 new Class[] {Operate.class}, handler);
@@ -15,7 +19,7 @@ public class ProxyTest {
         operate.method2();
         System.out.println();
         operate.method3();
-	}
+    }
 
     interface Operate {
 
@@ -58,18 +62,15 @@ public class ProxyTest {
     private static class TimeInvocationHandler implements InvocationHandler {
         private Object mTarget;
 
-        public TimeInvocationHandler() {
-        }
-
-        public TimeInvocationHandler(Object target) {
+        TimeInvocationHandler(Object target) {
             this.mTarget = target;
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            long start = System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
             Object object = method.invoke(mTarget, args);
-            System.out.println(method.getName() + " cost time is:" + (System.currentTimeMillis() - start));
+            System.out.println(method.getName() + " cost time is:" + (System.currentTimeMillis() - startTime));
             return object;
         }
     }
