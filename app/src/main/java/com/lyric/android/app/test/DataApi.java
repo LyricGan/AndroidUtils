@@ -13,20 +13,16 @@ import java.util.Map;
 public class DataApi {
     // 引用聚合测试数据
     private static final String TEST_URL = "http://v.juhe.cn/toutiao/index";
-    private static volatile DataApi mInstance;
 
     private DataApi() {
     }
 
+    private static final class Holder {
+        private static final DataApi mInstance = new DataApi();
+    }
+
     public static DataApi getInstance() {
-        if (mInstance == null) {
-            synchronized (DataApi.class) {
-                if (mInstance == null) {
-                    mInstance = new DataApi();
-                }
-            }
-        }
-        return mInstance;
+        return Holder.mInstance;
     }
 
     public Map<String, String> buildDefaultParams() {

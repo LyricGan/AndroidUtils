@@ -270,14 +270,13 @@ public class Reflect {
             for (Field field : type.getDeclaredFields()) {
                 if (!isClass ^ Modifier.isStatic(field.getModifiers())) {
                     String name = field.getName();
-
-                    if (!result.containsKey(name))
+                    if (!result.containsKey(name)) {
                         result.put(name, field(name));
+                    }
                 }
             }
             type = type.getSuperclass();
-        }
-        while (type != null);
+        } while (type != null);
         return result;
     }
 
