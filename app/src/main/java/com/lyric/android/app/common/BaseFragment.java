@@ -62,8 +62,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         loggingMessage("onViewCreated");
         View titleView = view.findViewById(R.id.title_bar);
         if (titleView != null) {
-            BaseTitleBar titleBar = new BaseTitleBar(getContext());
-            titleBar.bind(view);
+            BaseTitleBar titleBar = new BaseTitleBar(titleView);
             onTitleBarInitialize(titleBar, savedInstanceState);
         }
         onContentViewInitialize(view, savedInstanceState);

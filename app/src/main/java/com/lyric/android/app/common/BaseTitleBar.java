@@ -18,14 +18,11 @@ public class BaseTitleBar {
     private ImageView ivTitleBarLeft;
     private TextView tvTitle;
 
-    public BaseTitleBar(Context context) {
-        this.mContext = context;
-    }
-
-    public void bind(View titleView) {
+    public BaseTitleBar(View titleView) {
         ivTitleBarLeft = (ImageView) titleView.findViewById(R.id.iv_title_bar_left);
         tvTitle = (TextView) titleView.findViewById(R.id.tv_title);
 
+        this.mContext = titleView.getContext();
         this.mTitleView = titleView;
     }
 

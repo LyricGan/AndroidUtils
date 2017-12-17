@@ -60,8 +60,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         View view = getWindow().getDecorView();
         View titleView = view.findViewById(R.id.title_bar);
         if (titleView != null) {
-            BaseTitleBar titleBar = new BaseTitleBar(this);
-            titleBar.bind(view);
+            BaseTitleBar titleBar = new BaseTitleBar(titleView);
             onTitleBarInitialize(titleBar, savedInstanceState);
         }
         onContentViewInitialize(view, savedInstanceState);
