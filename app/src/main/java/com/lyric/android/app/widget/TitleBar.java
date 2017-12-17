@@ -35,9 +35,6 @@ public class TitleBar extends FrameLayout {
         View rootView = View.inflate(context, R.layout.view_title_bar, this);
         ivTitleBarLeft = (ImageView) rootView.findViewById(R.id.iv_title_bar_left);
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-
-        ivTitleBarLeft.setVisibility(View.GONE);
-        setText(R.string.app_name);
     }
 
     public void setText(CharSequence title) {

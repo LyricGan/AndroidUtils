@@ -30,17 +30,12 @@ public class BaseTitleBar {
         return mContext;
     }
 
-    public void setText(CharSequence title) {
-        tvTitle.setText(title);
-    }
-
-    public void setText(int textId) {
-        setText(getContext().getResources().getText(textId));
+    public void setVisibility(int visibility) {
+        mTitleView.setVisibility(visibility);
     }
 
     public void setLeftDrawable(int resId) {
         ivTitleBarLeft.setImageResource(resId);
-        ivTitleBarLeft.setVisibility(View.VISIBLE);
     }
 
     public void setLeftClickListener(View.OnClickListener listener) {
@@ -51,7 +46,11 @@ public class BaseTitleBar {
         ivTitleBarLeft.setVisibility(visibility);
     }
 
-    public void setVisibility(int visibility) {
-        mTitleView.setVisibility(visibility);
+    public void setTitle(CharSequence title) {
+        tvTitle.setText(title);
+    }
+
+    public void setTitle(int textId) {
+        tvTitle.setText(textId);
     }
 }
