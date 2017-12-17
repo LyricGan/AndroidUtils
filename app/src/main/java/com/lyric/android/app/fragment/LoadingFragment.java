@@ -27,7 +27,7 @@ public class LoadingFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         final LinearLayout linearContent = findViewWithId(R.id.linear_content);
 
         linearContent.setVisibility(View.INVISIBLE);

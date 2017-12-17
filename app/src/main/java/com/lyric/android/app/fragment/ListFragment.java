@@ -33,7 +33,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         GraceRefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
         mRecyclerView = findViewWithId(R.id.recycler_view);
 

@@ -13,13 +13,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.LoadingDialog;
-import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
@@ -38,7 +36,6 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
     private SwipeBackActivityHelper mSwipeHelper;
 
     private Handler mHandler;
-    private TitleBar mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,33 +58,15 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         }
         setContentView(getLayoutId());
         View view = getWindow().getDecorView();
-        onViewInitialize(view, savedInstanceState);
+        View titleView = view.findViewById(R.id.title_bar);
+        if (titleView != null) {
+            BaseTitleBar titleBar = new BaseTitleBar(this);
+            titleBar.bind(view);
+            onTitleBarInitialize(titleBar, savedInstanceState);
+        }
+        onContentViewInitialize(view, savedInstanceState);
 
         onDataInitialize(savedInstanceState);
-    }
-
-    @Override
-    public void setContentView(int layoutResID) {
-        setContentView(getLayoutInflater().inflate(layoutResID, null));
-    }
-
-    @Override
-    public void setContentView(View view) {
-        mTitleBar = new TitleBar(this);
-        mTitleBar.setLeftDrawable(R.drawable.icon_back);
-        mTitleBar.setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        onTitleCreated(mTitleBar);
-
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(mTitleBar, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linearLayout.addView(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        super.setContentView(linearLayout);
     }
 
     @Override
@@ -96,6 +75,17 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
 
     @Override
     public void onExtrasInitialize(Bundle bundle) {
+    }
+
+    @Override
+    public void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
+        titleBar.setLeftDrawable(R.drawable.icon_back);
+        titleBar.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -173,12 +163,6 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         super.onDestroy();
         loggingMessage("onDestroy");
     }
-
-    protected TitleBar getTitleBar() {
-        return mTitleBar;
-    }
-
-    protected abstract void onTitleCreated(TitleBar titleBar);
 
     protected boolean isDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

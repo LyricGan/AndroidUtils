@@ -30,16 +30,23 @@ public interface BaseListener extends View.OnClickListener {
      */
     int getLayoutId();
 
+    /**
+     * 初始化标题栏
+     * @param titleBar 标题栏
+     * @param savedInstanceState bundles状态
+     */
+    void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState);
+
 	/**
 	 * 初始化布局
 	 * @param view 页面视图
-	 * @param savedInstanceState bundles
+	 * @param savedInstanceState bundles状态
 	 */
-	void onViewInitialize(View view, Bundle savedInstanceState);
+	void onContentViewInitialize(View view, Bundle savedInstanceState);
 
     /**
      * 初始化数据
-     * @param savedInstanceState bundles
+     * @param savedInstanceState bundles状态
      */
     void onDataInitialize(Bundle savedInstanceState);
 

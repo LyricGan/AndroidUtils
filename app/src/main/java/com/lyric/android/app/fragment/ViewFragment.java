@@ -84,7 +84,7 @@ public class ViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         PieView pieView = findViewWithId(R.id.pie_view);
         imageCapture = findViewWithId(R.id.image_capture);
         ivQrcodeImage = findViewWithId(R.id.iv_qrcode_image);

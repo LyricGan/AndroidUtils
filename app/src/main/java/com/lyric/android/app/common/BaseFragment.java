@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.LoadingDialog;
 
@@ -59,7 +60,13 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loggingMessage("onViewCreated");
-        onViewInitialize(view, savedInstanceState);
+        View titleView = view.findViewById(R.id.title_bar);
+        if (titleView != null) {
+            BaseTitleBar titleBar = new BaseTitleBar(getContext());
+            titleBar.bind(view);
+            onTitleBarInitialize(titleBar, savedInstanceState);
+        }
+        onContentViewInitialize(view, savedInstanceState);
     }
 
     @Override
@@ -75,6 +82,10 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
 
     @Override
     public void onExtrasInitialize(Bundle bundle) {
+    }
+
+    @Override
+    public void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
     }
 
     @Override

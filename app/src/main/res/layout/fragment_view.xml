@@ -117,11 +117,11 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"/>
 
-        <com.lyric.android.app.widget.MovedCircleView
-            android:id="@+id/circle_view"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="20dp"/>
+        <!--<com.lyric.android.app.widget.MovedCircleView-->
+            <!--android:id="@+id/circle_view"-->
+            <!--android:layout_width="128dp"-->
+            <!--android:layout_height="128dp"-->
+            <!--android:layout_marginTop="20dp"/>-->
 
         <com.lyric.android.app.widget.TabDigitLayout
             android:id="@+id/tab_digit_layout"

@@ -28,7 +28,7 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         mWebLayout = findViewWithId(R.id.layout_web);
     }
 

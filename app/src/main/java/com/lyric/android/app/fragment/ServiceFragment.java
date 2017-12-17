@@ -37,7 +37,7 @@ public class ServiceFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         findViewWithId(R.id.btn_start_service).setOnClickListener(this);
         findViewWithId(R.id.btn_stop_service).setOnClickListener(this);
         findViewWithId(R.id.btn_bind_service).setOnClickListener(this);

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.widget.TitleBar;
 
 /**
  * 基类Activity，用于加载fragment
@@ -30,20 +29,15 @@ public class BaseFragmentActivity extends BaseActivity {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
-        setupViews();
-    }
-
-    @Override
-    protected void onTitleCreated(TitleBar titleBar) {
-    }
-
-    private void setupViews() {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
-            mFragment = Fragment.instantiate(this, fragmentName, bundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, mFragment, fragmentName).commit();
+            Fragment fragment = Fragment.instantiate(this, fragmentName, bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_content, fragment, fragmentName)
+                    .commit();
+            mFragment = fragment;
         }
     }
 

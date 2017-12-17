@@ -6,9 +6,8 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.R;
-import com.lyric.android.app.widget.TitleBar;
+import com.lyric.android.app.common.BaseActivity;
 
 /**
  * 启动页面
@@ -28,7 +27,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         // 防止HOME键重复启动
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
@@ -42,11 +41,6 @@ public class SplashActivity extends BaseActivity {
             }
         });
         mStartTime = System.currentTimeMillis();
-    }
-
-    @Override
-    protected void onTitleCreated(TitleBar titleBar) {
-        titleBar.setVisibility(View.GONE);
     }
 
     @Override

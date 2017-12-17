@@ -30,7 +30,7 @@ public class PraiseFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewInitialize(View view, Bundle savedInstanceState) {
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         findViewWithId(R.id.good).setOnClickListener(this);
         findViewWithId(R.id.good2).setOnClickListener(this);
         findViewWithId(R.id.collection).setOnClickListener(this);
