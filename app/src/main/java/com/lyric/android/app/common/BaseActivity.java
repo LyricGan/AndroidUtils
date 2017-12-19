@@ -164,6 +164,11 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         mDestroy = true;
         super.onDestroy();
         loggingMessage("onDestroy");
+
+        Handler handler = getHandler();
+        if (handler != null && handler.getLooper() != null) {
+            handler.getLooper().quit();
+        }
     }
 
     protected boolean isDestroy() {
