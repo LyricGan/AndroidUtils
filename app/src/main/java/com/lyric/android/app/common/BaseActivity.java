@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -285,6 +288,45 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         if (im != null) {
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public BaseFragment getFragment(Context context, Class<?> fragmentClass, Bundle args) {
+        return getFragment(context, fragmentClass.getName(), args);
+    }
+
+    public BaseFragment getFragment(Context context, String fragmentName, Bundle args) {
+        Fragment fragment = null;
+        try {
+            fragment = Fragment.instantiate(context, fragmentName, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (fragment instanceof BaseFragment) {
+            return (BaseFragment) fragment;
+        }
+        return null;
+    }
+
+    public void addFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name) {
+        commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, false);
+    }
+
+    public void replaceFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name) {
+        commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, true);
+    }
+
+    private void commitFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name, boolean isReplace) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (isReplace) {
+            fragmentTransaction.replace(containerViewId, fragment, tag);
+        } else {
+            fragmentTransaction.add(containerViewId, fragment, tag);
+        }
+        if (isAddToBackStack) {
+            fragmentTransaction.addToBackStack(name);
+        }
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void loggingMessage(String message) {

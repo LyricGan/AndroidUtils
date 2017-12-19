@@ -14,9 +14,6 @@ import android.view.ViewGroup;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.ViewUtils;
-import com.lyric.android.app.widget.LoadingDialog;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Fragment基类
@@ -25,10 +22,9 @@ import java.lang.ref.WeakReference;
  */
 public abstract class BaseFragment extends Fragment implements BaseListener {
     protected final String TAG = getClass().getName();
+    private BaseActivity mActivity;
     private View mRootView;
     private boolean mViewVisible;
-    private LoadingDialog mLoadingDialog;
-    private Handler mHandler;
 
     @Override
     public void onAttach(Context context) {
@@ -41,7 +37,6 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         loggingMessage("onCreate");
-        mHandler = new InnerHandler(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             onExtrasInitialize(bundle);
@@ -179,6 +174,13 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         super.onHiddenChanged(hidden);
     }
 
+    public BaseActivity getBaseActivity() {
+        if (mActivity == null) {
+            mActivity = (BaseActivity) getActivity();
+        }
+        return mActivity;
+    }
+
     public void setViewVisible(boolean viewVisible) {
         this.mViewVisible = viewVisible;
     }
@@ -201,23 +203,29 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     }
 
     protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
-        Activity activity = getActivity();
+        BaseActivity activity = getBaseActivity();
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(activity);
+        if (!isStatusValid()) {
+            return;
         }
-        mLoadingDialog.setMessage(message);
-        mLoadingDialog.setCancelable(cancelable);
-        mLoadingDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
-        mLoadingDialog.show();
+        activity.showLoadingDialog(message, cancelable, canceledOnTouchOutside);
     }
 
     protected void hideLoadingDialog() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
+        BaseActivity activity = getBaseActivity();
+        if (activity == null || activity.isFinishing()) {
+            return;
         }
+        if (!isStatusValid()) {
+            return;
+        }
+        activity.hideLoadingDialog();
+    }
+
+    public boolean isStatusValid() {
+        return (isAdded() && !isRemoving());
     }
 
     public boolean onBackPressed() {
@@ -238,27 +246,14 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
 
     @Override
     public Handler getHandler() {
-        return mHandler;
+        BaseActivity activity = getBaseActivity();
+        if (activity != null) {
+            return activity.getHandler();
+        }
+        return null;
     }
 
     @Override
     public void handleMessage(Message msg) {
-    }
-
-    private static class InnerHandler extends Handler {
-        private WeakReference<BaseListener> mReference;
-
-        InnerHandler(BaseListener listener) {
-            mReference = new WeakReference<>(listener);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            BaseListener listener = mReference.get();
-            if (listener != null) {
-                listener.handleMessage(msg);
-            }
-        }
     }
 }

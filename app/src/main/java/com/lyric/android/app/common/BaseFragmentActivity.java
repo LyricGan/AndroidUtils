@@ -3,7 +3,6 @@ package com.lyric.android.app.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.lyric.android.app.R;
@@ -15,11 +14,15 @@ import com.lyric.android.app.R;
  */
 public class BaseFragmentActivity extends BaseActivity {
     private static final String EXTRA_FRAGMENT_NAME = "fragment_name";
-    private Fragment mFragment;
+    private static final String EXTRA_ADD_BACK_STACK = "_add_to_back_stack";
+    private static final String EXTRA_NAME = "_name";
+    private BaseFragment mFragment;
 
-    public static Intent newIntent(Context context, Class<?> fragmentClass) {
+    public static Intent newIntent(Context context, Class<?> fragmentClass, boolean isAddToBackStack, String name) {
         Intent intent = new Intent(context, BaseFragmentActivity.class);
         intent.putExtra(EXTRA_FRAGMENT_NAME, fragmentClass.getName());
+        intent.putExtra(EXTRA_ADD_BACK_STACK, isAddToBackStack);
+        intent.putExtra(EXTRA_NAME, name);
         return intent;
     }
 
@@ -33,20 +36,20 @@ public class BaseFragmentActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
-            Fragment fragment = Fragment.instantiate(this, fragmentName, bundle);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_content, fragment, fragmentName)
-                    .commit();
+            boolean isAddToBackStack = bundle.getBoolean(EXTRA_ADD_BACK_STACK);
+            String name = bundle.getString(EXTRA_NAME);
+            BaseFragment fragment = getFragment(this, fragmentName, bundle);
+            if (fragment != null) {
+                addFragment(R.id.fragment_content, fragment, fragmentName, isAddToBackStack, name);
+            }
             mFragment = fragment;
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (mFragment != null && mFragment instanceof BaseFragment) {
-            if (((BaseFragment) mFragment).onBackPressed()) {
-                return;
-            }
+        if (mFragment != null && mFragment.onBackPressed()) {
+            return;
         }
         super.onBackPressed();
     }
