@@ -59,6 +59,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
             setSwipeBackEnable(true);
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
+        int layoutId = getLayoutId();
+        if (layoutId > 0) {
+            setContentView(layoutId);
+        } else {
+            setContentView(getContentView());
+        }
         setContentView(getLayoutId());
         View view = getWindow().getDecorView();
         View titleView = view.findViewById(R.id.title_bar);
@@ -88,6 +94,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
                 onBackPressed();
             }
         });
+    }
+
+    protected View getContentView() {
+        return null;
     }
 
     @Override
