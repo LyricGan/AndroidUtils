@@ -22,7 +22,6 @@ import com.lyric.android.app.utils.ViewUtils;
  */
 public abstract class BaseFragment extends Fragment implements BaseListener {
     protected final String TAG = getClass().getName();
-    private BaseActivity mActivity;
     private View mRootView;
     private boolean mViewVisible;
 
@@ -36,7 +35,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        loggingMessage("onCreate");
+        loggingMessage("onCreate savedInstanceState:" + savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
             onExtrasInitialize(bundle);
@@ -99,12 +98,12 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     }
 
     @Override
-    public <T extends View> T findViewWithId(int id) {
+    public <T extends View> T findViewByIdRes(int id) {
         View rootView = getRootView();
-        if (rootView == null) {
-            return null;
+        if (rootView != null) {
+            return (T) rootView.findViewById(id);
         }
-        return (T) rootView.findViewById(id);
+        return null;
     }
 
     @Override
@@ -174,13 +173,6 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         super.onHiddenChanged(hidden);
     }
 
-    public BaseActivity getBaseActivity() {
-        if (mActivity == null) {
-            mActivity = (BaseActivity) getActivity();
-        }
-        return mActivity;
-    }
-
     public void setViewVisible(boolean viewVisible) {
         this.mViewVisible = viewVisible;
     }
@@ -194,16 +186,12 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
         return getActivity() == null;
     }
 
-    protected void showLoadingDialog() {
-        showLoadingDialog("");
-    }
-
     protected void showLoadingDialog(CharSequence message) {
         showLoadingDialog(message, true, false);
     }
 
     protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         if (activity == null || activity.isFinishing()) {
             return;
         }
@@ -214,7 +202,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
     }
 
     protected void hideLoadingDialog() {
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         if (activity == null || activity.isFinishing()) {
             return;
         }
@@ -246,7 +234,7 @@ public abstract class BaseFragment extends Fragment implements BaseListener {
 
     @Override
     public Handler getHandler() {
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         if (activity != null) {
             return activity.getHandler();
         }

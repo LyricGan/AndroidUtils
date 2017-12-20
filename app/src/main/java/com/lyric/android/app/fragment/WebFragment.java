@@ -29,7 +29,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        mWebLayout = findViewWithId(R.id.layout_web);
+        mWebLayout = findViewByIdRes(R.id.layout_web);
     }
 
     @Override

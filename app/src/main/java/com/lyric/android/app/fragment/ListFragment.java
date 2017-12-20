@@ -34,8 +34,8 @@ public class ListFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        GraceRefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
-        mRecyclerView = findViewWithId(R.id.recycler_view);
+        GraceRefreshLayout refreshLayout = findViewByIdRes(R.id.refresh_layout);
+        mRecyclerView = findViewByIdRes(R.id.recycler_view);
 
         refreshLayout.setAutoLoadMore(true);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {

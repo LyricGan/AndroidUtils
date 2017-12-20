@@ -8,7 +8,8 @@ import android.content.Context;
  * @author lyricgan
  * @date 2017/11/29 10:10
  */
-public class BaseApplication extends Application {
+public abstract class BaseApplication extends Application {
+    public final String TAG = getClass().getSimpleName();
     private static BaseApplication mInstance;
 
     @Override
@@ -17,11 +18,13 @@ public class BaseApplication extends Application {
         mInstance = this;
     }
 
-    public static Application getApplication() {
+    public static BaseApplication getApplication() {
         return mInstance;
     }
 
     public static Context getContext() {
         return mInstance.getApplicationContext();
     }
+
+    public abstract boolean isDebuggable();
 }

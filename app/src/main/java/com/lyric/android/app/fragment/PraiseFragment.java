@@ -31,11 +31,11 @@ public class PraiseFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        findViewWithId(R.id.good).setOnClickListener(this);
-        findViewWithId(R.id.good2).setOnClickListener(this);
-        findViewWithId(R.id.collection).setOnClickListener(this);
-        findViewWithId(R.id.bookmark).setOnClickListener(this);
-        findViewWithId(R.id.btn_reset).setOnClickListener(this);
+        findViewByIdRes(R.id.good).setOnClickListener(this);
+        findViewByIdRes(R.id.good2).setOnClickListener(this);
+        findViewByIdRes(R.id.collection).setOnClickListener(this);
+        findViewByIdRes(R.id.bookmark).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_reset).setOnClickListener(this);
 
         mPraisePopupWindow = new PraisePopupWindow(getActivity());
     }
@@ -87,10 +87,10 @@ public class PraiseFragment extends BaseFragment {
     }
 
     public void reset() {
-        ((ImageView) findViewWithId(R.id.good)).setImageResource(R.mipmap.good);
-        ((ImageView) findViewWithId(R.id.good2)).setImageResource(R.mipmap.good);
-        ((ImageView) findViewWithId(R.id.collection)).setImageResource(R.mipmap.collection);
-        ((ImageView) findViewWithId(R.id.bookmark)).setImageResource(R.mipmap.bookmark);
+        ((ImageView) findViewByIdRes(R.id.good)).setImageResource(R.mipmap.good);
+        ((ImageView) findViewByIdRes(R.id.good2)).setImageResource(R.mipmap.good);
+        ((ImageView) findViewByIdRes(R.id.collection)).setImageResource(R.mipmap.collection);
+        ((ImageView) findViewByIdRes(R.id.bookmark)).setImageResource(R.mipmap.bookmark);
         mPraisePopupWindow.reset();
     }
 }

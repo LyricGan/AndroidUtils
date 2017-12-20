@@ -15,16 +15,20 @@ import com.squareup.leakcanary.RefWatcher;
  * @time 2015/10/7 14:04
  */
 public class AndroidApplication extends BaseApplication {
-    private static final String TAG = AndroidApplication.class.getSimpleName();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
-        LogUtils.setDebug(Constants.DEBUG);
+        LogUtils.setDebug(isDebuggable());
 
         addRegisterActivityLifecycleCallbacks();
 	}
+
+    @Override
+    public boolean isDebuggable() {
+        return Constants.DEBUG;
+    }
 
     protected RefWatcher setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -73,6 +77,8 @@ public class AndroidApplication extends BaseApplication {
     }
 
     private void loggingMessage(Activity activity, String lifecycle) {
-        Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
+	    if (isDebuggable()) {
+            Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
+        }
     }
 }

@@ -54,19 +54,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewByIdRes(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nv_main_navigation);
+        mDrawerLayout = findViewByIdRes(R.id.dl_main_drawer);
+        NavigationView navigationView = findViewByIdRes(R.id.nv_main_navigation);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton floatingActionButton = findViewByIdRes(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewByIdRes(R.id.tabs);
         // 设置为可滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 

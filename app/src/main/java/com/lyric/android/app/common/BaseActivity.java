@@ -36,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
-    private SwipeBackActivityHelper mSwipeHelper;
+    private SwipeBackActivityHelper mSwipeBackHelper;
 
     private Handler mHandler;
 
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
     protected void onCreate(Bundle savedInstanceState) {
         onPrepareCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        loggingMessage("onCreate");
+        loggingMessage("onCreate savedInstanceState:" + savedInstanceState);
         mHandler = new InnerHandler(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -54,8 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
             injectStatusBar();
         }
         if (isSwipeBackEnable()) {
-            mSwipeHelper = new SwipeBackActivityHelper(this);
-            mSwipeHelper.onActivityCreate();
+            mSwipeBackHelper = new SwipeBackActivityHelper(this);
+            mSwipeBackHelper.onActivityCreate();
             setSwipeBackEnable(true);
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
@@ -117,22 +117,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
     }
 
     @Override
-    public <T extends View> T findViewWithId(int id) {
-        T view = (T) super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return (T) mSwipeHelper.findViewById(id);
-            }
-        }
-        return view;
+    public <T extends View> T findViewByIdRes(int id) {
+        return (T) findViewById(id);
     }
 
     @Override
     public View findViewById(int id) {
         View view = super.findViewById(id);
-        if (isSwipeBackEnable()) {
-            if (view == null && mSwipeHelper != null) {
-                return mSwipeHelper.findViewById(id);
+        if (view == null) {
+            if (isSwipeBackEnable()) {
+                SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
+                if (swipeBackHelper != null) {
+                    return swipeBackHelper.findViewById(id);
+                }
             }
         }
         return view;
@@ -183,10 +180,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
         return mDestroy;
     }
 
-    protected void showLoadingDialog() {
-        showLoadingDialog("");
-    }
-
     protected void showLoadingDialog(CharSequence message) {
         showLoadingDialog(message, true, false);
     }
@@ -219,6 +212,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
         return false;
     }
 
+    protected SwipeBackActivityHelper getSwipeBackHelper() {
+        return mSwipeBackHelper;
+    }
+
     protected boolean isAutoHideKeyboard() {
         return false;
     }
@@ -227,30 +224,36 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (isSwipeBackEnable()) {
-            mSwipeHelper.onPostCreate();
+            SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
+            if (swipeBackHelper != null) {
+                swipeBackHelper.onPostCreate();
+            }
         }
     }
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        if (mSwipeHelper != null) {
-            return mSwipeHelper.getSwipeBackLayout();
+        SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
+        if (swipeBackHelper != null) {
+            return swipeBackHelper.getSwipeBackLayout();
         }
         return null;
     }
 
     @Override
     public void setSwipeBackEnable(boolean enable) {
-        if (getSwipeBackLayout() != null) {
-            getSwipeBackLayout().setEnableGesture(enable);
+        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
+        if (swipeBackLayout != null) {
+            swipeBackLayout.setEnableGesture(enable);
         }
     }
 
     @Override
     public void finishActivity() {
-        if (getSwipeBackLayout() != null) {
+        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
+        if (swipeBackLayout != null) {
             ViewUtils.convertActivityToTranslucent(this);
-            getSwipeBackLayout().finishActivity();
+            swipeBackLayout.finishActivity();
         }
     }
 

@@ -62,7 +62,7 @@ public interface BaseListener extends View.OnClickListener {
      * @param <T> 泛型，继承View
      * @return 视图或null
      */
-    <T extends View> T findViewWithId(int id);
+    <T extends View> T findViewByIdRes(int id);
 
     /**
      * 获取消息处理器

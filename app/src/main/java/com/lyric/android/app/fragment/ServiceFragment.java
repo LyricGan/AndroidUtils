@@ -38,10 +38,10 @@ public class ServiceFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        findViewWithId(R.id.btn_start_service).setOnClickListener(this);
-        findViewWithId(R.id.btn_stop_service).setOnClickListener(this);
-        findViewWithId(R.id.btn_bind_service).setOnClickListener(this);
-        findViewWithId(R.id.btn_unbind_service).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_start_service).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_stop_service).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_bind_service).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_unbind_service).setOnClickListener(this);
     }
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
