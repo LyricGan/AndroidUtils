@@ -2,19 +2,22 @@ package com.lyric.android.app.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseActivity;
 
-public class MainDetailsActivity extends AppCompatActivity {
+public class MainDetailsActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+    public int getLayoutId() {
+        return R.layout.activity_details;
+    }
 
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+    @Override
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);

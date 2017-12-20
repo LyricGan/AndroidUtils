@@ -14,7 +14,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +23,13 @@ import android.widget.PopupWindow;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.PraiseFragment;
 import com.lyric.android.app.fragment.ServiceFragment;
 import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
-import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.utils.DisplayUtils;
@@ -43,16 +42,18 @@ import java.util.List;
  * @author lyricgan
  * @time 2016/1/19 17:47
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
     private ImageView ivUserAvatar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
+    @Override
+    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
@@ -177,6 +178,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
     }
 
+    private void updateAvatarView(Bitmap bitmap) {
+        if (bitmap != null) {
+            ivUserAvatar.setImageBitmap(bitmap);
+        }
+    }
+
     private void setupDrawerContent(NavigationView navigationView) {
         ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
         ivUserAvatar.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_options_01:
-                        ActivityUtils.startActivity(MainActivity.this, SplashActivity.class);
                         break;
                     case R.id.nav_options_02:
                         break;
@@ -206,14 +212,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 menuItem.setChecked(true);
+                if (mDrawerLayout != null) {
+                    mDrawerLayout.closeDrawers();
+                }
                 return true;
             }
         });
-    }
-
-    private void updateAvatarView(Bitmap bitmap) {
-        if (bitmap != null) {
-            ivUserAvatar.setImageBitmap(bitmap);
-        }
     }
 }

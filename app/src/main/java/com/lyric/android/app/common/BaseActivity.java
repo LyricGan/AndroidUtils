@@ -7,10 +7,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends FragmentActivity implements BaseListener, SwipeBackActivityBase {
+public abstract class BaseActivity extends AppCompatActivity implements BaseListener, SwipeBackActivityBase {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
@@ -164,11 +164,6 @@ public abstract class BaseActivity extends FragmentActivity implements BaseListe
         mDestroy = true;
         super.onDestroy();
         loggingMessage("onDestroy");
-
-        Handler handler = getHandler();
-        if (handler != null && handler.getLooper() != null) {
-            handler.getLooper().quit();
-        }
     }
 
     protected boolean isDestroy() {

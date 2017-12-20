@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
+import com.lyric.android.app.utils.ActivityUtils;
 
 /**
  * 启动页面
@@ -17,7 +18,7 @@ import com.lyric.android.app.common.BaseActivity;
 public class SplashActivity extends BaseActivity {
     private static final int WHAT_START = 0x1001;
     // 延迟加载时间
-    private static final long DELAY_MILLIS = 3000L;
+    private static final long DELAY_MILLIS = 2000L;
     // 启动时间
     private long mStartTime;
 
@@ -89,6 +90,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void jumpPage() {
+        ActivityUtils.startActivity(this, MainActivity.class);
         finish();
     }
 }
