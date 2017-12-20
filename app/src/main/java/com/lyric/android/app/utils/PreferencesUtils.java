@@ -14,15 +14,23 @@ public class PreferencesUtils {
     private PreferencesUtils() {
     }
 
-    public static SharedPreferences getSharedPreferences(Context context) {
+    public static SharedPreferences.Editor getEditor(Context context, String name) {
+        return getEditor(context, name, Context.MODE_PRIVATE);
+    }
+
+    public static SharedPreferences.Editor getEditor(Context context, String name, int mode) {
+        return getPreferences(context, name, mode).edit();
+    }
+
+    public static SharedPreferences getPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static SharedPreferences getSharedPreferences(Context context, String name) {
-        return context.getSharedPreferences(name, Context.MODE_PRIVATE);
+    public static SharedPreferences getPreferences(Context context, String name) {
+        return getPreferences(context, name, Context.MODE_PRIVATE);
     }
 
-    public static SharedPreferences getSharedPreferences(Context context, String name, int mode) {
+    public static SharedPreferences getPreferences(Context context, String name, int mode) {
         return context.getSharedPreferences(name, mode);
     }
 }

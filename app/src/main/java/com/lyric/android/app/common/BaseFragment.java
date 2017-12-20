@@ -20,7 +20,7 @@ import com.lyric.android.app.utils.ViewUtils;
  * @author lyricgan
  * @time 2017/11/26 13:59
  */
-public abstract class BaseFragment extends Fragment implements BaseListener {
+public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor {
     protected final String TAG = getClass().getName();
     private View mRootView;
     private boolean mViewVisible;

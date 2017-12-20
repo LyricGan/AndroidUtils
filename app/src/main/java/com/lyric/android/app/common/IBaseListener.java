@@ -1,8 +1,6 @@
 package com.lyric.android.app.common;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 
 /**
@@ -10,7 +8,7 @@ import android.view.View;
  * @author lyricgan
  * @version 2015-9-24
  */
-public interface BaseListener extends View.OnClickListener {
+public interface IBaseListener extends View.OnClickListener {
 
     /**
      * 在super.onCreate()之前调用
@@ -63,16 +61,4 @@ public interface BaseListener extends View.OnClickListener {
      * @return 视图或null
      */
     <T extends View> T findViewByIdRes(int id);
-
-    /**
-     * 获取消息处理器
-     * @return 消息处理器
-     */
-    Handler getHandler();
-
-    /**
-     * 处理消息回调
-     * @param msg 消息实体
-     */
-    void handleMessage(Message msg);
 }

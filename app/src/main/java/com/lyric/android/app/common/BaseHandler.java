@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.android.app.common;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -10,14 +10,14 @@ import java.lang.ref.WeakReference;
  * @author lyricgan
  * @time 2016/3/28 16:21
  */
-public class WeakHandler<T> extends Handler {
+public class BaseHandler<T> extends Handler {
     private WeakReference<T> mReference;
 
-    public WeakHandler(T object) {
+    public BaseHandler(T object) {
         this(object, Looper.getMainLooper());
     }
 
-    public WeakHandler(T object, Looper looper) {
+    public BaseHandler(T object, Looper looper) {
         super(looper);
         this.mReference = new WeakReference<>(object);
     }

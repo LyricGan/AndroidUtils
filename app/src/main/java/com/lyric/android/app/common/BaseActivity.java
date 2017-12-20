@@ -25,14 +25,12 @@ import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
 
-import java.lang.ref.WeakReference;
-
 /**
  * Activity基类
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseListener, SwipeBackActivityBase {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, SwipeBackActivityBase {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private LoadingDialog mLoadingDialog;
@@ -352,17 +350,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
     public void handleMessage(Message msg) {
     }
 
-    private static class InnerHandler extends Handler {
-        private WeakReference<BaseListener> mReference;
+    private static class InnerHandler extends BaseHandler<IMessageProcessor> {
 
-        InnerHandler(BaseListener listener) {
-            mReference = new WeakReference<>(listener);
+        InnerHandler(IMessageProcessor object) {
+            super(object);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            BaseListener listener = mReference.get();
+            IMessageProcessor listener = get();
             if (listener != null) {
                 listener.handleMessage(msg);
             }
