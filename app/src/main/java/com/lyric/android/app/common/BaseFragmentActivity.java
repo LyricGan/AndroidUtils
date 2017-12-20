@@ -3,6 +3,7 @@ package com.lyric.android.app.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.lyric.android.app.R;
@@ -16,7 +17,7 @@ public class BaseFragmentActivity extends BaseActivity {
     private static final String EXTRA_FRAGMENT_NAME = "fragment_name";
     private static final String EXTRA_ADD_BACK_STACK = "_add_to_back_stack";
     private static final String EXTRA_NAME = "_name";
-    private BaseFragment mFragment;
+    private Fragment mFragment;
 
     public static Intent newIntent(Context context, Class<?> fragmentClass, boolean isAddToBackStack, String name) {
         Intent intent = new Intent(context, BaseFragmentActivity.class);
@@ -38,7 +39,7 @@ public class BaseFragmentActivity extends BaseActivity {
             String fragmentName = bundle.getString(EXTRA_FRAGMENT_NAME);
             boolean isAddToBackStack = bundle.getBoolean(EXTRA_ADD_BACK_STACK);
             String name = bundle.getString(EXTRA_NAME);
-            BaseFragment fragment = getFragment(this, fragmentName, bundle);
+            Fragment fragment = getFragment(this, fragmentName, bundle);
             if (fragment != null) {
                 addFragment(R.id.fragment_content, fragment, fragmentName, isAddToBackStack, name);
             }
@@ -48,8 +49,10 @@ public class BaseFragmentActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mFragment != null && mFragment.onBackPressed()) {
-            return;
+        if (mFragment != null && mFragment instanceof BaseFragment) {
+            if (((BaseFragment) mFragment).onBackPressed()) {
+                return;
+            }
         }
         super.onBackPressed();
     }

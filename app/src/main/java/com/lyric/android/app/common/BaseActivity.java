@@ -290,32 +290,29 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseList
         }
     }
 
-    public BaseFragment getFragment(Context context, Class<?> fragmentClass, Bundle args) {
+    public Fragment getFragment(Context context, Class<?> fragmentClass, Bundle args) {
         return getFragment(context, fragmentClass.getName(), args);
     }
 
-    public BaseFragment getFragment(Context context, String fragmentName, Bundle args) {
+    public Fragment getFragment(Context context, String fragmentName, Bundle args) {
         Fragment fragment = null;
         try {
             fragment = Fragment.instantiate(context, fragmentName, args);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (fragment instanceof BaseFragment) {
-            return (BaseFragment) fragment;
-        }
-        return null;
+        return fragment;
     }
 
-    public void addFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name) {
+    public void addFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name) {
         commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, false);
     }
 
-    public void replaceFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name) {
+    public void replaceFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name) {
         commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, true);
     }
 
-    private void commitFragment(int containerViewId, BaseFragment fragment, String tag, boolean isAddToBackStack, String name, boolean isReplace) {
+    private void commitFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name, boolean isReplace) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (isReplace) {
