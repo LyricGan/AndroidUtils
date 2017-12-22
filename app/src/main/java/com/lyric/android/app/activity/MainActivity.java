@@ -23,8 +23,8 @@ import android.widget.PopupWindow;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseActivity;
-import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
+import com.lyric.common.BaseActivity;
+import com.lyric.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.PraiseFragment;
 import com.lyric.android.app.fragment.ServiceFragment;

@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseActivity;
+import com.lyric.common.BaseActivity;
 
 public class MainDetailsActivity extends BaseActivity {
 

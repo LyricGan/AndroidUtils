@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.common.BaseFragment;
 import com.lyric.android.app.test.service.TestService;
 import com.lyric.android.app.test.service.TestServiceBinder;
 import com.lyric.android.app.utils.LogUtils;
@@ -63,8 +63,8 @@ public class ServiceFragment extends BaseFragment {
     };
 
     @Override
-    public void onViewClick(View v) {
-        super.onViewClick(v);
+    public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_start_service: {
                 ToastUtils.showShort(AndroidApplication.getContext(), "启动服务");

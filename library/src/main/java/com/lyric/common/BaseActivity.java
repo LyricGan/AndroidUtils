@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.content.Context;
 import android.os.Build;
@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -17,24 +16,16 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.R;
-import com.lyric.android.app.utils.ViewUtils;
-import com.lyric.android.app.widget.LoadingDialog;
-import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
-import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
-import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
+import com.lyric.android.library.R;
 
 /**
  * Activity基类
  * @author lyricgan
  * @time 2016/5/26 13:59
  */
-public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, SwipeBackActivityBase {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
-    private LoadingDialog mLoadingDialog;
-    private SwipeBackActivityHelper mSwipeBackHelper;
 
     private Handler mHandler;
 
@@ -48,15 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         if (bundle != null) {
             onExtrasInitialize(bundle);
         }
-        if (isInjectStatusBar()) {
-            injectStatusBar();
-        }
-        if (isSwipeBackEnable()) {
-            mSwipeBackHelper = new SwipeBackActivityHelper(this);
-            mSwipeBackHelper.onActivityCreate();
-            setSwipeBackEnable(true);
-            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        }
+        onPrepareContentView();
         int layoutId = getLayoutId();
         if (layoutId > 0) {
             setContentView(layoutId);
@@ -85,13 +68,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
 
     @Override
     public void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
-        titleBar.setLeftDrawable(R.drawable.icon_back);
-        titleBar.setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+    }
+
+    protected void onPrepareContentView() {
     }
 
     protected View getContentView() {
@@ -103,15 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    public void onViewClick(View v) {
-    }
-
-    @Override
     public void onClick(View v) {
-        if (ViewUtils.isFastOperated()) {
-            return;
-        }
-        onViewClick(v);
     }
 
     @Override
@@ -121,16 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
 
     @Override
     public View findViewById(int id) {
-        View view = super.findViewById(id);
-        if (view == null) {
-            if (isSwipeBackEnable()) {
-                SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-                if (swipeBackHelper != null) {
-                    return swipeBackHelper.findViewById(id);
-                }
-            }
-        }
-        return view;
+        return super.findViewById(id);
     }
 
     @Override
@@ -178,40 +140,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         return mDestroy;
     }
 
-    protected void showLoadingDialog(CharSequence message) {
-        showLoadingDialog(message, true, false);
+    @Override
+    public void showLoading(CharSequence message) {
+        showLoading("", true);
     }
 
-    protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this);
-        }
-        mLoadingDialog.setMessage(message);
-        mLoadingDialog.setCancelable(cancelable);
-        mLoadingDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
-        mLoadingDialog.show();
+    @Override
+    public void showLoading(CharSequence message, boolean cancelable) {
     }
 
-    protected void hideLoadingDialog() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
-        }
-    }
-
-    protected boolean isInjectStatusBar() {
-        return false;
-    }
-
-    protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_title_bar_bg));
-    }
-
-    protected boolean isSwipeBackEnable() {
-        return false;
-    }
-
-    protected SwipeBackActivityHelper getSwipeBackHelper() {
-        return mSwipeBackHelper;
+    @Override
+    public void hideLoading() {
     }
 
     protected boolean isAutoHideKeyboard() {
@@ -221,46 +160,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (isSwipeBackEnable()) {
-            SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-            if (swipeBackHelper != null) {
-                swipeBackHelper.onPostCreate();
-            }
-        }
-    }
-
-    @Override
-    public SwipeBackLayout getSwipeBackLayout() {
-        SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-        if (swipeBackHelper != null) {
-            return swipeBackHelper.getSwipeBackLayout();
-        }
-        return null;
-    }
-
-    @Override
-    public void setSwipeBackEnable(boolean enable) {
-        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-        if (swipeBackLayout != null) {
-            swipeBackLayout.setEnableGesture(enable);
-        }
-    }
-
-    @Override
-    public void finishActivity() {
-        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
-        if (swipeBackLayout != null) {
-            ViewUtils.convertActivityToTranslucent(this);
-            swipeBackLayout.finishActivity();
-        }
     }
 
     @Override
     public void onBackPressed() {
-        if (isSwipeBackEnable()) {
-            finishActivity();
-            return;
-        }
         super.onBackPressed();
     }
 

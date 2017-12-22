@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.app.Application;
 import android.content.Context;

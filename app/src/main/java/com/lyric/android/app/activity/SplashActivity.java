@@ -7,7 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseActivity;
+import com.lyric.common.BaseActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 
 /**

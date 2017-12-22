@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.os.Handler;
 import android.os.Looper;

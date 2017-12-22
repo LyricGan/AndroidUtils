@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.common.BaseFragment;
 import com.lyric.android.app.widget.praiseview.PraisePopupWindow;
 
 /**
@@ -41,8 +41,8 @@ public class PraiseFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewClick(View v) {
-        super.onViewClick(v);
+    public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.good:
                 good(v);

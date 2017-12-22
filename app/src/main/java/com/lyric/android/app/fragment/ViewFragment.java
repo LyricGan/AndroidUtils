@@ -36,7 +36,7 @@ import android.widget.TextView;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.common.BaseFragment;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.utils.SnapshotUtils;
@@ -127,7 +127,7 @@ public class ViewFragment extends BaseFragment {
         findViewByIdRes(R.id.btn_show_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoadingDialog("");
+                showLoading("");
             }
         });
         HorizontalRatioBar horizontalRatioBar = findViewByIdRes(R.id.horizontal_radio_bar);
@@ -146,8 +146,8 @@ public class ViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewClick(View v) {
-        super.onViewClick(v);
+    public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_start:
                 takeViewCapture(mTabDigitLayout);
@@ -245,7 +245,7 @@ public class ViewFragment extends BaseFragment {
     }
 
     private void createQrCode() {
-        showLoadingDialog("");
+        showLoading("");
         // /data/data/com.lyric.android.app/files/qr_test0001.jpg
         final String filePath = getContext().getFilesDir().getAbsolutePath() + File.separator + "qr_test0001.jpg";
         LogUtils.d(TAG, "filePath:" + filePath);
@@ -262,7 +262,7 @@ public class ViewFragment extends BaseFragment {
                             public void run() {
                                 ivQrcodeImage.setImageBitmap(qrCodeBitmap);
 
-                                hideLoadingDialog();
+                                hideLoading();
                             }
                         });
                     }

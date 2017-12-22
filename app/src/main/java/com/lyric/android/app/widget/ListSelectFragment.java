@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseRecyclerAdapter;
+import com.lyric.common.BaseRecyclerAdapter;
 import com.lyric.android.app.Constants;
 
 import java.io.Serializable;

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.common.BaseFragment;
 
 /**
  * 加载视图页面

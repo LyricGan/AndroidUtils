@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.activity.MainDetailsActivity;
-import com.lyric.android.app.common.BaseRecyclerAdapter;
+import com.lyric.common.BaseRecyclerAdapter;
 import com.lyric.android.app.utils.ActivityUtils;
 
 public class RecyclerViewAdapter extends BaseRecyclerAdapter {

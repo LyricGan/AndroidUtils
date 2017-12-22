@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

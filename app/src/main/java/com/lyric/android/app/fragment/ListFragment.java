@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.adapter.RecyclerViewAdapter;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.common.BaseFragment;
 import com.lyric.android.app.widget.refresh.GraceRefreshLayout;
 import com.lyric.android.app.widget.refresh.OnRefreshListener;
 

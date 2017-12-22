@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +52,7 @@ public interface IBaseListener extends View.OnClickListener {
 	 * 组件点击事件处理
 	 * @param v view
 	 */
-	void onViewClick(View v);
+	void onClick(View v);
 
     /**
      * 通过ID查找视图，泛型处理

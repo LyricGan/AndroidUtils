@@ -1,4 +1,4 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,15 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lyric.android.app.R;
-import com.lyric.android.app.utils.ViewUtils;
+import com.lyric.android.library.R;
 
 /**
  * Fragment基类
  * @author lyricgan
  * @time 2017/11/26 13:59
  */
-public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor {
+public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
     private boolean mViewVisible;
@@ -86,15 +85,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     }
 
     @Override
-    public void onViewClick(View v) {
-    }
-
-    @Override
     public void onClick(View v) {
-        if (ViewUtils.isFastOperated()) {
-            return;
-        }
-        onViewClick(v);
     }
 
     @Override
@@ -173,6 +164,35 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         super.onHiddenChanged(hidden);
     }
 
+    @Override
+    public void showLoading(CharSequence message) {
+        showLoading(message, true);
+    }
+
+    @Override
+    public void showLoading(CharSequence message, boolean cancelable) {
+        BaseActivity activity = (BaseActivity) getActivity();
+        if (activity == null || activity.isFinishing()) {
+            return;
+        }
+        if (!isStatusValid()) {
+            return;
+        }
+        activity.showLoading(message, cancelable);
+    }
+
+    @Override
+    public void hideLoading() {
+        BaseActivity activity = (BaseActivity) getActivity();
+        if (activity == null || activity.isFinishing()) {
+            return;
+        }
+        if (!isStatusValid()) {
+            return;
+        }
+        activity.hideLoading();
+    }
+
     public void setViewVisible(boolean viewVisible) {
         this.mViewVisible = viewVisible;
     }
@@ -184,32 +204,6 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
 
     public boolean isActivityDestroyed() {
         return getActivity() == null;
-    }
-
-    protected void showLoadingDialog(CharSequence message) {
-        showLoadingDialog(message, true, false);
-    }
-
-    protected void showLoadingDialog(CharSequence message, boolean cancelable, boolean canceledOnTouchOutside) {
-        BaseActivity activity = (BaseActivity) getActivity();
-        if (activity == null || activity.isFinishing()) {
-            return;
-        }
-        if (!isStatusValid()) {
-            return;
-        }
-        activity.showLoadingDialog(message, cancelable, canceledOnTouchOutside);
-    }
-
-    protected void hideLoadingDialog() {
-        BaseActivity activity = (BaseActivity) getActivity();
-        if (activity == null || activity.isFinishing()) {
-            return;
-        }
-        if (!isStatusValid()) {
-            return;
-        }
-        activity.hideLoadingDialog();
     }
 
     public boolean isStatusValid() {

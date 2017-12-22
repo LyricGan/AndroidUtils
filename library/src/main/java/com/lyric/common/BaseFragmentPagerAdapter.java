@@ -1,25 +1,25 @@
-package com.lyric.android.app.common;
+package com.lyric.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
 /**
- * fragments页面适配器，可保存和恢复状态
+ * fragments页面适配器
  * @author lyricgan
- * @date 2017/11/28 17:31
+ * @date 2017/11/28 17:32
  */
-public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragments;
     private List<String> mTitles;
 
-    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+    public BaseFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
         this(fm, fragments, null);
     }
 
-    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
+    public BaseFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
         super(fm);
         this.mFragments = fragments;
         this.mTitles = titles;
