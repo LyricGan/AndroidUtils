@@ -2,6 +2,7 @@ package com.lyric.android.app.common;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lyric.android.app.AndroidApplication;
@@ -44,6 +45,8 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
         View titleView = titleBar.getTitleView();
         if (titleView instanceof TitleBar) {
             onTitleBarInitialize((TitleBar) titleView, savedInstanceState);
+        } else if (titleView instanceof Toolbar) {
+            onTitleBarInitialize((Toolbar) titleView, savedInstanceState);
         }
     }
 
@@ -63,6 +66,9 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
                 onBackPressed();
             }
         });
+    }
+
+    protected void onTitleBarInitialize(Toolbar toolbar, Bundle savedInstanceState) {
     }
 
     protected boolean isInjectStatusBar() {
