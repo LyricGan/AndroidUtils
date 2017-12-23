@@ -24,21 +24,17 @@ public class NetworkManager {
     /** 默认写数据超时，120s */
     private static final long WRITE_TIMEOUT = 120L;
 
-    private static volatile NetworkManager mInstance;
     private Retrofit mRetrofit;
 
     private NetworkManager() {
     }
 
+    private static final class NetworkManagerHolder {
+        private static final NetworkManager mInstance = new NetworkManager();
+    }
+
     public static NetworkManager getInstance() {
-        if (mInstance == null) {
-            synchronized (NetworkManager.class) {
-                if (mInstance == null) {
-                    mInstance = new NetworkManager();
-                }
-            }
-        }
-        return mInstance;
+        return NetworkManagerHolder.mInstance;
     }
 
     private OkHttpClient buildDefaultClient() {

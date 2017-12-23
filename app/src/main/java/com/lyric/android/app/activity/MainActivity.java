@@ -23,15 +23,14 @@ import android.widget.PopupWindow;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.common.BaseActivity;
-import com.lyric.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.PraiseFragment;
-import com.lyric.android.app.fragment.ServiceFragment;
 import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
+import com.lyric.common.BaseActivity;
+import com.lyric.common.BaseFragmentStatePagerAdapter;
 import com.lyric.utils.DisplayUtils;
 
 import java.util.Arrays;
@@ -159,13 +158,11 @@ public class MainActivity extends BaseActivity {
         // 设置为可滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        Fragment[] fragments = {ListFragment.newInstance(),
-                ViewFragment.newInstance(), PraiseFragment.newInstance(),
-                ServiceFragment.newInstance(), WebFragment.newInstance()};
+        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(),
+                PraiseFragment.newInstance(), WebFragment.newInstance()};
         List<Fragment> fragmentList = Arrays.asList(fragments);
-        String[] titles = {ListFragment.class.getSimpleName(),
-                ViewFragment.class.getSimpleName(), PraiseFragment.class.getSimpleName(),
-                ServiceFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
+        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(),
+                PraiseFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
         List<String> titleList = Arrays.asList(titles);
         int size = titleList.size();
         for (int i = 0; i < size; i++) {

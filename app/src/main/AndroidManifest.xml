@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <permission
-        android:name="app.permission.TEST_SERVICE"
-        android:protectionLevel="normal"/>
-    <permission
         android:name="app.permission.TEST_PROVIDER_READ"
         android:protectionLevel="normal"/>
     <permission
@@ -56,17 +53,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-
-        <service
-            android:name=".test.service.TestService"
-            android:exported="false"/>
-
-        <service
-            android:name=".test.service.TestRemoteService"
-            android:exported="true"
-            android:permission="app.permission.TEST_SERVICE"
-            android:process=":remote">
-        </service>
 
         <provider
             android:name=".test.TestContentProvider"
