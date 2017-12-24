@@ -34,4 +34,9 @@ public class ImageModule extends AppGlideModule {
     public void registerComponents(Context context, Glide glide, Registry registry) {
         super.registerComponents(context, glide, registry);
     }
+
+    @Override
+    public boolean isManifestParsingEnabled() {
+        return false;
+    }
 }
