@@ -10,6 +10,10 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.util.Util;
+
+import java.io.File;
 
 /**
  * 图片加载器
@@ -72,5 +76,40 @@ public class ImageLoader {
         }
         requestBuilder = requestBuilder.listener(listener);
         requestBuilder.into(view);
+    }
+
+    public void download(Context context, Object model, SimpleTarget<File> target, RequestListener<File> listener) {
+        Glide.with(context).download(model).listener(listener).into(target);
+    }
+
+    public void resumeRequests(Context context) {
+        Glide.with(context).resumeRequests();
+    }
+
+    public void pauseRequests(Context context) {
+        Glide.with(context).pauseRequests();
+    }
+
+    public File getPhotoCacheDir(Context context) {
+        return Glide.getPhotoCacheDir(context);
+    }
+
+    public File getPhotoCacheDir(Context context, String cacheName) {
+        return Glide.getPhotoCacheDir(context, cacheName);
+    }
+
+    public void clearMemory(Context context) {
+        Glide.get(context).clearMemory();
+    }
+
+    public void trimMemory(Context context, int level) {
+        Glide.get(context).trimMemory(level);
+    }
+
+    public void clearDiskCache(Context context) {
+        if (Util.isOnMainThread()) {
+            return;
+        }
+        Glide.get(context).clearDiskCache();
     }
 }
