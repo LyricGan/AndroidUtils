@@ -1,7 +1,10 @@
 package com.lyric.image;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -80,6 +83,18 @@ public class ImageLoader {
 
     public void download(Context context, Object model, SimpleTarget<File> target, RequestListener<File> listener) {
         Glide.with(context).download(model).listener(listener).into(target);
+    }
+
+    public void clear(Context context, View view) {
+        Glide.with(context).clear(view);
+    }
+
+    public void clear(Activity activity, View view) {
+        Glide.with(activity).clear(view);
+    }
+
+    public void clear(Fragment fragment, View view) {
+        Glide.with(fragment).clear(view);
     }
 
     public void resumeRequests(Context context) {
