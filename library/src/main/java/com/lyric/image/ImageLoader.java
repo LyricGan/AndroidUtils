@@ -10,10 +10,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.TransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.util.Util;
 
 import java.io.File;
@@ -37,52 +36,64 @@ public class ImageLoader {
         return ImageLoaderHolder.IMAGE_LOADER;
     }
 
-    public RequestOptions getRequestOptions(int placeholderId) {
-        return getRequestOptions(placeholderId, placeholderId, DiskCacheStrategy.AUTOMATIC, false);
-    }
-
-    /**
-     * 获取图片请求参数配置
-     * @param placeholderId 默认占位图资源ID
-     * @param errorId 异常占位图资源ID
-     * @param diskCacheStrategy 磁盘缓存策略
-     * @param skipMemoryCache 是否启用内存缓存
-     * @return 图片请求参数配置
-     *
-     * @see DiskCacheStrategy
-     * @see DiskCacheStrategy#NONE 表示不缓存任何内容
-     * @see DiskCacheStrategy#RESOURCE 表示只缓存转换过后的图片
-     * @see DiskCacheStrategy#DATA 表示只缓存原始图片
-     * @see DiskCacheStrategy#ALL 表示既缓存原始图片，也缓存转换过后的图片
-     * @see DiskCacheStrategy#AUTOMATIC 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）
-     */
-    public RequestOptions getRequestOptions(int placeholderId, int errorId, DiskCacheStrategy diskCacheStrategy, boolean skipMemoryCache) {
-        return RequestOptions.placeholderOf(placeholderId)
-                .error(errorId)
-                .diskCacheStrategy(diskCacheStrategy)
-                .skipMemoryCache(skipMemoryCache);
-    }
-
     public void load(Context context, Object model, ImageView view) {
-        load(context, model, view, null);
+        load(context, model, view, -1);
+    }
+
+    public void load(Context context, Object model, ImageView view, int placeholderId) {
+        load(context, model, view, ImageRequestOptions.getRequestOptions(placeholderId));
     }
 
     public void load(Context context, Object model, ImageView view, RequestOptions requestOptions) {
-        load(context, model, view, requestOptions, null);
+        load(context, model, view, requestOptions, Drawable.class);
     }
 
-    public void load(Context context, Object model, ImageView view, RequestOptions requestOptions, RequestListener<Drawable> listener) {
-        RequestManager requestManager = Glide.with(context);
-        RequestBuilder<Drawable> requestBuilder = requestManager.load(model);
-        if (requestOptions != null) {
-            requestBuilder = requestBuilder.apply(requestOptions);
-        }
-        requestBuilder = requestBuilder.listener(listener);
+    public void load(Context context, Object model, ImageView view, RequestOptions requestOptions, TransitionOptions<?, ? super Drawable> transitionOptions) {
+        load(context, model, view, requestOptions, Drawable.class, transitionOptions, null);
+    }
+
+    public void load(Context context, Object model, ImageView view, RequestOptions requestOptions, TransitionOptions<?, ? super Drawable> transitionOptions, RequestListener<Drawable> listener) {
+        load(context, model, view, requestOptions, Drawable.class, transitionOptions, listener);
+    }
+
+    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz) {
+        load(context, model, view, requestOptions, clazz, null, null);
+    }
+
+    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz,
+                                    TransitionOptions<?, ? super ResourceType> transitionOptions) {
+        load(context, model, view, requestOptions, clazz, transitionOptions, null);
+    }
+
+    /**
+     * 加载图片
+     * @param context 上下文
+     * @param model 加载资源模型
+     * @param view 视图
+     * @param requestOptions 请求参数
+     * @param clazz 泛型类对象，例如Drawable.class
+     * @param transitionOptions 过渡选项，例如交叉淡入
+     * @param listener 加载监听事件
+     * @param <ResourceType> 泛型类参数类型
+     */
+    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz,
+                                    TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+        RequestBuilder<ResourceType> requestBuilder = getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener);
         requestBuilder.into(view);
     }
 
-    public void download(Context context, Object model, SimpleTarget<File> target, RequestListener<File> listener) {
-        Glide.with(context).download(model).listener(listener).into(target);
+    private <ResourceType> RequestBuilder<ResourceType> getRequestBuilder(Context context, Object model, RequestOptions requestOptions, Class<ResourceType> clazz,
+                                                                          TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+        RequestManager requestManager = Glide.with(context);
+        RequestBuilder<ResourceType> requestBuilder = requestManager.as(clazz).load(model);
+        if (requestOptions != null) {
+            requestBuilder = requestBuilder.apply(requestOptions);
+        }
+        if (transitionOptions != null) {
+            requestBuilder = requestBuilder.transition(transitionOptions);
+        }
+        requestBuilder = requestBuilder.listener(listener);
+        return requestBuilder;
     }
 
     public void clear(Context context, View view) {
@@ -103,6 +114,10 @@ public class ImageLoader {
 
     public void pauseRequests(Context context) {
         Glide.with(context).pauseRequests();
+    }
+
+    public Context getContext(Context context) {
+        return Glide.get(context).getContext();
     }
 
     public File getPhotoCacheDir(Context context) {
