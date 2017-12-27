@@ -12,4 +12,5 @@ public interface Constants {
     String BASE_URL = "https://api.github.com";
 
     String EXTRAS_DATA = "_data";
+    String EXTRAS_URL = "_url";
 }

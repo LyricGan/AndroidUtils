@@ -24,7 +24,6 @@ import android.widget.PopupWindow;
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.fragment.ListFragment;
-import com.lyric.android.app.fragment.PraiseFragment;
 import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
@@ -158,11 +157,9 @@ public class MainActivity extends BaseActivity {
         // 设置为可滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(),
-                PraiseFragment.newInstance(), WebFragment.newInstance()};
+        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance("https://www.baidu.com/")};
+        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
         List<Fragment> fragmentList = Arrays.asList(fragments);
-        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(),
-                PraiseFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
         List<String> titleList = Arrays.asList(titles);
         int size = titleList.size();
         for (int i = 0; i < size; i++) {

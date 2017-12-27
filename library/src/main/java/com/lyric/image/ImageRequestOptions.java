@@ -1,5 +1,6 @@
 package com.lyric.image;
 
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -11,13 +12,19 @@ import com.bumptech.glide.request.RequestOptions;
 public class ImageRequestOptions extends RequestOptions {
 
     public static RequestOptions getRequestOptions(int placeholderId) {
-        return getRequestOptions(placeholderId, placeholderId, DiskCacheStrategy.AUTOMATIC, false);
+        return getRequestOptions(placeholderId, placeholderId, placeholderId);
+    }
+
+    public static RequestOptions getRequestOptions(int placeholderId, int errorId, int fallbackId) {
+        return getDefaultRequestOptions().placeholder(placeholderId).error(errorId).fallback(fallbackId);
+    }
+
+    public static RequestOptions getDefaultRequestOptions() {
+        return getRequestOptions(DiskCacheStrategy.AUTOMATIC, false, DecodeFormat.PREFER_RGB_565);
     }
 
     /**
      * 获取图片请求参数配置
-     * @param placeholderId 默认占位图资源ID
-     * @param errorId 异常占位图资源ID
      * @param diskCacheStrategy 磁盘缓存策略
      * @param skipMemoryCache 是否启用内存缓存
      * @return 图片请求参数配置
@@ -29,10 +36,9 @@ public class ImageRequestOptions extends RequestOptions {
      * @see DiskCacheStrategy#ALL 表示既缓存原始图片，也缓存转换过后的图片
      * @see DiskCacheStrategy#AUTOMATIC 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）
      */
-    public static RequestOptions getRequestOptions(int placeholderId, int errorId, DiskCacheStrategy diskCacheStrategy, boolean skipMemoryCache) {
-        return RequestOptions.placeholderOf(placeholderId)
-                .error(errorId)
-                .diskCacheStrategy(diskCacheStrategy)
-                .skipMemoryCache(skipMemoryCache);
+    public static RequestOptions getRequestOptions(DiskCacheStrategy diskCacheStrategy, boolean skipMemoryCache, DecodeFormat decodeFormat) {
+        return RequestOptions.diskCacheStrategyOf(diskCacheStrategy)
+                .skipMemoryCache(skipMemoryCache)
+                .format(decodeFormat);
     }
 }

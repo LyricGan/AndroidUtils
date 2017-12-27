@@ -18,7 +18,7 @@ import com.lyric.android.app.R;
  * @time 2016/6/23 11:20
  */
 public class WebLayout extends RelativeLayout {
-    private WebCompatView mWebView;
+    private WebViewCompat mWebView;
     private ProgressBar mProgressLoading;
 
     public WebLayout(Context context) {
@@ -36,7 +36,7 @@ public class WebLayout extends RelativeLayout {
 
     private void initialize(Context context) {
         View rootView = View.inflate(context, R.layout.view_web_layout, this);
-        mWebView = (WebCompatView) rootView.findViewById(R.id.web_view);
+        mWebView = (WebViewCompat) rootView.findViewById(R.id.web_view);
         mProgressLoading = (ProgressBar) rootView.findViewById(R.id.progress_loading);
 
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -64,7 +64,19 @@ public class WebLayout extends RelativeLayout {
         mWebView.setWebDebuggingEnabled(Constants.DEBUG);
     }
 
-    public WebCompatView getWebView() {
+    public WebViewCompat getWebView() {
         return mWebView;
+    }
+
+    public void loadUrl(String url) {
+        mWebView.loadUrl(url);
+    }
+
+    public boolean onBackPressed() {
+        return mWebView.onBackPressed();
+    }
+
+    public void destroy() {
+        mWebView.destroy();
     }
 }

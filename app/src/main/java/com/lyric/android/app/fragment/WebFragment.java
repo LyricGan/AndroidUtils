@@ -1,8 +1,10 @@
 package com.lyric.android.app.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.lyric.android.app.Constants;
 import com.lyric.android.app.R;
 import com.lyric.common.BaseFragment;
 import com.lyric.android.app.widget.WebLayout;
@@ -15,11 +17,20 @@ import com.lyric.android.app.widget.WebLayout;
 public class WebFragment extends BaseFragment {
     private WebLayout mWebLayout;
 
-    public static WebFragment newInstance() {
+    private String mUrl;
+
+    public static WebFragment newInstance(String url) {
         Bundle args = new Bundle();
+        args.putString(Constants.EXTRAS_URL, url);
         WebFragment fragment = new WebFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onExtrasInitialize(Bundle bundle) {
+        super.onExtrasInitialize(bundle);
+        mUrl = bundle.getString(Constants.EXTRAS_URL);
     }
 
     @Override
@@ -35,24 +46,21 @@ public class WebFragment extends BaseFragment {
     @Override
     public void onDataInitialize(Bundle savedInstanceState) {
         super.onDataInitialize(savedInstanceState);
-        mWebLayout.getWebView().loadUrl("https://github.com");
+        if (!TextUtils.isEmpty(mUrl)) {
+            mWebLayout.loadUrl(mUrl);
+        }
     }
 
     @Override
     public boolean onBackPressed() {
-        if (mWebLayout != null && mWebLayout.getWebView() != null) {
-            if (mWebLayout.getWebView().onBackPressed()) {
-                return true;
-            }
-        }
-        return super.onBackPressed();
+        return (mWebLayout != null && mWebLayout.onBackPressed()) || super.onBackPressed();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mWebLayout != null && mWebLayout.getWebView() != null) {
-            mWebLayout.getWebView().destroy();
+        if (mWebLayout != null) {
+            mWebLayout.destroy();
         }
     }
 }

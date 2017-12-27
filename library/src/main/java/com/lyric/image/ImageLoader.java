@@ -11,14 +11,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.TransitionOptions;
+import com.bumptech.glide.load.engine.bitmap_recycle.ArrayPool;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.util.Util;
 
 import java.io.File;
 
 /**
- * 图片加载器
+ * 图片加载器<br/>
+ * 使用第三方开源库Glide来做图片的加载请求
  *
  * @author lyricgan
  * @date 17/12/23 下午7:33
@@ -82,6 +86,12 @@ public class ImageLoader {
         requestBuilder.into(view);
     }
 
+    public <ResourceType> Target<ResourceType> load(Context context, Object model, Target<ResourceType> target, RequestOptions requestOptions, Class<ResourceType> clazz,
+                                                                TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+        RequestBuilder<ResourceType> requestBuilder = getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener);
+        return requestBuilder.into(target);
+    }
+
     private <ResourceType> RequestBuilder<ResourceType> getRequestBuilder(Context context, Object model, RequestOptions requestOptions, Class<ResourceType> clazz,
                                                                           TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
         RequestManager requestManager = Glide.with(context);
@@ -106,6 +116,10 @@ public class ImageLoader {
 
     public void clear(Fragment fragment, View view) {
         Glide.with(fragment).clear(view);
+    }
+
+    public void clear(Context context, Target<?> target) {
+        Glide.with(context).clear(target);
     }
 
     public void resumeRequests(Context context) {
@@ -141,5 +155,13 @@ public class ImageLoader {
             return;
         }
         Glide.get(context).clearDiskCache();
+    }
+
+    public BitmapPool getBitmapPool(Context context) {
+        return Glide.get(context).getBitmapPool();
+    }
+
+    public ArrayPool getArrayPool(Context context) {
+        return Glide.get(context).getArrayPool();
     }
 }

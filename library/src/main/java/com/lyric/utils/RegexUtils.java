@@ -7,13 +7,45 @@ import java.util.regex.Pattern;
 
 /**
  * 正则表达式工具类
+ * <br/>常用的元字符<br/>
+ * <li>. 匹配换行符以外的任意字符</li>
+ * <li>\w 匹配字母或数字或下划线或汉字</li>
+ * <li>\s 匹配任意的空白符</li>
+ * <li>\d 匹配数字</li>
+ * <li>\b 匹配单词的开始或结束</li>
+ * <li>^ 匹配字符串的开始</li>
+ * <li>$ 匹配字符串的结束</li>
+ *
+ * <br/>常用的限定符<br/>
+ * <li>* 重复零次或更多次</li>
+ * <li>+ 重复一次或更多次</li>
+ * <li>? 重复零次或一次</li>
+ * <li>{n} 重复n次</li>
+ * <li>{n,} 重复n次或更多次</li>
+ * <li>{n,m} 重复n到m次</li>
+ *
+ * <br/>常用的反义代码<br/>
+ * <li>\W 匹配任意不是字母，数字，下划线，汉字的字符</li>
+ * <li>\S 匹配任意不是空白符的字符</li>
+ * <li>\D 匹配任意非数字的字符</li>
+ * <li>\B 匹配不是单词开头或结束的位置</li>
+ * <li>[^x] 匹配除了x以外的任意字符</li>
+ * <li>[^aeiou] 匹配除了aeiou这几个字母以外的任意字符</li>
+ *
+ * <br/>常用的分组语法<br/>
+ * <li>(exp) 匹配exp，并捕获文本到自动命名的组里</li>
+ * <li>(?<name>exp) 匹配exp，并捕获文本到名称为name的组里，也可以写成(?'name'exp)</li>
+ * <li>(?:exp) 匹配exp，不捕获匹配的文本，也不给此分组分配组号</li>
+ * <li>(?=exp) 匹配exp前面的位置</li>
+ * <li>(?<=exp) 匹配exp后面的位置</li>
+ * <li>(?!exp) 匹配后面跟的不是exp的位置</li>
+ * <li>(?<!exp) 匹配前面不是exp的位置</li>
+ *
  * @author lyricgan
  * @date 2017/12/21 14:16
  */
 public class RegexUtils {
-    /**
-     * 正则：手机号（简单）
-     */
+    /** 正则：手机号（简单） */
     public static final String REGEX_MOBILE_SIMPLE = "^[1]\\d{10}$";
     /**
      * 正则：手机号（精确）

@@ -17,17 +17,17 @@ import java.lang.reflect.Field;
  * @author lyricgan
  * @time 2016/6/23 10:36
  */
-public class WebCompatView extends WebSecureView {
+public class WebViewCompat extends WebSecureView {
 
-    public WebCompatView(Context context) {
+    public WebViewCompat(Context context) {
         super(context);
     }
 
-    public WebCompatView(Context context, AttributeSet attrs) {
+    public WebViewCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public WebCompatView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public WebViewCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
