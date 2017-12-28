@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.utils.StringUtils;
+import com.lyric.android.app.utils.StringUtils;
 
 /**
  * 自定义水平比例图，比例值可自适应文字

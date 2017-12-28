@@ -1,7 +1,5 @@
 package com.lyric.android.app.utils;
 
-import com.lyric.utils.StringUtils;
-
 import java.util.Random;
 
 /**

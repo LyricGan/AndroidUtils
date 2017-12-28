@@ -1,4 +1,4 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * 字符串工具类
  * 
- * @author ganyu
+ * @author lyricgan
  * @created 2015-05-28
  */
 public class StringUtils {

@@ -17,8 +17,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lyric.utils.StringUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package com.lyric.utils;
+package com.lyric.android.app.utils;
 
 import android.text.TextUtils;
 
@@ -11,7 +11,7 @@ import java.util.Locale;
 /**
  * 时间工具类
  * 
- * @author ganyu
+ * @author lyricgan
  * @created 2014-3-7
  * 
  */

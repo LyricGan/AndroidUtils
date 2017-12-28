@@ -48,7 +48,7 @@ import com.lyric.android.app.widget.PieView;
 import com.lyric.android.app.widget.RingProgressBar;
 import com.lyric.android.app.widget.TabDigitLayout;
 import com.lyric.utils.ImageUtils;
-import com.lyric.utils.StringUtils;
+import com.lyric.android.app.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;

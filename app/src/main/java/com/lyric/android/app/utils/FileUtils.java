@@ -8,8 +8,6 @@ import android.os.StatFs;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.lyric.utils.StringUtils;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;

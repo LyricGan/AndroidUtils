@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,11 +7,11 @@ import android.preference.PreferenceManager;
 /**
  * SharedPreferences工具类
  * @author lyricgan
- * @time 2016/9/30 15:41
+ * @date 2017/12/28 15:26
  */
-public class PreferencesUtils {
+public class PreferencesHelper {
 
-    private PreferencesUtils() {
+    private PreferencesHelper() {
     }
 
     public static SharedPreferences.Editor getEditor(Context context, String name) {

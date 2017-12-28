@@ -1,4 +1,4 @@
-package com.lyric.android.app.utils;
+package com.lyric.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
