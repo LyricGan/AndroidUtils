@@ -80,14 +80,23 @@ public class NetworkManager {
     }
 
     public void execute(final NetworkRequest networkRequest, final NetworkCallback callback) {
+        if (networkRequest == null) {
+            return;
+        }
         getHttpClient().newCall(networkRequest.getRequest()).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                if (callback == null) {
+                    return;
+                }
                 callback.onFailure(networkRequest, e);
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (callback == null) {
+                    return;
+                }
                 if (call.isCanceled()) {
                     callback.onCancel(networkRequest);
                     return;
