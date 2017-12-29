@@ -1,14 +1,17 @@
 package com.lyric.network;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
 import okhttp3.CacheControl;
 import okhttp3.FormBody;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -19,6 +22,9 @@ import okhttp3.RequestBody;
  * @date 2017/12/28 10:30
  */
 public class NetworkRequest {
+    public static final MediaType MEDIA_TYPE_PLAIN = MediaType.parse("text/plain;charset=utf-8");
+    public static final MediaType MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream");
+
     private Request request;
 
     public NetworkRequest(Request request) {
@@ -65,6 +71,22 @@ public class NetworkRequest {
             builder.noCache();
         }
         return builder.build();
+    }
+
+    public static RequestBody buildFileRequestBody(String content) {
+        return RequestBody.create(NetworkRequest.MEDIA_TYPE_STREAM, content);
+    }
+
+    public static RequestBody buildStringRequestBody(String content) {
+        return RequestBody.create(NetworkRequest.MEDIA_TYPE_PLAIN, content);
+    }
+
+    public static RequestBody buildRequestBody(@Nullable MediaType contentType, String content) {
+        return RequestBody.create(contentType, content);
+    }
+
+    public static RequestBody buildRequestBody(final @Nullable MediaType contentType, final File file) {
+        return RequestBody.create(contentType, file);
     }
 
     public static RequestBody buildRequestBody(Map<String, String> params) {

@@ -79,6 +79,31 @@ public class NetworkManager {
         execute(networkRequest, callback);
     }
 
+    public void put(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildPutRequest(url, params, headers, tag));
+        execute(networkRequest, callback);
+    }
+
+    public void patch(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildPatchRequest(url, params, headers, tag));
+        execute(networkRequest, callback);
+    }
+
+    public void head(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildHeadRequest(url, headers, tag));
+        execute(networkRequest, callback);
+    }
+
+    public void delete(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildDeleteRequest(url, headers, tag));
+        execute(networkRequest, callback);
+    }
+
+    public void delete(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildDeleteRequest(url, params, headers, tag));
+        execute(networkRequest, callback);
+    }
+
     public void execute(final NetworkRequest networkRequest, final NetworkCallback callback) {
         if (networkRequest == null) {
             return;

@@ -30,6 +30,14 @@ public class CommonUtils {
     }
 
     /**
+     * 判断是否在子线程
+     * @return true or false
+     */
+    public static boolean isBackgroundThread() {
+        return !isMainThread();
+    }
+
+    /**
      * 判断服务是否已启动
      * @param context Context
      * @param serviceName the service name
