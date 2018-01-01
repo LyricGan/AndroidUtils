@@ -20,7 +20,9 @@ import okio.Source;
 public class FileResponseBody extends ResponseBody {
     private ResponseBody responseBody;
     private FileCallback fileCallback;
+    /** 文件保存路径 */
     private String filePath;
+    /** 文件保存名称 */
     private String fileName;
     private BufferedSource bufferedSource;
 
@@ -64,19 +66,19 @@ public class FileResponseBody extends ResponseBody {
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(new InnerForwardingSource(responseBody.source(), responseBody, fileCallback));
+            bufferedSource = Okio.buffer(new InnerForwardingSource(responseBody.source(), contentLength(), fileCallback));
         }
         return bufferedSource;
     }
 
     private static class InnerForwardingSource extends ForwardingSource {
-        long currentSize = 0L;
-        ResponseBody responseBody;
+        long currentSize;
+        long totalSize;
         FileCallback fileCallback;
 
-        InnerForwardingSource(Source delegate, ResponseBody responseBody, FileCallback fileCallback) {
+        InnerForwardingSource(Source delegate, long totalSize, FileCallback fileCallback) {
             super(delegate);
-            this.responseBody = responseBody;
+            this.totalSize = totalSize;
             this.fileCallback = fileCallback;
         }
 
@@ -84,8 +86,9 @@ public class FileResponseBody extends ResponseBody {
         public long read(@NonNull Buffer sink, long byteCount) throws IOException {
             final long bytesRead = super.read(sink, byteCount);
             currentSize += bytesRead != -1 ? bytesRead : 0;
+
             if (fileCallback != null) {
-                fileCallback.onProgress(responseBody.contentLength(), currentSize, bytesRead == -1);
+                fileCallback.onProgress(totalSize, currentSize, bytesRead == -1);
             }
             return bytesRead;
         }

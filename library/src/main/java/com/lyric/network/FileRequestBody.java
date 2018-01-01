@@ -13,7 +13,7 @@ import okio.Okio;
 import okio.Sink;
 
 /**
- * 文件请求
+ * 文件请求类
  * @author lyricgan
  * @date 17/12/31 下午11:00
  */
@@ -40,28 +40,31 @@ public class FileRequestBody extends RequestBody {
     @Override
     public void writeTo(@NonNull BufferedSink sink) throws IOException {
         if (bufferedSink == null) {
-            bufferedSink = Okio.buffer(sink(sink));
+            bufferedSink = Okio.buffer(new InnerForwardingSink(sink, contentLength(), fileCallback));
         }
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
     }
 
-    private Sink sink(Sink sink) {
-        return new ForwardingSink(sink) {
-            long currentSize = 0L;
-            long totalSize = 0L;
+    private static class InnerForwardingSink extends ForwardingSink {
+        long currentSize;
+        long totalSize;
+        FileCallback fileCallback;
 
-            @Override
-            public void write(@NonNull Buffer source, long byteCount) throws IOException {
-                super.write(source, byteCount);
-                if (totalSize == 0) {
-                    totalSize = contentLength();
-                }
-                currentSize += byteCount;
-                if (fileCallback != null) {
-                    fileCallback.onProgress(totalSize, currentSize, (currentSize == totalSize));
-                }
+        InnerForwardingSink(Sink delegate, long totalSize, FileCallback fileCallback) {
+            super(delegate);
+            this.totalSize = totalSize;
+            this.fileCallback = fileCallback;
+        }
+
+        @Override
+        public void write(@NonNull Buffer source, long byteCount) throws IOException {
+            super.write(source, byteCount);
+            currentSize += byteCount;
+
+            if (fileCallback != null) {
+                fileCallback.onProgress(totalSize, currentSize, (currentSize == totalSize));
             }
-        };
+        }
     }
 }
