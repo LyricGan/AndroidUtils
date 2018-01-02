@@ -9,7 +9,7 @@ import okhttp3.ResponseBody;
  * @author lyricgan
  * @date 2017/12/28 11:29
  */
-public abstract class StringCallback extends BaseCallback<String> {
+public abstract class StringCallback extends BaseResponseCallback<String> {
 
     @Override
     public String parseResponse(ResponseBody responseBody) {

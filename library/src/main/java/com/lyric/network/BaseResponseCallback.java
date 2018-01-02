@@ -6,11 +6,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * 网络请求基础回调接口
+ * 网络请求响应回调接口
  * @author lyricgan
  * @date 2017/12/28 11:04
  */
-public abstract class BaseCallback<T> implements NetworkCallback {
+public abstract class BaseResponseCallback<T> implements NetworkCallback {
 
     @Override
     public void onResponse(NetworkRequest networkRequest, NetworkResponse networkResponse) {

@@ -3,6 +3,7 @@ package com.lyric.network;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,11 @@ public class NetworkManager {
 
     public void delete(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
         NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildDeleteRequest(url, params, headers, tag));
+        execute(networkRequest, callback);
+    }
+
+    public void upload(String url, String name, List<File> files, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback, FileCallback fileCallback) {
+        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildUploadRequest(url, name, files, params, headers, tag, fileCallback));
         execute(networkRequest, callback);
     }
 
