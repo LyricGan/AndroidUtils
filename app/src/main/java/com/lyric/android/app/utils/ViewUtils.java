@@ -14,7 +14,6 @@ import android.text.Spannable;
 import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,13 +21,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -41,26 +36,34 @@ import java.util.Locale;
  * @created 2015-5-28
  */
 public class ViewUtils {
+    /** 上一次操作时间 */
+    private static long sLastOperateTime;
 
-    private ViewUtils() {
+    public static boolean isFastOperated() {
+        return isFastOperated(500L);
+    }
+
+    public static boolean isFastOperated(long maxDelayTimes) {
+        long time = System.currentTimeMillis();
+        long dis = time - sLastOperateTime;
+        if (0 < dis && dis < maxDelayTimes) {
+            return true;
+        }
+        sLastOperateTime = time;
+        return false;
+    }
+
+    public <T extends View> T findViewById(View view, int id) {
+        if (view != null) {
+            return (T) view.findViewById(id);
+        }
+        return null;
     }
 
     public static Resources getResources(Context context) {
         return context.getResources();
     }
 
-    public <T extends View> T findViewWithId(View rootView, int id) {
-        if (rootView == null) {
-            return null;
-        }
-        return (T) rootView.findViewById(id);
-    }
-
-    /**
-     * 设置应用语言
-     * @param context 上下文
-     * @param locale 应用语言
-     */
     public static void setLanguage(Context context, Locale locale) {
         Locale.setDefault(locale);
         Resources resources = getResources(context);
@@ -70,80 +73,9 @@ public class ViewUtils {
         resources.updateConfiguration(config, metrics);
     }
 
-    /**
-     * 获取应用语言
-     * @param context 上下文
-     * @return 应用语言
-     */
     public static Locale getLanguage(Context context) {
         Configuration config = getResources(context).getConfiguration();
         return config.locale;
-    }
-
-    /**
-     * 获取GridView垂直间距
-     * @param gridView GridView
-     * @return 垂直间距
-     */
-    public static int getGridViewVerticalSpacing(GridView gridView) {
-		int verticalSpacing = 0;
-		try {
-            Class<?> cls = Class.forName("android.widget.GridView");
-			Field field = cls.getDeclaredField("mVerticalSpacing");
-			field.setAccessible(true);
-			verticalSpacing = (Integer) field.get(gridView);
-			return verticalSpacing;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return verticalSpacing;
-    }
-
-    /**
-	 * 设置视图及其子视图是否可用
-	 * @param view 视图对象
-	 * @param enabled boolean
-	 */
-	public static void setViewEnabled(View view, boolean enabled) {
-		if (view instanceof ViewGroup) {
-			ViewGroup viewGroup = ((ViewGroup) view);
-			for (int i = 0; i < viewGroup.getChildCount(); i++) {
-				View child = viewGroup.getChildAt(i);
-				if (child instanceof ViewGroup) {
-					setViewEnabled(child, enabled);
-				}
-                if (child != null && (child.isEnabled() != enabled)) {
-                    child.setEnabled(enabled);
-                }
-			}
-		} else {
-			if (view != null && (view.isEnabled() != enabled)) {
-				view.setEnabled(enabled);
-			}
-		}
-	}
-	
-	/**
-	 * 设置视图及其子视图点击事件
-	 * @param view 视图
-	 * @param listener OnClickListener
-	 */
-	public static void setAllViewOnClickListener(View view, OnClickListener listener) {
-        if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup)view;
-            int count = group.getChildCount();
-            for (int i = 0; i < count; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof LinearLayout || child instanceof RelativeLayout) {
-                    setAllViewOnClickListener(child, listener);
-                }
-                if (child instanceof TextView) {
-                    TextView text = (TextView)child;
-                    text.setFocusable(false);
-                }
-                child.setOnClickListener(listener);
-            }
-        }
     }
 
     /**
@@ -484,24 +416,6 @@ public class ViewUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-    }
-
-    private static final long MAX_OPERATE_DELAY_TIME = 500L;
-    /** 上一次点击记录时间 */
-    private static long sLastOperateTime;
-
-    /**
-     * 判断是否对视图快速点击
-     * @return boolean
-     */
-    public static boolean isFastOperated() {
-        long time = System.currentTimeMillis();
-        long dis = time - sLastOperateTime;
-        if (0 < dis && dis < MAX_OPERATE_DELAY_TIME) {
-            return true;
-        }
-        sLastOperateTime = time;
-        return false;
     }
 
     /**
