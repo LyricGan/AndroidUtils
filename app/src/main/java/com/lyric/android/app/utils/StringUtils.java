@@ -613,4 +613,20 @@ public class StringUtils {
         }
         return s;
     }
+
+    /**
+     * 获取拼接后的字符串
+     * @param args 字符串参数
+     * @return 拼接后的字符串
+     */
+    public static String combineString(String... args) {
+        if (args == null || args.length <= 0) {
+            return null;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (String arg : args) {
+            builder.append(arg);
+        }
+        return builder.toString();
+    }
 }
