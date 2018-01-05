@@ -2,12 +2,22 @@ package com.lyric.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.RawRes;
+import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -16,6 +26,10 @@ import java.lang.reflect.Method;
  * @time 2016/3/12 15:04
  */
 public class DisplayUtils {
+
+    public static Resources getResources(Context context) {
+        return context.getResources();
+    }
 
     public static int dip2px(Context context, float dpValue) {
         float scale = getDensity(context);
@@ -36,7 +50,7 @@ public class DisplayUtils {
     }
 
     public static DisplayMetrics getDisplayMetrics(Context context) {
-        return context.getResources().getDisplayMetrics();
+        return getResources(context).getDisplayMetrics();
     }
 
     private static float getDensity(Context context) {
@@ -123,5 +137,49 @@ public class DisplayUtils {
             return new Pair<>(metrics.widthPixels, metrics.heightPixels);
         }
         return null;
+    }
+
+    public static float getDimension(Context context, @DimenRes int id) {
+        return getResources(context).getDimension(id);
+    }
+
+    public static int getDimensionPixelOffset(Context context, @DimenRes int id) {
+        return getResources(context).getDimensionPixelOffset(id);
+    }
+
+    public static int getDimensionPixelSize(Context context, @DimenRes int id) {
+        return getResources(context).getDimensionPixelSize(id);
+    }
+
+    public static String getString(Context context, @StringRes int id) {
+        return getResources(context).getString(id);
+    }
+
+    public static String getString(Context context, @StringRes int id, Object... formatArgs) {
+        return getResources(context).getString(id, formatArgs);
+    }
+
+    public static String[] getStringArray(Context context, @ArrayRes int id) {
+        return getResources(context).getStringArray(id);
+    }
+
+    public static int getColor(Context context, @ColorRes int id) {
+        return getResources(context).getColor(id);
+    }
+
+    public static ColorStateList getColorStateList(Context context, @ColorRes int id) {
+        return getResources(context).getColorStateList(id);
+    }
+
+    public static InputStream openRawResource(Context context, @RawRes int id) {
+        return getResources(context).openRawResource(id);
+    }
+
+    public static InputStream openRawResource(Context context, @RawRes int id, TypedValue value) {
+        return getResources(context).openRawResource(id, value);
+    }
+
+    public static AssetManager getAssets(Context context) {
+        return getResources(context).getAssets();
     }
 }
