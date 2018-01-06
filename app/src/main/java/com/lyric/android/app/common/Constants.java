@@ -1,4 +1,6 @@
-package com.lyric.android.app;
+package com.lyric.android.app.common;
+
+import com.lyric.android.app.BuildConfig;
 
 /**
  * 应用常量接口

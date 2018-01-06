@@ -1,6 +1,6 @@
 package com.lyric.android.app.retrofit.multiple;
 
-import com.lyric.android.app.Constants;
+import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.retrofit.interceptor.HttpLogInterceptor;
 
 import java.io.IOException;

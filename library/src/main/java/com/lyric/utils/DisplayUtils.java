@@ -163,6 +163,10 @@ public class DisplayUtils {
         return getResources(context).getStringArray(id);
     }
 
+    public int[] getIntArray(Context context, @ArrayRes int id) {
+        return getResources(context).getIntArray(id);
+    }
+
     public static int getColor(Context context, @ColorRes int id) {
         return getResources(context).getColor(id);
     }

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.lyric.android.app.Constants;
+import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.R;
 import com.lyric.common.BaseFragment;
 import com.lyric.android.app.widget.WebLayout;

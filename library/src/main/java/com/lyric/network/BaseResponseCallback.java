@@ -22,7 +22,7 @@ public abstract class BaseResponseCallback<T> implements NetworkCallback {
         }
         T result = parseResponse(responseBody);
         if (result == null) {
-            onFailure(networkRequest, new IOException("response parse error"));
+            onFailure(networkRequest, new IOException("response parse error " + responseBody.toString()));
             return;
         }
         onResponse(networkRequest, result);

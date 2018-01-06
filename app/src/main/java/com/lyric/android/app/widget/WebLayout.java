@@ -9,7 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.lyric.android.app.Constants;
+import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.R;
 
 /**
