@@ -1,6 +1,10 @@
 package com.lyric.network;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+
+import com.lyric.common.BaseHandler;
 
 import java.io.IOException;
 
@@ -19,12 +23,12 @@ import okio.Sink;
  */
 public class FileRequestBody extends RequestBody {
     private RequestBody requestBody;
-    private FileCallback fileCallback;
     private BufferedSink bufferedSink;
+    private Handler handler;
 
     public FileRequestBody(RequestBody requestBody, FileCallback fileCallback) {
         this.requestBody = requestBody;
-        this.fileCallback = fileCallback;
+        this.handler = new InnerHandler(fileCallback);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class FileRequestBody extends RequestBody {
     @Override
     public void writeTo(@NonNull BufferedSink sink) throws IOException {
         if (bufferedSink == null) {
-            bufferedSink = Okio.buffer(new InnerForwardingSink(sink, contentLength(), fileCallback));
+            bufferedSink = Okio.buffer(new InnerForwardingSink(sink, contentLength(), handler));
         }
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
@@ -49,12 +53,12 @@ public class FileRequestBody extends RequestBody {
     private static class InnerForwardingSink extends ForwardingSink {
         long currentSize;
         long totalSize;
-        FileCallback fileCallback;
+        Handler handler;
 
-        InnerForwardingSink(Sink delegate, long totalSize, FileCallback fileCallback) {
+        InnerForwardingSink(Sink delegate, long totalSize, Handler handler) {
             super(delegate);
             this.totalSize = totalSize;
-            this.fileCallback = fileCallback;
+            this.handler = handler;
         }
 
         @Override
@@ -62,8 +66,27 @@ public class FileRequestBody extends RequestBody {
             super.write(source, byteCount);
             currentSize += byteCount;
 
+            if (handler != null) {
+                handler.sendMessage(Message.obtain(handler, 0, new FileMessage(totalSize, currentSize, totalSize == currentSize)));
+            }
+        }
+    }
+
+    private static class InnerHandler extends BaseHandler<FileCallback> {
+
+        InnerHandler(FileCallback object) {
+            super(object);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            FileCallback fileCallback = get();
             if (fileCallback != null) {
-                fileCallback.onProgress(totalSize, currentSize, (currentSize == totalSize));
+                FileMessage fileMessage = (FileMessage) msg.obj;
+                if (fileMessage != null) {
+                    fileCallback.onProgress(fileMessage.getTotalSize(), fileMessage.getCurrentSize(), fileMessage.isFinished());
+                }
             }
         }
     }

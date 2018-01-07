@@ -1,6 +1,10 @@
 package com.lyric.network;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+
+import com.lyric.common.BaseHandler;
 
 import java.io.IOException;
 
@@ -19,7 +23,7 @@ import okio.Source;
  */
 public class FileResponseBody extends ResponseBody {
     private ResponseBody responseBody;
-    private FileCallback fileCallback;
+    private Handler handler;
     /** 文件保存路径 */
     private String filePath;
     /** 文件保存名称 */
@@ -28,7 +32,7 @@ public class FileResponseBody extends ResponseBody {
 
     public FileResponseBody(ResponseBody responseBody, FileCallback fileCallback) {
         this.responseBody = responseBody;
-        this.fileCallback = fileCallback;
+        this.handler = new InnerHandler(fileCallback);
     }
 
     public String getFilePath() {
@@ -66,7 +70,7 @@ public class FileResponseBody extends ResponseBody {
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(new InnerForwardingSource(responseBody.source(), contentLength(), fileCallback));
+            bufferedSource = Okio.buffer(new InnerForwardingSource(responseBody.source(), contentLength(), handler));
         }
         return bufferedSource;
     }
@@ -74,12 +78,12 @@ public class FileResponseBody extends ResponseBody {
     private static class InnerForwardingSource extends ForwardingSource {
         long currentSize;
         long totalSize;
-        FileCallback fileCallback;
+        Handler handler;
 
-        InnerForwardingSource(Source delegate, long totalSize, FileCallback fileCallback) {
+        InnerForwardingSource(Source delegate, long totalSize, Handler handler) {
             super(delegate);
             this.totalSize = totalSize;
-            this.fileCallback = fileCallback;
+            this.handler = handler;
         }
 
         @Override
@@ -87,10 +91,29 @@ public class FileResponseBody extends ResponseBody {
             final long bytesRead = super.read(sink, byteCount);
             currentSize += bytesRead != -1 ? bytesRead : 0;
 
-            if (fileCallback != null) {
-                fileCallback.onProgress(totalSize, currentSize, bytesRead == -1);
+            if (handler != null) {
+                handler.sendMessage(Message.obtain(handler, 0, new FileMessage(totalSize, currentSize, bytesRead == -1)));
             }
             return bytesRead;
+        }
+    }
+
+    private static class InnerHandler extends BaseHandler<FileCallback> {
+
+        InnerHandler(FileCallback object) {
+            super(object);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            FileCallback fileCallback = get();
+            if (fileCallback != null) {
+                FileMessage fileMessage = (FileMessage) msg.obj;
+                if (fileMessage != null) {
+                    fileCallback.onProgress(fileMessage.getTotalSize(), fileMessage.getCurrentSize(), fileMessage.isFinished());
+                }
+            }
         }
     }
 }
