@@ -1,10 +1,8 @@
 package com.lyric.android.app.test;
 
+import com.lyric.network.NetworkCallback;
 import com.lyric.network.NetworkManager;
-import com.lyric.network.NetworkRequest;
-import com.lyric.network.StringCallback;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,23 +12,13 @@ import java.util.Map;
  */
 public class Test {
 
-    public static void test(Object tag) {
+    public static void requestNews(Object tag, NetworkCallback callback) {
         // 类型,top(头条，默认),shehui(社会),guonei(国内),guoji(国际),yule(娱乐),tiyu(体育)junshi(军事),keji(科技),caijing(财经),shishang(时尚)
         final String TEST_URL = "http://v.juhe.cn/toutiao/index";
         Map<String, String> params = new HashMap<>();
         params.put("device", "android");
         params.put("key", "f909a4cf8e87f8553c95f6d4989d1559");
         params.put("type", "top");
-        NetworkManager.getInstance().get(TEST_URL, params, tag, new StringCallback() {
-            @Override
-            public void onResponse(NetworkRequest networkRequest, String result) {
-
-            }
-
-            @Override
-            public void onFailure(NetworkRequest networkRequest, IOException e) {
-
-            }
-        });
+        NetworkManager.getInstance().get(TEST_URL, params, tag, callback);
     }
 }
