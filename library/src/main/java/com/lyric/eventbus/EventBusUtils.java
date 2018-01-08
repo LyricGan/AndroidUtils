@@ -1,11 +1,10 @@
-package com.lyric.android.app.eventbus;
+package com.lyric.eventbus;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * EventBus工具类，register()与unregister()需同时使用
+ * 事件总线工具类，register()与unregister()需同时使用
  * @author lyricgan
- * @time 2016/3/30 14:29
  */
 public class EventBusUtils {
 

@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
  * 使用Gson来做数据解析
  *
  * @author lyricgan
- * @date 2017/12/28 11:50
  */
 public class JsonHelper {
     private Gson mGson;
