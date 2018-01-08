@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * RecyclerView适配器基类
  * @author lyricgan
- * @time 2016/8/12 11:51
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;

@@ -1,4 +1,4 @@
-package com.lyric.android.app.listener;
+package com.lyric.android.app.utils;
 
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -6,7 +6,6 @@ import android.view.ViewConfiguration;
 /**
  * 视图双击回调事件
  * @author lyricgan
- * @time 2016/3/14 20:54
  */
 public abstract class OnDoubleClickListener implements View.OnClickListener {
     // ViewConfiguration.getDoubleTapMinTime()

@@ -1,4 +1,4 @@
-package com.lyric.android.app.receiver;
+package com.lyric.android.app.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * 网络状态变化广播接收器
  * @author lyricgan
- * @time 2016/5/14 16:00
  */
 public class NetworkChangedReceiver extends BroadcastReceiver {
     private static final String TAG = NetworkChangedReceiver.class.getSimpleName();

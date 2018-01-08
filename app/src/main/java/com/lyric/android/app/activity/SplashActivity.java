@@ -13,7 +13,6 @@ import com.lyric.android.app.utils.ActivityUtils;
 /**
  * 启动页面
  * @author lyricgan
- * @time 2015/11/2 10:57
  */
 public class SplashActivity extends BaseActivity {
     private static final int WHAT_START = 0x1001;

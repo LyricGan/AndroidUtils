@@ -38,7 +38,6 @@ import java.util.List;
 /**
  * 主页面
  * @author lyricgan
- * @time 2016/1/19 17:47
  */
 public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;

@@ -1,4 +1,4 @@
-package com.lyric.android.app.receiver;
+package com.lyric.android.app.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 /**
  * 短信监听广播，需要注册权限android.permission.RECEIVE_SMS和android.permission.READ_SMS
  * @author lyricgan
- * @date 2017/10/10 9:48
  */
 public class SmsMessageReceiver extends BroadcastReceiver {
     private static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
