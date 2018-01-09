@@ -11,6 +11,7 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.Dispatcher;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -195,11 +196,16 @@ public class NetworkManager {
         return null;
     }
 
-    public void setCookie(String url, Cookie cookie) {
+    public void addCookie(String url, Cookie cookie) {
         if (TextUtils.isEmpty(url) || cookie == null) {
             return;
         }
-        List<Cookie> cookies = getCookies(url);
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        if (httpUrl == null) {
+            return;
+        }
+        CookieJar cookieJar = getHttpClient().cookieJar();
+        List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
         if (cookies == null || cookies.isEmpty()) {
             return;
         }
@@ -207,5 +213,46 @@ public class NetworkManager {
             cookies.remove(cookie);
         }
         cookies.add(cookie);
+        cookieJar.saveFromResponse(httpUrl, cookies);
+    }
+
+    public void clearCookies(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        if (httpUrl == null) {
+            return;
+        }
+        CookieJar cookieJar = getHttpClient().cookieJar();
+        List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
+        if (cookies == null || cookies.isEmpty()) {
+            return;
+        }
+        cookies.clear();
+        cookieJar.saveFromResponse(httpUrl, cookies);
+    }
+
+    public void removeCookie(String url, String cookieName) {
+        if (TextUtils.isEmpty(url) || TextUtils.isEmpty(cookieName)) {
+            return;
+        }
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        if (httpUrl == null) {
+            return;
+        }
+        CookieJar cookieJar = getHttpClient().cookieJar();
+        List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
+        if (cookies == null || cookies.isEmpty()) {
+            return;
+        }
+        Cookie cookie;
+        for (int i = 0; i < cookies.size(); i++) {
+            cookie = cookies.get(i);
+            if (cookie != null && TextUtils.equals(cookieName, cookie.name())) {
+                cookies.remove(cookie);
+            }
+        }
+        cookieJar.saveFromResponse(httpUrl, cookies);
     }
 }
