@@ -449,4 +449,20 @@ public class ViewUtils {
         drawable.addState(new int[]{}, normalDrawable);
         return drawable;
     }
+
+    public static int[] getLocationOnScreen(View view) {
+        int[] outLocation = new int[2];
+        if (view != null) {
+            view.getLocationOnScreen(outLocation);
+        }
+        return outLocation;
+    }
+
+    public static int[] getLocationInWindow(View view) {
+        int[] outLocation = new int[2];
+        if (view != null) {
+            view.getLocationInWindow(outLocation);
+        }
+        return outLocation;
+    }
 }
