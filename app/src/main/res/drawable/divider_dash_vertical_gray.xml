@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="-100dp"
+        android:right="-100dp">
+        <rotate
+            android:drawable="@drawable/divider_dash_horizontal_gray"
+            android:fromDegrees="90"
+            android:visible="true">
+        </rotate>
+    </item>
+</layer-list>
