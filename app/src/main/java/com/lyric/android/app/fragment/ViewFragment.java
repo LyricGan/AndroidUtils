@@ -36,10 +36,11 @@ import android.widget.TextView;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.common.BaseFragment;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.QRCodeUtils;
 import com.lyric.android.app.utils.SnapshotUtils;
+import com.lyric.android.app.utils.SpannableUtils;
+import com.lyric.android.app.utils.StringUtils;
 import com.lyric.android.app.utils.ToastUtils;
 import com.lyric.android.app.widget.CircleProgressBar;
 import com.lyric.android.app.widget.ClashBar;
@@ -47,8 +48,8 @@ import com.lyric.android.app.widget.HorizontalRatioBar;
 import com.lyric.android.app.widget.PieView;
 import com.lyric.android.app.widget.RingProgressBar;
 import com.lyric.android.app.widget.TabDigitLayout;
+import com.lyric.common.BaseFragment;
 import com.lyric.utils.ImageUtils;
-import com.lyric.android.app.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -272,47 +273,44 @@ public class ViewFragment extends BaseFragment {
     }
 
     private void spannableText() {
-        TextView tv_spannable = findViewByIdRes(R.id.tv_spannable);
-        TextView tv_spannable_keywords = findViewByIdRes(R.id.tv_spannable_keywords);
-        TextView tv_spannable_keywords2 = findViewByIdRes(R.id.tv_spannable_keywords2);
-
+        final String testString = "字体测试字体大小一半两倍前景色背景色正常粗体斜体粗斜体下划线删除线x1x2电话邮件网站短信彩信地图X轴综合/bot/bot";
         // 创建一个SpannableString对象
-        SpannableString spannableString = new SpannableString("字体测试字体大小一半两倍前景色背景色正常粗体斜体粗斜体下划线删除线x1x2电话邮件网站短信彩信地图X轴综合/bot/bot");
+        SpannableString source = SpannableUtils.valueOf(testString);
         // 设置项目符号：第一个参数表示项目符号占用的宽度，第二个参数为项目符号的颜色
-        spannableString.setSpan(new BulletSpan(android.text.style.BulletSpan.STANDARD_GAP_WIDTH, Color.GREEN), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new BulletSpan(android.text.style.BulletSpan.STANDARD_GAP_WIDTH, Color.GREEN), 0, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置字体(default,default-bold,monospace,serif,sans-serif)
-        spannableString.setSpan(new TypefaceSpan("monospace"), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new TypefaceSpan("serif"), 2, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new TypefaceSpan("monospace"), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new TypefaceSpan("serif"), 2, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置字体大小（绝对值,单位：像素）
-        spannableString.setSpan(new AbsoluteSizeSpan(20), 4, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(20, true), 6, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 第二个参数boolean dip，如果为true，表示前面的字体大小单位为dip，否则为像素，同上。
+        SpannableUtils.setSubSpan(source, new AbsoluteSizeSpan(20), 4, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new AbsoluteSizeSpan(20, true), 6, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 第二个参数boolean dip，如果为true，表示前面的字体大小单位为dip，否则为像素，同上。
         // 设置字体大小（相对值,单位：像素） 参数表示为默认字体大小的多少倍
-        spannableString.setSpan(new RelativeSizeSpan(0.5f), 8, 10, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 0.5f表示默认字体大小的一半
-        spannableString.setSpan(new RelativeSizeSpan(2.0f), 10, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体大小的两倍
+        SpannableUtils.setSubSpan(source, new RelativeSizeSpan(0.5f), 8, 10, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 0.5f表示默认字体大小的一半
+        SpannableUtils.setSubSpan(source, new RelativeSizeSpan(2.0f), 10, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体大小的两倍
         // 设置字体前景色、背景色
-        spannableString.setSpan(new ForegroundColorSpan(Color.MAGENTA), 12, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new BackgroundColorSpan(Color.CYAN), 15, 18, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new ForegroundColorSpan(Color.MAGENTA), 12, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new BackgroundColorSpan(Color.CYAN), 15, 18, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置字体样式正常，粗体，斜体，粗斜体
-        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), 18, 20, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 20, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 22, 24, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 24, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new StyleSpan(android.graphics.Typeface.NORMAL), 18, 20, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new StyleSpan(android.graphics.Typeface.BOLD), 20, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new StyleSpan(android.graphics.Typeface.ITALIC), 22, 24, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 24, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置下划线、删除线
-        spannableString.setSpan(new UnderlineSpan(), 27, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StrikethroughSpan(), 30, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new UnderlineSpan(), 27, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new StrikethroughSpan(), 30, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置上下标
-        spannableString.setSpan(new SubscriptSpan(), 34, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 下标
-        spannableString.setSpan(new SuperscriptSpan(), 36, 37, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 上标
+        SpannableUtils.setSubSpan(source, new SubscriptSpan(), 34, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 下标
+        SpannableUtils.setSubSpan(source, new SuperscriptSpan(), 36, 37, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 上标
 
         // 超级链接（需要添加setMovementMethod方法附加响应）
-        spannableString.setSpan(new URLSpan("tel:4155551212"), 37, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 电话
-        spannableString.setSpan(new URLSpan("mailto:webmaster@google.com"), 39, 41, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 邮件
-        spannableString.setSpan(new URLSpan("http://www.baidu.com"), 41, 43, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 网络
-        spannableString.setSpan(new URLSpan("sms:4155551212"), 43, 45, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 短信，使用sms:或者smsto:
-        spannableString.setSpan(new URLSpan("mms:4155551212"), 45, 47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //彩信   使用mms:或者mmsto:
-        spannableString.setSpan(new URLSpan("geo:38.899533,-77.036476"), 47, 49, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //地图
+        SpannableUtils.setSubSpan(source, new URLSpan("tel:4155551212"), 37, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 电话
+        SpannableUtils.setSubSpan(source, new URLSpan("mailto:webmaster@google.com"), 39, 41, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 邮件
+        SpannableUtils.setSubSpan(source, new URLSpan("http://www.baidu.com"), 41, 43, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 网络
+        SpannableUtils.setSubSpan(source, new URLSpan("sms:4155551212"), 43, 45, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 短信，使用sms:或者smsto:
+        SpannableUtils.setSubSpan(source, new URLSpan("mms:4155551212"), 45, 47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //彩信   使用mms:或者mmsto:
+        SpannableUtils.setSubSpan(source, new URLSpan("geo:38.899533,-77.036476"), 47, 49, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //地图
         // 设置字体大小（相对值,单位：像素） 参数表示为默认字体宽度的多少倍
-        spannableString.setSpan(new ScaleXSpan(2.0f), 49, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体宽度的两倍，即X轴方向放大为默认字体的两倍，而高度不变
+        SpannableUtils.setSubSpan(source, new ScaleXSpan(2.0f), 49, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体宽度的两倍，即X轴方向放大为默认字体的两倍，而高度不变
 
         // 设置字体（依次包括字体名称，字体大小，字体样式，字体颜色，链接颜色）
 //        ColorStateList color = null;
@@ -325,22 +323,25 @@ public class ViewFragment extends BaseFragment {
 //        }
 //        spannableString.setSpan(new TextAppearanceSpan("monospace", android.graphics.Typeface.BOLD_ITALIC, 30, color, linkColor), 51, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        //设置图片
+        // 设置图片
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher);
         if (drawable != null) {
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
-        spannableString.setSpan(new ImageSpan(drawable), 53, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ImageSpan(getActivity(), R.mipmap.ic_launcher, ImageSpan.ALIGN_BOTTOM), 57, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new ImageSpan(drawable), 53, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new ImageSpan(getActivity(), R.mipmap.ic_launcher, ImageSpan.ALIGN_BOTTOM), 57, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        tv_spannable.setText(spannableString);
+        TextView tv_spannable = findViewByIdRes(R.id.tv_spannable);
+        tv_spannable.setText(source);
         tv_spannable.setMovementMethod(LinkMovementMethod.getInstance());
 
         String keywordString = "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
+        TextView tv_spannable_keywords = findViewByIdRes(R.id.tv_spannable_keywords);
         tv_spannable_keywords.setText(StringUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
 
+        TextView tv_spannable_keywords2 = findViewByIdRes(R.id.tv_spannable_keywords2);
         tv_spannable_keywords2.setText(buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
         tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -350,7 +351,7 @@ public class ViewFragment extends BaseFragment {
         builder.append(action);
         builder.append(" ");
         SpannableString spannableString = new SpannableString(name);
-        spannableString.setSpan(new TextClickableSpan(new TextSpanClickImpl(context), name), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new TextClickableSpan(context, name, new TextSpanClickImpl(context)), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.append(spannableString);
         builder.append(" ");
         builder.append(content);
@@ -365,38 +366,40 @@ public class ViewFragment extends BaseFragment {
         }
 
         @Override
-        public void onClick(String value) {
+        public void onClick(View view, String value) {
             ToastUtils.showShort(mContext, value);
         }
     }
 
     private static class TextClickableSpan extends ClickableSpan implements View.OnClickListener {
-        private ITextSpanClickListener mListener;
+        private Context mContext;
         private String mValue;
+        private ITextSpanClickListener mListener;
 
-        TextClickableSpan(ITextSpanClickListener listener, String value) {
-            mListener = listener;
-            mValue = value;
+        TextClickableSpan(Context context, String value, ITextSpanClickListener listener) {
+            this.mContext = context;
+            this.mValue = value;
+            this.mListener = listener;
         }
 
         @Override
         public void onClick(View view) {
             if (mListener != null) {
-                mListener.onClick(mValue);
+                mListener.onClick(view, mValue);
             }
         }
 
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_blue_loading));
+            ds.setColor(ContextCompat.getColor(mContext, R.color.color_blue_loading));
             ds.setUnderlineText(false);
             ds.clearShadowLayer();
         }
     }
 
-    interface ITextSpanClickListener {
+    public interface ITextSpanClickListener {
 
-        void onClick(String value);
+        void onClick(View view, String value);
     }
 }
