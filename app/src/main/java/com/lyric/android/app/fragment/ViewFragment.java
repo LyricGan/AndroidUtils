@@ -2,9 +2,11 @@ package com.lyric.android.app.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,12 +14,10 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.BulletSpan;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
@@ -26,6 +26,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
+import android.text.style.TextAppearanceSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
@@ -48,6 +49,7 @@ import com.lyric.android.app.widget.HorizontalRatioBar;
 import com.lyric.android.app.widget.PieView;
 import com.lyric.android.app.widget.RingProgressBar;
 import com.lyric.android.app.widget.TabDigitLayout;
+import com.lyric.android.app.widget.TextClickableSpan;
 import com.lyric.common.BaseFragment;
 import com.lyric.utils.ImageUtils;
 
@@ -277,7 +279,7 @@ public class ViewFragment extends BaseFragment {
         // 创建一个SpannableString对象
         SpannableString source = SpannableUtils.valueOf(testString);
         // 设置项目符号：第一个参数表示项目符号占用的宽度，第二个参数为项目符号的颜色
-        SpannableUtils.setSubSpan(source, new BulletSpan(android.text.style.BulletSpan.STANDARD_GAP_WIDTH, Color.GREEN), 0, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableUtils.setSubSpan(source, new BulletSpan(BulletSpan.STANDARD_GAP_WIDTH, Color.GREEN), 0, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置字体(default,default-bold,monospace,serif,sans-serif)
         SpannableUtils.setSubSpan(source, new TypefaceSpan("monospace"), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableUtils.setSubSpan(source, new TypefaceSpan("serif"), 2, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -310,18 +312,18 @@ public class ViewFragment extends BaseFragment {
         SpannableUtils.setSubSpan(source, new URLSpan("mms:4155551212"), 45, 47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //彩信   使用mms:或者mmsto:
         SpannableUtils.setSubSpan(source, new URLSpan("geo:38.899533,-77.036476"), 47, 49, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);     //地图
         // 设置字体大小（相对值,单位：像素） 参数表示为默认字体宽度的多少倍
-        SpannableUtils.setSubSpan(source, new ScaleXSpan(2.0f), 49, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体宽度的两倍，即X轴方向放大为默认字体的两倍，而高度不变
+        SpannableString spannableString = SpannableUtils.setSubSpan(source, new ScaleXSpan(2.0f), 49, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体宽度的两倍，即X轴方向放大为默认字体的两倍，而高度不变
 
         // 设置字体（依次包括字体名称，字体大小，字体样式，字体颜色，链接颜色）
-//        ColorStateList color = null;
-//        ColorStateList linkColor = null;
-//        try {
-//            color = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorAccent));
-//            linkColor = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorPrimary));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        spannableString.setSpan(new TextAppearanceSpan("monospace", android.graphics.Typeface.BOLD_ITALIC, 30, color, linkColor), 51, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ColorStateList color = null;
+        ColorStateList linkColor = null;
+        try {
+            color = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorAccent));
+            linkColor = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorPrimary));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        spannableString.setSpan(new TextAppearanceSpan("monospace", Typeface.BOLD_ITALIC, 30, color, linkColor), 51, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // 设置图片
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher);
@@ -331,75 +333,38 @@ public class ViewFragment extends BaseFragment {
         SpannableUtils.setSubSpan(source, new ImageSpan(drawable), 53, 57, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableUtils.setSubSpan(source, new ImageSpan(getActivity(), R.mipmap.ic_launcher, ImageSpan.ALIGN_BOTTOM), 57, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        TextView tv_spannable = findViewByIdRes(R.id.tv_spannable);
-        tv_spannable.setText(source);
-        tv_spannable.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView tvSpannable = findViewByIdRes(R.id.tv_spannable);
+        tvSpannable.setText(source);
+        tvSpannable.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView tvKeywords = findViewByIdRes(R.id.tv_spannable_keywords);
+        tvKeywords.setText(buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
+        tvKeywords.setHighlightColor(Color.TRANSPARENT);
+        tvKeywords.setMovementMethod(LinkMovementMethod.getInstance());
 
         String keywordString = "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊" +
                 "不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈不是我说哈哈，我也不知道啊";
-        TextView tv_spannable_keywords = findViewByIdRes(R.id.tv_spannable_keywords);
-        tv_spannable_keywords.setText(StringUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
 
-        TextView tv_spannable_keywords2 = findViewByIdRes(R.id.tv_spannable_keywords2);
-        tv_spannable_keywords2.setText(buildString(getActivity(), "回复", "小明", "世界是不平凡的，平凡的是你自己。"));
-        tv_spannable_keywords2.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView tvKeywords2 = findViewByIdRes(R.id.tv_spannable_keywords2);
+        tvKeywords2.setText(StringUtils.matcherText(keywordString, new String[]{"哈哈","不知道"}, getResources().getColor(R.color.colorPrimary)));
     }
 
-    public CharSequence buildString(Context context, String action, String name, String content) {
+    private CharSequence buildString(final Context context, String action, final String name, String content) {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(action);
         builder.append(" ");
         SpannableString spannableString = new SpannableString(name);
-        spannableString.setSpan(new TextClickableSpan(context, name, new TextSpanClickImpl(context)), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int textColor = ContextCompat.getColor(context, R.color.color_blue_loading);
+        spannableString.setSpan(new TextClickableSpan(textColor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showShort(context, name);
+            }
+        }), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.append(spannableString);
         builder.append(" ");
         builder.append(content);
         return builder;
-    }
-
-    private static class TextSpanClickImpl implements ITextSpanClickListener {
-        private Context mContext;
-
-        TextSpanClickImpl(Context context) {
-            this.mContext = context;
-        }
-
-        @Override
-        public void onClick(View view, String value) {
-            ToastUtils.showShort(mContext, value);
-        }
-    }
-
-    private static class TextClickableSpan extends ClickableSpan implements View.OnClickListener {
-        private Context mContext;
-        private String mValue;
-        private ITextSpanClickListener mListener;
-
-        TextClickableSpan(Context context, String value, ITextSpanClickListener listener) {
-            this.mContext = context;
-            this.mValue = value;
-            this.mListener = listener;
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mListener != null) {
-                mListener.onClick(view, mValue);
-            }
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(ContextCompat.getColor(mContext, R.color.color_blue_loading));
-            ds.setUnderlineText(false);
-            ds.clearShadowLayer();
-        }
-    }
-
-    public interface ITextSpanClickListener {
-
-        void onClick(View view, String value);
     }
 }
