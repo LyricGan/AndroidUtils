@@ -26,6 +26,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         decelerateInterpolator = new DecelerateInterpolator(8);
     }
 
+    @Override
     public void scrollHeaderByMove(float moveY) {
         float offsetY = decelerateInterpolator.getInterpolation(moveY / coreProcessor.getMaxHeadHeight() / 2) * moveY / 2;
         // 禁止下拉刷新时下拉不显示头部
@@ -53,6 +54,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
         }
     }
 
+    @Override
     public void scrollFooterByMove(float moveY) {
         float offsetY = decelerateInterpolator.getInterpolation(moveY / coreProcessor.getMaxBottomHeight() / 2) * moveY / 2;
         if (coreProcessor.isPureScrollModeOn() || (!coreProcessor.enableLoadmore() && !coreProcessor.isOverScrollBottomShow())) {
@@ -112,6 +114,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
     /**
      * 1.满足进入刷新的条件或者主动刷新时，把Head位移到刷新位置（当前位置 ~ HeadHeight）
      */
+    @Override
     public void animationHeaderToRefresh() {
         isAnimationHeadToRefresh = true;
         animLayoutByTime(getVisibleHeadHeight(), coreProcessor.getHeadHeight(), animHeadUpListener, new AnimatorListenerAdapter() {
@@ -142,6 +145,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
     /**
      * 2.动画结束或不满足进入刷新状态的条件，收起头部（当前位置 ~ 0）
      */
+    @Override
     public void animationHeaderBack(final boolean isFinishRefresh) {
         isAnimationHeadBack = true;
         if (isFinishRefresh && scrollHeaderLocked && coreProcessor.isEnableKeepIView()) {
@@ -169,6 +173,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
     /**
      * 3.满足进入加载更多的条件或者主动加载更多时，把Footer移到加载更多位置（当前位置 ~ BottomHeight）
      */
+    @Override
     public void animationFooterToLoad() {
         isAnimationBottomToLoad = true;
         animLayoutByTime(getVisibleFootHeight(), coreProcessor.getBottomHeight(), animBottomUpListener, new AnimatorListenerAdapter() {
@@ -200,6 +205,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
     /**
      * 4.加载更多完成或者不满足进入加载更多模式的条件时，收起尾部（当前位置 ~ 0）
      */
+    @Override
     public void animationFooterBack(final boolean isFinishLoading) {
         isAnimationBottomBack = true;
         if (isFinishLoading && scrollFooterLocked && coreProcessor.isEnableKeepIView()) {
@@ -250,6 +256,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
      *
      * @param vy 手指向上滑动速度
      */
+    @Override
     public void animationHeaderHideByVy(int vy) {
         if (isAnimHeadHide) return;
         isAnimHeadHide = true;
@@ -276,6 +283,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
      *
      * @param vy 手指向下滑动的速度
      */
+    @Override
     public void animationFooterHideByVy(int vy) {
         if (isAnimBottomHide) return;
         isAnimBottomHide = true;
@@ -305,6 +313,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
      * @param vy           满足越界条件的手指滑动速度  the finger sliding speed on the screen.
      * @param computeTimes 从满足条件到滚动到顶部总共计算的次数 Calculation times from sliding to top.
      */
+    @Override
     public void animOverScrollTop(float vy, int computeTimes) {
         if (isOverScrollTopLocked) return;
         isOverScrollTopLocked = true;
@@ -342,6 +351,7 @@ public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScro
      * @param vy           满足越界条件的手指滑动速度
      * @param computeTimes 从满足条件到滚动到顶部总共计算的次数
      */
+    @Override
     public void animOverScrollBottom(float vy, int computeTimes) {
         if (isOverScrollBottomLocked) {
             return;
