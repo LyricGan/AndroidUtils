@@ -33,330 +33,36 @@ import java.util.List;
  * 文件工具类
  *
  * @author lyricgan
- * @version 2015-9-14
  */
 public class FileUtils {
     public final static String FILE_EXTENSION_SEPARATOR = ".";
-    /** Byte与Byte的倍数 */
-    public static final int BYTE = 1;
-    /** KB与Byte的倍数 */
-    public static final int KB = 1024;
-    /** MB与Byte的倍数 */
-    public static final int MB = 1048576;
-    /** GB与Byte的倍数 */
-    public static final int GB = 1073741824;
 
-    public enum MemoryUnit {
-        BYTE,
-        KB,
-        MB,
-        GB
+    /**
+     * 文件大小单位
+     * <li>BYTE：Byte与Byte的倍数(1)</li>
+     * <li>KB：KB与Byte的倍数(1024)</li>
+     * <li>MB：MB与Byte的倍数(1048576)</li>
+     * <li>GB：GB与Byte的倍数(1073741824)</li>
+     */
+    public enum Unit {
+        BYTE(1), KB(1024), MB(1048576), GB(1073741824);
+
+        int value;
+
+        Unit(int value) {
+            this.value = value;
+        }
     }
 
     private FileUtils() {
     }
 
     /**
-     * 删除缓存文件
-     * @param context Context
-     */
-    public static void deleteCacheFolder(Context context) {
-        clearCacheFolder(context.getCacheDir(), System.currentTimeMillis());
-    }
-
-    /**
-     * 删除缓存文件
-     * @param dir          文件目录
-     * @param lastModified 时间戳
-     * @return 被删除文件数量
-     */
-    public static int clearCacheFolder(File dir, long lastModified) {
-        int deletedFileCount = 0;
-        if (dir != null && dir.isDirectory()) {
-            for (File file : dir.listFiles()) {
-                if (file.isDirectory()) {
-                    deletedFileCount += clearCacheFolder(file, lastModified);
-                }
-                if (file.lastModified() < lastModified) {
-                    if (file.delete()) {
-                        deletedFileCount++;
-                    }
-                }
-            }
-        }
-        return deletedFileCount;
-    }
-
-    /**
-     * 判断文件是否存在
-     * @param filePath 文件路径
-     * @return boolean
-     */
-    public static boolean isExists(String filePath) {
-        if (!TextUtils.isEmpty(filePath)) {
-            File file = new File(filePath);
-            if (file.exists()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void closeQuietly(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static byte[] readBytes(InputStream in) throws IOException {
-        if (!(in instanceof BufferedInputStream)) {
-            in = new BufferedInputStream(in);
-        }
-        ByteArrayOutputStream out = null;
-        try {
-            out = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) != -1) {
-                out.write(buf, 0, len);
-            }
-        } finally {
-            closeQuietly(out);
-        }
-        return out.toByteArray();
-    }
-
-    public static byte[] readBytes(InputStream in, long skip, long size) throws IOException {
-        ByteArrayOutputStream out = null;
-        try {
-            if (skip > 0) {
-                long skipSize = 0;
-                while (skip > 0 && (skipSize = in.skip(skip)) > 0) {
-                    skip -= skipSize;
-                }
-            }
-            out = new ByteArrayOutputStream();
-            for (int i = 0; i < size; i++) {
-                out.write(in.read());
-            }
-        } finally {
-            closeQuietly(out);
-        }
-        return out.toByteArray();
-    }
-
-    public static String readStr(InputStream in) throws IOException {
-        return readStr(in, "UTF-8");
-    }
-
-    public static String readStr(InputStream in, String charset) throws IOException {
-        if (TextUtils.isEmpty(charset)) {
-            charset = "UTF-8";
-        }
-        if (!(in instanceof BufferedInputStream)) {
-            in = new BufferedInputStream(in);
-        }
-        Reader reader = new InputStreamReader(in, charset);
-        StringBuilder sb = new StringBuilder();
-        char[] buf = new char[1024];
-        int len;
-        while ((len = reader.read(buf)) >= 0) {
-            sb.append(buf, 0, len);
-        }
-        return sb.toString();
-    }
-
-    public static void writeStr(OutputStream out, String str) throws IOException {
-        writeStr(out, str, "UTF-8");
-    }
-
-    public static void writeStr(OutputStream out, String str, String charset) throws IOException {
-        if (TextUtils.isEmpty(charset)) {
-            charset = "UTF-8";
-        }
-        Writer writer = new OutputStreamWriter(out, charset);
-        writer.write(str);
-        writer.flush();
-    }
-
-    public static void copy(InputStream in, OutputStream out) throws IOException {
-        if (!(in instanceof BufferedInputStream)) {
-            in = new BufferedInputStream(in);
-        }
-        if (!(out instanceof BufferedOutputStream)) {
-            out = new BufferedOutputStream(out);
-        }
-        int len = 0;
-        byte[] buffer = new byte[1024];
-        while ((len = in.read(buffer)) != -1) {
-            out.write(buffer, 0, len);
-        }
-        out.flush();
-    }
-
-    public static boolean deleteFileOrDir(File path) {
-        if (path == null || !path.exists()) {
-            return true;
-        }
-        if (path.isFile()) {
-            return path.delete();
-        }
-        File[] files = path.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                deleteFileOrDir(file);
-            }
-        }
-        return path.delete();
-    }
-
-    public static File getCacheDir(Context context) {
-        File file;
-        // 判断SD卡是否存在，或者SD卡不可被移除
-        if (isSdcardExists() || !Environment.isExternalStorageRemovable()) {
-            File externalCacheDir = context.getExternalCacheDir();
-            if (externalCacheDir != null) {
-                file = externalCacheDir;
-            } else {
-                final String defaultSystemFileDir = "Android/data/" + context.getPackageName() + "/cache";
-                file = new File(Environment.getExternalStorageDirectory(), defaultSystemFileDir);
-            }
-        } else {
-            file = context.getCacheDir();
-        }
-        if (file.exists() || file.mkdirs()) {
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-    public static String getCacheDirPath(Context context) {
-        File file = getCacheDir(context);
-        if (file != null) {
-            return file.getPath();
-        }
-        return null;
-    }
-
-    /**
-     * 获取磁盘缓存文件目录
-     * @param context 上下文
-     * @param dirName 路径下目录名称
-     * @return 磁盘缓存文件目录
-     */
-    public static String getCacheDirPath(Context context, String dirName) {
-        File file = getCacheDir(context, dirName);
-        if (file != null && file.exists()) {
-            return file.getPath();
-        }
-        return null;
-    }
-
-    /**
-     * 获取磁盘缓存文件
-     * @param context 上下文
-     * @param dirName 路径下目录名称
-     * @return 磁盘缓存文件
-     */
-    public static File getCacheDir(Context context, String dirName) {
-        File file = null;
-        File cacheDir = getCacheDir(context);
-        if (cacheDir != null && cacheDir.isDirectory()) {
-            file = new File(cacheDir, dirName);
-        }
-        if (file != null && (file.exists() || file.mkdir())) {
-            return file;
-        }
-        return null;
-    }
-
-    /**
-     * 检查磁盘空间是否大于10mb
-     *
-     * @return true 大于
-     */
-    public static boolean isDiskAvailable() {
-        long size = getDiskAvailableSize();
-        return size > 10 * 1024 * 1024; // > 10bm
-    }
-
-    /**
-     * 获取磁盘可用空间
-     *
-     * @return byte 单位 kb
-     */
-    public static long getDiskAvailableSize() {
-        if (!isSdcardExists()) {
-            return 0;
-        }
-        // 取得sdcard文件路径
-        File path = Environment.getExternalStorageDirectory();
-        StatFs stat = new StatFs(path.getAbsolutePath());
-        long blockSize = stat.getBlockSize();
-        long availableBlocks = stat.getAvailableBlocks();
-        return availableBlocks * blockSize;
-    }
-
-    /**
-     * 判断SD卡是否存在
+     * 判断sd卡是否存在
      * @return true or false
      */
     public static boolean isSdcardExists() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
-    }
-
-    public static long getFileOrDirSize(File file) {
-        if (!file.exists()) return 0;
-        if (!file.isDirectory()) return file.length();
-
-        long length = 0;
-        File[] list = file.listFiles();
-        if (list != null) { // 文件夹被删除时, 子文件正在被写入, 文件属性异常返回null.
-            for (File item : list) {
-                length += getFileOrDirSize(item);
-            }
-        }
-
-        return length;
-    }
-
-    /**
-     * 复制文件到指定文件
-     *
-     * @param fromPath 源文件
-     * @param toPath   复制到的文件
-     * @return true 成功，false 失败
-     */
-    public static boolean copy(String fromPath, String toPath) {
-        boolean result = false;
-        File from = new File(fromPath);
-        if (!from.exists()) {
-            return false;
-        }
-        File toFile = new File(toPath);
-        deleteFileOrDir(toFile);
-        File toDir = toFile.getParentFile();
-        if (toDir.exists() || toDir.mkdirs()) {
-            FileInputStream in = null;
-            FileOutputStream out = null;
-            try {
-                in = new FileInputStream(from);
-                out = new FileOutputStream(toFile);
-                copy(in, out);
-                result = true;
-            } catch (Throwable ex) {
-                result = false;
-            } finally {
-                closeQuietly(in);
-                closeQuietly(out);
-            }
-        }
-        return result;
     }
 
     /**
@@ -409,7 +115,7 @@ public class FileUtils {
      * @throws RuntimeException if an error occurs while operator FileWriter
      */
     public static boolean writeFile(String filePath, String content, boolean append) {
-        if (StringUtils.isEmpty(content)) {
+        if (TextUtils.isEmpty(content)) {
             return false;
         }
 
@@ -643,10 +349,9 @@ public class FileUtils {
      *
      * @param filePath file path
      * @return file name from path, not include suffix
-     * @see
      */
     public static String getFileNameWithoutExtension(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return filePath;
         }
         int extenPosi = filePath.lastIndexOf(FILE_EXTENSION_SEPARATOR);
@@ -682,7 +387,7 @@ public class FileUtils {
      * @return file name from path, include suffix
      */
     public static String getFileName(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return filePath;
         }
         int filePosi = filePath.lastIndexOf(File.separator);
@@ -712,7 +417,7 @@ public class FileUtils {
      * @return folder name from path
      */
     public static String getFolderName(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return filePath;
         }
         int filePosi = filePath.lastIndexOf(File.separator);
@@ -742,7 +447,7 @@ public class FileUtils {
      * @return suffix of file from path
      */
     public static String getFileExtension(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return filePath;
         }
         int extensionPos = filePath.lastIndexOf(FILE_EXTENSION_SEPARATOR);
@@ -774,7 +479,7 @@ public class FileUtils {
      */
     public static boolean makeDirs(String filePath) {
         String folderName = getFolderName(filePath);
-        if (StringUtils.isEmpty(folderName)) {
+        if (TextUtils.isEmpty(folderName)) {
             return false;
         }
         File folder = new File(folderName);
@@ -798,7 +503,7 @@ public class FileUtils {
      * @return returns true if file exists
      */
     public static boolean isFileExist(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return false;
         }
         File file = new File(filePath);
@@ -812,7 +517,7 @@ public class FileUtils {
      * @return returns true if directory exists
      */
     public static boolean isFolderExist(String directoryPath) {
-        if (StringUtils.isBlank(directoryPath)) {
+        if (TextUtils.isEmpty(directoryPath)) {
             return false;
         }
         File folder = new File(directoryPath);
@@ -831,7 +536,7 @@ public class FileUtils {
      * @return returns true if delete success
      */
     public static boolean deleteFile(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (TextUtils.isEmpty(path)) {
             return true;
         }
         File file = new File(path);
@@ -854,6 +559,45 @@ public class FileUtils {
         return file.delete();
     }
 
+    public static boolean deleteFile(File file) {
+        if (file == null || !file.exists()) {
+            return true;
+        }
+        if (file.isFile()) {
+            return file.delete();
+        }
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File itemFile : files) {
+                deleteFile(itemFile);
+            }
+        }
+        return file.delete();
+    }
+
+    /**
+     * 删除缓存文件
+     * @param dir 文件目录
+     * @param lastModified 时间戳
+     * @return 被删除文件数量
+     */
+    public static int deleteFolder(File dir, long lastModified) {
+        int deletedFileCount = 0;
+        if (dir != null && dir.isDirectory()) {
+            for (File file : dir.listFiles()) {
+                if (file.isDirectory()) {
+                    deletedFileCount += deleteFolder(file, lastModified);
+                }
+                if (file.lastModified() < lastModified) {
+                    if (file.delete()) {
+                        deletedFileCount++;
+                    }
+                }
+            }
+        }
+        return deletedFileCount;
+    }
+
     /**
      * get file size
      * <ul>
@@ -865,11 +609,220 @@ public class FileUtils {
      * @return returns the length of this file in bytes. returns -1 if the file does not exist.
      */
     public static long getFileSize(String path) {
-        if (StringUtils.isBlank(path)) {
+        if (TextUtils.isEmpty(path)) {
             return -1;
         }
         File file = new File(path);
         return (file.exists() && file.isFile() ? file.length() : -1);
+    }
+
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static byte[] readBytes(InputStream in) throws IOException {
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+        ByteArrayOutputStream out = null;
+        try {
+            out = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) != -1) {
+                out.write(buf, 0, len);
+            }
+        } finally {
+            closeQuietly(out);
+        }
+        return out.toByteArray();
+    }
+
+    public static byte[] readBytes(InputStream in, long skip, long size) throws IOException {
+        ByteArrayOutputStream out = null;
+        try {
+            if (skip > 0) {
+                long skipSize;
+                while (skip > 0 && (skipSize = in.skip(skip)) > 0) {
+                    skip -= skipSize;
+                }
+            }
+            out = new ByteArrayOutputStream();
+            for (int i = 0; i < size; i++) {
+                out.write(in.read());
+            }
+        } finally {
+            closeQuietly(out);
+        }
+        return out.toByteArray();
+    }
+
+    public static String readString(InputStream in, String charset) throws IOException {
+        if (TextUtils.isEmpty(charset)) {
+            charset = "UTF-8";
+        }
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+        Reader reader = new InputStreamReader(in, charset);
+        StringBuilder sb = new StringBuilder();
+        char[] buf = new char[1024];
+        int len;
+        while ((len = reader.read(buf)) >= 0) {
+            sb.append(buf, 0, len);
+        }
+        return sb.toString();
+    }
+
+    public static void writeString(OutputStream out, String str, String charset) throws IOException {
+        if (TextUtils.isEmpty(charset)) {
+            charset = "UTF-8";
+        }
+        Writer writer = new OutputStreamWriter(out, charset);
+        writer.write(str);
+        writer.flush();
+    }
+
+    public static void copy(InputStream in, OutputStream out) throws IOException {
+        if (!(in instanceof BufferedInputStream)) {
+            in = new BufferedInputStream(in);
+        }
+        if (!(out instanceof BufferedOutputStream)) {
+            out = new BufferedOutputStream(out);
+        }
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = in.read(buffer)) != -1) {
+            out.write(buffer, 0, len);
+        }
+        out.flush();
+    }
+
+    public static File getCacheDir(Context context) {
+        File file;
+        // 判断SD卡是否存在，或者SD卡不可被移除
+        if (isSdcardExists() || !Environment.isExternalStorageRemovable()) {
+            File externalCacheDir = context.getExternalCacheDir();
+            if (externalCacheDir != null) {
+                file = externalCacheDir;
+            } else {
+                final String defaultSystemFileDir = "Android/data/" + context.getPackageName() + "/cache";
+                file = new File(Environment.getExternalStorageDirectory(), defaultSystemFileDir);
+            }
+        } else {
+            file = context.getCacheDir();
+        }
+        if (file.exists() || file.mkdirs()) {
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+    public static String getCacheDirPath(Context context) {
+        File file = getCacheDir(context);
+        if (file != null) {
+            return file.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取磁盘缓存文件目录
+     * @param context 上下文
+     * @param dirName 路径下目录名称
+     * @return 磁盘缓存文件目录
+     */
+    public static String getCacheDirPath(Context context, String dirName) {
+        File file = getCacheDir(context, dirName);
+        if (file != null && file.exists()) {
+            return file.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取磁盘缓存文件
+     * @param context 上下文
+     * @param dirName 路径下目录名称
+     * @return 磁盘缓存文件
+     */
+    public static File getCacheDir(Context context, String dirName) {
+        File file = null;
+        File cacheDir = getCacheDir(context);
+        if (cacheDir != null && cacheDir.isDirectory()) {
+            file = new File(cacheDir, dirName);
+        }
+        if (file != null && (file.exists() || file.mkdir())) {
+            return file;
+        }
+        return null;
+    }
+
+    /**
+     * 检查磁盘空间是否大于指定大小
+     * @param availableSize 指定大小，单位为字节
+     * @return true or false
+     */
+    public static boolean isDiskAvailable(long availableSize) {
+        long size = getDiskAvailableSize();
+        return size > availableSize;
+    }
+
+    /**
+     * 获取磁盘可用空间
+     *
+     * @return 磁盘可用空间大小，单位为字节
+     */
+    public static long getDiskAvailableSize() {
+        if (!isSdcardExists()) {
+            return 0;
+        }
+        File path = Environment.getExternalStorageDirectory();
+        StatFs statFs = new StatFs(path.getAbsolutePath());
+        long blockSize = statFs.getBlockSize();
+        long availableBlocks = statFs.getAvailableBlocks();
+        return availableBlocks * blockSize;
+    }
+
+    /**
+     * 复制文件到指定文件
+     *
+     * @param fromPath 源文件
+     * @param toPath   复制到的文件
+     * @return true 成功，false 失败
+     */
+    public static boolean copy(String fromPath, String toPath) {
+        boolean result = false;
+        File from = new File(fromPath);
+        if (!from.exists()) {
+            return false;
+        }
+        File toFile = new File(toPath);
+        deleteFile(toFile);
+        File toDir = toFile.getParentFile();
+        if (toDir.exists() || toDir.mkdirs()) {
+            FileInputStream in = null;
+            FileOutputStream out = null;
+            try {
+                in = new FileInputStream(from);
+                out = new FileOutputStream(toFile);
+                copy(in, out);
+                result = true;
+            } catch (Throwable ex) {
+                result = false;
+            } finally {
+                closeQuietly(in);
+                closeQuietly(out);
+            }
+        }
+        return result;
     }
 
     /**
@@ -966,27 +919,26 @@ public class FileUtils {
      * Context.getExternalFilesDir() --> SDCard/Android/data/应用包名/files/目录，一般放一些长时间保存的数据<br />
      * Context.getExternalCacheDir() --> SDCard/Android/data/应用包名/cache/目录，一般存放临时缓存数据<br />
      * @param file 文件
-     * @return long
+     * @return 文件大小
      * @see Context#getExternalCacheDir()
      * @see Context#getExternalFilesDir(String)
      */
     public static long getFileSize(File file) {
-        long size = 0;
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null && files.length > 0) {
-                for (File childFile : files) {
-                    if (childFile.isDirectory()) {
-                        size += getFileSize(childFile);
-                    } else {
-                        size += childFile.length();
-                    }
-                }
-            }
-        } else {
-            size += file.length();
+        if (!file.exists()) {
+            return 0;
         }
-        return size;
+        if (!file.isDirectory()) {
+            return file.length();
+        }
+        long length = 0;
+        File[] listFiles = file.listFiles();
+        // 文件夹被删除时，子文件正在被写入，文件属性异常返回null
+        if (listFiles != null) {
+            for (File itemFile : listFiles) {
+                length += getFileSize(itemFile);
+            }
+        }
+        return length;
     }
 
     /**
