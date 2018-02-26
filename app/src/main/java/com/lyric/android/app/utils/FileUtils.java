@@ -118,7 +118,6 @@ public class FileUtils {
         if (TextUtils.isEmpty(content)) {
             return false;
         }
-
         FileWriter fileWriter = null;
         try {
             makeDirs(filePath);
