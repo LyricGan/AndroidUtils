@@ -99,7 +99,7 @@ public class FileUtils {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("IOException occurred. ", e);
+                    e.printStackTrace();
                 }
             }
         }
@@ -132,7 +132,7 @@ public class FileUtils {
                 try {
                     fileWriter.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("IOException occurred. ", e);
+                    e.printStackTrace();
                 }
             }
         }
@@ -171,7 +171,7 @@ public class FileUtils {
                 try {
                     fileWriter.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("IOException occurred. ", e);
+                    e.printStackTrace();
                 }
             }
         }
@@ -205,7 +205,7 @@ public class FileUtils {
      * @param filePath the file to be opened for writing.
      * @param stream the input stream
      * @return returns true
-     * @see {@link #writeFile(String, InputStream, boolean)}
+     * @see #writeFile(String, InputStream, boolean)
      */
     public static boolean writeFile(String filePath, InputStream stream) {
         return writeFile(filePath, stream, false);
@@ -230,7 +230,7 @@ public class FileUtils {
      * @param file he file to be opened for writing.
      * @param stream the input stream
      * @return returns true
-     * @see {@link #writeFile(File, InputStream, boolean)}
+     * @see #writeFile(File, InputStream, boolean)
      */
     public static boolean writeFile(File file, InputStream stream) {
         return writeFile(file, stream, false);
@@ -267,7 +267,7 @@ public class FileUtils {
                     o.close();
                     stream.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("IOException occurred. ", e);
+                    e.printStackTrace();
                 }
             }
         }
@@ -282,7 +282,7 @@ public class FileUtils {
      * @throws RuntimeException if an error occurs while operator FileOutputStream
      */
     public static boolean copyFile(String sourceFilePath, String destFilePath) {
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = new FileInputStream(sourceFilePath);
         } catch (FileNotFoundException e) {
@@ -322,7 +322,7 @@ public class FileUtils {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("IOException occurred. ", e);
+                    e.printStackTrace();
                 }
             }
         }
@@ -463,7 +463,7 @@ public class FileUtils {
      * <br/>
      * <ul>
      * <strong>Attentions:</strong>
-     * <li>makeDirs("C:\\Users\\Trinea") can only create users folder</li>
+     * <li>makeDirs("C:\\Users\\Trinea") can only create Users folder</li>
      * <li>makeFolder("C:\\Users\\Trinea\\") can create Trinea folder</li>
      * </ul>
      *
@@ -613,6 +613,43 @@ public class FileUtils {
         }
         File file = new File(path);
         return (file.exists() && file.isFile() ? file.length() : -1);
+    }
+
+    /**
+     * 获取文件夹大小<br/>
+     * Context#getExternalCacheDir() SDCard/Android/data/com.xxx.xxx/cache，存放临时缓存数据<br/>
+     * Context#getExternalFilesDir(String) SDCard/Android/data/com.xxx.xxx/files，存放长时间保存的数据<br/>
+     * Context#getCacheDir() /data/data/com.xxx.xxx/cache<br/>
+     * Context#getFilesDir() /data/data/com.xxx.xxx/files<br/>
+     * @param path 文件路径
+     * @return 文件夹大小
+     * @see Context#getExternalCacheDir()
+     * @see Context#getExternalFilesDir(String)
+     * @see Context#getCacheDir()
+     * @see Context#getFilesDir()
+     */
+    public static long getFolderSize(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return -1;
+        }
+        long size = 0;
+        File file = new File(path);
+        if (!file.exists()) {
+            return 0;
+        }
+        if (file.isDirectory()) {
+            File[] listFiles = file.listFiles();
+            if (listFiles != null && listFiles.length > 0) {
+                for (File childFile : listFiles) {
+                    size += getFolderSize(childFile.getPath());
+                }
+            } else {
+                size += file.length();
+            }
+        } else {
+            size += file.length();
+        }
+        return size;
     }
 
     public static void closeQuietly(Closeable closeable) {
