@@ -1,19 +1,29 @@
 package com.lyric.android.app.test.fresco;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.facebook.binaryresource.FileBinaryResource;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.cache.disk.FileCache;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.io.File;
 
@@ -54,6 +64,27 @@ public class ImageLoader {
         return null;
     }
 
+    public static void downloadImage(final String imageUrl, final OnImageDownloadListener listener) {
+        ImagePipeline imagePipeline = getImagePipelineFactory().getImagePipeline();
+        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imageUrl)).build();
+        DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, null);
+        dataSource.subscribe(new BaseBitmapDataSubscriber() {
+            @Override
+            public void onNewResultImpl(Bitmap bitmap) {
+                if (listener != null) {
+                    listener.onSuccess(imageUrl, bitmap);
+                }
+            }
+
+            @Override
+            public void onFailureImpl(DataSource dataSource) {
+                if (listener != null) {
+                    listener.onFailure();
+                }
+            }
+        }, CallerThreadExecutor.getInstance());
+    }
+
     public static class ImageControllerListener extends BaseControllerListener<ImageInfo> {
 
         public ImageControllerListener() {
@@ -89,5 +120,15 @@ public class ImageLoader {
         public void onRelease(String id) {
             super.onRelease(id);
         }
+    }
+
+    /**
+     * 图片下载监听事件
+     */
+    public interface OnImageDownloadListener {
+
+        void onSuccess(String imageUrl, Bitmap bitmap);
+
+        void onFailure();
     }
 }
