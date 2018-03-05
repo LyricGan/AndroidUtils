@@ -75,15 +75,15 @@ public class FileUtils {
      */
     public static StringBuilder readFile(String filePath, String charsetName) {
         File file = new File(filePath);
-        StringBuilder fileContent = new StringBuilder("");
         if (!file.isFile()) {
             return null;
         }
+        StringBuilder fileContent = new StringBuilder("");
         BufferedReader reader = null;
         try {
             InputStreamReader is = new InputStreamReader(new FileInputStream(file), charsetName);
             reader = new BufferedReader(is);
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 if (!fileContent.toString().equals("")) {
                     fileContent.append("\r\n");
@@ -95,13 +95,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeQuietly(reader);
         }
     }
 
@@ -109,7 +103,7 @@ public class FileUtils {
      * write file
      *
      * @param filePath the file to be opened for writing.
-     * @param content
+     * @param content the content to be write
      * @param append is append, if true, write to the end of file, else clear content of file and write into it
      * @return return false if content is empty, true otherwise
      * @throws RuntimeException if an error occurs while operator FileWriter
@@ -128,13 +122,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeQuietly(fileWriter);
         }
     }
 
@@ -142,7 +130,7 @@ public class FileUtils {
      * write file
      *
      * @param filePath the file to be opened for writing.
-     * @param contentList
+     * @param contentList the content list to be write
      * @param append is append, if true, write to the end of file, else clear content of file and write into it
      * @return return false if contentList is empty, true otherwise
      * @throws RuntimeException if an error occurs while operator FileWriter
@@ -167,13 +155,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeQuietly(fileWriter);
         }
     }
 
@@ -181,8 +163,8 @@ public class FileUtils {
      * write file, the string will be written to the begin of the file
      *
      * @param filePath the file to be opened for writing.
-     * @param content
-     * @return
+     * @param content the content to be write
+     * @return true or false
      */
     public static boolean writeFile(String filePath, String content) {
         return writeFile(filePath, content, false);
@@ -192,8 +174,8 @@ public class FileUtils {
      * write file, the string list will be written to the begin of the file
      *
      * @param filePath the file to be opened for writing.
-     * @param contentList
-     * @return
+     * @param contentList the content list to be write
+     * @return true or false
      */
     public static boolean writeFile(String filePath, List<String> contentList) {
         return writeFile(filePath, contentList, false);
@@ -246,30 +228,23 @@ public class FileUtils {
      * @throws RuntimeException if an error occurs while operator FileOutputStream
      */
     public static boolean writeFile(File file, InputStream stream, boolean append) {
-        OutputStream o = null;
+        OutputStream outputStream = null;
         try {
             makeDirs(file.getAbsolutePath());
-            o = new FileOutputStream(file, append);
+            outputStream = new FileOutputStream(file, append);
             byte data[] = new byte[1024];
             int length = -1;
             while ((length = stream.read(data)) != -1) {
-                o.write(data, 0, length);
+                outputStream.write(data, 0, length);
             }
-            o.flush();
+            outputStream.flush();
             return true;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FileNotFoundException occurred. ", e);
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            if (o != null) {
-                try {
-                    o.close();
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeQuietly(outputStream, stream);
         }
     }
 
@@ -318,13 +293,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeQuietly(reader);
         }
     }
 
@@ -656,6 +625,20 @@ public class FileUtils {
         if (closeable != null) {
             try {
                 closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void closeQuietly(Closeable... closeable) {
+        if (closeable != null) {
+            try {
+                for (Closeable itemCloseable : closeable) {
+                    if (itemCloseable != null) {
+                        itemCloseable.close();
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
