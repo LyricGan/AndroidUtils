@@ -118,10 +118,10 @@
             android:layout_marginTop="20dp"/>
 
         <!--<com.lyric.android.app.widget.MovedCircleView-->
-            <!--android:id="@+id/circle_view"-->
-            <!--android:layout_width="128dp"-->
-            <!--android:layout_height="128dp"-->
-            <!--android:layout_marginTop="20dp"/>-->
+        <!--android:id="@+id/circle_view"-->
+        <!--android:layout_width="128dp"-->
+        <!--android:layout_height="128dp"-->
+        <!--android:layout_marginTop="20dp"/>-->
 
         <com.lyric.android.app.widget.TabDigitLayout
             android:id="@+id/tab_digit_layout"
@@ -279,6 +279,35 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/divider_left_margin"
+            android:orientation="vertical"
+            android:showDividers="beginning|middle|end">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:visibility="gone"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button"/>
         </LinearLayout>
     </LinearLayout>
 
