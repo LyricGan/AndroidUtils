@@ -848,4 +848,35 @@ public class FileUtils {
         }
         return imagePaths;
     }
+
+    /**
+     * 通过图片文件列表获取图片文件目录列表
+     * @param imagePaths 图片文件列表
+     * @return 图片文件目录列表
+     */
+    public static List<File> queryImageDirs(List<String> imagePaths) {
+        if (imagePaths == null || imagePaths.isEmpty()) {
+            return null;
+        }
+        List<File> fileDirs = new ArrayList<>();
+        String imagePath;
+        for (int i = 0; i < imagePaths.size(); i++) {
+            imagePath = imagePaths.get(i);
+            if (TextUtils.isEmpty(imagePath)) {
+                continue;
+            }
+            File file = new File(imagePath);
+            if (!file.exists() || !file.isFile()) {
+                continue;
+            }
+            File fileDir = file.getParentFile();
+            if (fileDir != null && fileDir.exists() && fileDir.isDirectory()) {
+                if (fileDirs.contains(fileDir)) {
+                    continue;
+                }
+                fileDirs.add(fileDir);
+            }
+        }
+        return fileDirs;
+    }
 }

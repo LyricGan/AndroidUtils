@@ -114,6 +114,20 @@ public class Test {
                     internalBuilder.append("internal imagePath:").append(internalImagePaths.get(i)).append("\n");
                 }
                 LogUtils.d("lyricgan", internalBuilder.toString());
+
+                List<File> externalFileDirs = FileUtils.queryImageDirs(externalImagePaths);
+                StringBuilder externalFileDirsBuilder = new StringBuilder("");
+                for (int i = 0; i < externalFileDirs.size(); i++) {
+                    externalFileDirsBuilder.append("external filePath:").append(externalFileDirs.get(i).getPath()).append("\n");
+                }
+                LogUtils.d("lyricgan", externalFileDirsBuilder.toString());
+
+                List<File> internalFileDirs = FileUtils.queryImageDirs(internalImagePaths);
+                StringBuilder internalFileDirsBuilder = new StringBuilder("");
+                for (int i = 0; i < internalFileDirs.size(); i++) {
+                    internalFileDirsBuilder.append("internal filePath:").append(internalFileDirs.get(i).getPath()).append("\n");
+                }
+                LogUtils.d("lyricgan", internalFileDirsBuilder.toString());
             }
         }).start();
     }
