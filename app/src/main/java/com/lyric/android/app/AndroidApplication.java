@@ -2,11 +2,10 @@ package com.lyric.android.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.lyric.android.app.common.Constants;
-import com.lyric.common.BaseApplication;
 import com.lyric.android.app.utils.LogUtils;
+import com.lyric.common.BaseApplication;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -79,7 +78,7 @@ public class AndroidApplication extends BaseApplication {
 
     private void loggingMessage(Activity activity, String lifecycle) {
 	    if (isDebuggable()) {
-            Log.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
+            LogUtils.d(TAG, "activityName:" + activity.getClass().getName() + ",lifecycle:" + lifecycle);
         }
     }
 }

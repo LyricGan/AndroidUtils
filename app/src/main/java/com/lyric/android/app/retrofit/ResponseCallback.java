@@ -1,5 +1,7 @@
 package com.lyric.android.app.retrofit;
 
+import android.support.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,7 +14,7 @@ import retrofit2.Response;
 public abstract class ResponseCallback<T> implements Callback<T> {
 
     @Override
-    public void onResponse(Call<T> call, Response<T> response) {
+    public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
         if (response.isSuccessful()) {
             T responseBody = response.body();
             if (responseBody == null) {
@@ -26,9 +28,8 @@ public abstract class ResponseCallback<T> implements Callback<T> {
     }
 
     @Override
-    public void onFailure(Call<T> call, Throwable t) {
-        String errorMessage = t != null ? t.getMessage() : "";
-        onError(call, buildError(ResponseError.ERROR_REQUEST_FAILED, errorMessage));
+    public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
+        onError(call, buildError(ResponseError.ERROR_REQUEST_FAILED, t.getMessage()));
     }
 
     private ResponseError buildError(int errorCode, String errorMessage) {
