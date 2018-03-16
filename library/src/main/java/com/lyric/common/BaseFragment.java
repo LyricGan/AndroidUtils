@@ -2,6 +2,8 @@ package com.lyric.common;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -139,6 +141,36 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         loggingMessage("onDetach");
     }
 
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        loggingMessage("onAttachFragment");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loggingMessage("onActivityResult(int requestCode, int resultCode, Intent data)");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        loggingMessage("onConfigurationChanged");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        loggingMessage("onSaveInstanceState");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        loggingMessage("onViewStateRestored");
+    }
+
     protected View getRootView() {
         return mRootView;
     }
@@ -223,7 +255,9 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     }
 
     private void loggingMessage(String message) {
-        Log.d(TAG, message);
+        if (BaseApplication.getApplication().isDebuggable()) {
+            Log.d(TAG, message);
+        }
     }
 
     @Override

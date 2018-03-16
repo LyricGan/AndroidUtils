@@ -2,11 +2,9 @@ package com.lyric.android.app.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -26,7 +24,6 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
-import android.text.style.TextAppearanceSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
@@ -60,7 +57,6 @@ import java.util.Random;
 /**
  * 视图测试页面
  * @author lyricgan
- * @date 2017/7/25 14:57
  */
 public class ViewFragment extends BaseFragment {
     private final int[] mRedGradientColors = {0xffff0000, 0xffff6f43, 0xffff0000};
@@ -315,15 +311,15 @@ public class ViewFragment extends BaseFragment {
         SpannableString spannableString = SpannableUtils.setSubSpan(source, new ScaleXSpan(2.0f), 49, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);// 2.0f表示默认字体宽度的两倍，即X轴方向放大为默认字体的两倍，而高度不变
 
         // 设置字体（依次包括字体名称，字体大小，字体样式，字体颜色，链接颜色）
-        ColorStateList color = null;
-        ColorStateList linkColor = null;
-        try {
-            color = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorAccent));
-            linkColor = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorPrimary));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        spannableString.setSpan(new TextAppearanceSpan("monospace", Typeface.BOLD_ITALIC, 30, color, linkColor), 51, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        ColorStateList color = null;
+//        ColorStateList linkColor = null;
+//        try {
+//            color = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorAccent));
+//            linkColor = ColorStateList.createFromXml(getResources(), getResources().getXml(R.color.colorPrimary));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        spannableString.setSpan(new TextAppearanceSpan("monospace", Typeface.BOLD_ITALIC, 30, color, linkColor), 51, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // 设置图片
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher);

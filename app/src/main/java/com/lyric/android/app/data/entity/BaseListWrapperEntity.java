@@ -1,4 +1,4 @@
-package com.lyric.android.app.entity;
+package com.lyric.android.app.data.entity;
 
 import java.util.List;
 

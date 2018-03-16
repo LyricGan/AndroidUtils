@@ -1,11 +1,14 @@
 package com.lyric.common;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -91,6 +94,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        loggingMessage("onNewIntent");
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         loggingMessage("onRestart");
@@ -126,6 +135,54 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         mDestroy = true;
         super.onDestroy();
         loggingMessage("onDestroy");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loggingMessage("onActivityResult(int requestCode, int resultCode, Intent data)");
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        loggingMessage("onAttachedToWindow");
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        loggingMessage("onDetachedFromWindow");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        loggingMessage("onConfigurationChanged");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        loggingMessage("onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState)");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        loggingMessage("onSaveInstanceState(Bundle outState)");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        loggingMessage("onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        loggingMessage("onRestoreInstanceState(Bundle savedInstanceState)");
     }
 
     protected boolean isDestroy() {
@@ -236,7 +293,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     private void loggingMessage(String message) {
-        Log.d(TAG, message);
+        if (BaseApplication.getApplication().isDebuggable()) {
+            Log.d(TAG, message);
+        }
     }
 
     @Override

@@ -10,15 +10,19 @@ import com.lyric.network.NetworkCallback;
 import com.lyric.network.NetworkManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okio.Okio;
 
 /**
  * @author lyricgan
  * @date 2018/1/2 17:35
  */
 public class Test {
+    private static final String TAG = Test.class.getName();
 
     public static void requestNews(Object tag, NetworkCallback callback) {
         // 类型,top(头条，默认),shehui(社会),guonei(国内),guoji(国际),yule(娱乐),tiyu(体育)junshi(军事),keji(科技),caijing(财经),shishang(时尚)
@@ -90,7 +94,7 @@ public class Test {
         if (externalStoragePublicDirectory != null) {
             builder.append("externalStoragePublicDirectory:").append(externalStoragePublicDirectory.getPath()).append("\n");
         }
-        LogUtils.d("lyricgan", builder.toString());
+        LogUtils.d(TAG, builder.toString());
 
         new Thread(new Runnable() {
             @Override
@@ -103,7 +107,7 @@ public class Test {
                 for (int i = 0; i < externalImagePaths.size(); i++) {
                     externalBuilder.append("external imagePath:").append(externalImagePaths.get(i)).append("\n");
                 }
-                LogUtils.d("lyricgan", externalBuilder.toString());
+                LogUtils.d(TAG, externalBuilder.toString());
 
                 List<String> internalImagePaths = FileUtils.queryInternalImages(AndroidApplication.getContext());
                 if (internalImagePaths == null || internalImagePaths.isEmpty()) {
@@ -113,21 +117,52 @@ public class Test {
                 for (int i = 0; i < internalImagePaths.size(); i++) {
                     internalBuilder.append("internal imagePath:").append(internalImagePaths.get(i)).append("\n");
                 }
-                LogUtils.d("lyricgan", internalBuilder.toString());
+                LogUtils.d(TAG, internalBuilder.toString());
 
                 List<File> externalFileDirs = FileUtils.queryImageDirs(externalImagePaths);
                 StringBuilder externalFileDirsBuilder = new StringBuilder("");
                 for (int i = 0; i < externalFileDirs.size(); i++) {
                     externalFileDirsBuilder.append("external filePath:").append(externalFileDirs.get(i).getPath()).append("\n");
                 }
-                LogUtils.d("lyricgan", externalFileDirsBuilder.toString());
+                LogUtils.d(TAG, externalFileDirsBuilder.toString());
 
                 List<File> internalFileDirs = FileUtils.queryImageDirs(internalImagePaths);
                 StringBuilder internalFileDirsBuilder = new StringBuilder("");
                 for (int i = 0; i < internalFileDirs.size(); i++) {
                     internalFileDirsBuilder.append("internal filePath:").append(internalFileDirs.get(i).getPath()).append("\n");
                 }
-                LogUtils.d("lyricgan", internalFileDirsBuilder.toString());
+                LogUtils.d(TAG, internalFileDirsBuilder.toString());
+
+                File cacheFile = FileUtils.getCacheDir(AndroidApplication.getContext());
+                File outFile = null;
+                if (cacheFile != null && cacheFile.isDirectory()) {
+                    outFile = new File(cacheFile.getPath() + File.separator + "output.txt");
+                    if (!outFile.exists()) {
+                        try {
+                            boolean created = outFile.createNewFile();
+                            if (!created) {
+                                return;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                String name = "lyricgan";
+                int age = 25;
+                if (outFile != null && outFile.exists()) {
+                    try {
+                        Okio.buffer(Okio.sink(outFile)).writeUtf8(name).writeUtf8("\n").writeUtf8(Integer.toString(age)).close();
+
+                        String readString = Okio.buffer(Okio.source(outFile)).readUtf8();
+
+                        LogUtils.d(TAG, "readString:" + readString);
+
+                        FileUtils.deleteFile(outFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }).start();
     }

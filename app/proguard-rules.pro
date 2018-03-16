@@ -42,3 +42,7 @@
 
 -keep class android.support.v4.** { *; }
 -keep interface android.support.v4.app.** { *; }
+
+# okio begin
+-dontwarn okio.**
+# okio end

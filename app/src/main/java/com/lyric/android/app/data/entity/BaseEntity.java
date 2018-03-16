@@ -1,13 +1,13 @@
-package com.lyric.android.app.entity;
+package com.lyric.android.app.data.entity;
 
 /**
  * @author lyricgan
- * @time 2016/8/3 11:41
+ * @time 2016/8/3 11:36
  */
-public class BaseListEntity<T> {
+public class BaseEntity<T> {
     private int errorCode;
     private int errorMessage;
-    private BaseListWrapperEntity<T> result;
+    private T result;
 
     public int getErrorCode() {
         return errorCode;
@@ -25,11 +25,11 @@ public class BaseListEntity<T> {
         this.errorMessage = errorMessage;
     }
 
-    public BaseListWrapperEntity<T> getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(BaseListWrapperEntity<T> result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }
