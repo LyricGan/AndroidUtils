@@ -815,6 +815,8 @@ public class FileUtils {
                     imagePaths.add(imagePath);
                 }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         } finally {
             close(cursor);
         }
@@ -843,6 +845,8 @@ public class FileUtils {
                     imagePaths.add(imagePath);
                 }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         } finally {
             close(cursor);
         }

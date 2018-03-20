@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.test.rx.RxIncludes;
 import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.network.NetworkCallback;
@@ -165,5 +166,7 @@ public class Test {
                 }
             }
         }).start();
+
+        RxIncludes.log("hello");
     }
 }

@@ -19,7 +19,7 @@ import com.lyric.android.app.utils.ActivityUtils;
 public class SplashActivity extends BaseActivity {
     private static final int WHAT_START = 0x1001;
     // 延迟加载时间
-    private static final long DELAY_MILLIS = 2000L;
+    private static final long DELAY_MILLIS = 800L;
     // 启动时间
     private long mStartTime;
 

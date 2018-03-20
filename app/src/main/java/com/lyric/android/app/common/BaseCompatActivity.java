@@ -40,7 +40,7 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
     }
 
     @Override
-    public void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
+    public final void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
         super.onTitleBarInitialize(titleBar, savedInstanceState);
         View titleView = titleBar.getTitleView();
         if (titleView instanceof TitleBar) {
