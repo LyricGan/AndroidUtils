@@ -9,14 +9,18 @@ import android.widget.TextView;
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseCompatActivity;
+import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.StringUtils;
 import com.lyric.android.app.utils.ToastUtils;
-import com.lyric.android.app.widget.TitleBar;
 
 /**
  * @author lyricgan
  */
 public class PrizeActivity extends BaseCompatActivity {
+    private EditText edit_top_total;
+    private EditText edit_bottom_total;
+    private EditText edit_name;
+
     private EditText edit_top_01;
     private EditText edit_top_02;
     private EditText edit_top_03;
@@ -41,19 +45,20 @@ public class PrizeActivity extends BaseCompatActivity {
     }
 
     @Override
-    protected void onTitleBarInitialize(TitleBar titleBar, Bundle savedInstanceState) {
-        super.onTitleBarInitialize(titleBar, savedInstanceState);
-    }
-
-    @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+        edit_top_total = findViewByIdRes(R.id.edit_top_total);
+        edit_bottom_total = findViewByIdRes(R.id.edit_bottom_total);
+        edit_name = findViewByIdRes(R.id.edit_name);
+
         edit_top_01 = findViewByIdRes(R.id.edit_top_01);
         edit_top_02 = findViewByIdRes(R.id.edit_top_02);
         edit_top_03 = findViewByIdRes(R.id.edit_top_03);
         edit_top_04 = findViewByIdRes(R.id.edit_top_04);
         edit_top_05 = findViewByIdRes(R.id.edit_top_05);
         edit_top_06 = findViewByIdRes(R.id.edit_top_06);
+
         radio_group_options = findViewByIdRes(R.id.radio_group_options);
+
         edit_bottom_01 = findViewByIdRes(R.id.edit_bottom_01);
         edit_bottom_02 = findViewByIdRes(R.id.edit_bottom_02);
         edit_bottom_03 = findViewByIdRes(R.id.edit_bottom_03);
@@ -61,16 +66,27 @@ public class PrizeActivity extends BaseCompatActivity {
         edit_bottom_05 = findViewByIdRes(R.id.edit_bottom_05);
         edit_bottom_06 = findViewByIdRes(R.id.edit_bottom_06);
         tv_result = findViewByIdRes(R.id.tv_result);
+
+        findViewByIdRes(R.id.btn_record).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_show_all).setOnClickListener(this);
+        findViewByIdRes(R.id.btn_new_page).setOnClickListener(this);
         findViewByIdRes(R.id.btn_left).setOnClickListener(this);
         findViewByIdRes(R.id.btn_right).setOnClickListener(this);
 
-        initData();
+        initViews();
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.btn_record:
+                break;
+            case R.id.btn_show_all:
+                break;
+            case R.id.btn_new_page:
+                ActivityUtils.startActivity(this, PrizeActivity.class);
+                break;
             case R.id.btn_left:
                 printResult();
                 break;
@@ -81,6 +97,10 @@ public class PrizeActivity extends BaseCompatActivity {
     }
 
     private void printResult() {
+        String topTotalString = edit_top_total.getText().toString().trim();
+        String bottomTotalString = edit_bottom_total.getText().toString().trim();
+        String nameString = edit_name.getText().toString().trim();
+
         String top01String = edit_top_01.getText().toString().trim();
         String top02String = edit_top_02.getText().toString().trim();
         String top03String = edit_top_03.getText().toString().trim();
@@ -109,50 +129,74 @@ public class PrizeActivity extends BaseCompatActivity {
         double bottom05Double = StringUtils.parseDouble(bottom05String, 0d);
         double bottom06Double = StringUtils.parseDouble(bottom06String, 0d);
 
-        double totalValue = bottom01Double
-                + bottom02Double
-                + bottom03Double
-                + bottom04Double
-                + bottom05Double
-                + bottom06Double
-                ;
+        double topTotalValue = StringUtils.parseDouble(topTotalString, 0d);
+        double bottomTotalValue = StringUtils.parseDouble(bottomTotalString, 0d);
+
+        double totalValue = (bottom01Double + bottom02Double + bottom03Double) * topTotalValue;
+        double letTotalValue = (bottom04Double + bottom05Double + bottom06Double) * bottomTotalValue;
+
+        double homeWin = top01Double * bottom01Double;
+        double flat = top02Double * bottom02Double;
+        double awayWin = top03Double * bottom03Double;
+
+        double letHomeWin = top04Double * bottom04Double;
+        double letFlat = top05Double * bottom05Double;
+        double letAwayWin = top06Double * bottom06Double;
+
         StringBuilder builder = new StringBuilder();
-        builder.append("总 ").append(totalValue).append("\n");
+        builder.append("场次 ").append(nameString).append("\n");
+        builder.append("胜平负总 ").append(totalValue).append("\t\t").append("让胜平负总 ").append(letTotalValue).append("\n");
+
+        builder.append("\t\t\t\t\t\t主胜\t\t\t\t").append("\t\t\t\t\t\t\t平局\t\t\t\t\t\t").append("\t\t\t\t\t\t客胜\t\t\t\t").append("\n");
+        builder.append("\t\t").append(homeWin).append("(").append(formatDecimals(homeWin / totalValue)).append(")").append("\t\t")
+                .append("\t\t").append(flat).append("(").append(formatDecimals(flat / totalValue)).append(")").append("\t\t")
+                .append("\t\t").append(awayWin).append("(").append(formatDecimals(awayWin / totalValue)).append(")").append("\t\t")
+                .append("\n");
+
+        builder.append("\t\t\t\t\t让主胜\t\t\t\t").append("\t\t\t\t\t让平局\t\t\t\t").append("\t\t\t\t\t让客胜\t\t\t\t").append("\n");
+        builder.append("\t\t").append(letHomeWin).append("(").append(formatDecimals(letHomeWin / letTotalValue)).append(")").append("\t\t")
+                .append("\t\t").append(letFlat).append("(").append(formatDecimals(letFlat / letTotalValue)).append(")").append("\t\t")
+                .append("\t\t").append(letAwayWin).append("(").append(formatDecimals(letAwayWin / letTotalValue)).append(")").append("\t\t")
+                .append("\n")
+                .append("\n");
         double result1 = 0;
         double result2 = 0;
         double result3 = 0;
         double result4 = 0;
         int checkId = radio_group_options.getCheckedRadioButtonId();
         if (checkId == -1) {
-            ToastUtils.showShort(AndroidApplication.getContext(), "请选择让与受让选项");
+            ToastUtils.showShort(AndroidApplication.getContext(), "请选择— +选项");
             return;
         }
+        double allTotalValue = totalValue + letTotalValue;
         switch (checkId) {
             case R.id.radio_left:
-                result1 = top01Double * bottom01Double + top05Double * bottom05Double;
-                result2 = top01Double * bottom01Double + top04Double * bottom04Double;
-                result3 = top02Double * bottom02Double + top06Double * bottom06Double;
-                result4 = top03Double * bottom03Double + top06Double * bottom06Double;
+                result1 = homeWin + letFlat;
+                result2 = homeWin + letHomeWin;
+                result3 = flat + letAwayWin;
+                result4 = awayWin + letAwayWin;
 
-                builder.append("主胜，让球平 \t").append(formatDecimals(result1)).append(" vs ").append(formatDecimals(result1 / totalValue)).append("\n")
-                        .append("主胜，让主胜 \t").append(formatDecimals(result2)).append(" vs ").append(formatDecimals(result2 / totalValue)).append("\n")
-                        .append("平局，让客胜 \t").append(formatDecimals(result3)).append(" vs ").append(formatDecimals(result3 / totalValue)).append("\n")
-                        .append("客胜，让客胜 \t").append(formatDecimals(result4)).append(" vs ").append(formatDecimals(result4 / totalValue)).append("\n")
-                ;
+                builder.append("主胜 让球平\t").append("\t主胜 让主胜\t").append("\t平局 让客胜\t").append("\t客胜 让客胜").append("\n");
                 break;
             case R.id.radio_right:
-                result1 = top01Double * bottom01Double + top04Double * bottom04Double;
-                result2 = top02Double * bottom02Double + top04Double * bottom04Double;
-                result3 = top03Double * bottom03Double + top05Double * bottom05Double;
-                result4 = top03Double * bottom03Double + top06Double * bottom06Double;
+                result1 = homeWin + letHomeWin;
+                result2 = flat + letHomeWin;
+                result3 = awayWin + letFlat;
+                result4 = awayWin + letAwayWin;
 
-                builder.append("主胜，让主胜 \t").append(formatDecimals(result1)).append(" vs ").append(formatDecimals(result1 / totalValue)).append("\n")
-                        .append("平局，让主胜 \t").append(formatDecimals(result2)).append(" vs ").append(formatDecimals(result2 / totalValue)).append("\n")
-                        .append("客胜，让球平 \t").append(formatDecimals(result3)).append(" vs ").append(formatDecimals(result3 / totalValue)).append("\n")
-                        .append("客胜，让客胜 \t").append(formatDecimals(result4)).append(" vs ").append(formatDecimals(result4 / totalValue)).append("\n")
-                ;
+                builder.append("主胜 让主胜\t").append("\t平局 让主胜\t").append("\t客胜 让球平\t").append("\t客胜 让客胜").append("\n");
                 break;
         }
+        builder.append("\t\t").append(formatDecimals(result1)).append("\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result2)).append("\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result3)).append("\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result4)).append("\t\t\t\t")
+                .append("\n");
+        builder.append("\t\t").append(formatDecimals(result1 / allTotalValue)).append("\t\t\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result2 / allTotalValue)).append("\t\t\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result3 / allTotalValue)).append("\t\t\t\t\t\t")
+                .append("\t\t").append(formatDecimals(result4 / allTotalValue)).append("\t\t\t\t\t\t")
+                .append("\n");
         double maxResult = Math.max(result1, result2);
         maxResult = Math.max(maxResult, result3);
         maxResult = Math.max(maxResult, result4);
@@ -161,8 +205,7 @@ public class PrizeActivity extends BaseCompatActivity {
         minResult = Math.min(minResult, result3);
         minResult = Math.min(minResult, result4);
 
-        builder.append("最大值 \t").append(formatDecimals(maxResult)).append("\n");
-        builder.append("最小值 \t").append(formatDecimals(minResult)).append("\n");
+        builder.append("max \t").append(formatDecimals(maxResult)).append("\t min \t").append(formatDecimals(minResult)).append("\n");
 
         tv_result.setText(builder.toString());
     }
@@ -172,6 +215,10 @@ public class PrizeActivity extends BaseCompatActivity {
     }
 
     private void clearResult() {
+        edit_top_total.setText("1");
+        edit_bottom_total.setText("1");
+        edit_name.setText("");
+
         edit_top_01.setText("");
         edit_top_02.setText("");
         edit_top_03.setText("");
@@ -190,7 +237,12 @@ public class PrizeActivity extends BaseCompatActivity {
         tv_result.setText("");
     }
 
-    private void initData() {
+    private void initViews() {
+        edit_top_total.setText("1");
+        edit_bottom_total.setText("1");
+        edit_name.setText("");
+        edit_name.requestFocus();
+
         edit_top_01.setText("");
         edit_top_02.setText("");
         edit_top_03.setText("");

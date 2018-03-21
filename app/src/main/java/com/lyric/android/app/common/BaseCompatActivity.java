@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
+import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.LoadingDialog;
 import com.lyric.android.app.widget.TitleBar;
@@ -47,6 +48,8 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
             onTitleBarInitialize((TitleBar) titleView, savedInstanceState);
         } else if (titleView instanceof Toolbar) {
             onTitleBarInitialize((Toolbar) titleView, savedInstanceState);
+        } else {
+            LogUtils.d(TAG, "TitleBar is empty...");
         }
     }
 
