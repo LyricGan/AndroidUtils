@@ -148,15 +148,15 @@ public class PrizeActivity extends BaseCompatActivity {
         builder.append("胜平负总 ").append(totalValue).append("\t\t").append("让胜平负总 ").append(letTotalValue).append("\n");
 
         builder.append("\t\t\t\t\t\t主胜\t\t\t\t").append("\t\t\t\t\t\t\t平局\t\t\t\t\t\t").append("\t\t\t\t\t\t客胜\t\t\t\t").append("\n");
-        builder.append("\t\t").append(homeWin).append("(").append(formatDecimals(homeWin / totalValue)).append(")").append("\t\t")
-                .append("\t\t").append(flat).append("(").append(formatDecimals(flat / totalValue)).append(")").append("\t\t")
-                .append("\t\t").append(awayWin).append("(").append(formatDecimals(awayWin / totalValue)).append(")").append("\t\t")
+        builder.append("\t\t").append(formatDecimals(homeWin)).append("(").append(formatDecimals(homeWin / totalValue)).append(")").append("\t\t")
+                .append("\t\t").append(formatDecimals(flat)).append("(").append(formatDecimals(flat / totalValue)).append(")").append("\t\t")
+                .append("\t\t").append(formatDecimals(awayWin)).append("(").append(formatDecimals(awayWin / totalValue)).append(")").append("\t\t")
                 .append("\n");
 
         builder.append("\t\t\t\t\t让主胜\t\t\t\t").append("\t\t\t\t\t让平局\t\t\t\t").append("\t\t\t\t\t让客胜\t\t\t\t").append("\n");
-        builder.append("\t\t").append(letHomeWin).append("(").append(formatDecimals(letHomeWin / letTotalValue)).append(")").append("\t\t")
-                .append("\t\t").append(letFlat).append("(").append(formatDecimals(letFlat / letTotalValue)).append(")").append("\t\t")
-                .append("\t\t").append(letAwayWin).append("(").append(formatDecimals(letAwayWin / letTotalValue)).append(")").append("\t\t")
+        builder.append("\t\t").append(formatDecimals(letHomeWin)).append("(").append(formatDecimals(letHomeWin / letTotalValue)).append(")").append("\t\t")
+                .append("\t\t").append(formatDecimals(letFlat)).append("(").append(formatDecimals(letFlat / letTotalValue)).append(")").append("\t\t")
+                .append("\t\t").append(formatDecimals(letAwayWin)).append("(").append(formatDecimals(letAwayWin / letTotalValue)).append(")").append("\t\t")
                 .append("\n")
                 .append("\n");
         double result1 = 0;
@@ -211,7 +211,7 @@ public class PrizeActivity extends BaseCompatActivity {
     }
 
     private String formatDecimals(double value) {
-        return StringUtils.formatDecimals(value, 3, false);
+        return StringUtils.formatDecimals(value, 2, false);
     }
 
     private void clearResult() {
