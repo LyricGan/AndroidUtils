@@ -1,6 +1,7 @@
 package com.lyric.utils;
 
 import android.content.Context;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
@@ -11,6 +12,10 @@ import android.telephony.TelephonyManager;
  * @author lyricgan
  */
 public class NetworkUtils {
+
+    public enum NetworkType {
+        WIFI, CMNET, CMWAP, NONE_NET
+    }
 
     private NetworkUtils() {
     }
@@ -128,7 +133,13 @@ public class NetworkUtils {
         return -1;
     }
 
-    public enum NetworkType {
-        WIFI, CMNET, CMWAP, NONE_NET
+    /**
+     * 判断gps是否打开，需要权限{@link android.Manifest.permission#ACCESS_FINE_LOCATION}
+     * @param context 上下文
+     * @return true or false
+     */
+    public static boolean isGpsEnabled(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return (locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
     }
 }

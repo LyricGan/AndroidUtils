@@ -1,6 +1,7 @@
 package com.lyric.android.app.test;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.lyric.android.app.AndroidApplication;
@@ -9,6 +10,7 @@ import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.network.NetworkCallback;
 import com.lyric.network.NetworkManager;
+import com.lyric.utils.ImageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,36 +41,36 @@ public class Test {
         StringBuilder builder = new StringBuilder("");
         File cacheDir = context.getCacheDir();
         if (cacheDir != null) {
-            builder.append("cacheDir:").append(cacheDir.getPath()).append("\n");
+            builder.append("cacheDir:").append(cacheDir.getPath()).append(",").append(cacheDir.length()).append("\n");
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             File codeCacheDir = context.getCodeCacheDir();
             if (codeCacheDir != null) {
-                builder.append("codeCacheDir:").append(codeCacheDir.getPath()).append("\n");
+                builder.append("codeCacheDir:").append(codeCacheDir.getPath()).append(",").append(codeCacheDir.length()).append("\n");
             }
         }
         File externalCacheDir = context.getExternalCacheDir();
         if (externalCacheDir != null) {
-            builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append("\n");
+            builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append(",").append(externalCacheDir.length()).append("\n");
         }
         File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_NOTIFICATIONS);
         if (externalFilesDir != null) {
-            builder.append("externalFilesDir:").append(externalFilesDir.getPath()).append("\n");
+            builder.append("externalFilesDir:").append(externalFilesDir.getPath()).append(",").append(externalFilesDir.length()).append("\n");
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             File dataDir = context.getDataDir();
             if (dataDir != null) {
-                builder.append("externalFilesDir:").append(dataDir.getPath()).append("\n");
+                builder.append("externalFilesDir:").append(dataDir.getPath()).append(",").append(dataDir.length()).append("\n");
             }
         }
         File obbDir = context.getObbDir();
         if (obbDir != null) {
-            builder.append("obbDir:").append(obbDir.getPath()).append("\n");
+            builder.append("obbDir:").append(obbDir.getPath()).append(",").append(obbDir.length()).append("\n");
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             File noBackupFilesDir = context.getNoBackupFilesDir();
             if (noBackupFilesDir != null) {
-                builder.append("noBackupFilesDir:").append(noBackupFilesDir.getPath()).append("\n");
+                builder.append("noBackupFilesDir:").append(noBackupFilesDir.getPath()).append(",").append(noBackupFilesDir.length()).append("\n");
             }
         }
         String packageCodePath = context.getPackageCodePath();
@@ -77,23 +79,24 @@ public class Test {
         builder.append("packageResourcePath:").append(packageResourcePath).append("\n");
         File dataDirectory = Environment.getDataDirectory();
         if (dataDirectory != null) {
-            builder.append("dataDirectory:").append(dataDirectory.getPath()).append("\n");
+            builder.append("dataDirectory:").append(dataDirectory.getPath()).append(",").append(dataDirectory.length()).append("\n");
         }
         File rootDirectory = Environment.getRootDirectory();
         if (rootDirectory != null) {
-            builder.append("rootDirectory:").append(rootDirectory.getPath()).append("\n");
+            builder.append("rootDirectory:").append(rootDirectory.getPath()).append(",").append(rootDirectory.length()).append("\n");
         }
         File downloadCacheDirectory = Environment.getDownloadCacheDirectory();
         if (downloadCacheDirectory != null) {
-            builder.append("downloadCacheDirectory:").append(downloadCacheDirectory.getPath()).append("\n");
+            builder.append("downloadCacheDirectory:").append(downloadCacheDirectory.getPath()).append(",").append(downloadCacheDirectory.length()).append("\n");
         }
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
         if (externalStorageDirectory != null) {
-            builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append("\n");
+            builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append(",").append(externalStorageDirectory.length()).append("\n");
         }
         File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         if (externalStoragePublicDirectory != null) {
-            builder.append("externalStoragePublicDirectory:").append(externalStoragePublicDirectory.getPath()).append("\n");
+            builder.append("externalStoragePublicDirectory:").append(externalStoragePublicDirectory.getPath())
+                    .append(",").append(externalStoragePublicDirectory.length()).append("\n");
         }
         LogUtils.d(TAG, builder.toString());
 
@@ -106,7 +109,21 @@ public class Test {
                 }
                 StringBuilder externalBuilder = new StringBuilder("");
                 for (int i = 0; i < externalImagePaths.size(); i++) {
-                    externalBuilder.append("external imagePath:").append(externalImagePaths.get(i)).append("\n");
+                    String imagePath = externalImagePaths.get(i);
+                    externalBuilder.append("external imagePath:").append(imagePath).append("\n");
+
+                    Bitmap bitmap = ImageUtils.decodeBitmap(imagePath);
+                    if (bitmap != null) {
+                        externalBuilder.append("external bitmap:")
+                                .append(bitmap.getByteCount())
+                                .append(",")
+                                .append(bitmap.getWidth())
+                                .append("x")
+                                .append(bitmap.getHeight())
+                                .append("\n");
+                    } else {
+                        externalBuilder.append("external bitmap is null").append("\n");
+                    }
                 }
                 LogUtils.d(TAG, externalBuilder.toString());
 

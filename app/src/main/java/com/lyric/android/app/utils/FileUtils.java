@@ -549,6 +549,41 @@ public class FileUtils {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
+    public static File getExternalStorageDirectory() {
+        if (isSdcardExists()) {
+            return Environment.getExternalStorageDirectory();
+        }
+        return null;
+    }
+
+    public static File getExternalStoragePublicDirectory(String type) {
+        if (isSdcardExists()) {
+            return Environment.getExternalStoragePublicDirectory(type);
+        }
+        return null;
+    }
+
+    public static File getRootDirectory() {
+        if (isSdcardExists()) {
+            return Environment.getRootDirectory();
+        }
+        return null;
+    }
+
+    public static File getDataDirectory() {
+        if (isSdcardExists()) {
+            return Environment.getDataDirectory();
+        }
+        return null;
+    }
+
+    public static File getDownloadCacheDirectory() {
+        if (isSdcardExists()) {
+            return Environment.getDownloadCacheDirectory();
+        }
+        return null;
+    }
+
     /**
      * 获取文件缓存目录，存放临时缓存数据<br/>
      * Context#getExternalCacheDir() SDCard/Android/data/com.xxx.xxx/cache，存放临时缓存数据<br/>
@@ -794,42 +829,20 @@ public class FileUtils {
     }
 
     public static List<String> queryExternalImages(Context context) {
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = null;
-        List<String> imagePaths = new ArrayList<>();
-        final String[] selectionArgs = {"image/jpeg", "image/png", "image/bmp"};
-        try {
-            cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null,
-                    MediaStore.Images.Media.MIME_TYPE + "=? OR "
-                            + MediaStore.Images.Media.MIME_TYPE + "=? OR "
-                            + MediaStore.Images.Media.MIME_TYPE + "=?",
-                    selectionArgs, MediaStore.Images.Media.DATE_ADDED + " DESC");
-            if (cursor == null) {
-                return imagePaths;
-            }
-            String imagePath;
-            while (cursor.moveToNext()) {
-                imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-
-                if (!TextUtils.isEmpty(imagePath)) {
-                    imagePaths.add(imagePath);
-                }
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        } finally {
-            close(cursor);
-        }
-        return imagePaths;
+        return queryImages(context, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     }
 
     public static List<String> queryInternalImages(Context context) {
+        return queryImages(context, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+    }
+
+    public static List<String> queryImages(Context context, Uri uri) {
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = null;
         List<String> imagePaths = new ArrayList<>();
         final String[] selectionArgs = {"image/jpeg", "image/png", "image/bmp"};
         try {
-            cursor = contentResolver.query(MediaStore.Images.Media.INTERNAL_CONTENT_URI, null,
+            cursor = contentResolver.query(uri, null,
                     MediaStore.Images.Media.MIME_TYPE + "=? OR "
                             + MediaStore.Images.Media.MIME_TYPE + "=? OR "
                             + MediaStore.Images.Media.MIME_TYPE + "=?",
@@ -840,7 +853,6 @@ public class FileUtils {
             String imagePath;
             while (cursor.moveToNext()) {
                 imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-
                 if (!TextUtils.isEmpty(imagePath)) {
                     imagePaths.add(imagePath);
                 }

@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
@@ -182,6 +181,10 @@ public class ImageUtils {
         }
     }
 
+    public static Bitmap decodeBitmap(String imageFilePath) {
+        return decodeBitmap(imageFilePath, 0, 0);
+    }
+
     public static Bitmap decodeBitmap(String imageFilePath, int width, int height) {
         InputStream inputStream = null;
         try {
@@ -209,6 +212,10 @@ public class ImageUtils {
         return decodeStream(inputStream, null, 0, 0);
     }
 
+    public static Bitmap decodeResource(Resources resources, int resId) {
+        return decodeResource(resources, resId, 0, 0);
+    }
+
     public static Bitmap decodeStream(InputStream inputStream, Rect outPadding, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -216,10 +223,6 @@ public class ImageUtils {
         options.inSampleSize = calculateInSampleSize(options, width, height);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeStream(inputStream, outPadding, options);
-    }
-
-    public static Bitmap decodeResource(Resources resources, int resId) {
-        return decodeResource(resources, resId, 0, 0);
     }
 
     public static Bitmap decodeResource(Resources resources, int resId, int width, int height) {
@@ -256,88 +259,75 @@ public class ImageUtils {
         if (width <= 0 || height <= 0) {
             return inSampleSize;
         }
-        final int outWidth = options.outWidth;
-        final int outHeight = options.outHeight;
+        int outWidth = options.outWidth;
+        int outHeight = options.outHeight;
         if (outWidth > width || outHeight > height) {
-            final int widthRatio = Math.round((float) outWidth / (float) width);
-            final int heightRatio = Math.round((float) outHeight / (float) height);
+            int widthRatio = Math.round((float) outWidth / (float) width);
+            int heightRatio = Math.round((float) outHeight / (float) height);
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        if (inSampleSize < 1) {
-            inSampleSize = 1;
+            if (inSampleSize < 1) {
+                inSampleSize = 1;
+            }
         }
         return inSampleSize;
     }
 
-    /**
-     * 压缩图片到指定大小，先通过宽高压缩再进行质量压缩
-     * @param bitmap 图片
-     * @param targetKbSize 图片预计内存大小，单位为KB
-     * @param width 图片宽度
-     * @param height 图片高度
-     * @return Bitmap or null
-     */
-    public static Bitmap compressBitmap(Bitmap bitmap, int targetKbSize, int width, int height) {
-        if (bitmap == null || targetKbSize <= 0) {
-            return null;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        Bitmap newBitmap = decodeStream(inputStream, null, width, height);
-        return compressBitmap(newBitmap, targetKbSize);
+    public static Bitmap compressBitmap(Bitmap bitmap, int targetSize, int width, int height) {
+        return compressBitmap(bitmap, Bitmap.CompressFormat.JPEG, 100, targetSize, width, height);
     }
 
     /**
-     * 压缩图片到指定大小，通过质量压缩
-     * @param bitmap 图片
-     * @param targetKbSize 图片预计内存大小，单位为KB
-     * @return Bitmap or null
+     * 压缩图片到指定大小，先通过宽高压缩再进行质量压缩
+     * @param bitmap 原图
+     * @param format 图片格式，png格式除外，由于png格式图片无损，质量压缩无效
+     * @param quality 图片质量
+     * @param targetSize 指定大小，kb
+     * @param width 图片宽度
+     * @param height 图片高度
+     * @return 压缩后的图片
+     * @see android.graphics.Bitmap.CompressFormat#JPEG
+     * @see android.graphics.Bitmap.CompressFormat#PNG
+     * @see android.graphics.Bitmap.CompressFormat#WEBP
      */
-    public static Bitmap compressBitmap(Bitmap bitmap, int targetKbSize) {
-        if (bitmap == null || targetKbSize <= 0) {
+    public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int quality, int targetSize, int width, int height) {
+        if (bitmap == null || targetSize <= 0) {
             return null;
         }
-        int quality = 100;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        while (outputStream.toByteArray().length > targetKbSize * 1024 && ((quality -= 10) > 0)) {
+        bitmap.compress(format, quality, outputStream);
+        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        Bitmap newBitmap = decodeStream(inputStream, null, width, height);
+        return compressBitmap(newBitmap, format, quality, targetSize);
+    }
+
+    /**
+     * 压缩图片质量到指定大小
+     * @param bitmap 原图
+     * @param format 图片格式
+     * @param quality 图片质量
+     * @param targetSize 指定大小，kb
+     * @return 压缩后的图片
+     */
+    public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int quality, int targetSize) {
+        if (bitmap == null || targetSize <= 0) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(format, quality, outputStream);
+        while (outputStream.toByteArray().length > targetSize * 1024 && ((quality -= 10) > 0)) {
             outputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            bitmap.compress(format, quality, outputStream);
         }
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return BitmapFactory.decodeStream(inputStream, null, null);
     }
 
-	public static Bitmap scaleBitmap(Bitmap bitmap, int newWidth, int newHeight) {
-        if (bitmap == null) {
-            return null;
-        }
-		return scaleBitmap(bitmap, (float) newWidth / bitmap.getWidth(), (float) newHeight / bitmap.getHeight());
-	}
-
-	/**
-	 * 按宽高缩放图片
-	 * @param bitmap Bitmap
-	 * @param scaleWidth 缩放宽度
-	 * @param scaleHeight 缩放高度
-	 * @return Bitmap
-	 */
-	public static Bitmap scaleBitmap(Bitmap bitmap, float scaleWidth, float scaleHeight) {
-		if (bitmap == null) {
-			return null;
-		}
-		Matrix matrix = new Matrix();
-		matrix.postScale(scaleWidth, scaleHeight);
-		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-	}
-	
 	/**
 	 * 对图片做灰度处理
 	 * @param bitmap 需要修改的图片
 	 * @return 去色后的图片
 	 */
-	public static Bitmap grayScaleBitmap(Bitmap bitmap) {
+	public static Bitmap getGrayScaleBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
         }
@@ -364,7 +354,7 @@ public class ImageUtils {
      * @param color 圆边颜色
      * @return 圆角图片
      */
-	public static Bitmap roundCornerBitmap(Bitmap bitmap, int pixels, int color) {
+	public static Bitmap getRoundCornerBitmap(Bitmap bitmap, int pixels, int color) {
         if (bitmap == null) {
             return null;
         }
@@ -391,7 +381,7 @@ public class ImageUtils {
      * @param radius 模糊范围：(0, 25]
      * @return 高斯模糊后的图片
      */
-    public static Bitmap blurBitmap(Context context, Bitmap bitmap, float radius) {
+    public static Bitmap getBlurBitmap(Context context, Bitmap bitmap, float radius) {
         if (context == null || bitmap == null) {
             return null;
         }
