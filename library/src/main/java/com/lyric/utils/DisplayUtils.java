@@ -12,6 +12,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.RawRes;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Display;
@@ -53,7 +54,7 @@ public class DisplayUtils {
         return getResources(context).getDisplayMetrics();
     }
 
-    private static float getDensity(Context context) {
+    public static float getDensity(Context context) {
         return getDisplayMetrics(context).density;
     }
 
@@ -71,11 +72,11 @@ public class DisplayUtils {
     }
 
     public static int getScreenWidth(Context context) {
-        return getScreenDisplay(context)[0];
+        return getDisplayMetrics(context).widthPixels;
     }
 
     public static int getScreenHeight(Context context) {
-        return getScreenDisplay(context)[1];
+        return getDisplayMetrics(context).heightPixels;
     }
 
     public static float getXdpi(Context context) {
@@ -84,6 +85,20 @@ public class DisplayUtils {
 
     public static float getYdpi(Context context) {
         return getDisplayMetrics(context).ydpi;
+    }
+
+    public static void log(Context context) {
+        StringBuilder builder = new StringBuilder();
+        DisplayMetrics displayMetrics = getDisplayMetrics(context);
+        builder.append("density=").append(displayMetrics.density).append("\n")
+                .append("densityDpi=").append(displayMetrics.densityDpi).append("\n")
+                .append("scaledDensity=").append(displayMetrics.scaledDensity).append("\n")
+                .append("screenWidth=").append(displayMetrics.widthPixels).append("\n")
+                .append("screenHeight=").append(displayMetrics.heightPixels).append("\n")
+                .append("xdpi=").append(displayMetrics.xdpi).append("\n")
+                .append("ydpi=").append(displayMetrics.ydpi).append("\n");
+
+        Log.d(DisplayUtils.class.getSimpleName(), builder.toString());
     }
 
     /**

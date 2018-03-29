@@ -191,7 +191,7 @@ public class ViewFragment extends BaseFragment {
             imageCapture.setImageBitmap(mCaptureBitmap);
 
             Log.d(TAG, "memory1:" + ImageUtils.getBitmapMemory(mCaptureBitmap));
-            Bitmap blurBitmap = ImageUtils.blurBitmap(AndroidApplication.getContext(), mCaptureBitmap, 10.0f);
+            Bitmap blurBitmap = ImageUtils.getBlurBitmap(AndroidApplication.getContext(), mCaptureBitmap, 10.0f);
             imageCapture.setImageBitmap(blurBitmap);
             Log.d(TAG, "memory2:" + ImageUtils.getBitmapMemory(blurBitmap));
         }

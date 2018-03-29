@@ -17,6 +17,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -149,56 +150,7 @@ public class ImageUtils {
         return size;
     }
 
-    /**
-     * 通过URI获取图片
-     * @param context 上下文对象
-     * @param uri 图片URI
-     * @return Bitmap or null
-     */
-    public static Bitmap decodeBitmap(Context context, Uri uri) {
-        if (null == context || uri == null) {
-            return null;
-        }
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getContentResolver().openInputStream(uri);
-            return decodeStream(inputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            closeQuietly(inputStream);
-        }
-        return null;
-    }
-
-    public static Bitmap decodeBitmap(Context context, int drawableId) {
-        Resources resources = context.getResources();
-        InputStream inputStream = resources.openRawResource(drawableId);
-        try {
-            return decodeStream(inputStream);
-        } finally {
-            closeQuietly(inputStream);
-        }
-    }
-
-    public static Bitmap decodeBitmap(String imageFilePath) {
-        return decodeBitmap(imageFilePath, 0, 0);
-    }
-
-    public static Bitmap decodeBitmap(String imageFilePath, int width, int height) {
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(imageFilePath);
-            return decodeStream(inputStream, null, width, height);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            closeQuietly(inputStream);
-        }
-        return null;
-    }
-
-    private static void closeQuietly(Closeable closeable) {
+    public static void closeQuietly(Closeable closeable) {
         if (closeable != null){
             try {
                 closeable.close();
@@ -208,12 +160,39 @@ public class ImageUtils {
         }
     }
 
-    public static Bitmap decodeStream(InputStream inputStream) {
-        return decodeStream(inputStream, null, 0, 0);
+    /**
+     * 通过URI获取图片
+     * @param context 上下文对象
+     * @param imageUri 图片URI
+     * @return Bitmap or null
+     */
+    public static Bitmap decodeBitmap(Context context, Uri imageUri) {
+        if (null == context || imageUri == null) {
+            return null;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = context.getContentResolver().openInputStream(imageUri);
+            return decodeStream(inputStream, null, 0, 0);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuietly(inputStream);
+        }
+        return null;
     }
 
-    public static Bitmap decodeResource(Resources resources, int resId) {
-        return decodeResource(resources, resId, 0, 0);
+    public static Bitmap decodeBitmap(String imagePath, int width, int height) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(imagePath);
+            return decodeStream(inputStream, null, width, height);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuietly(inputStream);
+        }
+        return null;
     }
 
     public static Bitmap decodeStream(InputStream inputStream, Rect outPadding, int width, int height) {
@@ -232,10 +211,6 @@ public class ImageUtils {
         options.inSampleSize = calculateInSampleSize(options, width, height);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(resources, resId, options);
-    }
-
-    public static Bitmap decodeFileDescriptor(FileDescriptor fd) {
-        return decodeFileDescriptor(fd, null, 0, 0);
     }
 
     public static Bitmap decodeFileDescriptor(FileDescriptor fd, Rect outPadding, int width, int height) {
@@ -272,46 +247,21 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-    public static Bitmap compressBitmap(Bitmap bitmap, int targetSize, int width, int height) {
-        return compressBitmap(bitmap, Bitmap.CompressFormat.JPEG, 100, targetSize, width, height);
-    }
-
     /**
-     * 压缩图片到指定大小，先通过宽高压缩再进行质量压缩
+     * 压缩图片质量到指定大小
      * @param bitmap 原图
-     * @param format 图片格式，png格式除外，由于png格式图片无损，质量压缩无效
-     * @param quality 图片质量
+     * @param format 图片格式，png格式图片质量压缩无效
      * @param targetSize 指定大小，kb
-     * @param width 图片宽度
-     * @param height 图片高度
      * @return 压缩后的图片
      * @see android.graphics.Bitmap.CompressFormat#JPEG
      * @see android.graphics.Bitmap.CompressFormat#PNG
      * @see android.graphics.Bitmap.CompressFormat#WEBP
      */
-    public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int quality, int targetSize, int width, int height) {
+    public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int targetSize) {
         if (bitmap == null || targetSize <= 0) {
             return null;
         }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(format, quality, outputStream);
-        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        Bitmap newBitmap = decodeStream(inputStream, null, width, height);
-        return compressBitmap(newBitmap, format, quality, targetSize);
-    }
-
-    /**
-     * 压缩图片质量到指定大小
-     * @param bitmap 原图
-     * @param format 图片格式
-     * @param quality 图片质量
-     * @param targetSize 指定大小，kb
-     * @return 压缩后的图片
-     */
-    public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int quality, int targetSize) {
-        if (bitmap == null || targetSize <= 0) {
-            return null;
-        }
+        int quality = 100;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(format, quality, outputStream);
         while (outputStream.toByteArray().length > targetSize * 1024 && ((quality -= 10) > 0)) {
@@ -322,29 +272,56 @@ public class ImageUtils {
         return BitmapFactory.decodeStream(inputStream, null, null);
     }
 
+    /**
+     * 获取图片旋转角度
+     * @param imagePath 图片地址
+     * @return 图片旋转角度
+     */
+    public static int readImageDegree(String imagePath) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(imagePath);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
 	/**
 	 * 对图片做灰度处理
 	 * @param bitmap 需要修改的图片
 	 * @return 去色后的图片
+     * @see Bitmap.Config#ALPHA_8
+     * @see Bitmap.Config#RGB_565
+     * @see Bitmap.Config#ARGB_4444
+     * @see Bitmap.Config#ARGB_8888
 	 */
 	public static Bitmap getGrayScaleBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
         }
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		Bitmap convertBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
-
-		ColorMatrix colorMatrix = new ColorMatrix();
-		colorMatrix.setSaturation(0);
-		ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
-
-        Canvas canvas = new Canvas(convertBitmap);
+		Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.RGB_565);
+        Canvas canvas = new Canvas(newBitmap);
         Paint paint = new Paint();
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
 		paint.setColorFilter(colorMatrixFilter);
 		canvas.drawBitmap(bitmap, 0, 0, paint);
 		
-		return convertBitmap;
+		return newBitmap;
 	}
 
     /**
@@ -358,22 +335,21 @@ public class ImageUtils {
         if (bitmap == null) {
             return null;
         }
-		Bitmap convertBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(convertBitmap);
-		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		final RectF rectF = new RectF(rect);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, pixels, pixels, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
 
-		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, pixels, pixels, paint);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, rect, rect, paint);
-		
-		return convertBitmap;
-	}
-	
+        return newBitmap;
+    }
+
     /**
      * 对图片做高斯模糊
      * @param context 上下文
@@ -388,21 +364,21 @@ public class ImageUtils {
         if (radius <= 0 || radius > 25) {
             radius = 10.0f;
         }
-        Bitmap convertBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             RenderScript renderScript = RenderScript.create(context);
             ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
             Allocation allIn = Allocation.createFromBitmap(renderScript, bitmap);
-            Allocation allOut = Allocation.createFromBitmap(renderScript, convertBitmap);
+            Allocation allOut = Allocation.createFromBitmap(renderScript, newBitmap);
             // set the radius of the blur: 0 < radius <= 25
             intrinsicBlur.setRadius(radius);
             intrinsicBlur.setInput(allIn);
             intrinsicBlur.forEach(allOut);
-            allOut.copyTo(convertBitmap);
+            allOut.copyTo(newBitmap);
             bitmap.recycle();
             renderScript.destroy();
         }
-        return convertBitmap;
+        return newBitmap;
     }
 
     /**
@@ -420,8 +396,16 @@ public class ImageUtils {
      * @param outputX 裁剪宽度
      * @param outputY 裁剪高度
      * @param requestCode If >= 0, this code will be returned in onActivityResult() when the activity exits.
+     * @see android.widget.ImageView.ScaleType#CENTER
+     * @see android.widget.ImageView.ScaleType#CENTER_CROP
+     * @see android.widget.ImageView.ScaleType#CENTER_INSIDE
+     * @see android.widget.ImageView.ScaleType#FIT_START
+     * @see android.widget.ImageView.ScaleType#FIT_CENTER
+     * @see android.widget.ImageView.ScaleType#FIT_END
+     * @see android.widget.ImageView.ScaleType#FIT_XY
+     * @see android.widget.ImageView.ScaleType#MATRIX
      */
-    public static void crop(Activity activity, Uri uri, int outputX, int outputY, int requestCode){
+    public static void crop(Activity activity, Uri uri, int outputX, int outputY, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");

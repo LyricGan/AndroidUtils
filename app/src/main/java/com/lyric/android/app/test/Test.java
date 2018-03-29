@@ -5,20 +5,17 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.test.rx.RxIncludes;
 import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.network.NetworkCallback;
 import com.lyric.network.NetworkManager;
+import com.lyric.utils.DisplayUtils;
 import com.lyric.utils.ImageUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okio.Okio;
 
 /**
  * @author lyricgan
@@ -112,7 +109,7 @@ public class Test {
                     String imagePath = externalImagePaths.get(i);
                     externalBuilder.append("external imagePath:").append(imagePath).append("\n");
 
-                    Bitmap bitmap = ImageUtils.decodeBitmap(imagePath);
+                    Bitmap bitmap = ImageUtils.decodeBitmap(imagePath, 0, 0);
                     if (bitmap != null) {
                         externalBuilder.append("external bitmap:")
                                 .append(bitmap.getByteCount())
@@ -150,40 +147,9 @@ public class Test {
                     internalFileDirsBuilder.append("internal filePath:").append(internalFileDirs.get(i).getPath()).append("\n");
                 }
                 LogUtils.d(TAG, internalFileDirsBuilder.toString());
-
-                File cacheFile = FileUtils.getCacheDir(AndroidApplication.getContext());
-                File outFile = null;
-                if (cacheFile != null && cacheFile.isDirectory()) {
-                    outFile = new File(cacheFile.getPath() + File.separator + "output.txt");
-                    if (!outFile.exists()) {
-                        try {
-                            boolean created = outFile.createNewFile();
-                            if (!created) {
-                                return;
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                String name = "lyricgan";
-                int age = 25;
-                if (outFile != null && outFile.exists()) {
-                    try {
-                        Okio.buffer(Okio.sink(outFile)).writeUtf8(name).writeUtf8("\n").writeUtf8(Integer.toString(age)).close();
-
-                        String readString = Okio.buffer(Okio.source(outFile)).readUtf8();
-
-                        LogUtils.d(TAG, "readString:" + readString);
-
-                        FileUtils.deleteFile(outFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }).start();
 
-        RxIncludes.log("hello");
+        DisplayUtils.log(context);
     }
 }

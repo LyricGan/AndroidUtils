@@ -26,7 +26,6 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
-import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
 import com.lyric.common.BaseActivity;
@@ -68,7 +67,6 @@ public class MainActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityUtils.startActivity(MainActivity.this, PrizeActivity.class);
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
