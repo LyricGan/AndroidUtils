@@ -791,6 +791,17 @@ public class PackageUtils {
         return packageNameList.contains(packageName);
     }
 
+    public static boolean isAppInstalled2(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
+            return (packageInfo != null);
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     /**
      * 获取配置文件标签中的值
      * @param context 上下文对象
