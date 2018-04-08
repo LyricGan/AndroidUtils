@@ -190,7 +190,7 @@ public class ShellUtils {
      */
     public static class CommandResult {
         /** result of command **/
-        public int    result;
+        public int result;
         /** success message of command result **/
         public String successMsg;
         /** error message of command result **/

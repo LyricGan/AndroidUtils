@@ -5,6 +5,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.lyric.android.app.AndroidApplication;
+import com.lyric.android.app.utils.DeviceUtils;
 import com.lyric.android.app.utils.PackageUtils;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class ParamsInterceptor implements Interceptor {
 
     private String getDeviceId() {
         if (TextUtils.isEmpty(mDeviceId)) {
-            mDeviceId = PackageUtils.getDeviceId(getContext());
+            mDeviceId = DeviceUtils.getDeviceId(getContext());
         }
         return mDeviceId;
     }
