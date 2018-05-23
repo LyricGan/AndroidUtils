@@ -7,34 +7,34 @@ public interface IPullListener {
      * @param refreshLayout
      * @param fraction
      */
-    void onPullingDown(GraceRefreshLayout refreshLayout, float fraction);
+    void onPullingDown(RefreshLayout refreshLayout, float fraction);
 
     /**
      * 上拉
      */
-    void onPullingUp(GraceRefreshLayout refreshLayout, float fraction);
+    void onPullingUp(RefreshLayout refreshLayout, float fraction);
 
     /**
      * 下拉松开
      * @param refreshLayout
      * @param fraction
      */
-    void onPullDownReleasing(GraceRefreshLayout refreshLayout, float fraction);
+    void onPullDownReleasing(RefreshLayout refreshLayout, float fraction);
 
     /**
      * 上拉松开
      */
-    void onPullUpReleasing(GraceRefreshLayout refreshLayout, float fraction);
+    void onPullUpReleasing(RefreshLayout refreshLayout, float fraction);
 
     /**
      * 刷新中
      */
-    void onRefresh(GraceRefreshLayout refreshLayout);
+    void onRefresh(RefreshLayout refreshLayout);
 
     /**
      * 加载更多中
      */
-    void onLoadMore(GraceRefreshLayout refreshLayout);
+    void onLoadMore(RefreshLayout refreshLayout);
 
     void onFinishRefresh();
 

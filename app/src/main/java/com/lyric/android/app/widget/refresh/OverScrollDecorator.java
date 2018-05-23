@@ -23,7 +23,7 @@ public class OverScrollDecorator extends Decorator {
     private boolean preventBottomOverScroll = false;
     private boolean checkOverScroll = false;
 
-    public OverScrollDecorator(GraceRefreshLayout.CoreProcessor processor, IDecorator decorator) {
+    public OverScrollDecorator(RefreshLayout.CoreProcessor processor, IDecorator decorator) {
         super(processor, decorator);
     }
 

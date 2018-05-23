@@ -23,8 +23,8 @@ public class DefaultFooter extends View implements IFooter {
     private ArrayList<ValueAnimator> mAnimators;
     private Map<ValueAnimator, ValueAnimator.AnimatorUpdateListener> mUpdateListeners = new HashMap<>();
     private Paint mPaint;
-    private int mNormalColor = 0x80323232;
-    private int mAnimatingColor = 0xff808080;
+    private int mNormalColor = Color.parseColor("#ff33b5e5");
+    private int mAnimatingColor = Color.parseColor("#ff0099cc");
 
     public DefaultFooter(Context context) {
         this(context, null);

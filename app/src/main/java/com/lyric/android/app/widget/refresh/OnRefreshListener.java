@@ -3,27 +3,27 @@ package com.lyric.android.app.widget.refresh;
 public abstract class OnRefreshListener implements IPullListener {
 
     @Override
-    public void onPullingDown(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullingDown(RefreshLayout refreshLayout, float fraction) {
     }
 
     @Override
-    public void onPullingUp(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullingUp(RefreshLayout refreshLayout, float fraction) {
     }
 
     @Override
-    public void onPullDownReleasing(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullDownReleasing(RefreshLayout refreshLayout, float fraction) {
     }
 
     @Override
-    public void onPullUpReleasing(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullUpReleasing(RefreshLayout refreshLayout, float fraction) {
     }
 
     @Override
-    public void onRefresh(GraceRefreshLayout refreshLayout) {
+    public void onRefresh(RefreshLayout refreshLayout) {
     }
 
     @Override
-    public void onLoadMore(GraceRefreshLayout refreshLayout) {
+    public void onLoadMore(RefreshLayout refreshLayout) {
     }
 
     @Override

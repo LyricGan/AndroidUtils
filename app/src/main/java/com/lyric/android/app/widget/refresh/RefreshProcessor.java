@@ -4,14 +4,14 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
 public class RefreshProcessor implements IDecorator {
-    protected GraceRefreshLayout.CoreProcessor coreProcessor;
+    protected RefreshLayout.CoreProcessor coreProcessor;
     private float mTouchX, mTouchY;
     private boolean intercepted = false;
     private boolean willAnimationHeader = false;
     private boolean willAnimationFooter = false;
     private boolean downEventSent = false;
 
-    public RefreshProcessor(GraceRefreshLayout.CoreProcessor processor) {
+    public RefreshProcessor(RefreshLayout.CoreProcessor processor) {
         if (processor == null) {
             throw new NullPointerException("The coreProcessor can not be null.");
         }

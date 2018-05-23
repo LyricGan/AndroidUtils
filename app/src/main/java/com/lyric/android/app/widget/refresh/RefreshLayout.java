@@ -23,7 +23,7 @@ import com.lyric.android.app.R;
 
 import java.lang.reflect.Constructor;
 
-public class GraceRefreshLayout extends RelativeLayout implements IPullListener, NestedScrollingChild {
+public class RefreshLayout extends RelativeLayout implements IPullListener, NestedScrollingChild {
     //波浪的高度,最大扩展高度
     protected float mMaxHeadHeight;
     protected float mMaxBottomHeight;
@@ -107,34 +107,34 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
 
     private final NestedScrollingChildHelper mChildHelper;
 
-    public GraceRefreshLayout(Context context) {
+    public RefreshLayout(Context context) {
         this(context, null, 0);
     }
 
-    public GraceRefreshLayout(Context context, AttributeSet attrs) {
+    public RefreshLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GraceRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GraceRefreshLayout, defStyleAttr, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RefreshLayout, defStyleAttr, 0);
         try {
-            mMaxHeadHeight = a.getDimensionPixelSize(R.styleable.GraceRefreshLayout_grl_max_head_height, (int) RefreshUtils.dp2px(context, 120));
-            mHeadHeight = a.getDimensionPixelSize(R.styleable.GraceRefreshLayout_grl_head_height, (int) RefreshUtils.dp2px(context, 80));
-            mMaxBottomHeight = a.getDimensionPixelSize(R.styleable.GraceRefreshLayout_grl_max_footer_height, (int) RefreshUtils.dp2px(context, 120));
-            mBottomHeight = a.getDimensionPixelSize(R.styleable.GraceRefreshLayout_grl_footer_height, (int) RefreshUtils.dp2px(context, 60));
-            mOverScrollHeight = a.getDimensionPixelSize(R.styleable.GraceRefreshLayout_grl_overScroll_height, (int) mHeadHeight);
-            enableRefresh = a.getBoolean(R.styleable.GraceRefreshLayout_grl_enable_refresh, true);
-            enableLoadmore = a.getBoolean(R.styleable.GraceRefreshLayout_grl_enable_loadMore, true);
-            isPureScrollModeOn = a.getBoolean(R.styleable.GraceRefreshLayout_grl_pureScrollMode_on, false);
-            isOverScrollTopShow = a.getBoolean(R.styleable.GraceRefreshLayout_grl_overScroll_header_show, true);
-            isOverScrollBottomShow = a.getBoolean(R.styleable.GraceRefreshLayout_grl_overScroll_footer_show, true);
-            enableOverScroll = a.getBoolean(R.styleable.GraceRefreshLayout_grl_enable_overScroll, true);
-            floatRefresh = a.getBoolean(R.styleable.GraceRefreshLayout_grl_floatRefresh, false);
-            autoLoadMore = a.getBoolean(R.styleable.GraceRefreshLayout_grl_autoLoadMore, false);
-            enableKeepIView = a.getBoolean(R.styleable.GraceRefreshLayout_grl_enable_keepIView, true);
-            showRefreshingWhenOverScroll = a.getBoolean(R.styleable.GraceRefreshLayout_grl_showRefreshingWhenOverScroll, true);
-            showLoadingWhenOverScroll = a.getBoolean(R.styleable.GraceRefreshLayout_grl_showLoadingWhenOverScroll, true);
+            mMaxHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_grl_max_head_height, (int) RefreshUtils.dp2px(context, 120));
+            mHeadHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_grl_head_height, (int) RefreshUtils.dp2px(context, 80));
+            mMaxBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_grl_max_footer_height, (int) RefreshUtils.dp2px(context, 120));
+            mBottomHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_grl_footer_height, (int) RefreshUtils.dp2px(context, 60));
+            mOverScrollHeight = a.getDimensionPixelSize(R.styleable.RefreshLayout_grl_overScroll_height, (int) mHeadHeight);
+            enableRefresh = a.getBoolean(R.styleable.RefreshLayout_grl_enable_refresh, true);
+            enableLoadmore = a.getBoolean(R.styleable.RefreshLayout_grl_enable_loadMore, true);
+            isPureScrollModeOn = a.getBoolean(R.styleable.RefreshLayout_grl_pureScrollMode_on, false);
+            isOverScrollTopShow = a.getBoolean(R.styleable.RefreshLayout_grl_overScroll_header_show, true);
+            isOverScrollBottomShow = a.getBoolean(R.styleable.RefreshLayout_grl_overScroll_footer_show, true);
+            enableOverScroll = a.getBoolean(R.styleable.RefreshLayout_grl_enable_overScroll, true);
+            floatRefresh = a.getBoolean(R.styleable.RefreshLayout_grl_floatRefresh, false);
+            autoLoadMore = a.getBoolean(R.styleable.RefreshLayout_grl_autoLoadMore, false);
+            enableKeepIView = a.getBoolean(R.styleable.RefreshLayout_grl_enable_keepIView, true);
+            showRefreshingWhenOverScroll = a.getBoolean(R.styleable.RefreshLayout_grl_showRefreshingWhenOverScroll, true);
+            showLoadingWhenOverScroll = a.getBoolean(R.styleable.RefreshLayout_grl_showLoadingWhenOverScroll, true);
         } finally {
             a.recycle();
         }
@@ -783,7 +783,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onPullingDown(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullingDown(RefreshLayout refreshLayout, float fraction) {
         mHeadView.onPullingDown(fraction, mMaxHeadHeight, mHeadHeight);
         if (!enableRefresh) {
             return;
@@ -792,7 +792,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onPullingUp(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullingUp(RefreshLayout refreshLayout, float fraction) {
         mBottomView.onPullingUp(fraction, mMaxHeadHeight, mHeadHeight);
         if (!enableLoadmore) {
             return;
@@ -803,7 +803,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onPullDownReleasing(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullDownReleasing(RefreshLayout refreshLayout, float fraction) {
         mHeadView.onPullReleasing(fraction, mMaxHeadHeight, mHeadHeight);
         if (!enableRefresh) {
             return;
@@ -813,7 +813,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onPullUpReleasing(GraceRefreshLayout refreshLayout, float fraction) {
+    public void onPullUpReleasing(RefreshLayout refreshLayout, float fraction) {
         mBottomView.onPullReleasing(fraction, mMaxBottomHeight, mBottomHeight);
         if (!enableLoadmore) {
             return;
@@ -824,7 +824,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onRefresh(GraceRefreshLayout refreshLayout) {
+    public void onRefresh(RefreshLayout refreshLayout) {
         mHeadView.startAnimation(mMaxHeadHeight, mHeadHeight);
         if (refreshListener != null) {
             refreshListener.onRefresh(refreshLayout);
@@ -832,7 +832,7 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
     }
 
     @Override
-    public void onLoadMore(GraceRefreshLayout refreshLayout) {
+    public void onLoadMore(RefreshLayout refreshLayout) {
         mBottomView.startAnimation(mMaxBottomHeight, mBottomHeight);
         if (refreshListener != null) {
             refreshListener.onLoadMore(refreshLayout);
@@ -1133,19 +1133,19 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
         }
 
         public void onPullingDown(float offsetY) {
-            pullListener.onPullingDown(GraceRefreshLayout.this, offsetY / mHeadHeight);
+            pullListener.onPullingDown(RefreshLayout.this, offsetY / mHeadHeight);
         }
 
         public void onPullingUp(float offsetY) {
-            pullListener.onPullingUp(GraceRefreshLayout.this, offsetY / mBottomHeight);
+            pullListener.onPullingUp(RefreshLayout.this, offsetY / mBottomHeight);
         }
 
         public void onRefresh() {
-            pullListener.onRefresh(GraceRefreshLayout.this);
+            pullListener.onRefresh(RefreshLayout.this);
         }
 
         public void onLoadMore() {
-            pullListener.onLoadMore(GraceRefreshLayout.this);
+            pullListener.onLoadMore(RefreshLayout.this);
         }
 
         public void onFinishRefresh() {
@@ -1157,15 +1157,15 @@ public class GraceRefreshLayout extends RelativeLayout implements IPullListener,
         }
 
         public void onPullDownReleasing(float offsetY) {
-            pullListener.onPullDownReleasing(GraceRefreshLayout.this, offsetY / mHeadHeight);
+            pullListener.onPullDownReleasing(RefreshLayout.this, offsetY / mHeadHeight);
         }
 
         public void onPullUpReleasing(float offsetY) {
-            pullListener.onPullUpReleasing(GraceRefreshLayout.this, offsetY / mBottomHeight);
+            pullListener.onPullUpReleasing(RefreshLayout.this, offsetY / mBottomHeight);
         }
 
         public boolean dispatchTouchEventSuper(MotionEvent ev) {
-            return GraceRefreshLayout.super.dispatchTouchEvent(ev);
+            return RefreshLayout.super.dispatchTouchEvent(ev);
         }
 
         public void onRefreshCanceled() {

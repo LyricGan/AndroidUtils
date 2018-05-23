@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.lyric.android.app.R;
 import com.lyric.android.app.activity.MainDetailsActivity;
 import com.lyric.android.app.utils.ActivityUtils;
-import com.lyric.android.app.widget.refresh.GraceRefreshLayout;
+import com.lyric.android.app.widget.refresh.RefreshLayout;
 import com.lyric.android.app.widget.refresh.OnRefreshListener;
 import com.lyric.common.BaseFragment;
 import com.lyric.common.BaseRecyclerAdapter;
@@ -41,24 +41,26 @@ public class ListFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        GraceRefreshLayout refreshLayout = findViewByIdRes(R.id.refresh_layout);
+        RefreshLayout refreshLayout = findViewByIdRes(R.id.refresh_layout);
         mRecyclerView = findViewByIdRes(R.id.recycler_view);
 
         refreshLayout.setAutoLoadMore(true);
+        refreshLayout.setEnableOverScroll(false);
+        refreshLayout.setNestedScrollingEnabled(true);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
-            public void onRefresh(final GraceRefreshLayout refreshLayout) {
+            public void onRefresh(final RefreshLayout refreshLayout) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         refreshLayout.finishRefreshing();
                     }
-                }, 1000);
+                }, 2000);
             }
 
             @Override
-            public void onLoadMore(final GraceRefreshLayout refreshLayout) {
+            public void onLoadMore(final RefreshLayout refreshLayout) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

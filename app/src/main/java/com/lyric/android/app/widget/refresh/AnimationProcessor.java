@@ -14,14 +14,14 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class AnimationProcessor implements IAnimationRefresh, IAnimationOverScroll {
-    private GraceRefreshLayout.CoreProcessor coreProcessor;
+    private RefreshLayout.CoreProcessor coreProcessor;
     private static final float animFraction = 1f;
     // 动画的变化率
     private DecelerateInterpolator decelerateInterpolator;
     private boolean scrollHeaderLocked = false;
     private boolean scrollFooterLocked = false;
 
-    public AnimationProcessor(GraceRefreshLayout.CoreProcessor coProcessor) {
+    public AnimationProcessor(RefreshLayout.CoreProcessor coProcessor) {
         this.coreProcessor = coProcessor;
         decelerateInterpolator = new DecelerateInterpolator(8);
     }

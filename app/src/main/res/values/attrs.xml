@@ -184,7 +184,7 @@
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="GraceRefreshLayout">
+    <declare-styleable name="RefreshLayout">
         <attr name="grl_max_head_height" format="dimension"/>
         <attr name="grl_head_height" format="dimension"/>
         <attr name="grl_max_footer_height" format="dimension"/>
