@@ -28,9 +28,9 @@ import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
 import com.lyric.android.app.utils.AddPictureUtils;
 import com.lyric.android.app.widget.AddPicturePopup;
-import com.lyric.common.BaseActivity;
-import com.lyric.common.BaseFragmentStatePagerAdapter;
-import com.lyric.utils.DisplayUtils;
+import com.lyric.android.app.common.BaseActivity;
+import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
+import com.lyric.android.app.utils.DisplayUtils;
 
 import java.util.Arrays;
 import java.util.List;

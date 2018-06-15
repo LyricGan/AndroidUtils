@@ -9,10 +9,6 @@ import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * @author lyricgan
@@ -79,20 +75,20 @@ public class FileResponseBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 final long bytesRead = super.read(sink, byteCount);
                 currentSize += bytesRead != -1 ? bytesRead : 0;
-                Observable.just(callback)
-                        .filter(new Func1<FileCallback, Boolean>() {
-                            @Override
-                            public Boolean call(FileCallback fileCallback) {
-                                return fileCallback != null;
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<FileCallback>() {
-                            @Override
-                            public void call(FileCallback callback) {
-                                callback.onProgress(currentSize, responseBody.contentLength(), bytesRead == -1);
-                            }
-                        });
+//                Observable.just(callback)
+//                        .filter(new Func1<FileCallback, Boolean>() {
+//                            @Override
+//                            public Boolean call(FileCallback fileCallback) {
+//                                return fileCallback != null;
+//                            }
+//                        })
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Action1<FileCallback>() {
+//                            @Override
+//                            public void call(FileCallback callback) {
+//                                callback.onProgress(currentSize, responseBody.contentLength(), bytesRead == -1);
+//                            }
+//                        });
                 return bytesRead;
             }
         };

@@ -16,8 +16,8 @@ import com.lyric.android.app.activity.MainDetailsActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.widget.refresh.RefreshLayout;
 import com.lyric.android.app.widget.refresh.OnRefreshListener;
-import com.lyric.common.BaseFragment;
-import com.lyric.common.BaseRecyclerAdapter;
+import com.lyric.android.app.common.BaseFragment;
+import com.lyric.android.app.common.BaseRecyclerAdapter;
 
 /**
  * 列表页面

@@ -9,10 +9,6 @@ import okio.BufferedSink;
 import okio.ForwardingSink;
 import okio.Okio;
 import okio.Sink;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * @author lyricgan
@@ -60,20 +56,20 @@ public class FileRequestBody extends RequestBody {
                     totalSize = contentLength();
                 }
                 currentSize += byteCount;
-                Observable.just(callback)
-                        .filter(new Func1<FileCallback, Boolean>() {
-                            @Override
-                            public Boolean call(FileCallback fileCallback) {
-                                return fileCallback != null;
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<FileCallback>() {
-                            @Override
-                            public void call(FileCallback callback) {
-                                callback.onProgress(currentSize, totalSize, (currentSize == totalSize));
-                            }
-                        });
+//                Observable.just(callback)
+//                        .filter(new Func1<FileCallback, Boolean>() {
+//                            @Override
+//                            public Boolean call(FileCallback fileCallback) {
+//                                return fileCallback != null;
+//                            }
+//                        })
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Action1<FileCallback>() {
+//                            @Override
+//                            public void call(FileCallback callback) {
+//                                callback.onProgress(currentSize, totalSize, (currentSize == totalSize));
+//                            }
+//                        });
             }
         };
     }

@@ -18,7 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.utils.DisplayUtils;
+import com.lyric.android.app.utils.DisplayUtils;
 
 /**
  * @author lyricgan

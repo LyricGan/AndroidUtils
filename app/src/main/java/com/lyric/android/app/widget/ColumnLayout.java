@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
-import com.lyric.utils.DisplayUtils;
+import com.lyric.android.app.utils.DisplayUtils;
 
 import java.util.ArrayList;
 import java.util.List;

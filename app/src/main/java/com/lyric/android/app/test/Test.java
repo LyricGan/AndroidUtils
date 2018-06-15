@@ -7,10 +7,10 @@ import android.os.Environment;
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.LogUtils;
-import com.lyric.network.NetworkCallback;
-import com.lyric.network.NetworkManager;
-import com.lyric.utils.DisplayUtils;
-import com.lyric.utils.ImageUtils;
+import com.lyric.android.app.network.NetworkCallback;
+import com.lyric.android.app.network.NetworkManager;
+import com.lyric.android.app.utils.DisplayUtils;
+import com.lyric.android.app.utils.ImageUtils;
 
 import java.io.File;
 import java.util.HashMap;

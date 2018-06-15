@@ -14,8 +14,6 @@ import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
-import com.lyric.common.BaseActivity;
-import com.lyric.common.BaseTitleBar;
 
 /**
  * 带扩展功能的Activity

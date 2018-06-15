@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 
-import com.lyric.utils.DisplayUtils;
+import com.lyric.android.app.utils.DisplayUtils;
 
 /**
  * @author lyricgan
