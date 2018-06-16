@@ -5,9 +5,8 @@ import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.common.BaseApplication;
 
 /**
- * 应用入口，进行初始化
+ * application for initialized
  * @author lyricgan
- * @time 2015/10/7 14:04
  */
 public class AndroidApplication extends BaseApplication {
 

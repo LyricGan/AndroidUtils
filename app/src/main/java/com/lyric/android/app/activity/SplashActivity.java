@@ -13,14 +13,13 @@ import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 
 /**
- * 启动页面
+ * splash activity
  * @author lyricgan
  */
 public class SplashActivity extends BaseActivity {
     private static final int WHAT_START = 0x1001;
-    // 延迟加载时间
+    // delay millis
     private static final long DELAY_MILLIS = 800L;
-    // 启动时间
     private long mStartTime;
 
     @Override
@@ -30,7 +29,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        // 防止HOME键重复启动
+        // for home repeat start
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
@@ -82,7 +81,6 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    // 发送延时消息
     private void sendDelayedMessage(long startTime) {
         long diff = System.currentTimeMillis() - startTime;
         if (diff >= DELAY_MILLIS) {

@@ -1,8 +1,5 @@
 package com.lyric.android.app.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,31 +15,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 
-import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseActivity;
+import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.fragment.ListFragment;
 import com.lyric.android.app.fragment.ViewFragment;
 import com.lyric.android.app.fragment.WebFragment;
-import com.lyric.android.app.utils.AddPictureUtils;
-import com.lyric.android.app.widget.AddPicturePopup;
-import com.lyric.android.app.common.BaseActivity;
-import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
-import com.lyric.android.app.utils.DisplayUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * 主页面
+ * main activity
  * @author lyricgan
  */
 public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
-    private ImageView ivUserAvatar;
 
     @Override
     public int getLayoutId() {
@@ -71,8 +61,6 @@ public class MainActivity extends BaseActivity {
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
-
-        initAddPictureUtils();
     }
 
     @Override
@@ -105,52 +93,6 @@ public class MainActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case AddPictureUtils.REQUEST_CODE_TAKE_PHOTO: {// 拍照
-                if (resultCode == Activity.RESULT_OK) {
-                    int size = DisplayUtils.dip2px(AndroidApplication.getContext(), 72);
-                    Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(size, size);
-                    updateAvatarView(bitmap);
-                }
-            }
-                break;
-            case AddPictureUtils.REQUEST_CODE_PHOTO_ALBUM: {// 相册
-                if (data != null && resultCode == Activity.RESULT_OK) {
-                    int size = DisplayUtils.dip2px(AndroidApplication.getContext(), 72);
-                    Bitmap bitmap = AddPictureUtils.getInstance().getBitmapForAvatar(data, size, size);
-                    updateAvatarView(bitmap);
-                }
-            }
-                break;
-            default:
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AddPictureUtils.getInstance().destroy();
-    }
-
-    private void initAddPictureUtils() {
-        AddPictureUtils.getInstance().initialize(this);
-        AddPictureUtils.getInstance().setOnMenuClickListener(new AddPicturePopup.OnMenuClickListener() {
-            @Override
-            public void takePhoto(PopupWindow window) {
-                AddPictureUtils.getInstance().takePhotoForAvatar(MainActivity.this);
-            }
-
-            @Override
-            public void openPhotoAlbum(PopupWindow window) {
-                AddPictureUtils.getInstance().openPhotoAlbum(MainActivity.this);
-            }
-        });
-    }
-
     private void setupViewPager() {
         TabLayout tabLayout = findViewByIdRes(R.id.tabs);
         // 设置为可滚动模式
@@ -171,20 +113,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void updateAvatarView(Bitmap bitmap) {
-        if (bitmap != null) {
-            ivUserAvatar.setImageBitmap(bitmap);
-        }
-    }
-
     private void setupDrawerContent(NavigationView navigationView) {
-        ivUserAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_user_avatar);
-        ivUserAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddPictureUtils.getInstance().showPopup(v);
-            }
-        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
