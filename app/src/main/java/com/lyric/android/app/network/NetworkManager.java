@@ -18,11 +18,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
- * 网络数据请求加载器<br/>
- * 使用OkHttp开源库来做网络请求
+ * network manager with OkHttp
+ * https://github.com/square/okhttp
  * 
  * @author lyricgan
- * @date 2017/12/28 10:13
  */
 public class NetworkManager {
     private OkHttpClient mHttpClient;
@@ -32,11 +31,11 @@ public class NetworkManager {
     }
 
     private static class NetworkManagerHolder {
-        private static final NetworkManager NETWORK_MANAGER = new NetworkManager();
+        private static final NetworkManager INSTANCE = new NetworkManager();
     }
 
     public static NetworkManager getInstance() {
-        return NetworkManagerHolder.NETWORK_MANAGER;
+        return NetworkManagerHolder.INSTANCE;
     }
 
     public OkHttpClient getDefaultHttpClient() {
