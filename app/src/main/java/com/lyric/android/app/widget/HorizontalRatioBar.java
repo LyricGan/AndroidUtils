@@ -10,12 +10,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.utils.StringUtils;
 
 /**
  * 自定义水平比例图，比例值可自适应文字
  * @author lyricgan
- * @date 2017/11/9 18:42
  */
 public class HorizontalRatioBar extends View {
     private int mBackgroundColor;
@@ -180,16 +178,4 @@ public class HorizontalRatioBar extends View {
         }
     }
 
-    public void test() {
-        float homeRadio = 0.50f;
-        float flatRadio = 0.20f;
-        float awayRadio = 0.30f;
-        float[] ratios = {homeRadio, flatRadio, awayRadio};
-        int[] ratioColors = {0xffeb221f, 0xffb3c526, 0xff1fbbe9};
-        String homeRadioString = "主胜" + StringUtils.formatDecimals(homeRadio * 100, 0, false) + "%";
-        String flatRadioString = "平" + StringUtils.formatDecimals(flatRadio * 100, 0, false) + "%";
-        String awayRadioString = "客胜" + StringUtils.formatDecimals(awayRadio * 100, 0, false) + "%";
-        String[] radioTexts = {homeRadioString, flatRadioString, awayRadioString};
-        setRatios(ratios, ratioColors, radioTexts);
-    }
 }

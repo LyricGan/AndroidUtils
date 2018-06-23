@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * main activity
+ *
  * @author lyricgan
  */
 public class MainActivity extends BaseActivity {
