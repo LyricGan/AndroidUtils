@@ -1,4 +1,4 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;

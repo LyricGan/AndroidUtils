@@ -9,20 +9,17 @@ import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.LogUtils;
 import com.lyric.android.app.utils.ViewUtils;
-import com.lyric.android.app.widget.LoadingDialog;
 import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
 
 /**
- * 带扩展功能的Activity
+ * base compat activity
  * @author lyricgan
- * @date 2017/12/22 12:57
  */
 public abstract class BaseCompatActivity extends BaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mSwipeBackHelper;
-    private LoadingDialog mLoadingDialog;
 
     @Override
     protected void onPrepareContentView() {
@@ -53,7 +50,7 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
 
     @Override
     public void onClick(View v) {
-        if (ViewUtils.isFastOperated()) {
+        if (ViewUtils.isFastOperated(500L)) {
             return;
         }
         super.onClick(v);
@@ -77,7 +74,7 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
     }
 
     protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_title_bar_bg));
+        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_title_bar));
     }
 
     protected boolean isSwipeBackEnable() {
@@ -150,18 +147,11 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
 
     @Override
     public void showLoading(CharSequence message, boolean cancelable) {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this);
-        }
-        mLoadingDialog.setMessage(message);
-        mLoadingDialog.setCancelable(cancelable);
-        mLoadingDialog.show();
+        super.showLoading(message, cancelable);
     }
 
     @Override
     public void hideLoading() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
-        }
+        super.hideLoading();
     }
 }

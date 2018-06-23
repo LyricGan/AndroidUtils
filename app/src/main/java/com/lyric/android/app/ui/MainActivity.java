@@ -1,9 +1,9 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,15 +13,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
-import com.lyric.android.app.fragment.ListFragment;
-import com.lyric.android.app.fragment.ViewFragment;
-import com.lyric.android.app.fragment.WebFragment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,13 +48,12 @@ public class MainActivity extends BaseActivity {
         }
         mDrawerLayout = findViewByIdRes(R.id.dl_main_drawer);
         NavigationView navigationView = findViewByIdRes(R.id.nv_main_navigation);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
-        FloatingActionButton floatingActionButton = findViewByIdRes(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        setupDrawerContent(navigationView);
+
+        findViewByIdRes(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Snackbar.make(view, R.string.app_name, Snackbar.LENGTH_SHORT).show();
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -65,21 +62,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-            case android.R.id.home: {
+            case android.R.id.home:
                 if (mDrawerLayout != null) {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
-            }
-            return true;
+                return true;
+            case R.id.action_settings:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -91,26 +88,6 @@ public class MainActivity extends BaseActivity {
             return;
         }
         super.onBackPressed();
-    }
-
-    private void setupViewPager() {
-        TabLayout tabLayout = findViewByIdRes(R.id.tabs);
-        // 设置为可滚动模式
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance("https://www.baidu.com/")};
-        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
-        List<Fragment> fragmentList = Arrays.asList(fragments);
-        List<String> titleList = Arrays.asList(titles);
-        int size = titleList.size();
-        for (int i = 0; i < size; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i)));
-        }
-        PagerAdapter adapter = new BaseFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
-        mViewPager.setAdapter(adapter);
-        // 设置缓存页数
-        mViewPager.setOffscreenPageLimit(titles.length);
-        tabLayout.setupWithViewPager(mViewPager);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -133,7 +110,6 @@ public class MainActivity extends BaseActivity {
                     case R.id.menu_item_03:
                         break;
                 }
-                menuItem.setChecked(true);
                 if (mDrawerLayout != null) {
                     mDrawerLayout.closeDrawers();
                 }
@@ -141,4 +117,27 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    private void setupViewPager() {
+        TabLayout tabLayout = findViewByIdRes(R.id.tabs);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance("https://www.baidu.com/")};
+        String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
+        List<Fragment> fragmentList = Arrays.asList(fragments);
+        List<String> titleList = Arrays.asList(titles);
+        int size = titleList.size();
+        TabLayout.Tab tab;
+        for (int i = 0; i < size; i++) {
+            tab = tabLayout.newTab();
+            tab.setText(titleList.get(i));
+
+            tabLayout.addTab(tab);
+        }
+        PagerAdapter adapter = new BaseFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(size);
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
 }

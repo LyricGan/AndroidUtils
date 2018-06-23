@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.activity.MainActivity;
+import com.lyric.android.app.ui.MainActivity;
 
 /**
  * 应用快捷方式工具类

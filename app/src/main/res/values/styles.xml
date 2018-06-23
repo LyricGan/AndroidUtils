@@ -11,14 +11,13 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="popup_style">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.Default">
+        <item name="overlapAnchor">false</item>
+    </style>
 
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
@@ -28,10 +27,14 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <!-- 默认PopupWindow动画 -->
     <style name="PopupWindowAnimation" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/base_slide_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/base_slide_bottom_out</item>
+    </style>
+
+    <style name="popup_style">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
     <!-- 默认文本样式 -->

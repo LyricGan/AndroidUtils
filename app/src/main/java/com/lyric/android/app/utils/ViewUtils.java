@@ -30,18 +30,13 @@ import java.lang.reflect.Method;
 import java.util.Locale;
 
 /**
- * 视图工具类
+ * view utils
  * 
  * @author lyricgan
- * @created 2015-5-28
  */
 public class ViewUtils {
     /** 上一次操作时间 */
     private static long sLastOperateTime;
-
-    public static boolean isFastOperated() {
-        return isFastOperated(500L);
-    }
 
     public static boolean isFastOperated(long maxDelayTimes) {
         long time = System.currentTimeMillis();
@@ -53,7 +48,7 @@ public class ViewUtils {
         return false;
     }
 
-    public <T extends View> T findViewById(View view, int id) {
+    public static <T extends View> T findViewById(View view, int id) {
         if (view != null) {
             return (T) view.findViewById(id);
         }

@@ -1,4 +1,4 @@
-package com.lyric.android.app.fragment;
+package com.lyric.android.app.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.activity.MainDetailsActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.widget.refresh.RefreshLayout;
 import com.lyric.android.app.widget.refresh.OnRefreshListener;

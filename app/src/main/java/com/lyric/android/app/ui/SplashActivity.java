@@ -1,4 +1,4 @@
-package com.lyric.android.app.activity;
+package com.lyric.android.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,7 @@ import com.lyric.android.app.utils.ActivityUtils;
  * @author lyricgan
  */
 public class SplashActivity extends BaseActivity {
-    private static final int WHAT_START = 0x1001;
-    // delay millis
+    private static final int MSG_CODE_START = 0x1001;
     private static final long DELAY_MILLIS = 800L;
     private long mStartTime;
 
@@ -29,7 +28,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        // for home repeat start
+        // avoid repeat start
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
@@ -67,7 +66,7 @@ public class SplashActivity extends BaseActivity {
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
         switch (msg.what) {
-            case WHAT_START:
+            case MSG_CODE_START:
                 jumpPage();
                 break;
             default:
@@ -76,17 +75,17 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void removeDelayedMessage() {
-        if (getHandler().hasMessages(WHAT_START)) {
-            getHandler().removeMessages(WHAT_START);
+        if (getHandler().hasMessages(MSG_CODE_START)) {
+            getHandler().removeMessages(MSG_CODE_START);
         }
     }
 
     private void sendDelayedMessage(long startTime) {
         long diff = System.currentTimeMillis() - startTime;
         if (diff >= DELAY_MILLIS) {
-            getHandler().sendEmptyMessageDelayed(WHAT_START, 0);
+            getHandler().sendEmptyMessageDelayed(MSG_CODE_START, 0);
         } else {
-            getHandler().sendEmptyMessageDelayed(WHAT_START, DELAY_MILLIS - diff);
+            getHandler().sendEmptyMessageDelayed(MSG_CODE_START, DELAY_MILLIS - diff);
         }
     }
 

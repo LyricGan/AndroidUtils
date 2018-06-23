@@ -1,4 +1,4 @@
-package com.lyric.android.app.fragment;
+package com.lyric.android.app.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,7 +40,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_web;
+        return R.layout.fragment_web;
     }
 
     @Override

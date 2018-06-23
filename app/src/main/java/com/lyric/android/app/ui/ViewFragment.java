@@ -1,4 +1,4 @@
-package com.lyric.android.app.fragment;
+package com.lyric.android.app.ui;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -121,12 +121,6 @@ public class ViewFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 createQrCode();
-            }
-        });
-        findViewByIdRes(R.id.btn_show_dialog).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLoading("");
             }
         });
         HorizontalRatioBar horizontalRatioBar = findViewByIdRes(R.id.horizontal_radio_bar);
@@ -351,7 +345,7 @@ public class ViewFragment extends BaseFragment {
         builder.append(action);
         builder.append(" ");
         SpannableString spannableString = new SpannableString(name);
-        int textColor = ContextCompat.getColor(context, R.color.color_blue_loading);
+        int textColor = ContextCompat.getColor(context, R.color.color_blue_default);
         spannableString.setSpan(new TextClickableSpan(textColor, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
