@@ -64,7 +64,7 @@ public class ViewFragment extends BaseFragment {
         tabDigitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tabDigitLayout.setNumber(567890, 500L);
+                tabDigitLayout.setNumber(567890, 300L);
             }
         });
 
