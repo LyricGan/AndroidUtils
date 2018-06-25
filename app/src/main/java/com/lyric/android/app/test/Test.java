@@ -3,38 +3,24 @@ package com.lyric.android.app.test;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 
 import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.utils.FileUtils;
-import com.lyric.android.app.utils.LogUtils;
-import com.lyric.android.app.network.NetworkCallback;
-import com.lyric.android.app.network.NetworkManager;
 import com.lyric.android.app.utils.DisplayUtils;
+import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.ImageUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lyricgan
- * @date 2018/1/2 17:35
  */
 public class Test {
-    private static final String TAG = Test.class.getName();
+    private static final String TAG = "Test";
 
-    public static void requestNews(Object tag, NetworkCallback callback) {
-        // 类型,top(头条，默认),shehui(社会),guonei(国内),guoji(国际),yule(娱乐),tiyu(体育)junshi(军事),keji(科技),caijing(财经),shishang(时尚)
-        final String TEST_URL = "http://v.juhe.cn/toutiao/index";
-        Map<String, String> params = new HashMap<>();
-        params.put("device", "android");
-        params.put("key", "f909a4cf8e87f8553c95f6d4989d1559");
-        params.put("type", "top");
-        NetworkManager.getInstance().get(TEST_URL, params, tag, callback);
-    }
-
-    public static void dirs(Context context) {
+    public static void showLogs(Context context) {
         StringBuilder builder = new StringBuilder("");
         File cacheDir = context.getCacheDir();
         if (cacheDir != null) {
@@ -150,6 +136,16 @@ public class Test {
             }
         }).start();
 
-        DisplayUtils.log(context);
+        StringBuilder displayBuilder = new StringBuilder();
+        DisplayMetrics displayMetrics = DisplayUtils.getDisplayMetrics(context);
+        displayBuilder.append("density=").append(displayMetrics.density).append("\n")
+                .append("densityDpi=").append(displayMetrics.densityDpi).append("\n")
+                .append("scaledDensity=").append(displayMetrics.scaledDensity).append("\n")
+                .append("screenWidth=").append(displayMetrics.widthPixels).append("\n")
+                .append("screenHeight=").append(displayMetrics.heightPixels).append("\n")
+                .append("xdpi=").append(displayMetrics.xdpi).append("\n")
+                .append("ydpi=").append(displayMetrics.ydpi).append("\n");
+
+        LogUtils.d(TAG, displayBuilder.toString());
     }
 }

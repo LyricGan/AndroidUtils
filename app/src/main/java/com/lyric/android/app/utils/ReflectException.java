@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.reflect;
+package com.lyric.android.app.utils;
 
 import java.lang.reflect.InvocationTargetException;
 

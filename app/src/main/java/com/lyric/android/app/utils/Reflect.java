@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.reflect;
+package com.lyric.android.app.utils;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
@@ -493,7 +493,6 @@ public class Reflect {
     public <P> P as(Class<P> proxyType) {
         final boolean isMap = (object instanceof Map);
         final InvocationHandler handler = new InvocationHandler() {
-            @SuppressWarnings("null")
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 String name = method.getName();

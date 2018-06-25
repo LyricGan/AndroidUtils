@@ -17,9 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
+import com.lyric.android.app.test.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +61,8 @@ public class MainActivity extends BaseActivity {
         });
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
+
+        Test.showLogs(AndroidApplication.getContext());
     }
 
     @Override

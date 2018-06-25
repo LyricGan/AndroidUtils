@@ -14,7 +14,6 @@ import java.util.LinkedList;
  * 深度：二叉树的层数，就是深度。
  *
  * @author lyricgan
- * @time 2017/9/1 15:10
  */
 public class BinaryTree {
     // 根结点

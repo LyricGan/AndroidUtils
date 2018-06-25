@@ -12,7 +12,6 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.RawRes;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Display;
@@ -22,9 +21,9 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
- * 视图显示工具类
+ * resource display utils
+ *
  * @author lyricgan
- * @time 2016/3/12 15:04
  */
 public class DisplayUtils {
 
@@ -85,20 +84,6 @@ public class DisplayUtils {
 
     public static float getYdpi(Context context) {
         return getDisplayMetrics(context).ydpi;
-    }
-
-    public static void log(Context context) {
-        StringBuilder builder = new StringBuilder();
-        DisplayMetrics displayMetrics = getDisplayMetrics(context);
-        builder.append("density=").append(displayMetrics.density).append("\n")
-                .append("densityDpi=").append(displayMetrics.densityDpi).append("\n")
-                .append("scaledDensity=").append(displayMetrics.scaledDensity).append("\n")
-                .append("screenWidth=").append(displayMetrics.widthPixels).append("\n")
-                .append("screenHeight=").append(displayMetrics.heightPixels).append("\n")
-                .append("xdpi=").append(displayMetrics.xdpi).append("\n")
-                .append("ydpi=").append(displayMetrics.ydpi).append("\n");
-
-        Log.d(DisplayUtils.class.getSimpleName(), builder.toString());
     }
 
     /**

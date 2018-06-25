@@ -1,20 +1,13 @@
 package com.lyric.android.app.test.arithmetic;
 
 /**
- * 排序工具类
  * @author lyricgan
- * @time 2016/1/19 13:15
  */
 public class SortUtils {
 
     private SortUtils() {
     }
 
-    /**
-     * 冒泡排序
-     * @param array 排序数组
-     * @return int[]
-     */
     public static int[] bubbleSort(int[] array) {
         if (array == null || array.length == 0) {
             return array;
@@ -33,13 +26,6 @@ public class SortUtils {
         return array;
     }
 
-    /**
-     * 冒泡排序，双向排序
-     * @param array 排序数组
-     * @param min 数组最小索引
-     * @param max 数组最大索引
-     * @return int[]
-     */
     public static int[] bubbleSort(int[] array, int min, int max) {
         if (array == null || array.length == 0) {
             return array;
@@ -67,13 +53,6 @@ public class SortUtils {
         return array;
     }
 
-    /**
-     * 快速排序
-     * @param array 排序数组
-     * @param low 数组最小索引
-     * @param high 数组最大索引
-     * @return int[]
-     */
     public static int[] quickSort(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
             return array;
@@ -86,14 +65,7 @@ public class SortUtils {
         return array;
     }
 
-    /**
-     * 划分数组，获取数组索引
-     * @param array 排序数组
-     * @param low 数组最小索引
-     * @param high 数组最大索引
-     * @return int
-     */
-    public static int partition(int[] array, int low, int high) {
+    private static int partition(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
             return 0;
         }
