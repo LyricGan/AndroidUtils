@@ -21,7 +21,6 @@ import com.lyric.android.app.common.BaseRecyclerAdapter;
 /**
  * 列表页面
  * @author lyricgan
- * @date 2017/7/25 14:22
  */
 public class ListFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
@@ -40,8 +39,8 @@ public class ListFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        RefreshLayout refreshLayout = findViewByIdRes(R.id.refresh_layout);
-        mRecyclerView = findViewByIdRes(R.id.recycler_view);
+        RefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
+        mRecyclerView = findViewWithId(R.id.recycler_view);
 
         refreshLayout.setAutoLoadMore(true);
         refreshLayout.setEnableOverScroll(false);

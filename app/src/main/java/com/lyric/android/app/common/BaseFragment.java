@@ -91,7 +91,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     }
 
     @Override
-    public <T extends View> T findViewByIdRes(int id) {
+    public <T extends View> T findViewWithId(int id) {
         View rootView = getRootView();
         if (rootView != null) {
             return (T) rootView.findViewById(id);

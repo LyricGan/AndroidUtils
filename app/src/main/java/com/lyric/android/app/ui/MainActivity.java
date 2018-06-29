@@ -42,18 +42,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        Toolbar toolbar = findViewByIdRes(R.id.toolbar);
+        Toolbar toolbar = findViewWithId(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mDrawerLayout = findViewByIdRes(R.id.dl_main_drawer);
-        NavigationView navigationView = findViewByIdRes(R.id.nv_main_navigation);
+        mDrawerLayout = findViewWithId(R.id.dl_main_drawer);
+        NavigationView navigationView = findViewWithId(R.id.nv_main_navigation);
         setupDrawerContent(navigationView);
 
-        findViewByIdRes(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        findViewWithId(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, R.string.app_name, Snackbar.LENGTH_SHORT).show();
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        TabLayout tabLayout = findViewByIdRes(R.id.tabs);
+        TabLayout tabLayout = findViewWithId(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance("https://www.baidu.com/")};

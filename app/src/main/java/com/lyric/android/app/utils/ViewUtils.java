@@ -48,7 +48,7 @@ public class ViewUtils {
         return false;
     }
 
-    public static <T extends View> T findViewById(View view, int id) {
+    public static <T extends View> T findViewWithId(View view, int id) {
         if (view != null) {
             return (T) view.findViewById(id);
         }

@@ -45,7 +45,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        mWebLayout = findViewByIdRes(R.id.layout_web);
+        mWebLayout = findViewWithId(R.id.layout_web);
 
         WebView webView = mWebLayout.getWebView();
         webView.setOnLongClickListener(new View.OnLongClickListener() {

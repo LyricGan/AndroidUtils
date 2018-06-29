@@ -46,7 +46,7 @@ public class ViewFragment extends BaseFragment {
 
     @Override
     public void onContentViewInitialize(View view, Bundle savedInstanceState) {
-        PieView pieView = findViewByIdRes(R.id.pie_view);
+        PieView pieView = findViewWithId(R.id.pie_view);
 
         ArrayList<PieView.PieData> dataList = new ArrayList<>();
         PieView.PieData data;
@@ -58,7 +58,7 @@ public class ViewFragment extends BaseFragment {
         pieView.setData(dataList);
         pieView.setStartAngle(0);
 
-        final TabDigitLayout tabDigitLayout = findViewByIdRes(R.id.tab_digit_layout);
+        final TabDigitLayout tabDigitLayout = findViewWithId(R.id.tab_digit_layout);
         tabDigitLayout.setTextBackground(DisplayUtils.getColor(AndroidApplication.getContext(), R.color.color_blue_default));
         tabDigitLayout.setNumber(567890, 1L);
         tabDigitLayout.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +68,8 @@ public class ViewFragment extends BaseFragment {
             }
         });
 
-        mClashBar = findViewByIdRes(R.id.clash_bar);
-        findViewByIdRes(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
+        mClashBar = findViewWithId(R.id.clash_bar);
+        findViewWithId(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showClashBar();
@@ -77,7 +77,7 @@ public class ViewFragment extends BaseFragment {
                 showRingProgressBar();
             }
         });
-        HorizontalRatioBar horizontalRatioBar = findViewByIdRes(R.id.horizontal_radio_bar);
+        HorizontalRatioBar horizontalRatioBar = findViewWithId(R.id.horizontal_radio_bar);
         showRadioBar(horizontalRatioBar);
     }
 
@@ -91,14 +91,14 @@ public class ViewFragment extends BaseFragment {
     }
 
     private void showCircleProgress() {
-        final CircleProgressBar lineProgressBar = findViewByIdRes(R.id.line_progress);
-        final CircleProgressBar solidProgressBar = findViewByIdRes(R.id.solid_progress);
-        final CircleProgressBar customProgressBar1 = findViewByIdRes(R.id.custom_progress1);
-        final CircleProgressBar customProgressBar2 = findViewByIdRes(R.id.custom_progress2);
-        final CircleProgressBar customProgressBar3 = findViewByIdRes(R.id.custom_progress3);
-        final CircleProgressBar customProgressBar4 = findViewByIdRes(R.id.custom_progress4);
-        final CircleProgressBar customProgressBar5 = findViewByIdRes(R.id.custom_progress5);
-        final CircleProgressBar customProgressBar6 = findViewByIdRes(R.id.custom_progress6);
+        final CircleProgressBar lineProgressBar = findViewWithId(R.id.line_progress);
+        final CircleProgressBar solidProgressBar = findViewWithId(R.id.solid_progress);
+        final CircleProgressBar customProgressBar1 = findViewWithId(R.id.custom_progress1);
+        final CircleProgressBar customProgressBar2 = findViewWithId(R.id.custom_progress2);
+        final CircleProgressBar customProgressBar3 = findViewWithId(R.id.custom_progress3);
+        final CircleProgressBar customProgressBar4 = findViewWithId(R.id.custom_progress4);
+        final CircleProgressBar customProgressBar5 = findViewWithId(R.id.custom_progress5);
+        final CircleProgressBar customProgressBar6 = findViewWithId(R.id.custom_progress6);
 
         ValueAnimator animator = ValueAnimator.ofInt(0, 98);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -138,9 +138,9 @@ public class ViewFragment extends BaseFragment {
     }
 
     private void showRingProgressBar() {
-        RingProgressBar ringProgressBar1 = findViewByIdRes(R.id.ring_progress_bar_1);
-        RingProgressBar ringProgressBar2 = findViewByIdRes(R.id.ring_progress_bar_2);
-        RingProgressBar ringProgressBar3 = findViewByIdRes(R.id.ring_progress_bar_3);
+        RingProgressBar ringProgressBar1 = findViewWithId(R.id.ring_progress_bar_1);
+        RingProgressBar ringProgressBar2 = findViewWithId(R.id.ring_progress_bar_2);
+        RingProgressBar ringProgressBar3 = findViewWithId(R.id.ring_progress_bar_3);
 
         ringProgressBar1.setAlwaysShowAnimation(true);
         ringProgressBar1.setSweepGradientColors(mRedGradientColors);

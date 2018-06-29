@@ -5,8 +5,8 @@ import android.view.View;
 
 /**
  * 基础接口类
+ *
  * @author lyricgan
- * @version 2015-9-24
  */
 public interface IBaseListener extends View.OnClickListener {
 
@@ -60,5 +60,5 @@ public interface IBaseListener extends View.OnClickListener {
      * @param <T> 泛型，继承View
      * @return 视图或null
      */
-    <T extends View> T findViewByIdRes(int id);
+    <T extends View> T findViewWithId(int id);
 }

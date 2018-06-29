@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    public <T extends View> T findViewByIdRes(int id) {
+    public <T extends View> T findViewWithId(int id) {
         return (T) super.findViewById(id);
     }
 
