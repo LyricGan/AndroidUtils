@@ -18,8 +18,8 @@ import com.lyric.android.app.R;
 
 /**
  * Fragment基类
+ *
  * @author lyricgan
- * @time 2017/11/26 13:59
  */
 public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getName();
@@ -207,7 +207,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        if (!isStatusValid()) {
+        if (!isAdded() || isRemoving()) {
             return;
         }
         activity.showLoading(message, cancelable);
@@ -219,7 +219,7 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        if (!isStatusValid()) {
+        if (!isAdded() || isRemoving()) {
             return;
         }
         activity.hideLoading();
@@ -236,10 +236,6 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
 
     public boolean isActivityDestroyed() {
         return getActivity() == null;
-    }
-
-    public boolean isStatusValid() {
-        return (isAdded() && !isRemoving());
     }
 
     public boolean onBackPressed() {
@@ -271,5 +267,8 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
 
     @Override
     public void handleMessage(Message msg) {
+    }
+
+    public void onSelectChanged(boolean isSelected) {
     }
 }

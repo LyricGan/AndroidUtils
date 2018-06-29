@@ -23,8 +23,8 @@ import com.lyric.android.app.R;
 
 /**
  * Activity基类
+ *
  * @author lyricgan
- * @time 2016/5/26 13:59
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getSimpleName();
