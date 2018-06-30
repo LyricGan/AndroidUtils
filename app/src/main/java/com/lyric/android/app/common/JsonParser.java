@@ -1,4 +1,4 @@
-package com.lyric.android.app.data;
+package com.lyric.android.app.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,23 +6,22 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 
 /**
- * Json数据解析工具<br/>
- * 使用Gson来做数据解析
+ * Json parse with gson
  *
  * @author lyricgan
  */
-public class JsonHelper {
+public class JsonParser {
     private Gson mGson;
 
-    private JsonHelper() {
+    private JsonParser() {
         mGson = getDefaultGson();
     }
 
     private static class JsonHelperHolder {
-        private static final JsonHelper JSON_HELPER = new JsonHelper();
+        private static final JsonParser JSON_HELPER = new JsonParser();
     }
 
-    public static JsonHelper getInstance() {
+    public static JsonParser getInstance() {
         return JsonHelperHolder.JSON_HELPER;
     }
 
@@ -36,9 +35,6 @@ public class JsonHelper {
     }
 
     public void setGson(Gson gson) {
-        if (gson == null) {
-            gson = getDefaultGson();
-        }
         this.mGson = gson;
     }
 

@@ -1,11 +1,12 @@
-package com.lyric.android.app.data;
+package com.lyric.android.app.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * SharedPreferences工具类
+ * SharedPreferences helper
+ *
  * @author lyricgan
  */
 public class PreferencesHelper {

@@ -1,6 +1,6 @@
 package com.lyric.android.app.network;
 
-import com.lyric.android.app.data.JsonHelper;
+import com.lyric.android.app.common.JsonParser;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -22,7 +22,7 @@ public abstract class JsonCallback<T> extends BaseResponseCallback<T> {
     @Override
     public T parseResponse(ResponseBody responseBody) {
         try {
-            return JsonHelper.getInstance().parse(responseBody.string(), type);
+            return JsonParser.getInstance().parse(responseBody.string(), type);
         } catch (IOException e) {
             e.printStackTrace();
         }
