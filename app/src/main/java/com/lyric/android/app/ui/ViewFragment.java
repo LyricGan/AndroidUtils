@@ -45,7 +45,7 @@ public class ViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         PieView pieView = findViewWithId(R.id.pie_view);
 
         ArrayList<PieView.PieData> dataList = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onDataInitialize(Bundle savedInstanceState) {
+    public void onCreateData(Bundle savedInstanceState) {
         showCircleProgress();
 
         showClashBar();

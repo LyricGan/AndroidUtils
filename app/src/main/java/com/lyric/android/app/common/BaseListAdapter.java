@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * 适配器基类{@link BaseAdapter}
  * @author lyricgan
- * @time 16/3/10
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
     private List<T> mDataList;

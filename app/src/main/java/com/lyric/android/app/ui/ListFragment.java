@@ -38,7 +38,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         RefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
         mRecyclerView = findViewWithId(R.id.recycler_view);
 
@@ -70,7 +70,7 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    public void onDataInitialize(Bundle savedInstanceState) {
+    public void onCreateData(Bundle savedInstanceState) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
     }

@@ -1,19 +1,16 @@
 package com.lyric.android.app.common;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,58 +19,62 @@ import android.widget.EditText;
 import com.lyric.android.app.R;
 
 /**
- * Activity基类
+ * base activity
  *
  * @author lyricgan
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
-
     private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        onPrepareCreate(savedInstanceState);
+        onCreatePrepare(savedInstanceState);
         super.onCreate(savedInstanceState);
-        loggingMessage("onCreate savedInstanceState:" + savedInstanceState);
         mHandler = new InnerHandler(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            onExtrasInitialize(bundle);
+            onCreateExtras(bundle);
         }
-        onPrepareContentView();
+        onCreateContentViewPrepare();
         int layoutId = getLayoutId();
         if (layoutId > 0) {
             setContentView(layoutId);
         } else {
             setContentView(getContentView());
         }
-        setContentView(getLayoutId());
         View view = getWindow().getDecorView();
         View titleView = view.findViewById(R.id.title_bar);
         if (titleView != null) {
-            BaseTitleBar titleBar = new BaseTitleBar(titleView);
-            onTitleBarInitialize(titleBar, savedInstanceState);
+            if (titleView instanceof Toolbar) {
+                onCreateTitleBar((Toolbar) titleView, savedInstanceState);
+            } else {
+                BaseTitleBar titleBar = new BaseTitleBar(titleView);
+                onCreateTitleBar(titleBar, savedInstanceState);
+            }
         }
-        onContentViewInitialize(view, savedInstanceState);
+        onCreateContentView(view, savedInstanceState);
 
-        onDataInitialize(savedInstanceState);
+        onCreateData(savedInstanceState);
     }
 
     @Override
-    public void onPrepareCreate(Bundle savedInstanceState) {
+    public void onCreatePrepare(Bundle savedInstanceState) {
     }
 
     @Override
-    public void onExtrasInitialize(Bundle bundle) {
+    public void onCreateExtras(Bundle bundle) {
     }
 
     @Override
-    public void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
+    public void onCreateTitleBar(BaseTitleBar titleBar, Bundle savedInstanceState) {
     }
 
-    protected void onPrepareContentView() {
+    protected void onCreateTitleBar(Toolbar toolbar, Bundle savedInstanceState) {
+    }
+
+    protected void onCreateContentViewPrepare() {
     }
 
     protected View getContentView() {
@@ -81,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    public void onDataInitialize(Bundle savedInstanceState) {
+    public void onCreateData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -94,95 +95,15 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        loggingMessage("onNewIntent");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        loggingMessage("onRestart");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        loggingMessage("onStart");
-    }
-
-    @Override
     protected void onResume() {
         mDestroy = false;
         super.onResume();
-        loggingMessage("onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        loggingMessage("onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        loggingMessage("onStop");
     }
 
     @Override
     protected void onDestroy() {
         mDestroy = true;
         super.onDestroy();
-        loggingMessage("onDestroy");
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        loggingMessage("onActivityResult(int requestCode, int resultCode, Intent data)");
-    }
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        loggingMessage("onAttachedToWindow");
-    }
-
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        loggingMessage("onDetachedFromWindow");
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        loggingMessage("onConfigurationChanged");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        loggingMessage("onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState)");
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        loggingMessage("onSaveInstanceState(Bundle outState)");
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-        loggingMessage("onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        loggingMessage("onRestoreInstanceState(Bundle savedInstanceState)");
     }
 
     protected boolean isDestroy() {
@@ -207,16 +128,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
 
     protected boolean isAutoHideKeyboard() {
         return false;
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -290,12 +201,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
             fragmentTransaction.addToBackStack(name);
         }
         fragmentTransaction.commitAllowingStateLoss();
-    }
-
-    private void loggingMessage(String message) {
-        if (BaseApplication.getApplication().isDebuggable()) {
-            Log.d(TAG, message);
-        }
     }
 
     @Override

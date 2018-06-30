@@ -16,7 +16,7 @@ public class MainDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         Toolbar toolbar = findViewWithId(R.id.toolbar);
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout collapsingToolbar = findViewWithId(R.id.collapsing_toolbar);

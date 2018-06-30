@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         Toolbar toolbar = findViewWithId(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();

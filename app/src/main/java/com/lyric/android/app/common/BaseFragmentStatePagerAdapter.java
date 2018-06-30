@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.List;
 
 /**
- * fragments页面适配器，可保存和恢复状态
+ * fragments pager adapter with state
+ *
  * @author lyricgan
- * @date 2017/11/28 17:31
  */
 public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> mFragments;

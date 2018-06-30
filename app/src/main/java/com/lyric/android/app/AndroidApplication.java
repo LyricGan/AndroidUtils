@@ -1,24 +1,27 @@
 package com.lyric.android.app;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.utils.LogUtils;
-import com.lyric.android.app.common.BaseApplication;
 
 /**
  * application for initialized
  * @author lyricgan
  */
-public class AndroidApplication extends BaseApplication {
+public class AndroidApplication extends Application {
+    private static AndroidApplication sInstance;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        sInstance = this;
 
-        LogUtils.setDebug(isDebuggable());
+        LogUtils.setDebug(Constants.DEBUG);
 	}
 
-    @Override
-    public boolean isDebuggable() {
-        return Constants.DEBUG;
+    public static Context getContext() {
+        return sInstance.getApplicationContext();
     }
 }

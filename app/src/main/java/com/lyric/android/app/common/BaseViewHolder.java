@@ -25,7 +25,6 @@ import android.widget.TextView;
 /**
  * 适配器ViewHolder
  * @author lyricgan
- * @time 16/3/10
  */
 public class BaseViewHolder {
     private Context mContext;

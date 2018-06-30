@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         // avoid repeat start
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();

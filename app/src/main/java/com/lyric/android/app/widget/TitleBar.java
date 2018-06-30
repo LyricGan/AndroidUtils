@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.lyric.android.app.R;
 
 /**
- * 自定义标题栏
+ * title bar
+ *
  * @author lyricgan
- * @time 2016/1/20 14:21
  */
 public class TitleBar extends FrameLayout {
     private ImageView ivTitleBarLeft;
@@ -37,12 +37,12 @@ public class TitleBar extends FrameLayout {
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
     }
 
-    public void setText(CharSequence title) {
+    public void setTitle(CharSequence title) {
         tvTitle.setText(title);
     }
 
-    public void setText(int textId) {
-        setText(getContext().getResources().getText(textId));
+    public void setTitle(int textId) {
+        setTitle(getContext().getResources().getText(textId));
     }
 
     public void setLeftDrawable(int resId) {

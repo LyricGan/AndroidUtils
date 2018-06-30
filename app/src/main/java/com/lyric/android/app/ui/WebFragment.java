@@ -33,8 +33,8 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    public void onExtrasInitialize(Bundle bundle) {
-        super.onExtrasInitialize(bundle);
+    public void onCreateExtras(Bundle bundle) {
+        super.onCreateExtras(bundle);
         mUrl = bundle.getString(Constants.EXTRAS_URL);
     }
 
@@ -44,7 +44,7 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    public void onContentViewInitialize(View view, Bundle savedInstanceState) {
+    public void onCreateContentView(View view, Bundle savedInstanceState) {
         mWebLayout = findViewWithId(R.id.layout_web);
 
         WebView webView = mWebLayout.getWebView();
@@ -57,8 +57,8 @@ public class WebFragment extends BaseFragment {
     }
 
     @Override
-    public void onDataInitialize(Bundle savedInstanceState) {
-        super.onDataInitialize(savedInstanceState);
+    public void onCreateData(Bundle savedInstanceState) {
+        super.onCreateData(savedInstanceState);
         if (!TextUtils.isEmpty(mUrl)) {
             mWebLayout.loadUrl(mUrl);
         }

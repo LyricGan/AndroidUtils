@@ -1,13 +1,11 @@
-package com.lyric.android.app.common;
+package com.lyric.android.app.ui;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
-import com.lyric.android.app.utils.LogUtils;
+import com.lyric.android.app.common.BaseActivity;
+import com.lyric.android.app.common.BaseTitleBar;
 import com.lyric.android.app.utils.ViewUtils;
 import com.lyric.android.app.widget.TitleBar;
 import com.lyric.android.app.widget.swipeback.SwipeBackActivityBase;
@@ -15,36 +13,30 @@ import com.lyric.android.app.widget.swipeback.SwipeBackActivityHelper;
 import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
 
 /**
- * base compat activity
+ * base activity compat
+ *
  * @author lyricgan
  */
 public abstract class BaseCompatActivity extends BaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mSwipeBackHelper;
 
     @Override
-    protected void onPrepareContentView() {
-        super.onPrepareContentView();
+    protected void onCreateContentViewPrepare() {
+        super.onCreateContentViewPrepare();
         if (isSwipeBackEnable()) {
             mSwipeBackHelper = new SwipeBackActivityHelper(this);
             mSwipeBackHelper.onActivityCreate();
             setSwipeBackEnable(true);
             getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         }
-        if (isInjectStatusBar()) {
-            injectStatusBar();
-        }
     }
 
     @Override
-    public final void onTitleBarInitialize(BaseTitleBar titleBar, Bundle savedInstanceState) {
-        super.onTitleBarInitialize(titleBar, savedInstanceState);
+    public final void onCreateTitleBar(BaseTitleBar titleBar, Bundle savedInstanceState) {
+        super.onCreateTitleBar(titleBar, savedInstanceState);
         View titleView = titleBar.getTitleView();
         if (titleView instanceof TitleBar) {
-            onTitleBarInitialize((TitleBar) titleView, savedInstanceState);
-        } else if (titleView instanceof Toolbar) {
-            onTitleBarInitialize((Toolbar) titleView, savedInstanceState);
-        } else {
-            LogUtils.d(TAG, "TitleBar is empty...");
+            onCreateTitleBar((TitleBar) titleView, savedInstanceState);
         }
     }
 
@@ -56,7 +48,7 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
         super.onClick(v);
     }
 
-    protected void onTitleBarInitialize(TitleBar titleBar, Bundle savedInstanceState) {
+    protected void onCreateTitleBar(TitleBar titleBar, Bundle savedInstanceState) {
         titleBar.setLeftDrawable(R.drawable.icon_back);
         titleBar.setLeftClickListener(new View.OnClickListener() {
             @Override
@@ -66,15 +58,8 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
         });
     }
 
-    protected void onTitleBarInitialize(Toolbar toolbar, Bundle savedInstanceState) {
-    }
-
-    protected boolean isInjectStatusBar() {
-        return false;
-    }
-
-    protected void injectStatusBar() {
-        ViewUtils.setStatusBarColor(this, ContextCompat.getColor(AndroidApplication.getContext(), R.color.color_title_bar));
+    protected void injectStatusBar(int color) {
+        ViewUtils.setStatusBarColor(this, color);
     }
 
     protected boolean isSwipeBackEnable() {
