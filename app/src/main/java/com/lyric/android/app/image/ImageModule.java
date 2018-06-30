@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 /**
  * custom image loader component
+ *
  * @author lyricgan
  */
 @GlideModule

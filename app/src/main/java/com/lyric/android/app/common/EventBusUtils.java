@@ -1,9 +1,10 @@
-package com.lyric.android.app.eventbus;
+package com.lyric.android.app.common;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * event bus utils，register() and unregister()
+ *
  * @author lyricgan
  */
 public class EventBusUtils {

@@ -6,7 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 事件实体
+ * common event
+ *
  * @author lyricgan
  */
 public class CommonEvent {
@@ -19,12 +20,8 @@ public class CommonEvent {
     public @interface CommonEventType {
     }
 
-    /** 事件类型 */
-    public @CommonEventType
-    int type;
-    /** 事件ID */
+    public @CommonEventType int type;
     public String id;
-    /** 事件对象 */
     public Object object;
 
     public CommonEvent(@CommonEventType int type) {
@@ -43,14 +40,11 @@ public class CommonEvent {
     }
 
     /**
-     * 事件类型
+     * event type
      */
     public interface EventType {
-        /** 刷新 */
         int REFRESH = 0;
-        /** 登录 */
         int LOGIN = 1;
-        /** 登出 */
         int LOGOUT = 2;
     }
 }

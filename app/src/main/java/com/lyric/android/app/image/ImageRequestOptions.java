@@ -5,9 +5,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 /**
- * 图片请求参数配置
+ * image request options
+ *
  * @author lyricgan
- * @date 2017/12/26 14:31
  */
 public class ImageRequestOptions extends RequestOptions {
 
