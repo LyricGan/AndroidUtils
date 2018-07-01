@@ -1,4 +1,4 @@
-package com.lyric.android.app.test.arithmetic;
+package com.lyric.android.app.utils;
 
 /**
  * @author lyricgan

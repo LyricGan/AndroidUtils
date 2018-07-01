@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 /**
  * ContentProvider
+ *
  * @author lyricgan
- * @time 2016/8/3 16:49
  */
 public class TestContentProvider extends ContentProvider {
     private static final UriMatcher mUriMatcher;
