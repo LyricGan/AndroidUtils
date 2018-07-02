@@ -29,12 +29,14 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
 
-            applicationVariants.all { variant ->
+        applicationVariants.all { variant ->
+            if (variant.buildType.name == 'release') {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // apk output with AndroidUtils_v1.3.2_2017-09-01_common.apk
+                        // apk output with AndroidUtils_v1.0_2018-01-01_common.apk
                         def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
