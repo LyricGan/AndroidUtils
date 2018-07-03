@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.lyric.android.app.R;
 
 /**
- * Fragment基类
+ * base fragment
  *
  * @author lyricgan
  */
