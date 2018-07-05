@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.ClientCertRequest;
 import android.webkit.ConsoleMessage;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JsPromptResult;
@@ -40,7 +42,10 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.CookieHandler;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -146,6 +151,7 @@ public class WebViewCompat extends WebView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(false);
 
@@ -237,9 +243,13 @@ public class WebViewCompat extends WebView {
 
     public void onDestroy() {
         try {
+            setWebViewClient(null);
+            setWebChromeClient(null);
+            clearHistory();
+            loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             ViewParent viewParent = getParent();
             if (viewParent != null) {
-                ((ViewGroup) getParent()).removeView(this);
+                ((ViewGroup) viewParent).removeView(this);
             }
             removeAllViews();
             destroy();
@@ -255,6 +265,48 @@ public class WebViewCompat extends WebView {
         Uri uri = Uri.parse(url);
         String scheme = uri.getScheme();
         return !TextUtils.isEmpty(scheme) && ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme));
+    }
+
+    public static String getCookie(String url) {
+        return CookieManager.getInstance().getCookie(url);
+    }
+
+    public static void setCookie(String url, String value) {
+        CookieManager.getInstance().setCookie(url, value);
+    }
+
+    public static void removeCookie(String url) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        for (String cookie : cookieManager.getCookie(url).split("; ")) {
+            cookieManager.setCookie(url, cookie.split("=")[0] + "=");
+        }
+        flushCookie();
+    }
+
+    public static void removeCookies(boolean isSessionOnly, ValueCallback<Boolean> callback) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (isSessionOnly) {
+                cookieManager.removeSessionCookies(callback);
+            } else {
+                cookieManager.removeAllCookies(callback);
+            }
+        } else {
+            if (isSessionOnly) {
+                cookieManager.removeSessionCookie();
+            } else {
+                cookieManager.removeAllCookie();
+            }
+        }
+        flushCookie();
+    }
+
+    public static void flushCookie() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().flush();
+        } else {
+            CookieSyncManager.getInstance().sync();
+        }
     }
 
     public Object removeJavascriptInterface(WebView webView, String params) {
@@ -766,6 +818,38 @@ public class WebViewCompat extends WebView {
         private void injectJavascriptInterfaces(WebView view) {
             if (view instanceof WebViewCompat) {
                 ((WebViewCompat) view).injectJavascriptInterfaces();
+            }
+        }
+    }
+
+    public static class WebkitCookieHandler extends CookieHandler {
+
+        @Override
+        public void put(URI uri, Map<String, List<String>> headers) {
+            if (uri == null || headers == null) {
+                return;
+            }
+            String url = uri.toString();
+            for (String headerKey : headers.keySet()) {
+                if (headerKey == null || !(headerKey.equalsIgnoreCase("set-cookie2") || headerKey.equalsIgnoreCase("set-cookie"))) {
+                    continue;
+                }
+                for (String headerValue : headers.get(headerKey)) {
+                    CookieManager.getInstance().setCookie(url, headerValue);
+                }
+            }
+        }
+
+        @Override
+        public Map<String, List<String>> get(URI uri, Map<String, List<String>> headers) {
+            if (uri == null || headers == null) {
+                return Collections.emptyMap();
+            }
+            String cookie = CookieManager.getInstance().getCookie(uri.toString());
+            if (cookie != null) {
+                return Collections.singletonMap("Cookie", Collections.singletonList(cookie));
+            } else {
+                return Collections.emptyMap();
             }
         }
     }
