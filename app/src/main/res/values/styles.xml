@@ -17,6 +17,8 @@
 
     <style name="AppTheme.Default">
         <item name="overlapAnchor">false</item>
+
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="Widget.CardContent" parent="android:Widget">

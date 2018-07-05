@@ -58,10 +58,6 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
         });
     }
 
-    protected void injectStatusBar(int color) {
-        ViewUtils.setStatusBarColor(this, color);
-    }
-
     protected boolean isSwipeBackEnable() {
         return false;
     }

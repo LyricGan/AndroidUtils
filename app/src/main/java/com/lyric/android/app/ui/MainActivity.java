@@ -13,13 +13,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
 import com.lyric.android.app.test.Test;
 
@@ -34,6 +34,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
+    private BaseFragment mFragment;
 
     @Override
     public int getLayoutId() {
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
     public void onCreateContentView(View view, Bundle savedInstanceState) {
         Toolbar toolbar = findViewWithId(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -67,8 +68,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -92,6 +92,9 @@ public class MainActivity extends BaseActivity {
             mDrawerLayout.closeDrawers();
             return;
         }
+        if (mFragment != null && mFragment.onBackPressed()) {
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -99,22 +102,6 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_options_01:
-                        break;
-                    case R.id.nav_options_02:
-                        break;
-                    case R.id.nav_options_03:
-                        break;
-                    case R.id.nav_options_04:
-                        break;
-                    case R.id.menu_item_01:
-                        break;
-                    case R.id.menu_item_02:
-                        break;
-                    case R.id.menu_item_03:
-                        break;
-                }
                 if (mDrawerLayout != null) {
                     mDrawerLayout.closeDrawers();
                 }
@@ -127,9 +114,10 @@ public class MainActivity extends BaseActivity {
         TabLayout tabLayout = findViewWithId(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance("https://www.baidu.com/")};
+        String url = "https://www.baidu.com/";
+        Fragment[] fragments = {ListFragment.newInstance(), ViewFragment.newInstance(), WebFragment.newInstance(url)};
         String[] titles = {ListFragment.class.getSimpleName(), ViewFragment.class.getSimpleName(), WebFragment.class.getSimpleName()};
-        List<Fragment> fragmentList = Arrays.asList(fragments);
+        final List<Fragment> fragmentList = Arrays.asList(fragments);
         List<String> titleList = Arrays.asList(titles);
         int size = titleList.size();
         TabLayout.Tab tab;
@@ -142,6 +130,25 @@ public class MainActivity extends BaseActivity {
         PagerAdapter adapter = new BaseFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(size);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position >= 0 && position < fragmentList.size()) {
+                    Fragment fragment = fragmentList.get(position);
+                    if (fragment instanceof BaseFragment) {
+                        mFragment = (BaseFragment) fragment;
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
         tabLayout.setupWithViewPager(mViewPager);
     }
 

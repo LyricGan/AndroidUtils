@@ -6,21 +6,26 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.lyric.android.app.AndroidApplication;
 import com.lyric.android.app.R;
+import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.utils.ToastUtils;
-import com.lyric.android.app.widget.WebLayout;
-import com.lyric.android.app.common.BaseFragment;
+import com.lyric.android.app.widget.WebViewCompat;
 
 /**
- * 网页显示页面
+ * web fragment
+ *
  * @author lyricgan
  */
 public class WebFragment extends BaseFragment {
-    private WebLayout mWebLayout;
+    private WebViewCompat mWebView;
+    private ProgressBar mProgressBar;
 
     private String mUrl;
 
@@ -45,13 +50,35 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onCreateContentView(View view, Bundle savedInstanceState) {
-        mWebLayout = findViewWithId(R.id.layout_web);
+        mWebView = findViewWithId(R.id.web_view);
+        mProgressBar = findViewWithId(R.id.progress_bar);
 
-        WebView webView = mWebLayout.getWebView();
-        webView.setOnLongClickListener(new View.OnLongClickListener() {
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return onWebLongClick(v);
+            }
+        });
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (mProgressBar != null) {
+                    if (newProgress >= 90) {
+                        mWebView.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(View.GONE);
+                    } else {
+                        mWebView.setVisibility(View.GONE);
+                        mProgressBar.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }
@@ -60,20 +87,23 @@ public class WebFragment extends BaseFragment {
     public void onCreateData(Bundle savedInstanceState) {
         super.onCreateData(savedInstanceState);
         if (!TextUtils.isEmpty(mUrl)) {
-            mWebLayout.loadUrl(mUrl);
+            mWebView.loadUrl(mUrl);
         }
     }
 
     @Override
     public boolean onBackPressed() {
-        return (mWebLayout != null && mWebLayout.onBackPressed()) || super.onBackPressed();
+        if (mWebView != null) {
+            return mWebView.onBackPressed();
+        }
+        return super.onBackPressed();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mWebLayout != null) {
-            mWebLayout.destroy();
+        if (mWebView != null) {
+            mWebView.onDestroy();
         }
     }
 

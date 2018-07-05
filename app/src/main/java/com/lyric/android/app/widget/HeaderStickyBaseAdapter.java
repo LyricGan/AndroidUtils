@@ -54,10 +54,10 @@ public abstract class HeaderStickyBaseAdapter extends BaseAdapter implements OnI
         return 0;
     }
 
-    @Override
     /**
      * Dispatched to call onRowItemClick
      */
+    @Override
     public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         onRowItemClick(parent, view, getSection(position), getRowInSection(position), id);
     }
@@ -66,10 +66,10 @@ public abstract class HeaderStickyBaseAdapter extends BaseAdapter implements OnI
 
     }
 
-    @Override
     /**
      * Counts the amount of cells = headers + rows
      */
+    @Override
     public final int getCount() {
         if (mCount < 0) {
             mCount = numberOfCellsBeforeSection(numberOfSections());

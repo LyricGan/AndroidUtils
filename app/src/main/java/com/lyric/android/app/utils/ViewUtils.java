@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.IdRes;
 import android.text.Selection;
 import android.text.Spannable;
 import android.util.DisplayMetrics;
@@ -48,7 +49,7 @@ public class ViewUtils {
         return false;
     }
 
-    public static <T extends View> T findViewWithId(View view, int id) {
+    public static <T extends View> T findViewWithId(View view, @IdRes int id) {
         if (view != null) {
             return (T) view.findViewById(id);
         }
