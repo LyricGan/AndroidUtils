@@ -1,4 +1,4 @@
-package com.lyric.android.app.test;
+package com.lyric.android.app.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,10 +6,6 @@ import android.os.Environment;
 import android.util.DisplayMetrics;
 
 import com.lyric.android.app.AndroidApplication;
-import com.lyric.android.app.utils.DisplayUtils;
-import com.lyric.android.app.utils.FileUtils;
-import com.lyric.android.app.utils.ImageUtils;
-import com.lyric.android.app.utils.LogUtils;
 
 import java.io.File;
 import java.util.List;

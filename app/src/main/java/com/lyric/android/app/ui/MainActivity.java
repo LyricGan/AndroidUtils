@@ -21,7 +21,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
-import com.lyric.android.app.test.Test;
+import com.lyric.android.app.utils.Test;
 
 import java.util.Arrays;
 import java.util.List;

@@ -62,18 +62,13 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
         return false;
     }
 
-    protected SwipeBackActivityHelper getSwipeBackHelper() {
-        return mSwipeBackHelper;
-    }
-
     @Override
     public View findViewById(int id) {
         View view = super.findViewById(id);
         if (view == null) {
             if (isSwipeBackEnable()) {
-                SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-                if (swipeBackHelper != null) {
-                    return swipeBackHelper.findViewById(id);
+                if (mSwipeBackHelper != null) {
+                    return mSwipeBackHelper.findViewById(id);
                 }
             }
         }
@@ -84,18 +79,16 @@ public abstract class BaseCompatActivity extends BaseActivity implements SwipeBa
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (isSwipeBackEnable()) {
-            SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-            if (swipeBackHelper != null) {
-                swipeBackHelper.onPostCreate();
+            if (mSwipeBackHelper != null) {
+                mSwipeBackHelper.onPostCreate();
             }
         }
     }
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        SwipeBackActivityHelper swipeBackHelper = getSwipeBackHelper();
-        if (swipeBackHelper != null) {
-            return swipeBackHelper.getSwipeBackLayout();
+        if (mSwipeBackHelper != null) {
+            return mSwipeBackHelper.getSwipeBackLayout();
         }
         return null;
     }
