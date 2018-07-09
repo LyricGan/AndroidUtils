@@ -1,6 +1,7 @@
 package com.lyric.android.app.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -22,40 +23,16 @@ public class Test {
         if (cacheDir != null) {
             builder.append("cacheDir:").append(cacheDir.getPath()).append(",").append(cacheDir.length()).append("\n");
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            File codeCacheDir = context.getCodeCacheDir();
-            if (codeCacheDir != null) {
-                builder.append("codeCacheDir:").append(codeCacheDir.getPath()).append(",").append(codeCacheDir.length()).append("\n");
-            }
-        }
         File externalCacheDir = context.getExternalCacheDir();
         if (externalCacheDir != null) {
             builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append(",").append(externalCacheDir.length()).append("\n");
         }
-        File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_NOTIFICATIONS);
-        if (externalFilesDir != null) {
-            builder.append("externalFilesDir:").append(externalFilesDir.getPath()).append(",").append(externalFilesDir.length()).append("\n");
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            File dataDir = context.getDataDir();
-            if (dataDir != null) {
-                builder.append("externalFilesDir:").append(dataDir.getPath()).append(",").append(dataDir.length()).append("\n");
-            }
-        }
-        File obbDir = context.getObbDir();
-        if (obbDir != null) {
-            builder.append("obbDir:").append(obbDir.getPath()).append(",").append(obbDir.length()).append("\n");
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            File noBackupFilesDir = context.getNoBackupFilesDir();
-            if (noBackupFilesDir != null) {
-                builder.append("noBackupFilesDir:").append(noBackupFilesDir.getPath()).append(",").append(noBackupFilesDir.length()).append("\n");
-            }
-        }
+
         String packageCodePath = context.getPackageCodePath();
         builder.append("packageCodePath:").append(packageCodePath).append("\n");
         String packageResourcePath = context.getPackageResourcePath();
         builder.append("packageResourcePath:").append(packageResourcePath).append("\n");
+
         File dataDirectory = Environment.getDataDirectory();
         if (dataDirectory != null) {
             builder.append("dataDirectory:").append(dataDirectory.getPath()).append(",").append(dataDirectory.length()).append("\n");
@@ -72,11 +49,7 @@ public class Test {
         if (externalStorageDirectory != null) {
             builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append(",").append(externalStorageDirectory.length()).append("\n");
         }
-        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        if (externalStoragePublicDirectory != null) {
-            builder.append("externalStoragePublicDirectory:").append(externalStoragePublicDirectory.getPath())
-                    .append(",").append(externalStoragePublicDirectory.length()).append("\n");
-        }
+
         LogUtils.d(TAG, builder.toString());
 
         new Thread(new Runnable() {
@@ -133,7 +106,7 @@ public class Test {
         }).start();
 
         StringBuilder displayBuilder = new StringBuilder();
-        DisplayMetrics displayMetrics = DisplayUtils.getDisplayMetrics(context);
+        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         displayBuilder.append("density=").append(displayMetrics.density).append("\n")
                 .append("densityDpi=").append(displayMetrics.densityDpi).append("\n")
                 .append("scaledDensity=").append(displayMetrics.scaledDensity).append("\n")
