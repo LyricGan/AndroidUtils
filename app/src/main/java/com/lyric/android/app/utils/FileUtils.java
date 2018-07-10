@@ -776,7 +776,7 @@ public class FileUtils {
      * @param size 大小
      * @return 指定格式的字符串
      */
-    public static String getFormatSize(double size) {
+    public static String formatFileSize(double size) {
         double kiloByte = size / 1024;
         if (kiloByte < 1) {
             return size + "Byte";
@@ -866,22 +866,22 @@ public class FileUtils {
     }
 
     /**
-     * 通过图片文件列表获取图片文件目录列表
-     * @param imagePaths 图片文件列表
-     * @return 图片文件目录列表
+     * query file dirs with file paths
+     * @param filePaths file paths
+     * @return file dirs
      */
-    public static List<File> queryImageDirs(List<String> imagePaths) {
-        if (imagePaths == null || imagePaths.isEmpty()) {
+    public static List<File> queryDirs(List<String> filePaths) {
+        if (filePaths == null || filePaths.isEmpty()) {
             return null;
         }
         List<File> fileDirs = new ArrayList<>();
-        String imagePath;
-        for (int i = 0; i < imagePaths.size(); i++) {
-            imagePath = imagePaths.get(i);
-            if (TextUtils.isEmpty(imagePath)) {
+        String filePath;
+        for (int i = 0; i < filePaths.size(); i++) {
+            filePath = filePaths.get(i);
+            if (TextUtils.isEmpty(filePath)) {
                 continue;
             }
-            File file = new File(imagePath);
+            File file = new File(filePath);
             if (!file.exists() || !file.isFile()) {
                 continue;
             }

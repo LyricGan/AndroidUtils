@@ -31,22 +31,22 @@ public class DisplayUtils {
         return context.getResources();
     }
 
-    public static int dip2px(Context context, float dpValue) {
+    public static int dip2px(Context context, float dp) {
         float scale = getDensity(context);
-        return (int) (dpValue * scale + 0.5f);
+        return (int) (dp * scale + 0.5f);
     }
 
-    public static int px2dip(Context context, float pxValue) {
+    public static int px2dip(Context context, float px) {
         float scale = getDensity(context);
-        return (int) (pxValue / scale + 0.5f);
+        return (int) (px / scale + 0.5f);
     }
 
-    public static int sp2px(Context context, float spValue) {
-        return dip2px(context, spValue);
+    public static int sp2px(Context context, float sp) {
+        return dip2px(context, sp);
     }
 
-    public static int px2sp(Context context, float pxValue) {
-        return px2dip(context, pxValue);
+    public static int px2sp(Context context, float px) {
+        return px2dip(context, px);
     }
 
     public static DisplayMetrics getDisplayMetrics(Context context) {
@@ -185,5 +185,16 @@ public class DisplayUtils {
 
     public static AssetManager getAssets(Context context) {
         return getResources(context).getAssets();
+    }
+
+    public static String toDisplayString() {
+        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        return "DisplayMetrics [density=" + displayMetrics.density + "," +
+                "densityDpi=" + displayMetrics.densityDpi + "," +
+                "scaledDensity=" + displayMetrics.scaledDensity + "," +
+                "screenWidth=" + displayMetrics.widthPixels + "," +
+                "screenHeight=" + displayMetrics.heightPixels + "," +
+                "xdpi=" + displayMetrics.xdpi + "," +
+                "ydpi=" + displayMetrics.ydpi + "]";
     }
 }
