@@ -203,4 +203,10 @@
         <attr name="hrb_showText" format="boolean"/>
         <attr name="hrb_cornerRadius" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="MovedCircleView">
+        <attr name="mcv_color" format="color"/>
+        <attr name="mcv_colorPressed" format="color"/>
+        <attr name="mcv_radius" format="dimension"/>
+    </declare-styleable>
 </resources>
