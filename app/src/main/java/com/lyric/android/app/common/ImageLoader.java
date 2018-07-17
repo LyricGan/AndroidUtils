@@ -1,22 +1,17 @@
-package com.lyric.android.app.image;
+package com.lyric.android.app.common;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.TransitionOptions;
-import com.bumptech.glide.load.engine.bitmap_recycle.ArrayPool;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.util.Util;
 
 import java.io.File;
 
@@ -43,7 +38,7 @@ public class ImageLoader {
     }
 
     public void load(Context context, Object model, ImageView view, int placeholderId) {
-        load(context, model, view, ImageRequestOptions.getRequestOptions(placeholderId));
+        load(context, model, view, RequestOptions.placeholderOf(placeholderId));
     }
 
     public void load(Context context, Object model, ImageView view, RequestOptions requestOptions) {
@@ -62,8 +57,7 @@ public class ImageLoader {
         load(context, model, view, requestOptions, clazz, null, null);
     }
 
-    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz,
-                                    TransitionOptions<?, ? super ResourceType> transitionOptions) {
+    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz, TransitionOptions<?, ? super ResourceType> transitionOptions) {
         load(context, model, view, requestOptions, clazz, transitionOptions, null);
     }
 
@@ -78,20 +72,15 @@ public class ImageLoader {
      * @param listener 加载监听事件
      * @param <ResourceType> 泛型类参数类型
      */
-    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz,
-                                    TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
-        RequestBuilder<ResourceType> requestBuilder = getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener);
-        requestBuilder.into(view);
+    public <ResourceType> void load(Context context, Object model, ImageView view, RequestOptions requestOptions, Class<ResourceType> clazz, TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+        getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener).into(view);
     }
 
-    public <ResourceType> Target<ResourceType> load(Context context, Object model, Target<ResourceType> target, RequestOptions requestOptions, Class<ResourceType> clazz,
-                                                                TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
-        RequestBuilder<ResourceType> requestBuilder = getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener);
-        return requestBuilder.into(target);
+    public <ResourceType> Target<ResourceType> load(Context context, Object model, Target<ResourceType> target, RequestOptions requestOptions, Class<ResourceType> clazz, TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+        return getRequestBuilder(context, model, requestOptions, clazz, transitionOptions, listener).into(target);
     }
 
-    private <ResourceType> RequestBuilder<ResourceType> getRequestBuilder(Context context, Object model, RequestOptions requestOptions, Class<ResourceType> clazz,
-                                                                          TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
+    private <ResourceType> RequestBuilder<ResourceType> getRequestBuilder(Context context, Object model, RequestOptions requestOptions, Class<ResourceType> clazz, TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
         RequestManager requestManager = Glide.with(context);
         RequestBuilder<ResourceType> requestBuilder = requestManager.as(clazz).load(model);
         if (requestOptions != null) {
@@ -104,32 +93,12 @@ public class ImageLoader {
         return requestBuilder;
     }
 
-    public void clear(Context context, View view) {
-        Glide.with(context).clear(view);
+    public RequestManager getManager(Context context) {
+        return Glide.with(context);
     }
 
-    public void clear(Activity activity, View view) {
-        Glide.with(activity).clear(view);
-    }
-
-    public void clear(Fragment fragment, View view) {
-        Glide.with(fragment).clear(view);
-    }
-
-    public void clear(Context context, Target<?> target) {
-        Glide.with(context).clear(target);
-    }
-
-    public void resumeRequests(Context context) {
-        Glide.with(context).resumeRequests();
-    }
-
-    public void pauseRequests(Context context) {
-        Glide.with(context).pauseRequests();
-    }
-
-    public Context getContext(Context context) {
-        return Glide.get(context).getContext();
+    public RequestManager getManager(Activity activity) {
+        return Glide.with(activity);
     }
 
     public File getPhotoCacheDir(Context context) {
@@ -140,26 +109,4 @@ public class ImageLoader {
         return Glide.getPhotoCacheDir(context, cacheName);
     }
 
-    public void clearMemory(Context context) {
-        Glide.get(context).clearMemory();
-    }
-
-    public void trimMemory(Context context, int level) {
-        Glide.get(context).trimMemory(level);
-    }
-
-    public void clearDiskCache(Context context) {
-        if (Util.isOnMainThread()) {
-            return;
-        }
-        Glide.get(context).clearDiskCache();
-    }
-
-    public BitmapPool getBitmapPool(Context context) {
-        return Glide.get(context).getBitmapPool();
-    }
-
-    public ArrayPool getArrayPool(Context context) {
-        return Glide.get(context).getArrayPool();
-    }
 }

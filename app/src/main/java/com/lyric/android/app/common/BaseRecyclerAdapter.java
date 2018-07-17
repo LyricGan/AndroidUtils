@@ -37,7 +37,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
-        final RecyclerView.ViewHolder holder = new InnerViewHolder(itemView);
+        final RecyclerView.ViewHolder holder = new RecyclerViewHolder(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,9 +148,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         notifyDataSetChanged();
     }
 
-    private static class InnerViewHolder extends RecyclerView.ViewHolder {
+    private static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        InnerViewHolder(View itemView) {
+        RecyclerViewHolder(View itemView) {
             super(itemView);
         }
     }
