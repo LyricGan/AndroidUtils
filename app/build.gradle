@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.lyric.android.app"
@@ -10,6 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        flavorDimensions "default"
 
         // dex limit for 65535 methods
         multiDexEnabled true
@@ -33,13 +33,9 @@ android {
 
         applicationVariants.all { variant ->
             if (variant.buildType.name == 'release') {
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // apk output with AndroidUtils_v1.0_2018-01-01_common.apk
-                        def fileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
+                variant.outputs.all {
+                    // apk output with AndroidUtils_v1.0_2018-01-01_common.apk
+                    outputFileName = "AndroidUtils_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                 }
             }
         }
@@ -69,6 +65,7 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
+    buildToolsVersion '27.0.3'
 }
 
 def static releaseTime() {
@@ -78,25 +75,25 @@ def static releaseTime() {
 def supportVersion = '25.3.1'
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 
-    compile 'com.android.support:cardview-v7:' + supportVersion
-    compile 'com.android.support:design:' + supportVersion
-    compile 'com.android.support:support-v4:' + supportVersion
-    compile 'com.android.support:appcompat-v7:' + supportVersion
-    compile 'com.android.support:recyclerview-v7:' + supportVersion
+    implementation 'com.android.support:cardview-v7:' + supportVersion
+    implementation 'com.android.support:design:' + supportVersion
+    implementation 'com.android.support:support-v4:' + supportVersion
+    implementation 'com.android.support:appcompat-v7:' + supportVersion
+    implementation 'com.android.support:recyclerview-v7:' + supportVersion
 
-    compile 'com.github.bumptech.glide:glide:4.3.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
-    compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
-    compile 'com.google.zxing:core:3.3.1'
-    compile 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.google.zxing:core:3.3.1'
+    implementation 'com.nineoldandroids:library:2.4.0'
 }

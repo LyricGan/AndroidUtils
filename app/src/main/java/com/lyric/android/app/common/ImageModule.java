@@ -1,6 +1,7 @@
 package com.lyric.android.app.common;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +26,7 @@ import com.bumptech.glide.request.RequestOptions;
 public class ImageModule extends AppGlideModule {
 
     @Override
-    public void applyOptions(Context context, GlideBuilder builder) {
+    public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
         RequestOptions requestOptions = getRequestOptions(DiskCacheStrategy.AUTOMATIC, true, DecodeFormat.PREFER_RGB_565);
         MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context)
@@ -39,7 +40,7 @@ public class ImageModule extends AppGlideModule {
     }
 
     @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
+    public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
     }
 

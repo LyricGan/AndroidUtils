@@ -100,6 +100,10 @@ public class ImageLoader {
         return Glide.with(activity);
     }
 
+    public Glide getLoader(Context context) {
+        return Glide.get(context);
+    }
+
     public File getPhotoCacheDir(Context context) {
         return Glide.getPhotoCacheDir(context);
     }

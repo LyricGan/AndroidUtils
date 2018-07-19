@@ -3,7 +3,8 @@ package com.lyric.android.app.common;
 import android.view.View;
 
 /**
- * 标题栏基类
+ * base title bar
+ *
  * @author lyricgan
  */
 public class BaseTitleBar {

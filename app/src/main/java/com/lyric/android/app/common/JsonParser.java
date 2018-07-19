@@ -3,18 +3,16 @@ package com.lyric.android.app.common;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Type;
-
 /**
  * Json parse with gson
  *
  * @author lyricgan
  */
 public class JsonParser {
-    private Gson mGson;
+    private Gson mParser;
 
     private JsonParser() {
-        mGson = getDefaultGson();
+        mParser = getDefaultParser();
     }
 
     private static class JsonHelperHolder {
@@ -25,24 +23,16 @@ public class JsonParser {
         return JsonHelperHolder.JSON_HELPER;
     }
 
-    public Gson getDefaultGson() {
+    private Gson getDefaultParser() {
         GsonBuilder builder = new GsonBuilder();
         return builder.create();
     }
 
-    public Gson getGson() {
-        return mGson;
+    public Gson getParser() {
+        return mParser;
     }
 
-    public void setGson(Gson gson) {
-        this.mGson = gson;
-    }
-
-    public <T> T parse(String json, Class<T> classOfT) {
-        return getGson().fromJson(json, classOfT);
-    }
-
-    public <T> T parse(String json, Type typeOfT) {
-        return getGson().fromJson(json, typeOfT);
+    public void setParser(Gson parser) {
+        this.mParser = parser;
     }
 }
