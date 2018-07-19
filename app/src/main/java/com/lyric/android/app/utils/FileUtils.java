@@ -2,8 +2,8 @@ package com.lyric.android.app.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
@@ -85,10 +85,9 @@ public class FileUtils {
                 }
                 fileContent.append(line);
             }
-            reader.close();
             return fileContent;
         } finally {
-            close(reader);
+            closeQuietly(reader);
         }
     }
 
@@ -105,7 +104,7 @@ public class FileUtils {
                 out.write(buf, 0, len);
             }
         } finally {
-            close(out);
+            closeQuietly(out);
         }
         return out.toByteArray();
     }
@@ -124,7 +123,7 @@ public class FileUtils {
                 out.write(in.read());
             }
         } finally {
-            close(out);
+            closeQuietly(out);
         }
         return out.toByteArray();
     }
@@ -161,7 +160,7 @@ public class FileUtils {
             e.printStackTrace();
         } finally {
             if (writer != null) {
-                close(writer);
+                closeQuietly(writer);
             }
         }
     }
@@ -199,12 +198,11 @@ public class FileUtils {
             makeDirs(filePath);
             fileWriter = new FileWriter(filePath, append);
             fileWriter.write(content);
-            fileWriter.close();
             return true;
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            close(fileWriter);
+            closeQuietly(fileWriter);
         }
     }
 
@@ -232,12 +230,11 @@ public class FileUtils {
                 }
                 fileWriter.write(line);
             }
-            fileWriter.close();
             return true;
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            close(fileWriter);
+            closeQuietly(fileWriter);
         }
     }
 
@@ -292,7 +289,7 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            close(outputStream, stream);
+            closeQuietly(outputStream, stream);
         }
     }
 
@@ -336,12 +333,11 @@ public class FileUtils {
             while ((line = reader.readLine()) != null) {
                 fileContent.add(line);
             }
-            reader.close();
             return fileContent;
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            close(reader);
+            closeQuietly(reader);
         }
     }
 
@@ -526,14 +522,14 @@ public class FileUtils {
         return deletedFileCount;
     }
 
-    public static void close(Closeable... closeable) {
+    public static void closeQuietly(Closeable... closeable) {
         if (closeable == null || closeable.length <= 0) {
             return;
         }
         try {
-            for (Closeable itemCloseable : closeable) {
-                if (itemCloseable != null) {
-                    itemCloseable.close();
+            for (Closeable item : closeable) {
+                if (item != null) {
+                    item.close();
                 }
             }
         } catch (IOException e) {
@@ -564,24 +560,15 @@ public class FileUtils {
     }
 
     public static File getRootDirectory() {
-        if (isSdcardExists()) {
-            return Environment.getRootDirectory();
-        }
-        return null;
+        return Environment.getRootDirectory();
     }
 
     public static File getDataDirectory() {
-        if (isSdcardExists()) {
-            return Environment.getDataDirectory();
-        }
-        return null;
+        return Environment.getDataDirectory();
     }
 
     public static File getDownloadCacheDirectory() {
-        if (isSdcardExists()) {
-            return Environment.getDownloadCacheDirectory();
-        }
-        return null;
+        return Environment.getDownloadCacheDirectory();
     }
 
     /**
@@ -593,33 +580,20 @@ public class FileUtils {
      * @see Context#getExternalCacheDir()
      * @see Context#getCacheDir()
      */
-    public static File getCacheDir(Context context) {
-        File cacheDir;
+    public static File getExternalCacheDir(Context context) {
+        File cacheDir = null;
         if (isSdcardExists()) {
             cacheDir = context.getExternalCacheDir();
-        } else {
-            cacheDir = context.getCacheDir();
         }
         if (cacheDir != null && (cacheDir.exists() || cacheDir.mkdirs())) {
             return cacheDir;
-        } else {
-            return null;
         }
+        return null;
     }
 
-    /**
-     * 获取磁盘缓存文件
-     * @param context 上下文
-     * @param dirName 路径下目录名称
-     * @return 磁盘缓存文件
-     */
-    public static File getCacheDir(Context context, String dirName) {
-        File cacheDir = null;
-        File systemCacheDir = getCacheDir(context);
-        if (systemCacheDir != null && systemCacheDir.isDirectory()) {
-            cacheDir = new File(systemCacheDir, dirName);
-        }
-        if (cacheDir != null && (cacheDir.exists() || cacheDir.mkdir())) {
+    public static File getCacheDir(Context context) {
+        File cacheDir = context.getCacheDir();
+        if (cacheDir != null && (cacheDir.exists() || cacheDir.mkdirs())) {
             return cacheDir;
         }
         return null;
@@ -644,13 +618,20 @@ public class FileUtils {
      * @see Context#getExternalFilesDir(String)
      * @see Context#getFilesDir()
      */
-    public static File getFilesDir(Context context, String type) {
-        File filesDir;
+    public static File getExternalFilesDir(Context context, String type) {
+        File filesDir = null;
         if (isSdcardExists()) {
             filesDir = context.getExternalFilesDir(type);
-        } else {
-            filesDir = context.getFilesDir();
         }
+        if (filesDir != null && (filesDir.exists() || filesDir.mkdirs())) {
+            return filesDir;
+        } else {
+            return null;
+        }
+    }
+
+    public static File getFilesDir(Context context) {
+        File filesDir = context.getFilesDir();
         if (filesDir != null && (filesDir.exists() || filesDir.mkdirs())) {
             return filesDir;
         } else {
@@ -663,10 +644,11 @@ public class FileUtils {
      * @return sd卡可用空间大小
      */
     public static long getExternalStorageAvailableSize() {
-        if (!isSdcardExists()) {
+        File file = getExternalStorageDirectory();
+        if (file == null) {
             return 0;
         }
-        StatFs statFs = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
+        StatFs statFs = new StatFs(file.getAbsolutePath());
         return statFs.getAvailableBlocks() * statFs.getBlockSize();
     }
 
@@ -720,8 +702,7 @@ public class FileUtils {
             } catch (Throwable ex) {
                 result = false;
             } finally {
-                close(in);
-                close(out);
+                closeQuietly(in, out);
             }
         }
         return result;
@@ -806,24 +787,41 @@ public class FileUtils {
      * @param imagePath 图片路径
      * @param name 图片指定名称
      * @param description 图片描述
-     * @param isNotifyAlbum 是否通知相册更新
-     * @return 图片的URI，格式类似：content://media/external/images/media/123456
+     * @param isNotifyAlbum 是否通知相册更新<br/>
+     *                      发送广播通知相册更新，扫描SD卡的广播：Intent.ACTION_MEDIA_MOUNTED，扫描期间SD卡无法访问影响体验，
+     *                      使用Intent.ACTION_MEDIA_SCANNER_SCAN_FILE 扫描单个文件提升访问速度<br/>
+     *                      context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(imagePathData))));
+     * @return 图片的URI，格式类似：content://media/external/images/media/123456，扫描时需要转换为文件的URI再处理
      */
     public static String insertImage(Context context, String imagePath, String name, String description, boolean isNotifyAlbum) {
         if (context == null || TextUtils.isEmpty(imagePath)) {
             return null;
         }
+        ContentResolver cr = context.getContentResolver();
         String imageUri = null;
         try {
-            imageUri = MediaStore.Images.Media.insertImage(context.getContentResolver(), imagePath, name, description);
+            imageUri = MediaStore.Images.Media.insertImage(cr, imagePath, name, description);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         if (isNotifyAlbum) {
-            // 发送广播通知相册更新
-            Uri uri = Uri.fromFile(new File((imagePath)));
-            // 扫描SD卡的广播：Intent.ACTION_MEDIA_MOUNTED，扫描期间SD卡无法访问影响体验，使用Intent.ACTION_MEDIA_SCANNER_SCAN_FILE扫描单个文件提升访问速度
-            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            if (!TextUtils.isEmpty(imageUri)) {
+                Cursor cursor = null;
+                try {
+                    String[] projection = {MediaStore.Images.Media.DATA};
+                    cursor = cr.query(Uri.parse(imageUri), projection, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        String imagePathData = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+                        MediaScannerConnection.scanFile(context, new String[]{imagePathData}, null, null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    closeQuietly(cursor);
+                }
+            }
         }
         return imageUri;
     }
@@ -860,7 +858,7 @@ public class FileUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
-            close(cursor);
+            closeQuietly(cursor);
         }
         return imagePaths;
     }
@@ -894,5 +892,50 @@ public class FileUtils {
             }
         }
         return fileDirs;
+    }
+
+    public static String toFileString(Context context) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n");
+
+        File externalCacheDir = FileUtils.getExternalCacheDir(context);
+        if (externalCacheDir != null) {
+            builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append(",").append(externalCacheDir.length()).append("\n");
+        }
+        File cacheDir = FileUtils.getCacheDir(context);
+        if (cacheDir != null) {
+            builder.append("cacheDir:").append(cacheDir.getPath()).append(",").append(cacheDir.length()).append("\n");
+        }
+
+        File externalFilesDir = FileUtils.getExternalFilesDir(context, Environment.DIRECTORY_PICTURES);
+        if (externalFilesDir != null) {
+            builder.append("externalFilesDir:").append(externalFilesDir.getPath()).append(",").append(externalFilesDir.length()).append("\n");
+        }
+        File filesDir = FileUtils.getFilesDir(context);
+        if (filesDir != null) {
+            builder.append("filesDir:").append(filesDir.getPath()).append(",").append(filesDir.length()).append("\n");
+        }
+
+        File rootDirectory = FileUtils.getRootDirectory();
+        if (rootDirectory != null) {
+            builder.append("rootDirectory:").append(rootDirectory.getPath()).append(",").append(rootDirectory.length()).append("\n");
+        }
+        File externalStorageDirectory = FileUtils.getExternalStorageDirectory();
+        if (externalStorageDirectory != null) {
+            builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append(",").append(externalStorageDirectory.length()).append("\n");
+        }
+        File dataDirectory = FileUtils.getDataDirectory();
+        if (dataDirectory != null) {
+            builder.append("dataDirectory:").append(dataDirectory.getPath()).append(",").append(dataDirectory.length()).append("\n");
+        }
+        File downloadCacheDirectory = FileUtils.getDownloadCacheDirectory();
+        if (downloadCacheDirectory != null) {
+            builder.append("downloadCacheDirectory:").append(downloadCacheDirectory.getPath()).append(",").append(downloadCacheDirectory.length()).append("\n");
+        }
+
+        builder.append("file externalStorageAvailableSize:").append(FileUtils.getExternalStorageAvailableSize()).append("\n");
+        builder.append("packageCodePath:").append(context.getPackageCodePath()).append("\n");
+
+        return builder.toString();
     }
 }

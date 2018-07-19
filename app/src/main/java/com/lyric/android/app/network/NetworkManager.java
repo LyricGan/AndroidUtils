@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,7 +28,6 @@ public class NetworkManager {
     private OkHttpClient mHttpClient;
 
     private NetworkManager() {
-        mHttpClient = getDefaultHttpClient();
     }
 
     private static class NetworkManagerHolder {
@@ -38,14 +38,13 @@ public class NetworkManager {
         return NetworkManagerHolder.INSTANCE;
     }
 
-    public OkHttpClient getDefaultHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        return builder.build();
-    }
-
-    public void setHttpClient(OkHttpClient httpClient) {
+    public void init(OkHttpClient httpClient) {
         if (httpClient == null) {
-            httpClient = getDefaultHttpClient();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(15, TimeUnit.SECONDS);
+            builder.readTimeout(15, TimeUnit.SECONDS);
+            builder.writeTimeout(15, TimeUnit.SECONDS);
+            httpClient = builder.build();
         }
         this.mHttpClient = httpClient;
     }
@@ -54,21 +53,12 @@ public class NetworkManager {
         return mHttpClient;
     }
 
-    public OkHttpClient.Builder getHttpClientBuilder() {
-        return getHttpClient().newBuilder();
-    }
-
-    public void get(String url, Map<String, String> params, Object tag, NetworkCallback callback) {
-        get(url, params, tag, false, callback);
-    }
-
     public void get(String url, Map<String, String> params, Object tag, boolean isUseCache, NetworkCallback callback) {
         get(url, params, null, tag, isUseCache, callback);
     }
 
     public void get(String url, Map<String, String> params, Map<String, String> headers, Object tag, boolean isUseCache, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildGetRequest(url, params, headers, tag, isUseCache));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildGetRequest(url, params, headers, tag, isUseCache)), callback);
     }
 
     public void post(String url, Map<String, String> params, Object tag, NetworkCallback callback) {
@@ -76,44 +66,34 @@ public class NetworkManager {
     }
 
     public void post(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildPostRequest(url, params, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildPostRequest(url, params, headers, tag)), callback);
     }
 
     public void put(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildPutRequest(url, params, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildPutRequest(url, params, headers, tag)), callback);
     }
 
     public void patch(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildPatchRequest(url, params, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildPatchRequest(url, params, headers, tag)), callback);
     }
 
     public void head(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildHeadRequest(url, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildHeadRequest(url, headers, tag)), callback);
     }
 
     public void delete(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildDeleteRequest(url, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildDeleteRequest(url, headers, tag)), callback);
     }
 
     public void delete(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildDeleteRequest(url, params, headers, tag));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildDeleteRequest(url, params, headers, tag)), callback);
     }
 
     public void upload(String url, String name, List<File> files, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback, FileCallback fileCallback) {
-        NetworkRequest networkRequest = new NetworkRequest(NetworkRequest.buildUploadRequest(url, name, files, params, headers, tag, fileCallback));
-        execute(networkRequest, callback);
+        execute(new NetworkRequest(NetworkRequest.buildUploadRequest(url, name, files, params, headers, tag, fileCallback)), callback);
     }
 
     public void execute(final NetworkRequest networkRequest, final NetworkCallback callback) {
-        if (networkRequest == null) {
-            return;
-        }
         getHttpClient().newCall(networkRequest.getRequest()).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -124,7 +104,7 @@ public class NetworkManager {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (callback == null) {
                     return;
                 }

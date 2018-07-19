@@ -81,7 +81,7 @@ public class ImageLoader {
     }
 
     private <ResourceType> RequestBuilder<ResourceType> getRequestBuilder(Context context, Object model, RequestOptions requestOptions, Class<ResourceType> clazz, TransitionOptions<?, ? super ResourceType> transitionOptions, RequestListener<ResourceType> listener) {
-        RequestManager requestManager = Glide.with(context);
+        RequestManager requestManager = getManager(context);
         RequestBuilder<ResourceType> requestBuilder = requestManager.as(clazz).load(model);
         if (requestOptions != null) {
             requestBuilder = requestBuilder.apply(requestOptions);
@@ -89,8 +89,7 @@ public class ImageLoader {
         if (transitionOptions != null) {
             requestBuilder = requestBuilder.transition(transitionOptions);
         }
-        requestBuilder = requestBuilder.listener(listener);
-        return requestBuilder;
+        return requestBuilder.listener(listener);
     }
 
     public RequestManager getManager(Context context) {

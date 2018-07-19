@@ -21,7 +21,9 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
-import com.lyric.android.app.utils.Test;
+import com.lyric.android.app.utils.DisplayUtils;
+import com.lyric.android.app.utils.FileUtils;
+import com.lyric.android.app.utils.LogUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +65,8 @@ public class MainActivity extends BaseActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();
 
-        Test.showLogs(AndroidApplication.getContext());
+        LogUtils.d(TAG, FileUtils.toFileString(AndroidApplication.getContext()));
+        LogUtils.d(TAG, DisplayUtils.toDisplayString(AndroidApplication.getContext()));
     }
 
     @Override
