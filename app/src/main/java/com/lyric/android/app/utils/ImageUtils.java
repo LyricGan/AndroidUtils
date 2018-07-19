@@ -126,28 +126,37 @@ public class ImageUtils {
     }
 
     /**
-     * 获取图片（Bitmap）所占内存大小
+     * 获取图片（Bitmap）所占内存大小，加载本地资源图片，占用内存为width * height * nTargetDensity/inDensity * nTargetDensity/inDensity * 一个像素所占的内存
      * @param bitmap Bitmap
      * @return 图片占用内存大小
      */
-    public static long getBitmapMemory(Bitmap bitmap) {
+    public static long getBitmapSize(Bitmap bitmap) {
         if (bitmap == null || bitmap.isRecycled()) {
             return -1;
         }
-        long size = 0;
-        Config config = bitmap.getConfig();
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        if (config == Config.ALPHA_8) {
-            size = width * height;
-        } else if (config == Config.ARGB_4444) {
-            size = width * height * 2;
-        } else if (config == Config.ARGB_8888) {
-            size = width * height * 4;
-        } else if (config == Config.RGB_565) {
-            size = width * height * 2;
+        long count = 0;
+        switch (bitmap.getConfig()) {
+            case ALPHA_8:
+                count = 1;
+                break;
+            case ARGB_4444:
+            case RGB_565:
+                count = 2;
+                break;
+            case ARGB_8888:
+                count = 4;
+                break;
         }
-        return size;
+        return bitmap.getWidth() * bitmap.getHeight() * count;
+    }
+
+    public static long getByteCount(Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            return bitmap.getByteCount();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return bitmap.getAllocationByteCount();
+        }
+        return getBitmapSize(bitmap);
     }
 
     public static void closeQuietly(Closeable closeable) {
@@ -259,7 +268,10 @@ public class ImageUtils {
      */
     public static Bitmap compressBitmap(Bitmap bitmap, Bitmap.CompressFormat format, int targetSize) {
         if (bitmap == null || targetSize <= 0) {
-            return null;
+            return bitmap;
+        }
+        if (format == Bitmap.CompressFormat.PNG) {
+            return bitmap;
         }
         int quality = 100;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
