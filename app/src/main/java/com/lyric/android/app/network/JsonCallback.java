@@ -22,7 +22,7 @@ public abstract class JsonCallback<T> extends BaseResponseCallback<T> {
     @Override
     public T parseResponse(ResponseBody responseBody) {
         try {
-            return JsonParser.getInstance().parse(responseBody.string(), type);
+            return JsonParser.getInstance().getParser().fromJson(responseBody.string(), type);
         } catch (IOException e) {
             e.printStackTrace();
         }
