@@ -29,6 +29,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -673,6 +674,24 @@ public class FileUtils {
             }
         }
         return length;
+    }
+
+    public static String formatFileSize(long fileSize) {
+        if (fileSize <= 0) {
+            fileSize = 0;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String str;
+        if (fileSize < Unit.BYTE.value) {
+            str = decimalFormat.format(fileSize) + "B";
+        } else if (fileSize < Unit.KB.value) {
+            str = decimalFormat.format(fileSize / Unit.KB.value) + "KB";
+        } else if (fileSize < Unit.MB.value) {
+            str = decimalFormat.format(fileSize / Unit.MB.value) + "MB";
+        } else {
+            str = decimalFormat.format(fileSize / Unit.GB.value) + "GB";
+        }
+        return str;
     }
 
     /**

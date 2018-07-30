@@ -1,7 +1,10 @@
 package com.lyric.android.app.utils;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
@@ -96,4 +99,17 @@ public class SpannableUtils {
     public static SpannableString setSubClickableSpan(CharSequence source, ClickableSpan clickableSpan, int start, int end, int flags) {
         return setSubCharacterStyle(source, clickableSpan, start, end, flags);
     }
+
+    public static SpannableStringBuilder append(String text, int textColor, int textDimensionId) {
+        int textSize = Resources.getSystem().getDimensionPixelSize(textDimensionId);
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        String str = stringBuilder.toString();
+        stringBuilder.append(text);
+        int start = str.length();
+        int end = start + text.length();
+        stringBuilder.setSpan(new ForegroundColorSpan(textColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        stringBuilder.setSpan(new AbsoluteSizeSpan(textSize), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return stringBuilder;
+    }
+
 }

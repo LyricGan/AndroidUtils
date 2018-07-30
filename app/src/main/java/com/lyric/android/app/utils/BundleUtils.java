@@ -2,7 +2,6 @@ package com.lyric.android.app.utils;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +11,27 @@ import java.util.ArrayList;
  * @time 2016/3/22 19:49
  */
 public class BundleUtils {
-    private final Bundle mBundle = new Bundle();
+    private Bundle mBundle;
+
+    private BundleUtils() {
+        if (mBundle == null) {
+            mBundle = new Bundle();
+        } else {
+            mBundle.clear();
+        }
+    }
+
+    private static final class BundleUtilsHolder {
+        private static final BundleUtils mInstance = new BundleUtils();
+    }
+
+    public static BundleUtils getInstance() {
+        return BundleUtilsHolder.mInstance;
+    }
+
+    public Bundle getBundle() {
+        return mBundle;
+    }
 
     public BundleUtils putInt(String key, int value) {
         mBundle.putInt(key, value);
@@ -59,17 +78,4 @@ public class BundleUtils {
         return this;
     }
 
-    public Bundle getBundle() {
-        return mBundle;
-    }
-
-    public <T extends Fragment> T setArguments(T fragment) {
-        fragment.setArguments(getBundle());
-        return fragment;
-    }
-
-    public <T extends android.app.Fragment> T setArguments(T fragment) {
-        fragment.setArguments(getBundle());
-        return fragment;
-    }
 }

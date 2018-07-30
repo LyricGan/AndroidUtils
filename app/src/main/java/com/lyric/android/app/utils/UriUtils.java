@@ -17,20 +17,20 @@ import android.support.annotation.Nullable;
  */
 public class UriUtils {
     /** http scheme for URIs */
-    public static final String HTTP_SCHEME = "http";
+    private static final String HTTP_SCHEME = "http";
     /** https scheme for URIs */
-    public static final String HTTPS_SCHEME = "https";
+    private static final String HTTPS_SCHEME = "https";
 
     /** File scheme for URIs */
-    public static final String LOCAL_FILE_SCHEME = "file";
+    private static final String LOCAL_FILE_SCHEME = "file";
     /** Content URI scheme for URIs */
-    public static final String LOCAL_CONTENT_SCHEME = "content";
+    private static final String LOCAL_CONTENT_SCHEME = "content";
     /** Asset scheme for URIs */
-    public static final String LOCAL_ASSET_SCHEME = "asset";
+    private static final String LOCAL_ASSET_SCHEME = "asset";
     /** Resource scheme for URIs */
-    public static final String LOCAL_RESOURCE_SCHEME = "res";
+    private static final String LOCAL_RESOURCE_SCHEME = "res";
     /** Data scheme for URIs */
-    public static final String DATA_SCHEME = "data";
+    private static final String DATA_SCHEME = "data";
 
     /**
      * Check if uri represents network resource
@@ -151,13 +151,13 @@ public class UriUtils {
 
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {// MediaStore (and general)
+        } else if (isLocalContentUri(uri)) {// MediaStore (and general)
             // Return the remote address
             if (isGooglePhotosUri(uri)) {
                 return uri.getLastPathSegment();
             }
             return getDataColumn(context, uri, null, null);
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {// File
+        } else if (isLocalFileUri(uri)) {// File
             return uri.getPath();
         }
         return null;

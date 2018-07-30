@@ -147,7 +147,7 @@ public class WebFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        ToastUtils.showShort(AndroidApplication.getContext(), "图片地址为" + imageUrl);
+                        ToastUtils.show(AndroidApplication.getContext(), "图片地址为" + imageUrl);
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override

@@ -25,17 +25,8 @@ public class ToastUtils {
      * @param context Context
      * @param message 消息
      */
-    public static void showShort(final Context context, final String message) {
-        showMessage(context, message, Toast.LENGTH_SHORT);
-    }
-
-    /**
-     * Toast发送消息，默认Toast.LENGTH_LONG
-     * @param context Context
-     * @param message 消息
-     */
-    public static void showLong(final Context context, final String message) {
-        showMessage(context, message, Toast.LENGTH_LONG);
+    public static void show(Context context, String message) {
+        show(context, message, Toast.LENGTH_SHORT);
     }
 
     /**
@@ -43,17 +34,8 @@ public class ToastUtils {
      * @param context Context
      * @param messageId 消息文本资源ID
      */
-    public static void showShort(final Context context, final int messageId) {
-        showMessage(context, messageId, Toast.LENGTH_SHORT);
-    }
-
-    /**
-     * Toast发送消息，默认Toast.LENGTH_LONG
-     * @param context Context
-     * @param messageId 消息文本资源ID
-     */
-    public static void showLong(final Context context, final int messageId) {
-        showMessage(context, messageId, Toast.LENGTH_LONG);
+    public static void show(Context context, int messageId) {
+        show(context, messageId, Toast.LENGTH_SHORT);
     }
 
     /**
@@ -62,8 +44,8 @@ public class ToastUtils {
      * @param messageId 消息文本资源ID
      * @param duration 持续时间
      */
-    private static void showMessage(final Context context, final int messageId, final int duration) {
-        showMessage(context, context.getString(messageId), duration);
+    public static void show(final Context context, final int messageId, final int duration) {
+        show(context, context.getString(messageId), duration);
     }
 
     /**
@@ -72,7 +54,7 @@ public class ToastUtils {
      * @param message 消息
      * @param duration 持续时间
      */
-    private static void showMessage(final Context context, final String message, final int duration) {
+    public static void show(final Context context, final String message, final int duration) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -89,9 +71,6 @@ public class ToastUtils {
         });
     }
 
-    /**
-     * 关闭当前Toast
-     */
     public static void cancel() {
         if (mToast != null) {
             mToast.cancel();

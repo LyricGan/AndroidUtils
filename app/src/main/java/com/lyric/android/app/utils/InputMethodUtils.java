@@ -19,21 +19,30 @@ public class InputMethodUtils {
     }
 
     private static InputMethodManager getInputMethodManager(Context context) {
-        return  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     public static void show(View view) {
         InputMethodManager imm = getInputMethodManager(view.getContext());
+        if (imm == null) {
+            return;
+        }
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public static void show(View view, int flags) {
         InputMethodManager imm = getInputMethodManager(view.getContext());
+        if (imm == null) {
+            return;
+        }
         imm.showSoftInput(view, flags);
     }
 
     public static void hide(EditText editText) {
         InputMethodManager imm = getInputMethodManager(editText.getContext());
+        if (imm == null) {
+            return;
+        }
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
@@ -43,17 +52,23 @@ public class InputMethodUtils {
             return;
         }
         InputMethodManager imm = getInputMethodManager(activity);
+        if (imm == null) {
+            return;
+        }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void toggle(Context context) {
         InputMethodManager imm = getInputMethodManager(context);
+        if (imm == null) {
+            return;
+        }
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public static boolean isActive(EditText editText) {
         InputMethodManager imm = getInputMethodManager(editText.getContext());
-        return imm.isActive();
+        return imm != null && imm.isActive();
     }
 
     public static void observeSoftKeyboard(Activity activity, final OnSoftKeyboardChangedListener listener) {
