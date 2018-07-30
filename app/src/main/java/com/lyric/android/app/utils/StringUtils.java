@@ -1,6 +1,5 @@
 package com.lyric.android.app.utils;
 
-import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -302,31 +301,6 @@ public class StringUtils {
 		}
 		return fileName;
 	}
-
-    /**
-     * 对EditText字数的限制
-     *
-     * @param charCount 输入限定字符数
-     * @return InputFilter[]
-     */
-    public static InputFilter[] lengthFilter(final int charCount) {
-        return new InputFilter[]{ new InputFilter.LengthFilter(50) {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                String text = dest.toString() + source.toString();
-                try {
-                    if (text.getBytes("GBK").length > charCount) {
-                        int destBytesLength = dest.toString().getBytes("GBK").length;
-                        // 截取source
-                        return source.toString().substring(0, (charCount - destBytesLength + 1) / 2);
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return source;
-            }
-        }};
-    }
 
     /**
      * 判断字符串是否为手机号

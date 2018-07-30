@@ -3,6 +3,8 @@ package com.lyric.android.app.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +19,30 @@ public class InputMethodUtils {
 
     private InputMethodUtils() {
     }
+
+    /**
+     * 输入限制小数点两位
+     */
+    public static final InputFilter DECIMAL_INPUT_FILTER = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String destValue = dest.toString();
+            if (destValue.contains(".")) {
+                String[] values = destValue.split("\\.");
+                if (values.length > 1) {
+                    String rightValue = values[1];
+                    if (rightValue.length() > 1 && (dstart > (destValue.length() - 1))) {
+                        source = "";
+                    }
+                }
+            } else if (".".equals(source.toString())) {
+                if (dstart < (destValue.length() - 2)) {
+                    source = "";
+                }
+            }
+            return source;
+        }
+    };
 
     private static InputMethodManager getInputMethodManager(Context context) {
         return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
