@@ -3,7 +3,6 @@ package com.lyric.android.app.utils;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -12,7 +11,6 @@ import android.os.Build;
 import android.support.annotation.IdRes;
 import android.text.Selection;
 import android.text.Spannable;
-import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -28,7 +26,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Locale;
 
 /**
  * view utils
@@ -54,24 +51,6 @@ public class ViewUtils {
             return (T) view.findViewById(id);
         }
         return null;
-    }
-
-    public static Resources getResources(Context context) {
-        return context.getResources();
-    }
-
-    public static void setLanguage(Context context, Locale locale) {
-        Locale.setDefault(locale);
-        Resources resources = getResources(context);
-        Configuration config = resources.getConfiguration();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        config.locale = locale;
-        resources.updateConfiguration(config, metrics);
-    }
-
-    public static Locale getLanguage(Context context) {
-        Configuration config = getResources(context).getConfiguration();
-        return config.locale;
     }
 
     /**

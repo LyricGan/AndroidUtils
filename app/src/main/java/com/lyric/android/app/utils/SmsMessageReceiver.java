@@ -3,10 +3,10 @@ package com.lyric.android.app.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,14 +41,13 @@ public class SmsMessageReceiver extends BroadcastReceiver {
             for (Object pdu : pdus) {
                 // 读取所有信息到SmsMessage
                 SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
-                if (smsMessage != null) {
-                    String smsContent = smsMessage.getMessageBody();
-                    String smsAddress = smsMessage.getOriginatingAddress();
-                    String confirmCode = getConfirmCode(smsContent, smsAddress, mSmsTag);
-                    if (!TextUtils.isEmpty(confirmCode)) {
-                        Log.d("SmsMessageReceiver", "confirmCode:" + confirmCode);
-                        break;
-                    }
+                if (smsMessage == null) {
+                    continue;
+                }
+                String confirmCode = getConfirmCode(smsMessage.getMessageBody(), smsMessage.getOriginatingAddress(), mSmsTag);
+                if (!TextUtils.isEmpty(confirmCode)) {
+                    handleConfirmCode(confirmCode);
+                    break;
                 }
             }
         }
@@ -77,12 +76,23 @@ public class SmsMessageReceiver extends BroadcastReceiver {
      * @return 数字
      */
     private String getDigitalFromText(String str) {
-        final String REGULAR_FLOAT = "(-?[0-9]+)(,[0-9]+)*(\\.[0-9]+)?(\\%)?";
-        Pattern pattern = Pattern.compile(REGULAR_FLOAT);
+        final String regularFloat = "(-?[0-9]+)(,[0-9]+)*(\\.[0-9]+)?(\\%)?";
+        Pattern pattern = Pattern.compile(regularFloat);
         Matcher matcher = pattern.matcher(str);
         if (matcher.find()) {
             return matcher.group();
         }
         return null;
+    }
+
+    private void handleConfirmCode(String confirmCode) {
+
+    }
+
+    public static void register(Context context, String smsTag) {
+        SmsMessageReceiver receiver = new SmsMessageReceiver(smsTag);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SmsMessageReceiver.SMS_RECEIVED_ACTION);
+        context.registerReceiver(receiver, intentFilter);
     }
 }

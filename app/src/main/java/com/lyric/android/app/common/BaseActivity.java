@@ -33,6 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         onCreatePrepare(savedInstanceState);
         super.onCreate(savedInstanceState);
         mHandler = new InnerHandler(this);
+        ActivityStackManager.getInstance().add(this);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             onCreateExtras(bundle);
@@ -104,6 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     protected void onDestroy() {
         mDestroy = true;
         super.onDestroy();
+        ActivityStackManager.getInstance().remove(this);
     }
 
     protected boolean isDestroy() {

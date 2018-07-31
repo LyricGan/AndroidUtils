@@ -11,17 +11,17 @@ import com.lyric.android.app.utils.LogUtils;
  * @author lyricgan
  */
 public class AndroidApplication extends Application {
-    private static AndroidApplication sInstance;
+    private static AndroidApplication mInstance;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        sInstance = this;
+        mInstance = this;
 
         LogUtils.setDebug(Constants.DEBUG);
 	}
 
     public static Context getContext() {
-        return sInstance.getApplicationContext();
+        return mInstance.getApplicationContext();
     }
 }
