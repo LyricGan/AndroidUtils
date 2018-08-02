@@ -46,8 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         } else {
             setContentView(getContentView());
         }
-        View view = getWindow().getDecorView();
-        View titleView = view.findViewById(R.id.title_bar);
+        View decorView = getWindow().getDecorView();
+        View titleView = decorView.findViewById(R.id.title_bar);
         if (titleView != null) {
             if (titleView instanceof Toolbar) {
                 onCreateTitleBar((Toolbar) titleView, savedInstanceState);
@@ -56,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
                 onCreateTitleBar(titleBar, savedInstanceState);
             }
         }
-        onCreateContentView(view, savedInstanceState);
+        onCreateContentView(decorView, savedInstanceState);
 
         onCreateData(savedInstanceState);
     }
