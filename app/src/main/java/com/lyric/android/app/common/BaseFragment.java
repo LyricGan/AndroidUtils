@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import com.lyric.android.app.R;
 public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
-    private boolean mViewVisible;
     private boolean mSelected;
 
     @Override
@@ -34,14 +34,14 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(getLayoutId(), null);
         mRootView = rootView;
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         View titleView = view.findViewById(R.id.title_bar);
         if (titleView != null) {
@@ -91,22 +91,6 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        try {
-            super.setUserVisibleHint(isVisibleToUser);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (mViewVisible) {
-                View view = getView();
-                if (view != null) {
-                    view.setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
-                }
-            }
-        }
-    }
-
-    @Override
     public void showLoading(CharSequence message) {
         showLoading(message, true);
     }
@@ -135,17 +119,9 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         activity.hideLoading();
     }
 
-    public void setViewVisible(boolean viewVisible) {
-        this.mViewVisible = viewVisible;
-    }
-
-    public boolean isViewVisible() {
-        View view = getView();
-        return view != null && view.getVisibility() == View.VISIBLE;
-    }
-
-    public boolean isActivityDestroyed() {
-        return getActivity() == null;
+    public boolean isActivityFinishing() {
+        Activity activity = getActivity();
+        return activity == null || activity.isFinishing();
     }
 
     public boolean onBackPressed() {

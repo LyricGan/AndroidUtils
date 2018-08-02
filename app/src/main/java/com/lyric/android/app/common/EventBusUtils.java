@@ -4,6 +4,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * event bus utils，register() and unregister()
+ * https://github.com/greenrobot/EventBus
  *
  * @author lyricgan
  */
