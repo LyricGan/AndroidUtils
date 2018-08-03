@@ -23,7 +23,7 @@ import com.lyric.android.app.R;
  *
  * @author lyricgan
  */
-public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener, View.OnClickListener {
     protected final String TAG = getClass().getSimpleName();
     private boolean mDestroy = false;
     private Handler mHandler;
@@ -92,11 +92,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    public <T extends View> T findViewWithId(int id) {
-        return (T) super.findViewById(id);
-    }
-
-    @Override
     protected void onResume() {
         mDestroy = false;
         super.onResume();
@@ -127,6 +122,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
 
     @Override
     public void hideLoading() {
+    }
+
+    public <T extends View> T findViewWithId(int id) {
+        return (T) super.findViewById(id);
     }
 
     protected boolean isAutoHideKeyboard() {

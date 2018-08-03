@@ -6,10 +6,9 @@ import android.os.Looper;
 import android.widget.Toast;
 
 /**
- * Toast工具类，用来弹出提示
+ * Toast工具类
  * 
  * @author lyricgan
- * @created 2014-3-4
  * 
  */
 public class ToastUtils {
@@ -20,40 +19,18 @@ public class ToastUtils {
     private ToastUtils() {
     }
 
-    /**
-     * Toast发送消息，默认Toast.LENGTH_SHORT
-     * @param context Context
-     * @param message 消息
-     */
     public static void show(Context context, String message) {
         show(context, message, Toast.LENGTH_SHORT);
     }
 
-    /**
-     * Toast发送消息，默认Toast.LENGTH_SHORT
-     * @param context Context
-     * @param messageId 消息文本资源ID
-     */
     public static void show(Context context, int messageId) {
         show(context, messageId, Toast.LENGTH_SHORT);
     }
 
-    /**
-     * Toast发送消息
-     * @param context Context
-     * @param messageId 消息文本资源ID
-     * @param duration 持续时间
-     */
     public static void show(final Context context, final int messageId, final int duration) {
         show(context, context.getString(messageId), duration);
     }
 
-    /**
-     * Toast发送消息
-     * @param context Context
-     * @param message 消息
-     * @param duration 持续时间
-     */
     public static void show(final Context context, final String message, final int duration) {
         mHandler.post(new Runnable() {
             @Override

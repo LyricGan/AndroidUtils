@@ -702,4 +702,27 @@ public class StringUtils {
         return s;
     }
 
+    public static String getStackTraceMessage(Thread thread, Class<?> cls) {
+        StackTraceElement[] stackTraceElementArray = thread.getStackTrace();
+        if (stackTraceElementArray == null) {
+            return null;
+        }
+        for (StackTraceElement element : stackTraceElementArray) {
+            if (element.isNativeMethod()) {
+                continue;
+            }
+            if (element.getClassName().equals(Thread.class.getName())) {
+                continue;
+            }
+            if (element.getClassName().equals(cls.getName())) {
+                continue;
+            }
+            return "[ " + thread.getName() + ": "
+                    + element.getFileName() + ":"
+                    + element.getLineNumber() + " "
+                    + element.getMethodName() + " ]";
+        }
+        return null;
+    }
+
 }

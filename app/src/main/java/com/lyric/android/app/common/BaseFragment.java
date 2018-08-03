@@ -18,7 +18,7 @@ import com.lyric.android.app.R;
  *
  * @author lyricgan
  */
-public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener {
+public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener, View.OnClickListener {
     protected final String TAG = getClass().getName();
     private View mRootView;
     private boolean mSelected;
@@ -77,7 +77,6 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     public void onClick(View v) {
     }
 
-    @Override
     public <T extends View> T findViewWithId(int id) {
         View rootView = getRootView();
         if (rootView != null) {
@@ -119,13 +118,13 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
         activity.hideLoading();
     }
 
+    public boolean onBackPressed() {
+        return false;
+    }
+
     public boolean isActivityFinishing() {
         Activity activity = getActivity();
         return activity == null || activity.isFinishing();
-    }
-
-    public boolean onBackPressed() {
-        return false;
     }
 
     public void finishActivity() {

@@ -8,7 +8,7 @@ import android.view.View;
  *
  * @author lyricgan
  */
-public interface IBaseListener extends View.OnClickListener {
+public interface IBaseListener {
 
     /**
      * 在super.onCreate()之前调用
@@ -48,17 +48,4 @@ public interface IBaseListener extends View.OnClickListener {
      */
     void onCreateData(Bundle savedInstanceState);
 
-	/**
-	 * 组件点击事件处理
-	 * @param v view
-	 */
-	void onClick(View v);
-
-    /**
-     * 通过ID查找视图，泛型处理
-     * @param id 视图ID
-     * @param <T> 泛型，继承View
-     * @return 视图或null
-     */
-    <T extends View> T findViewWithId(int id);
 }
