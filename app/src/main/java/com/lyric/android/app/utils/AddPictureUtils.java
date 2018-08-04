@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.lyric.android.app.widget.AddPicturePopup;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -264,16 +265,24 @@ public class AddPictureUtils {
 			if (degree > 0) {
 				bitmap = rotateBitmap(degree, bitmap);
 			}
+			OutputStream outputStream = null;
             try {
-                // 创建图片文件
-                createFile(toPath);
-                FileOutputStream outStream = new FileOutputStream(toPath);
-                if (bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outStream)) {
-                    outStream.flush();
-                    outStream.close();
+                if (createFile(toPath)) {
+                    outputStream = new BufferedOutputStream(new FileOutputStream(toPath));
+                    if (bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)) {
+                        outputStream.flush();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
 		return bitmap;
@@ -290,19 +299,28 @@ public class AddPictureUtils {
         }
         String dir = getCacheDirectory();
         File dirFile = new File(dir);
-        // 判断文件目录是否存在
-        if (!dirFile.exists()) {
-            dirFile.mkdirs();
+        if (!dirFile.exists() && !dirFile.mkdirs()) {
+            return;
         }
         File file = new File(picturePath);
+        OutputStream stream = null;
         try {
-            file.createNewFile();
-            OutputStream outStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-            outStream.flush();
-            outStream.close();
+            if (!file.exists() && !file.createNewFile()) {
+                return;
+            }
+            stream = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 	
@@ -312,9 +330,7 @@ public class AddPictureUtils {
 	    double outHeight = options.outHeight;
 	    int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(outWidth * outHeight / maxNumOfPixels));
 	    int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(outWidth / minSideLength), Math.floor(outHeight / minSideLength));
-	    if (upperBound < lowerBound) {
-	    	scaleSize = lowerBound;
-	    }
+
 	    if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
 	    	scaleSize = 1;
 	    } else if (minSideLength == -1) {

@@ -103,19 +103,16 @@ public class ClazzUtils {
      * @param clazz 接口
      * @return 接口下的所有实现类
      */
-    public static List<Class> getAllClassByInterface(Class clazz) {
-        List<Class> returnClassList = new ArrayList<Class>();
-        // 判断是否为一个接口
+    public static List<Class> getAllClassByInterface(Class<?> clazz) {
+        List<Class> resultList = new ArrayList<>();
         if (clazz.isInterface()) {
             String packageName = clazz.getPackage().getName();
             try {
-                List<Class> allClassList = getClasses(packageName); //获得当前包下以及子包下的所有类
-                //判断是否是同一个接口
-                for (int i = 0; i < allClassList.size(); i++) {
-                    if (clazz.isAssignableFrom(allClassList.get(i))) { //判断是不是一个接口
-                        if (!clazz.equals(allClassList.get(i))) { //本身不加进去
-                            returnClassList.add(allClassList.get(i));
-                        }
+                List<Class> classList = getClasses(packageName);
+                for (int i = 0; i < classList.size(); i++) {
+                    Class<?> cls = classList.get(i);
+                    if (clazz.isAssignableFrom(cls) && !clazz.equals(cls)) {
+                        resultList.add(cls);
                     }
                 }
             } catch (ClassNotFoundException e) {
@@ -124,26 +121,26 @@ public class ClazzUtils {
                 e.printStackTrace();
             }
         }
-        return returnClassList;
+        return resultList;
     }
 
     /**
      * 从一个包中查找出所有的类，在jar包中不能查找
      * @param packageName 包名
      * @return 当前包下以及子包下的所有类
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException ClassNotFoundException
+     * @throws IOException IOException
      */
     private static List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<File>();
+        List<File> dirs = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        ArrayList<Class> classes = new ArrayList<Class>();
+        ArrayList<Class> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
@@ -151,14 +148,16 @@ public class ClazzUtils {
     }
 
     private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<Class>();
+        List<Class> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }
         File[] files = directory.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                assert !file.getName().contains(".");
+                if (file.getName().contains(".")) {
+                    continue;
+                }
                 classes.addAll(findClasses(file, packageName + "." + file.getName()));
             } else if (file.getName().endsWith(".class")) {
                 classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));

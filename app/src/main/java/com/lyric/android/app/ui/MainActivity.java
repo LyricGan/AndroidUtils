@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
         setupViewPager();
 
         LogUtils.d(TAG, FileUtils.toFileString(AndroidApplication.getContext()));
-        LogUtils.d(TAG, DisplayUtils.toDisplayString(AndroidApplication.getContext()));
+        LogUtils.d(TAG, DisplayUtils.toString(AndroidApplication.getContext()));
     }
 
     @Override

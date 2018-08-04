@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
@@ -68,6 +69,11 @@ public class DisplayUtils {
     public static int[] getScreenDisplay(Context context) {
         DisplayMetrics metrics = getDisplayMetrics(context);
         return new int[]{metrics.widthPixels, metrics.heightPixels};
+    }
+
+    public static Point getScreenPoint(Context context) {
+        DisplayMetrics metrics = getDisplayMetrics(context);
+        return new Point(metrics.widthPixels, metrics.heightPixels);
     }
 
     public static int getScreenWidth(Context context) {
@@ -174,7 +180,7 @@ public class DisplayUtils {
         return getResources(context).getAssets();
     }
 
-    public static String toDisplayString(Context context) {
+    public static String toString(Context context) {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         Pair<Integer, Integer> pair = getResolution(context);
         return "DisplayMetrics [density=" + displayMetrics.density + "," +

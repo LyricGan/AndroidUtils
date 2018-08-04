@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 /**
  * @author lyricgan
  */
-public abstract class BaseViewController<T> implements IControllerCallback<T> {
+public abstract class BaseViewController<E> implements IControllerCallback<E> {
     private Context mContext;
     private ViewGroup mParent;
     private View mView;
-    private T mData;
+    private E mData;
 
     public BaseViewController(Context context, ViewGroup parent, @LayoutRes int layoutId) {
         this(context, parent, LayoutInflater.from(context).inflate(layoutId, parent, false));
@@ -64,11 +64,11 @@ public abstract class BaseViewController<T> implements IControllerCallback<T> {
         return mView;
     }
 
-    public T getData() {
+    public E getData() {
         return mData;
     }
 
-    public void setData(T data) {
+    public void setData(E data) {
         this.mData = data;
 
         onUpdateView(data);

@@ -5,11 +5,11 @@ import android.view.View;
 /**
  * @author lyricgan
  */
-public interface IControllerCallback<T> {
+public interface IControllerCallback<E> {
 
     void onCreateView(View view);
 
-    void onUpdateView(T data);
+    void onUpdateView(E data);
 
     void onDestroyView();
 }
