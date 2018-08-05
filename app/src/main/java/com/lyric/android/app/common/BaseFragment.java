@@ -137,9 +137,9 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
 
     @Override
     public Handler getHandler() {
-        BaseActivity activity = (BaseActivity) getActivity();
-        if (activity != null) {
-            return activity.getHandler();
+        Activity activity = getActivity();
+        if (activity instanceof BaseActivity) {
+            return ((BaseActivity) activity).getHandler();
         }
         return null;
     }

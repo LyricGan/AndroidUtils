@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,15 +24,14 @@ import com.lyric.android.app.R;
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener, View.OnClickListener {
     protected final String TAG = getClass().getSimpleName();
-    private boolean mDestroy = false;
     private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         onCreatePrepare(savedInstanceState);
         super.onCreate(savedInstanceState);
-        mHandler = new InnerHandler(this);
         ActivityStackManager.getInstance().add(this);
+        mHandler = new InnerHandler(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -92,23 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     @Override
-    protected void onResume() {
-        mDestroy = false;
-        super.onResume();
-    }
-
-    @Override
     protected void onDestroy() {
-        mDestroy = true;
         super.onDestroy();
         ActivityStackManager.getInstance().remove(this);
-    }
-
-    protected boolean isDestroy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return isDestroyed();
-        }
-        return mDestroy;
     }
 
     @Override
@@ -126,6 +110,13 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
 
     public <T extends View> T findViewWithId(int id) {
         return (T) super.findViewById(id);
+    }
+
+    public boolean isDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return isDestroyed();
+        }
+        return isFinishing();
     }
 
     protected boolean isAutoHideKeyboard() {
@@ -153,7 +144,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
             int top = location[1];
             int bottom = top + v.getHeight();
             int right = left + v.getWidth();
-            return !(event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom);
+
+            float eventX = event.getX();
+            float eventY = event.getY();
+            return !(eventX > left && eventX < right && eventY > top && eventY < bottom);
         }
         // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
         return false;
@@ -169,11 +163,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         }
     }
 
-    public Fragment getFragment(Context context, Class<?> fragmentClass, Bundle args) {
-        return getFragment(context, fragmentClass.getName(), args);
+    public Fragment initFragment(Context context, Class<?> fragmentClass, Bundle args) {
+        return initFragment(context, fragmentClass.getName(), args);
     }
 
-    public Fragment getFragment(Context context, String fragmentName, Bundle args) {
+    public Fragment initFragment(Context context, String fragmentName, Bundle args) {
         Fragment fragment = null;
         try {
             fragment = Fragment.instantiate(context, fragmentName, args);
@@ -192,17 +186,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     }
 
     private void commitFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name, boolean isReplace) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (isReplace) {
-            fragmentTransaction.replace(containerViewId, fragment, tag);
+            transaction.replace(containerViewId, fragment, tag);
         } else {
-            fragmentTransaction.add(containerViewId, fragment, tag);
+            transaction.add(containerViewId, fragment, tag);
         }
         if (isAddToBackStack) {
-            fragmentTransaction.addToBackStack(name);
+            transaction.addToBackStack(name);
         }
-        fragmentTransaction.commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
