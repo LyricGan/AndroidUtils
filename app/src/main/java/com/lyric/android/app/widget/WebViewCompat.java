@@ -243,8 +243,6 @@ public class WebViewCompat extends WebView {
 
     public void onDestroy() {
         try {
-            setWebViewClient(null);
-            setWebChromeClient(null);
             clearHistory();
             loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             ViewParent viewParent = getParent();
