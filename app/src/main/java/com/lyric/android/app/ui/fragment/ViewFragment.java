@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui;
+package com.lyric.android.app.ui.fragment;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;

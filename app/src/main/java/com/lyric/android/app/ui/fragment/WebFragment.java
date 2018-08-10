@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui;
+package com.lyric.android.app.ui.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

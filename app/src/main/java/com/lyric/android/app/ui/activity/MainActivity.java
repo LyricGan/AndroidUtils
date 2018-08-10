@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui;
+package com.lyric.android.app.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +21,9 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseActivity;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.BaseFragmentStatePagerAdapter;
+import com.lyric.android.app.ui.fragment.ListFragment;
+import com.lyric.android.app.ui.fragment.ViewFragment;
+import com.lyric.android.app.ui.fragment.WebFragment;
 import com.lyric.android.app.utils.DisplayUtils;
 import com.lyric.android.app.utils.FileUtils;
 import com.lyric.android.app.utils.LogUtils;

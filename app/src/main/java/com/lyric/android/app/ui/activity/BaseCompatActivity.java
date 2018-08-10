@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui;
+package com.lyric.android.app.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
