@@ -8,23 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * controller for view
  * @author lyricgan
  */
-public abstract class BaseViewController<E> implements IControllerCallback<E> {
+public abstract class ViewController<E> implements IControllerCallback<E> {
     private Context mContext;
     private ViewGroup mParent;
     private View mView;
     private E mData;
 
-    public BaseViewController(Context context, ViewGroup parent, @LayoutRes int layoutId) {
-        this(context, parent, LayoutInflater.from(context).inflate(layoutId, parent, false));
+    public ViewController(Context context, @LayoutRes int layoutId, ViewGroup parent) {
+        this(context, LayoutInflater.from(context).inflate(layoutId, parent, false), parent);
     }
 
-    public BaseViewController(Context context, ViewGroup parent, View view) {
+    public ViewController(Context context, View view, ViewGroup parent) {
         this.mContext = context;
         this.mParent = parent;
 
         init(view);
+
+        onCreateView(view);
     }
 
     private void init(View view) {
@@ -37,8 +40,6 @@ public abstract class BaseViewController<E> implements IControllerCallback<E> {
             }
         }
         mView = view;
-
-        onCreateView(view);
     }
 
     public ViewGroup.LayoutParams getLayoutParams() {
@@ -87,11 +88,10 @@ public abstract class BaseViewController<E> implements IControllerCallback<E> {
         return View.GONE;
     }
 
-    public <T extends View> T findViewWithId(@IdRes int id) {
+    public <T extends View> T findViewById(@IdRes int id) {
         if (mView != null) {
             return (T) mView.findViewById(id);
         }
         return null;
     }
-
 }
