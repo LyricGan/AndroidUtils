@@ -8,7 +8,8 @@ import android.view.Gravity;
 import android.widget.EditText;
 
 /**
- * 自定义文本控件，控制TextView行高
+ * 自定义高亮输入框
+ *
  * @author lyricgan
  * @time 2017/3/29 18:17
  */

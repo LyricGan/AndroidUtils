@@ -7,29 +7,17 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.lyric.android.app.R;
-
-import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
-
-/**
- * @author lyricgan
- * @time 2016/8/25 13:35
- */
-public class SideBar2 extends View {
-    private static final String TAG = SideBar2.class.getSimpleName();
-    private OnLetterChangedListener mOnLetterChangedListener;
-
-    private String[] mLetters = null;
+public class ScaleSideBar extends View {
+    private String[] mLetters = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+            "W", "X", "Y", "Z", "#"};
     private Paint mPaint;
-    private int mTextColor;
-    private int mResArrayId = R.array.letter_list;
-
     private int mChoose = -1;
 
     private final float mDensity;
@@ -41,32 +29,36 @@ public class SideBar2 extends View {
     private int mTouchSlop;
     private float mInitialDownY;
     private boolean mIsBeingDragged, mStartEndAnim;
-    private int mActivePointerId = INVALID_POINTER;
+    private int mActivePointerId = ViewDragHelper.INVALID_POINTER;
 
     private RectF mIsDownRect = new RectF();
 
-    public SideBar2(Context context) {
+    private OnLetterChangedListener mOnLetterChangedListener;
+
+    public ScaleSideBar(Context context) {
         this(context, null);
     }
 
-    public SideBar2(Context context, AttributeSet attrs) {
+    public ScaleSideBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SideBar2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ScaleSideBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         this.mPaint = new Paint();
-        this.mTextColor = Color.GRAY;
         this.mPaint.setAntiAlias(true);
         this.mPaint.setTextAlign(Paint.Align.CENTER);
-        this.mPaint.setColor(this.mTextColor);
-
-        this.mLetters = context.getResources().getStringArray(mResArrayId);
+        this.mPaint.setColor(Color.GRAY);
 
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mDensity = getContext().getResources().getDisplayMetrics().density;
 
         setPadding(0, dip2px(20), 0, dip2px(20));
+    }
+
+    private int dip2px(int dipValue) {
+        return (int) (dipValue * mDensity + 0.5f);
     }
 
     @Override
@@ -86,7 +78,7 @@ public class SideBar2 extends View {
                 mInitialDownY = initialDownY;
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (mActivePointerId == INVALID_POINTER) {
+                if (mActivePointerId == ViewDragHelper.INVALID_POINTER) {
                     return false;
                 }
 
@@ -105,14 +97,18 @@ public class SideBar2 extends View {
                     if (mChoose != characterIndex) {
                         if (characterIndex >= 0 && characterIndex < mLetters.length) {
                             mChoose = characterIndex;
-                            Log.d(TAG, "mChoose " + mChoose + " mLetterHeight " + mLetterHeight);
                         }
                     }
                     invalidate();
                 }
                 break;
             case MotionEventCompat.ACTION_POINTER_UP:
-                onSecondaryPointerUp(ev);
+                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
+                final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
+                if (pointerId == mActivePointerId) {
+                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                    mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -129,7 +125,7 @@ public class SideBar2 extends View {
                 }
                 mStartEndAnim = mIsBeingDragged;
                 mIsBeingDragged = false;
-                mActivePointerId = INVALID_POINTER;
+                mActivePointerId = ViewDragHelper.INVALID_POINTER;
 
                 mChoose = -1;
                 mAnimStep = 0f;
@@ -139,21 +135,13 @@ public class SideBar2 extends View {
         return true;
     }
 
-    public void setOnLetterChangedListener(OnLetterChangedListener listener) {
-        this.mOnLetterChangedListener = listener;
-    }
-
-    private int getLettersSize() {
-        return mLetters.length;
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mHalfWidth = w - dip2px(16);
         mHalfHeight = h - getPaddingTop() - getPaddingBottom();
 
-        float lettersLen = getLettersSize();
+        float lettersLen = mLetters.length;
         mLetterHeight = mHalfHeight / lettersLen;
         int textSize = (int) (mHalfHeight * 0.7f / lettersLen);
         this.mPaint.setTextSize(textSize);
@@ -164,10 +152,10 @@ public class SideBar2 extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < getLettersSize(); i++) {
+        for (int i = 0; i < mLetters.length; i++) {
             float letterPosY = mLetterHeight * (i + 1) + getPaddingTop();
             float diff, diffY, diffX;
-            if (mChoose == i && i != 0 && i != getLettersSize() - 1) {
+            if (mChoose == i && i != 0 && i != mLetters.length - 1) {
                 diffX = 0f;
                 diffY = 0f;
                 diff = 2.16f;
@@ -209,10 +197,6 @@ public class SideBar2 extends View {
         }
     }
 
-    private int dip2px(int dipValue) {
-        return (int) (dipValue * mDensity + 0.5f);
-    }
-
     private float getMotionEventY(MotionEvent ev, int activePointerId) {
         final int index = MotionEventCompat.findPointerIndex(ev, activePointerId);
         if (index < 0) {
@@ -221,16 +205,11 @@ public class SideBar2 extends View {
         return MotionEventCompat.getY(ev, index);
     }
 
-    private void onSecondaryPointerUp(MotionEvent ev) {
-        final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-        final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
-        if (pointerId == mActivePointerId) {
-            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-            mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
-        }
+    public void setOnLetterChangedListener(OnLetterChangedListener listener) {
+        this.mOnLetterChangedListener = listener;
     }
 
-    interface OnLetterChangedListener {
+    public interface OnLetterChangedListener {
 
         void onTouchingLetterChanged(String s);
     }
