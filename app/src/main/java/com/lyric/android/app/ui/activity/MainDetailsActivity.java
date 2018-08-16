@@ -17,9 +17,9 @@ public class MainDetailsActivity extends BaseActivity {
 
     @Override
     public void onCreateContentView(View view, Bundle savedInstanceState) {
-        Toolbar toolbar = findViewWithId(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CollapsingToolbarLayout collapsingToolbar = findViewWithId(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("我的课程");
     }
 }

@@ -40,8 +40,8 @@ public class ListFragment extends BaseFragment {
 
     @Override
     public void onCreateContentView(View view, Bundle savedInstanceState) {
-        RefreshLayout refreshLayout = findViewWithId(R.id.refresh_layout);
-        mRecyclerView = findViewWithId(R.id.recycler_view);
+        RefreshLayout refreshLayout = findViewById(R.id.refresh_layout);
+        mRecyclerView = findViewById(R.id.recycler_view);
 
         refreshLayout.setAutoLoadMore(true);
         refreshLayout.setEnableOverScroll(false);

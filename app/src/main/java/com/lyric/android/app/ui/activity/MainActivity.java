@@ -48,24 +48,24 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onCreateContentView(View view, Bundle savedInstanceState) {
-        Toolbar toolbar = findViewWithId(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mDrawerLayout = findViewWithId(R.id.dl_main_drawer);
-        NavigationView navigationView = findViewWithId(R.id.nv_main_navigation);
+        mDrawerLayout = findViewById(R.id.dl_main_drawer);
+        NavigationView navigationView = findViewById(R.id.nv_main_navigation);
         setupDrawerContent(navigationView);
 
-        findViewWithId(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, R.string.app_name, Snackbar.LENGTH_SHORT).show();
             }
         });
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = findViewById(R.id.viewpager);
         setupViewPager();
 
         LogUtils.d(TAG, FileUtils.toFileString(AndroidApplication.getContext()));
@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        TabLayout tabLayout = findViewWithId(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         String url = "https://www.baidu.com/";

@@ -77,10 +77,10 @@ public abstract class BaseFragment extends Fragment implements IBaseListener, IM
     public void onClick(View v) {
     }
 
-    public <T extends View> T findViewWithId(int id) {
+    public <T extends View> T findViewById(int id) {
         View rootView = getRootView();
         if (rootView != null) {
-            return (T) rootView.findViewById(id);
+            return rootView.findViewById(id);
         }
         return null;
     }

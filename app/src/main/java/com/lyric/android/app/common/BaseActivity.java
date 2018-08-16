@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
@@ -108,10 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
     public void hideLoading() {
     }
 
-    public <T extends View> T findViewWithId(int id) {
-        return (T) super.findViewById(id);
-    }
-
     public boolean isDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return isDestroyed();
@@ -161,41 +155,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseLis
         if (im != null) {
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
-    }
-
-    public Fragment initFragment(Context context, Class<?> fragmentClass, Bundle args) {
-        return initFragment(context, fragmentClass.getName(), args);
-    }
-
-    public Fragment initFragment(Context context, String fragmentName, Bundle args) {
-        Fragment fragment = null;
-        try {
-            fragment = Fragment.instantiate(context, fragmentName, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fragment;
-    }
-
-    public void addFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name) {
-        commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, false);
-    }
-
-    public void replaceFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name) {
-        commitFragment(containerViewId, fragment, tag, isAddToBackStack, name, true);
-    }
-
-    private void commitFragment(int containerViewId, Fragment fragment, String tag, boolean isAddToBackStack, String name, boolean isReplace) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (isReplace) {
-            transaction.replace(containerViewId, fragment, tag);
-        } else {
-            transaction.add(containerViewId, fragment, tag);
-        }
-        if (isAddToBackStack) {
-            transaction.addToBackStack(name);
-        }
-        transaction.commitAllowingStateLoss();
     }
 
     @Override

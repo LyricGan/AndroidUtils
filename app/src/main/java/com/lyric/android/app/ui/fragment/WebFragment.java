@@ -50,8 +50,8 @@ public class WebFragment extends BaseFragment {
 
     @Override
     public void onCreateContentView(View view, Bundle savedInstanceState) {
-        mWebView = findViewWithId(R.id.web_view);
-        mProgressBar = findViewWithId(R.id.progress_bar);
+        mWebView = findViewById(R.id.web_view);
+        mProgressBar = findViewById(R.id.progress_bar);
 
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

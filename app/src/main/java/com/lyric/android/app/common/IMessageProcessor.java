@@ -9,15 +9,7 @@ import android.os.Message;
  */
 public interface IMessageProcessor {
 
-    /**
-     * 获取消息处理器
-     * @return 消息处理器
-     */
     Handler getHandler();
 
-    /**
-     * 处理消息回调
-     * @param msg 消息实体
-     */
     void handleMessage(Message msg);
 }
