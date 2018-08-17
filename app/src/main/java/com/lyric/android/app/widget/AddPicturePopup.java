@@ -22,7 +22,6 @@ import com.lyric.android.app.utils.DisplayUtils;
 
 /**
  * @author lyricgan
- * @description
  * @time 2016/7/5 13:39
  */
 public class AddPicturePopup extends PopupWindow implements View.OnClickListener {

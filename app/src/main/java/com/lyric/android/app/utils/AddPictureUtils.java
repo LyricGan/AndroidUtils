@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -45,9 +43,13 @@ public class AddPictureUtils {
     private String mAvatarPath;
     private Uri mAvatarUri;
 
-    public static synchronized AddPictureUtils getInstance() {
+    public static AddPictureUtils getInstance() {
         if (mInstance == null) {
-            mInstance = new AddPictureUtils();
+            synchronized(AddPictureUtils.class) {
+                if (mInstance == null) {
+                    mInstance = new AddPictureUtils();
+                }
+            }
         }
         return mInstance;
     }
@@ -215,26 +217,21 @@ public class AddPictureUtils {
         return file.exists() || file.createNewFile();
     }
 
-    public Bitmap getBitmapForAvatar(Intent data, int width, int height) {
-        return getBitmap(data, width, height, getAvatarPath());
-    }
-
     public Bitmap getBitmap(Intent data, int width, int height, String toPath) {
         Bitmap bitmap = null;
         Uri uri = data.getData();
+        if (uri == null) {
+            return null;
+        }
         Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            // 获取图片文件路径
+
             String photoPath = cursor.getString(1);
             cursor.close();
             bitmap = getBitmap(photoPath, width, height, toPath);
         }
         return bitmap;
-    }
-
-    public Bitmap getBitmapForAvatar(int width, int height) {
-        return getBitmap(getAvatarPath(), width, height, getAvatarPath());
     }
 	
 	/**
@@ -260,10 +257,10 @@ public class AddPictureUtils {
 			options.inJustDecodeBounds = false;
 			options.inPreferredConfig = Config.RGB_565;
             // 获取图片旋转角度，并处理图片旋转
-			int degree = readPictureDegree(file.getAbsolutePath());
+			int degree = ImageUtils.readImageDegree(file.getAbsolutePath());
 			bitmap = BitmapFactory.decodeFile(fromPath, options);
 			if (degree > 0) {
-				bitmap = rotateBitmap(degree, bitmap);
+				bitmap = ImageUtils.rotateBitmap(bitmap, degree);
 			}
 			OutputStream outputStream = null;
             try {
@@ -288,13 +285,39 @@ public class AddPictureUtils {
 		return bitmap;
 	}
 
+    private int computeInSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
+        int scaleSize;
+        double outWidth = options.outWidth;
+        double outHeight = options.outHeight;
+        int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(outWidth * outHeight / maxNumOfPixels));
+        int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(outWidth / minSideLength), Math.floor(outHeight / minSideLength));
+
+        if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
+            scaleSize = 1;
+        } else if (minSideLength == -1) {
+            scaleSize = lowerBound;
+        } else {
+            scaleSize = upperBound;
+        }
+        int inSampleSize;
+        if (scaleSize <= 8) {
+            inSampleSize = 1;
+            while (inSampleSize < scaleSize) {
+                inSampleSize <<= 1;
+            }
+        } else {
+            inSampleSize = (scaleSize + 7) / 8 * 8;
+        }
+        return inSampleSize;
+    }
+
     /**
      * 将图片存入文件缓存
      * @param bitmap 图片
-     * @param picturePath 图片路径
+     * @param filePath 图片路径
      */
-    public void putBitmap(Bitmap bitmap, String picturePath) {
-        if (bitmap == null || TextUtils.isEmpty(picturePath)) {
+    public void putBitmap(Bitmap bitmap, String filePath) {
+        if (bitmap == null || TextUtils.isEmpty(filePath)) {
             return;
         }
         String dir = getCacheDirectory();
@@ -302,7 +325,7 @@ public class AddPictureUtils {
         if (!dirFile.exists() && !dirFile.mkdirs()) {
             return;
         }
-        File file = new File(picturePath);
+        File file = new File(filePath);
         OutputStream stream = null;
         try {
             if (!file.exists() && !file.createNewFile()) {
@@ -323,71 +346,4 @@ public class AddPictureUtils {
             }
         }
     }
-	
-	private int computeInSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
-	    int scaleSize;
-	    double outWidth = options.outWidth;
-	    double outHeight = options.outHeight;
-	    int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(outWidth * outHeight / maxNumOfPixels));
-	    int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(outWidth / minSideLength), Math.floor(outHeight / minSideLength));
-
-	    if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
-	    	scaleSize = 1;
-	    } else if (minSideLength == -1) {
-	    	scaleSize = lowerBound;
-	    } else {
-	    	scaleSize = upperBound;
-	    }
-	    int inSampleSize;
-	    if (scaleSize <= 8) {
-	        inSampleSize = 1;
-	        while (inSampleSize < scaleSize) {
-	            inSampleSize <<= 1;
-	        }
-	    } else {
-	        inSampleSize = (scaleSize + 7) / 8 * 8;
-	    }
-	    return inSampleSize;
-	}
-	
-	/**
-	 * 读取图片的旋转角度
-	 * 
-	 * @param path 图片绝对路径
-	 * @return 图片旋转的角度
-	 */
-    private int readPictureDegree(String path) {
-		int degree = 0;
-		try {
-			ExifInterface exifInterface = new ExifInterface(path);
-			int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-			switch (orientation) {
-			case ExifInterface.ORIENTATION_ROTATE_90:
-				degree = 90;
-				break;
-			case ExifInterface.ORIENTATION_ROTATE_180:
-				degree = 180;
-				break;
-			case ExifInterface.ORIENTATION_ROTATE_270:
-				degree = 270;
-				break;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return degree;
-	}
-	
-	/**
-	 * 将图片按照某个角度进行旋转
-	 * 
-	 * @param degree 旋转角度
-	 * @param bitmap 需要旋转的图片
-	 * @return Bitmap
-	 */
-    private Bitmap rotateBitmap(int degree, Bitmap bitmap) {
-		Matrix matrix = new Matrix();
-		matrix.postRotate(degree);
-		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-	}
 }
