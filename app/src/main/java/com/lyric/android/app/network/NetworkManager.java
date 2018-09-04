@@ -3,6 +3,8 @@ package com.lyric.android.app.network;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -41,9 +43,11 @@ public class NetworkManager {
     public void init(OkHttpClient httpClient) {
         if (httpClient == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(15, TimeUnit.SECONDS);
-            builder.readTimeout(15, TimeUnit.SECONDS);
-            builder.writeTimeout(15, TimeUnit.SECONDS);
+            builder.connectTimeout(15, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
+                    .writeTimeout(15, TimeUnit.SECONDS)
+                    .addNetworkInterceptor(new StethoInterceptor());
+
             httpClient = builder.build();
         }
         this.mHttpClient = httpClient;
