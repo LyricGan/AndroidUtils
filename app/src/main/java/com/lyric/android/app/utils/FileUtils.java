@@ -290,7 +290,8 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
         } finally {
-            closeQuietly(outputStream, stream);
+            closeQuietly(outputStream);
+            closeQuietly(stream);
         }
     }
 
@@ -523,16 +524,12 @@ public class FileUtils {
         return deletedFileCount;
     }
 
-    public static void closeQuietly(Closeable... closeable) {
-        if (closeable == null || closeable.length <= 0) {
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable == null) {
             return;
         }
         try {
-            for (Closeable item : closeable) {
-                if (item != null) {
-                    item.close();
-                }
-            }
+            closeable.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -721,7 +718,8 @@ public class FileUtils {
             } catch (Throwable ex) {
                 result = false;
             } finally {
-                closeQuietly(in, out);
+                closeQuietly(in);
+                closeQuietly(out);
             }
         }
         return result;
@@ -838,7 +836,9 @@ public class FileUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    closeQuietly(cursor);
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
             }
         }
@@ -877,7 +877,9 @@ public class FileUtils {
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
-            closeQuietly(cursor);
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return imagePaths;
     }
