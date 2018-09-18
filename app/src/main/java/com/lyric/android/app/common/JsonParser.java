@@ -15,17 +15,16 @@ public class JsonParser {
         mParser = getDefaultParser();
     }
 
-    private static class JsonHelperHolder {
+    private static class JsonParserHolder {
         private static final JsonParser JSON_HELPER = new JsonParser();
     }
 
     public static JsonParser getInstance() {
-        return JsonHelperHolder.JSON_HELPER;
+        return JsonParserHolder.JSON_HELPER;
     }
 
     private Gson getDefaultParser() {
-        GsonBuilder builder = new GsonBuilder();
-        return builder.create();
+        return new GsonBuilder().create();
     }
 
     public Gson getParser() {

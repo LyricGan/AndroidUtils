@@ -10,7 +10,7 @@ import okhttp3.ResponseBody;
  * @author lyricgan
  * @date 2017/12/28 11:04
  */
-public abstract class BaseResponseCallback<T> implements HttpCallback {
+public abstract class HttpResponseCallback<T> implements HttpCallback {
 
     @Override
     public void onResponse(HttpRequest httpRequest, HttpResponse httpResponse) {

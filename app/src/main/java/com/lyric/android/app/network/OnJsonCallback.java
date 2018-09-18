@@ -12,10 +12,10 @@ import okhttp3.ResponseBody;
  * @author lyricgan
  * @date 2017/12/28 11:44
  */
-public abstract class JsonCallback<T> extends BaseResponseCallback<T> {
+public abstract class OnJsonCallback<T> extends HttpResponseCallback<T> {
     private Type type;
 
-    public JsonCallback(Type type) {
+    public OnJsonCallback(Type type) {
         this.type = type;
     }
 

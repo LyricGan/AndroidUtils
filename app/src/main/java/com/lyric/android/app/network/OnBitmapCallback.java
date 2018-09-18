@@ -13,7 +13,7 @@ import okhttp3.internal.Util;
  * @author lyricgan
  * @date 2017/12/28 11:36
  */
-public abstract class BitmapCallback extends BaseResponseCallback<Bitmap> {
+public abstract class OnBitmapCallback extends HttpResponseCallback<Bitmap> {
 
     @Override
     public Bitmap parseResponse(ResponseBody responseBody) {
