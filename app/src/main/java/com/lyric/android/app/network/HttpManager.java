@@ -1,24 +1,21 @@
 package com.lyric.android.app.network;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.Dispatcher;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
+import okhttp3.Request;
 
 /**
  * network manager with OkHttp
@@ -26,18 +23,18 @@ import okhttp3.Response;
  * 
  * @author lyricgan
  */
-public class NetworkManager {
+public class HttpManager {
     private OkHttpClient mHttpClient;
 
-    private NetworkManager() {
+    private HttpManager() {
     }
 
-    private static class NetworkManagerHolder {
-        private static final NetworkManager INSTANCE = new NetworkManager();
+    private static class HttpManagerHolder {
+        private static final HttpManager INSTANCE = new HttpManager();
     }
 
-    public static NetworkManager getInstance() {
-        return NetworkManagerHolder.INSTANCE;
+    public static HttpManager getInstance() {
+        return HttpManagerHolder.INSTANCE;
     }
 
     public void init(OkHttpClient httpClient) {
@@ -53,80 +50,31 @@ public class NetworkManager {
         this.mHttpClient = httpClient;
     }
 
-    public OkHttpClient getHttpClient() {
-        return mHttpClient;
-    }
-
-    public void get(String url, Map<String, String> params, Object tag, boolean isUseCache, NetworkCallback callback) {
+    public void get(String url, Map<String, String> params, Object tag, boolean isUseCache, HttpCallback callback) {
         get(url, params, null, tag, isUseCache, callback);
     }
 
-    public void get(String url, Map<String, String> params, Map<String, String> headers, Object tag, boolean isUseCache, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildGetRequest(url, params, headers, tag, isUseCache)), callback);
+    public void get(String url, Map<String, String> params, Map<String, String> headers, Object tag, boolean isUseCache, HttpCallback callback) {
+        Request request = HttpRequest.buildGetRequest(url, params, headers, tag, isUseCache);
+        new HttpRequest(request, mHttpClient).enqueue(callback);
     }
 
-    public void post(String url, Map<String, String> params, Object tag, NetworkCallback callback) {
+    public void post(String url, Map<String, String> params, Object tag, HttpCallback callback) {
         post(url, params, null, tag, callback);
     }
 
-    public void post(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildPostRequest(url, params, headers, tag)), callback);
+    public void post(String url, Map<String, String> params, Map<String, String> headers, Object tag, HttpCallback callback) {
+        Request request = HttpRequest.buildPostRequest(url, params, headers, tag);
+        new HttpRequest(request, mHttpClient).enqueue(callback);
     }
 
-    public void put(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildPutRequest(url, params, headers, tag)), callback);
-    }
-
-    public void patch(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildPatchRequest(url, params, headers, tag)), callback);
-    }
-
-    public void head(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildHeadRequest(url, headers, tag)), callback);
-    }
-
-    public void delete(String url, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildDeleteRequest(url, headers, tag)), callback);
-    }
-
-    public void delete(String url, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback) {
-        execute(new NetworkRequest(NetworkRequest.buildDeleteRequest(url, params, headers, tag)), callback);
-    }
-
-    public void upload(String url, String name, List<File> files, Map<String, String> params, Map<String, String> headers, Object tag, NetworkCallback callback, FileCallback fileCallback) {
-        execute(new NetworkRequest(NetworkRequest.buildUploadRequest(url, name, files, params, headers, tag, fileCallback)), callback);
-    }
-
-    public void execute(final NetworkRequest networkRequest, final NetworkCallback callback) {
-        getHttpClient().newCall(networkRequest.getRequest()).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                if (callback == null) {
-                    return;
-                }
-                callback.onFailure(networkRequest, e);
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) {
-                if (callback == null) {
-                    return;
-                }
-                if (call.isCanceled()) {
-                    callback.onCancel(networkRequest);
-                    return;
-                }
-                if (!response.isSuccessful()) {
-                    callback.onFailure(networkRequest, new IOException("request is failed, the response's code is " + response.code()));
-                    return;
-                }
-                callback.onResponse(networkRequest, new NetworkResponse(response));
-            }
-        });
+    public void upload(String url, String name, List<File> files, Map<String, String> params, Map<String, String> headers, Object tag, HttpCallback callback, FileCallback fileCallback) {
+        Request request = HttpRequest.buildUploadRequest(url, name, files, params, headers, tag, fileCallback);
+        new HttpRequest(request, mHttpClient).enqueue(callback);
     }
 
     public void cancel(Object tag) {
-        OkHttpClient httpClient = getHttpClient();
+        OkHttpClient httpClient = mHttpClient;
         if (httpClient == null) {
             return;
         }
@@ -160,7 +108,7 @@ public class NetworkManager {
         if (httpUrl == null) {
             return null;
         }
-        return getHttpClient().cookieJar().loadForRequest(httpUrl);
+        return mHttpClient.cookieJar().loadForRequest(httpUrl);
     }
 
     public String getCookie(String url, String cookieName) {
@@ -187,7 +135,7 @@ public class NetworkManager {
         if (httpUrl == null) {
             return;
         }
-        CookieJar cookieJar = getHttpClient().cookieJar();
+        CookieJar cookieJar = mHttpClient.cookieJar();
         List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
         if (cookies == null || cookies.isEmpty()) {
             return;
@@ -207,7 +155,7 @@ public class NetworkManager {
         if (httpUrl == null) {
             return;
         }
-        CookieJar cookieJar = getHttpClient().cookieJar();
+        CookieJar cookieJar = mHttpClient.cookieJar();
         List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
         if (cookies == null || cookies.isEmpty()) {
             return;
@@ -224,7 +172,7 @@ public class NetworkManager {
         if (httpUrl == null) {
             return;
         }
-        CookieJar cookieJar = getHttpClient().cookieJar();
+        CookieJar cookieJar = mHttpClient.cookieJar();
         List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
         if (cookies == null || cookies.isEmpty()) {
             return;

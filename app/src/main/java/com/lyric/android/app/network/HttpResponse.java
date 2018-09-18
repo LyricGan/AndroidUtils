@@ -8,18 +8,14 @@ import okhttp3.Response;
  * @author lyricgan
  * @date 2017/12/28 10:40
  */
-public class NetworkResponse {
+public class HttpResponse {
     private Response response;
 
-    public NetworkResponse(Response response) {
+    public HttpResponse(Response response) {
         this.response = response;
     }
 
     public Response getResponse() {
         return response;
-    }
-
-    public void setResponse(Response response) {
-        this.response = response;
     }
 }

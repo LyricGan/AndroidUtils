@@ -10,29 +10,29 @@ import okhttp3.ResponseBody;
  * @author lyricgan
  * @date 2017/12/28 11:04
  */
-public abstract class BaseResponseCallback<T> implements NetworkCallback {
+public abstract class BaseResponseCallback<T> implements HttpCallback {
 
     @Override
-    public void onResponse(NetworkRequest networkRequest, NetworkResponse networkResponse) {
-        Response response = networkResponse.getResponse();
+    public void onResponse(HttpRequest httpRequest, HttpResponse httpResponse) {
+        Response response = httpResponse.getResponse();
         ResponseBody responseBody = response.body();
         if (responseBody == null) {
-            onFailure(networkRequest, new IOException("request failed, response is null"));
+            onFailure(httpRequest, new IOException("request failed, response is null"));
             return;
         }
         T result = parseResponse(responseBody);
         if (result == null) {
-            onFailure(networkRequest, new IOException("response parse error " + responseBody.toString()));
+            onFailure(httpRequest, new IOException("response parse error " + responseBody.toString()));
             return;
         }
-        onResponse(networkRequest, result);
+        onResponse(httpRequest, result);
     }
 
     @Override
-    public void onCancel(NetworkRequest networkRequest) {
+    public void onCancel(HttpRequest httpRequest) {
     }
 
     public abstract T parseResponse(ResponseBody responseBody);
 
-    public abstract void onResponse(NetworkRequest networkRequest, T result);
+    public abstract void onResponse(HttpRequest httpRequest, T result);
 }

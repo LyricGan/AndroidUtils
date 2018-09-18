@@ -1,21 +1,27 @@
 package com.lyric.android.app.network;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import okhttp3.CacheControl;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 网络请求包装类
@@ -23,22 +29,52 @@ import okhttp3.RequestBody;
  * @author lyricgan
  * @date 2017/12/28 10:30
  */
-public class NetworkRequest {
+public class HttpRequest {
     public static final MediaType MEDIA_TYPE_PLAIN = MediaType.parse("text/plain;charset=utf-8");
     public static final MediaType MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream");
 
     private Request request;
+    private OkHttpClient httpClient;
 
-    public NetworkRequest(Request request) {
+    public HttpRequest(Request request, OkHttpClient httpClient) {
         this.request = request;
+        this.httpClient = httpClient;
     }
 
     public Request getRequest() {
         return request;
     }
 
-    public void setRequest(Request request) {
-        this.request = request;
+    public OkHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public void enqueue(final HttpCallback httpCallback) {
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                if (httpCallback == null) {
+                    return;
+                }
+                httpCallback.onFailure(HttpRequest.this, e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                if (httpCallback == null) {
+                    return;
+                }
+                if (call.isCanceled()) {
+                    httpCallback.onCancel(HttpRequest.this);
+                    return;
+                }
+                if (!response.isSuccessful()) {
+                    httpCallback.onFailure(HttpRequest.this, new IOException("request is failed, the response's code is " + response.code()));
+                    return;
+                }
+                httpCallback.onResponse(HttpRequest.this, new HttpResponse(response));
+            }
+        });
     }
 
     public static String addParams(String url, Map<String, String> params) {
@@ -89,7 +125,7 @@ public class NetworkRequest {
     }
 
     public static RequestBody buildStringRequestBody(String content) {
-        return RequestBody.create(NetworkRequest.MEDIA_TYPE_PLAIN, content);
+        return RequestBody.create(HttpRequest.MEDIA_TYPE_PLAIN, content);
     }
 
     public static RequestBody buildRequestBody(@Nullable MediaType contentType, String content) {

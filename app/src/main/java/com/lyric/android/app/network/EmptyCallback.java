@@ -12,7 +12,7 @@ import okhttp3.ResponseBody;
 public class EmptyCallback<T> extends BaseResponseCallback<T> {
 
     @Override
-    public void onFailure(NetworkRequest networkRequest, IOException e) {
+    public void onFailure(HttpRequest httpRequest, IOException e) {
     }
 
     @Override
@@ -21,6 +21,6 @@ public class EmptyCallback<T> extends BaseResponseCallback<T> {
     }
 
     @Override
-    public void onResponse(NetworkRequest networkRequest, T result) {
+    public void onResponse(HttpRequest httpRequest, T result) {
     }
 }
