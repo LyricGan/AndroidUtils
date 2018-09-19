@@ -24,6 +24,7 @@ import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
 import android.webkit.SslErrorHandler;
+import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
@@ -257,12 +258,7 @@ public class WebViewCompat extends WebView {
     }
 
     public static boolean isValidUrl(String url) {
-        if (TextUtils.isEmpty(url)) {
-            return false;
-        }
-        Uri uri = Uri.parse(url);
-        String scheme = uri.getScheme();
-        return !TextUtils.isEmpty(scheme) && ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme));
+        return URLUtil.isNetworkUrl(url);
     }
 
     public static String getCookie(String url) {
@@ -275,7 +271,11 @@ public class WebViewCompat extends WebView {
 
     public static void removeCookie(String url) {
         CookieManager cookieManager = CookieManager.getInstance();
-        for (String cookie : cookieManager.getCookie(url).split("; ")) {
+        String cookieString = cookieManager.getCookie(url);
+        if (TextUtils.isEmpty(cookieString)) {
+            return;
+        }
+        for (String cookie : cookieString.split("; ")) {
             cookieManager.setCookie(url, cookie.split("=")[0] + "=");
         }
         flushCookie();
