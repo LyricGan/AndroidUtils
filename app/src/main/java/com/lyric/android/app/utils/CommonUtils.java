@@ -127,6 +127,21 @@ public class CommonUtils {
      * @return true or false
      */
     public static boolean isAppOnForeground(Context context, String packageName) {
+        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        if (keyguardManager == null) {
+            return false;
+        }
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (powerManager == null) {
+            return false;
+        }
+        // 判断是否为锁屏状态
+        boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
+        // 判断屏幕是否点亮
+        boolean isScreenOff = !powerManager.isScreenOn();
+        if (isLockedState || isScreenOff) {
+            return false;
+        }
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return false;
@@ -136,32 +151,18 @@ public class CommonUtils {
         if (appProcesses == null || appProcesses.size() <= 0) {
             return false;
         }
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        if (keyguardManager == null) {
-            return false;
-        }
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if (powerManager == null) {
-            return false;
-        }
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (TextUtils.equals(appProcess.processName, packageName)) {
                 // 判断是否位于后台
                 boolean isBackground = (appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
                         && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE);
-                // 判断是否为锁屏状态
-                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
-                // 判断屏幕是否点亮
-                boolean isScreenOff = !powerManager.isScreenOn();
-                if (isBackground || isLockedState || isScreenOff) {
+                if (isBackground) {
                     return false;
                 } else {
                     List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
                     if (tasks != null && !tasks.isEmpty()) {
                         ComponentName topActivity = tasks.get(0).topActivity;
-                        if (topActivity.getPackageName().equals(packageName)) {
-                            return true;
-                        }
+                        return topActivity.getPackageName().equals(packageName);
                     }
                     return false;
                 }
