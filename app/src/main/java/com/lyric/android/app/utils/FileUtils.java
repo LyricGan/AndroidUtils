@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
@@ -915,48 +916,77 @@ public class FileUtils {
         return fileDirs;
     }
 
+    /**
+     * 获取文件存储路径字符串，例如：
+     * filesDir:/data/data/com.app.allscore/files,4096
+     * cacheDir:/data/data/com.app.allscore/cache,4096
+     * packageCodePath:/data/app/com.app.allscore-1/base.apk
+     * codeCacheDir:/data/data/com.app.allscore/code_cache
+     * rootDirectory:/system,4096
+     * dataDirectory:/data,4096
+     * downloadCacheDirectory:/cache,4096
+     * externalStorageState:mounted
+     * externalStorageDirectory:/storage/emulated/0,4096
+     * externalFilesDir:/storage/emulated/0/Android/data/com.app.allscore/files/Download,4096
+     * externalFilesMusicDir:/storage/emulated/0/Android/data/com.app.allscore/files/Music,4096
+     * externalFilesPictureDir:/storage/emulated/0/Android/data/com.app.allscore/files/Pictures,4096
+     * externalCacheDir:/storage/emulated/0/Android/data/com.app.allscore/cache,4096
+     * @param context 上下文
+     * @return 文件存储路径字符串
+     */
     public static String toFileString(Context context) {
         StringBuilder builder = new StringBuilder();
         builder.append("\n");
 
-        File externalCacheDir = FileUtils.getExternalCacheDir(context);
-        if (externalCacheDir != null) {
-            builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append(",").append(externalCacheDir.length()).append("\n");
-        }
-        File cacheDir = FileUtils.getCacheDir(context);
-        if (cacheDir != null) {
-            builder.append("cacheDir:").append(cacheDir.getPath()).append(",").append(cacheDir.length()).append("\n");
-        }
-
-        File externalFilesDir = FileUtils.getExternalFilesDir(context, Environment.DIRECTORY_PICTURES);
-        if (externalFilesDir != null) {
-            builder.append("externalFilesDir:").append(externalFilesDir.getPath()).append(",").append(externalFilesDir.length()).append("\n");
-        }
-        File filesDir = FileUtils.getFilesDir(context);
+        File filesDir = context.getFilesDir();
         if (filesDir != null) {
             builder.append("filesDir:").append(filesDir.getPath()).append(",").append(filesDir.length()).append("\n");
         }
+        File cacheDir = context.getCacheDir();
+        if (cacheDir != null) {
+            builder.append("cacheDir:").append(cacheDir.getPath()).append(",").append(cacheDir.length()).append("\n");
+        }
+        builder.append("packageCodePath:").append(context.getPackageCodePath()).append("\n");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.append("codeCacheDir:").append(context.getCodeCacheDir()).append("\n");
+        }
 
-        File rootDirectory = FileUtils.getRootDirectory();
+        File rootDirectory = Environment.getRootDirectory();
         if (rootDirectory != null) {
             builder.append("rootDirectory:").append(rootDirectory.getPath()).append(",").append(rootDirectory.length()).append("\n");
         }
-        File externalStorageDirectory = FileUtils.getExternalStorageDirectory();
-        if (externalStorageDirectory != null) {
-            builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append(",").append(externalStorageDirectory.length()).append("\n");
-        }
-        File dataDirectory = FileUtils.getDataDirectory();
+        File dataDirectory = Environment.getDataDirectory();
         if (dataDirectory != null) {
             builder.append("dataDirectory:").append(dataDirectory.getPath()).append(",").append(dataDirectory.length()).append("\n");
         }
-        File downloadCacheDirectory = FileUtils.getDownloadCacheDirectory();
+        File downloadCacheDirectory = Environment.getDownloadCacheDirectory();
         if (downloadCacheDirectory != null) {
             builder.append("downloadCacheDirectory:").append(downloadCacheDirectory.getPath()).append(",").append(downloadCacheDirectory.length()).append("\n");
         }
-
-        builder.append("file externalStorageAvailableSize:").append(FileUtils.getExternalStorageAvailableSize()).append("\n");
-        builder.append("packageCodePath:").append(context.getPackageCodePath()).append("\n");
-
+        String externalStorageState = Environment.getExternalStorageState();
+        builder.append("externalStorageState:").append(externalStorageState).append("\n");
+        if (TextUtils.equals(externalStorageState, Environment.MEDIA_MOUNTED)) {
+            File externalStorageDirectory = Environment.getExternalStorageDirectory();
+            if (externalStorageDirectory != null) {
+                builder.append("externalStorageDirectory:").append(externalStorageDirectory.getPath()).append(",").append(externalStorageDirectory.length()).append("\n");
+            }
+            File externalFilesDownloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            if (externalFilesDownloadDir != null) {
+                builder.append("externalFilesDownloadDir:").append(externalFilesDownloadDir.getPath()).append(",").append(externalFilesDownloadDir.length()).append("\n");
+            }
+            File externalFilesMusicDir = context.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+            if (externalFilesMusicDir != null) {
+                builder.append("externalFilesMusicDir:").append(externalFilesMusicDir.getPath()).append(",").append(externalFilesMusicDir.length()).append("\n");
+            }
+            File externalFilesPictureDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (externalFilesPictureDir != null) {
+                builder.append("externalFilesPictureDir:").append(externalFilesPictureDir.getPath()).append(",").append(externalFilesPictureDir.length()).append("\n");
+            }
+            File externalCacheDir = context.getExternalCacheDir();
+            if (externalCacheDir != null) {
+                builder.append("externalCacheDir:").append(externalCacheDir.getPath()).append(",").append(externalCacheDir.length()).append("\n");
+            }
+        }
         return builder.toString();
     }
 }
