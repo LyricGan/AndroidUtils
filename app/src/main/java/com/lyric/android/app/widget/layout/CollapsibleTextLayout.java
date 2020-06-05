@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.layout;
 
 import android.content.Context;
 import android.text.method.LinkMovementMethod;

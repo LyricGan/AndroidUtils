@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

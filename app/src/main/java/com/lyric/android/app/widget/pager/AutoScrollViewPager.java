@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.pager;
 
 import android.content.Context;
 import android.os.Handler;

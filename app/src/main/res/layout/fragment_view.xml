@@ -191,7 +191,7 @@
             android:layout_marginTop="2dp"
             android:text="刷新" />
 
-        <com.lyric.android.app.widget.TabDigitLayout
+        <com.lyric.android.app.widget.layout.TabDigitLayout
             android:id="@+id/tab_digit_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

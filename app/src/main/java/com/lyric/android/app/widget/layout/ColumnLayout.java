@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.layout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.lyric.android.app.R;
 import com.lyric.android.app.utils.DisplayUtils;
+import com.lyric.android.app.widget.ViewRecycler;
 
 import java.util.ArrayList;
 import java.util.List;

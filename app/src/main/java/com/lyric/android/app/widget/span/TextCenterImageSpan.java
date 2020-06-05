@@ -1,4 +1,4 @@
-package com.lyric.android.app.widget;
+package com.lyric.android.app.widget.span;
 
 import android.content.Context;
 import android.graphics.Canvas;

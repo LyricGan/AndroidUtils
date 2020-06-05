@@ -15,7 +15,7 @@ import com.lyric.android.app.widget.ClashBar;
 import com.lyric.android.app.widget.HorizontalRatioBar;
 import com.lyric.android.app.widget.PieView;
 import com.lyric.android.app.widget.RingProgressBar;
-import com.lyric.android.app.widget.TabDigitLayout;
+import com.lyric.android.app.widget.layout.TabDigitLayout;
 
 import java.util.ArrayList;
 import java.util.Random;

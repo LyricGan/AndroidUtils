@@ -16,7 +16,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.common.BaseFragment;
 import com.lyric.android.app.common.Constants;
 import com.lyric.android.app.utils.ToastUtils;
-import com.lyric.android.app.widget.WebViewCompat;
+import com.lyric.android.app.widget.web.WebViewCompat;
 
 /**
  * web fragment
