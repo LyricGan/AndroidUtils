@@ -25,7 +25,7 @@ import java.io.OutputStream;
 /**
  * 添加图片工具类
  * 
- * @author lyricgan
+ * @author Lyric Gan
  * @created 2014-8-13
  * 
  */

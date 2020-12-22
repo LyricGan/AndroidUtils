@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 /**
  * 自定义TextView，保持文本左右对齐
- * @author lyricgan
- * @time 2016/1/7 0:03
+ * @author Lyric Gan
+ * @since 2016/1/7 0:03
  */
 public class AlignedTextView extends TextView {
     private static final String TAG = AlignedTextView.class.getSimpleName();

@@ -26,7 +26,7 @@ import java.util.Random;
 
 /**
  * 自定义点赞视图
- * @author lyricgan
+ * @author Lyric Gan
  * @since 2018/9/19
  */
 public class PraiseLayout extends RelativeLayout {

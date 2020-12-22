@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * PagerAdapter基类
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BasePagerAdapter extends PagerAdapter {
     private List<View> mViews;

@@ -19,8 +19,8 @@ import java.io.IOException;
 
 /**
  * 图片压缩工具类
- * @author lyricgan
- * @time 2016/9/7 15:25
+ * @author Lyric Gan
+ * @since 2016/9/7 15:25
  */
 public class ImageCompressor {
     private static final int DEFAULT_OUT_WIDTH = 720;

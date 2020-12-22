@@ -7,7 +7,7 @@ import java.lang.ref.WeakReference;
 
 /**
  * Handler，采用弱引用，防止内存泄漏
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class BaseHandler<T> extends Handler {
     private WeakReference<T> mReference;

@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 
 /**
  * 自定义多行RadioGroup
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class MultiLineRadioGroup extends RadioGroup {
     private boolean mChildCancelable;

@@ -7,8 +7,8 @@ import okhttp3.ResponseBody;
 
 /**
  * 网络请求响应回调接口
- * @author lyricgan
- * @date 2017/12/28 11:04
+ * @author Lyric Gan
+ * @since 2017/12/28 11:04
  */
 public abstract class HttpResponseCallback<T> implements HttpCallback {
 

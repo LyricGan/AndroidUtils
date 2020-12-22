@@ -12,8 +12,8 @@ import java.util.Random;
 
 /**
  * 通知工具类
- * @author lyricgan
- * @date 2017/9/30 15:02
+ * @author Lyric Gan
+ * @since 2017/9/30 15:02
  */
 public class NotificationUtils {
 

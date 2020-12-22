@@ -18,8 +18,8 @@ import okio.Sink;
 
 /**
  * 文件请求类
- * @author lyricgan
- * @date 17/12/31 下午11:00
+ * @author Lyric Gan
+ * @since 17/12/31 下午11:00
  */
 public class FileRequestBody extends RequestBody {
     private RequestBody requestBody;

@@ -11,8 +11,8 @@ import android.view.View;
 import java.util.ArrayList;
 
 /**
- * @author lyricgan
- * @time 2016/11/16 14:22
+ * @author Lyric Gan
+ * @since 2016/11/16 14:22
  */
 public class PieView extends View {
     private static final String TAG = PieView.class.getSimpleName();

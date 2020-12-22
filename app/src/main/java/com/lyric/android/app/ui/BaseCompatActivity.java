@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.activity;
+package com.lyric.android.app.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +15,7 @@ import com.lyric.android.app.widget.swipeback.SwipeBackLayout;
 /**
  * base activity compat
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BaseCompatActivity extends BaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mSwipeBackHelper;

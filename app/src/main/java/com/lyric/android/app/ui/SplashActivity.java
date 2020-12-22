@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.activity;
+package com.lyric.android.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import com.lyric.android.app.utils.ActivityUtils;
 
 /**
  * splash activity
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class SplashActivity extends BaseActivity {
     private static final int MSG_CODE_START = 0x1001;

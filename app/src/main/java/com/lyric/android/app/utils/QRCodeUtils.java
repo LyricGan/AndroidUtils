@@ -21,8 +21,8 @@ import java.util.Hashtable;
 /**
  * 二维码工具类
  *
- * @author lyricgan
- * @date 2017/11/23 12:59
+ * @author Lyric Gan
+ * @since 2017/11/23 12:59
  */
 public class QRCodeUtils {
 

@@ -5,7 +5,7 @@ import android.app.Activity;
 import java.util.Stack;
 
 /**
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ActivityStackManager {
     private Stack<Activity> mActivityStack;

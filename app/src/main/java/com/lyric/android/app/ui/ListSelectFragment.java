@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.fragment;
+package com.lyric.android.app.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,8 +23,8 @@ import java.util.List;
 
 /**
  * 列表选择Fragment，继承于{@link BottomSheetDialogFragment}
- * @author lyricgan
- * @time 2016/11/14 14:31
+ * @author Lyric Gan
+ * @since 2016/11/14 14:31
  */
 public class ListSelectFragment extends BottomSheetDialogFragment {
     private RecyclerView recyclerView;

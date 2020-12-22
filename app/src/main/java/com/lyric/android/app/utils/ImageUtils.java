@@ -39,7 +39,7 @@ import java.io.InputStream;
 /**
  * 图片工具类
  * 
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ImageUtils {
 

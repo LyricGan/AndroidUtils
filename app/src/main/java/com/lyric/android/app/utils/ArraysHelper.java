@@ -1,11 +1,34 @@
 package com.lyric.android.app.utils;
 
 /**
- * @author lyricgan
+ * 数组工具类
+ *
+ * @author Lyric Gan
+ * @since 2020/12/22
  */
-public class SortUtils {
+public class ArraysHelper {
 
-    private SortUtils() {
+    public static int binarySearch(int[] array, int fromIndex, int toIndex, int value) {
+        if (array == null || array.length == 0) {
+            return -1;
+        }
+        if (fromIndex > toIndex || fromIndex < 0 || toIndex > array.length) {
+            return -1;
+        }
+        int low = fromIndex;
+        int high = toIndex - 1;
+        while ((low <= high)) {
+            final int middle = (low + high) >>> 1;
+            final int middleValue = array[middle];
+            if (middleValue < value) {
+                low = middle + 1;
+            } else if (middleValue > value) {
+                high = middle - 1;
+            } else {
+                return middle;
+            }
+        }
+        return -(low + 1);
     }
 
     public static int[] bubbleSort(int[] array) {
@@ -57,12 +80,16 @@ public class SortUtils {
         if (array == null || array.length == 0) {
             return array;
         }
+        quickSortInner(array, low, high);
+        return array;
+    }
+
+    private static void quickSortInner(int[] array, int low, int high) {
         if (low < high) {
             int middle = partition(array, low, high);
-            quickSort(array, low, middle - 1);
-            quickSort(array, middle + 1, high);
+            quickSortInner(array, low, middle - 1);
+            quickSortInner(array, middle + 1, high);
         }
-        return array;
     }
 
     private static int partition(int[] array, int low, int high) {
@@ -72,7 +99,7 @@ public class SortUtils {
         int i = low - 1;
         int j;
         int temp;
-        for (j = low; j < high; ++ j) {
+        for (j = low; j < high; ++j) {
             if (array[j] < array[high]) {
                 temp = array[++i];
                 array[i] = array[j];
@@ -84,24 +111,4 @@ public class SortUtils {
         array[high] = temp;
         return (i + 1);
     }
-
-    public static int binarySearch(int[] array, int value) {
-        if (array == null || array.length == 0) {
-            return -1;
-        }
-        int left = 0;
-        int right = array.length - 1;
-        while (left <= right) {
-            int middle = left + ((right - left) >> 2);
-            if (array[middle] > value) {
-                right = middle - 1;
-            } else if (array[middle] < value) {
-                left = middle + 1;
-            } else {
-                return middle;
-            }
-        }
-        return -1;
-    }
-
 }

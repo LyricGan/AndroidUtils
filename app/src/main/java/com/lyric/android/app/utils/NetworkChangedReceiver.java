@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * 网络状态变化广播接收器
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class NetworkChangedReceiver extends BroadcastReceiver {
     private static final String TAG = NetworkChangedReceiver.class.getSimpleName();

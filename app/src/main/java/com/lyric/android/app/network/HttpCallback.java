@@ -4,8 +4,8 @@ import java.io.IOException;
 
 /**
  * 网络请求回调接口
- * @author lyricgan
- * @date 2017/12/28 14:25
+ * @author Lyric Gan
+ * @since 2017/12/28 14:25
  */
 public interface HttpCallback {
 

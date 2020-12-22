@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 /**
  * resource display utils
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class DisplayUtils {
 

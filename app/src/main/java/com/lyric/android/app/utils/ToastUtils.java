@@ -8,7 +8,7 @@ import android.widget.Toast;
 /**
  * Toast工具类
  * 
- * @author lyricgan
+ * @author Lyric Gan
  * 
  */
 public class ToastUtils {

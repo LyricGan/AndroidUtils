@@ -16,8 +16,8 @@ import com.lyric.android.app.R;
 
 /**
  * 圆环进度条，包括圆环背景和进度条
- * @author lyricgan
- * @date 2017/8/23 15:52
+ * @author Lyric Gan
+ * @since 2017/8/23 15:52
  */
 public class RingProgressBar extends View {
     private static final int MAX_PROGRESS = 100;

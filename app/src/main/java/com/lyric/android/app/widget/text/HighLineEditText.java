@@ -10,8 +10,8 @@ import android.widget.EditText;
 /**
  * 自定义高亮输入框
  *
- * @author lyricgan
- * @time 2017/3/29 18:17
+ * @author Lyric Gan
+ * @since 2017/3/29 18:17
  */
 public class HighLineEditText extends EditText {
     private static final float ITEM_HEIGHT = 125;

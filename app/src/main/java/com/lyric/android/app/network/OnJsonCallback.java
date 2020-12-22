@@ -9,8 +9,8 @@ import okhttp3.ResponseBody;
 
 /**
  * Json数据请求回调接口
- * @author lyricgan
- * @date 2017/12/28 11:44
+ * @author Lyric Gan
+ * @since 2017/12/28 11:44
  */
 public abstract class OnJsonCallback<T> extends HttpResponseCallback<T> {
     private Type type;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 /**
  * 带点赞效果的视图弹窗
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class PraisePopupWindow extends PopupWindow {
     /** 默认移动距离 */

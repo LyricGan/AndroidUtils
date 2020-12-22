@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 /**
  * controller for view
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class ViewController<E> implements IControllerCallback<E> {
     private Context mContext;

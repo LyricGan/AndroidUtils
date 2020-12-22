@@ -3,7 +3,7 @@ package com.lyric.android.app.common;
 /**
  * common event
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class CommonEvent {
     public @CommonEventType int type;

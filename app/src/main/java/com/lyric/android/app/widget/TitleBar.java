@@ -12,7 +12,7 @@ import com.lyric.android.app.R;
 /**
  * title bar
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class TitleBar extends FrameLayout {
     private ImageView ivTitleBarLeft;

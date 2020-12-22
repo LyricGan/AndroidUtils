@@ -21,7 +21,7 @@ import java.util.TreeSet;
 /**
  * crash handler
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String CRASH_REPORTER_EXTENSION = ".cr";

@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 
 /**
  * Uri工具类
- * @author lyricgan
- * @time 16/1/15 下午6:30
+ * @author Lyric Gan
+ * @since 16/1/15 下午6:30
  */
 public class UriUtils {
     /** http scheme for URIs */

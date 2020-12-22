@@ -4,9 +4,9 @@ import android.util.SparseArray;
 import android.view.View;
 
 /**
- * @author lyricgan
+ * @author Lyric Gan
  * @description
- * @time 2016/6/14 12:45
+ * @since 2016/6/14 12:45
  */
 public class ViewHolderHelper {
 

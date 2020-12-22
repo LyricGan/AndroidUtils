@@ -8,8 +8,8 @@ import android.widget.ScrollView;
 
 /**
  * 自定义ScrollView，拦截滑动事件
- * @author lyricgan
- * @time 2016/10/26 11:04
+ * @author Lyric Gan
+ * @since 2016/10/26 11:04
  */
 public class InterceptScrollView extends ScrollView {
     private float mDownY;

@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.fragment;
+package com.lyric.android.app.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lyric.android.app.R;
-import com.lyric.android.app.ui.activity.MainDetailsActivity;
 import com.lyric.android.app.utils.ActivityUtils;
 import com.lyric.android.app.widget.refresh.RefreshLayout;
 import com.lyric.android.app.widget.refresh.OnRefreshListener;
@@ -21,7 +20,7 @@ import com.lyric.android.app.common.BaseRecyclerAdapter;
 
 /**
  * 列表页面
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ListFragment extends BaseFragment {
     private RecyclerView mRecyclerView;

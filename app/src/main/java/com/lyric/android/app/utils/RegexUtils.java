@@ -41,8 +41,8 @@ import java.util.regex.Pattern;
  * <li>(?!exp) 匹配后面跟的不是exp的位置</li>
  * <li>(?<!exp) 匹配前面不是exp的位置</li>
  *
- * @author lyricgan
- * @date 2017/12/21 14:16
+ * @author Lyric Gan
+ * @since 2017/12/21 14:16
  */
 public class RegexUtils {
     /** 正则：手机号（简单） */

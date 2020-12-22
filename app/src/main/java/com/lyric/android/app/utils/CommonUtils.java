@@ -37,8 +37,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * 常用工具类
- * @author lyricgan
- * @date 2017/11/24 11:38
+ * @author Lyric Gan
+ * @since 2017/11/24 11:38
  */
 public class CommonUtils {
 

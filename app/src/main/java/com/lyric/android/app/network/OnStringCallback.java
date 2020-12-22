@@ -6,8 +6,8 @@ import okhttp3.ResponseBody;
 
 /**
  * 字符串请求回调接口
- * @author lyricgan
- * @date 2017/12/28 11:29
+ * @author Lyric Gan
+ * @since 2017/12/28 11:29
  */
 public abstract class OnStringCallback extends HttpResponseCallback<String> {
 

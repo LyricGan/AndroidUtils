@@ -13,7 +13,7 @@ import com.lyric.android.app.utils.ViewUtils;
 /**
  * 滑动关闭帮助类
  * 
- * @author lyricgan
+ * @author Lyric Gan
  *
  */
 public class SwipeBackActivityHelper {

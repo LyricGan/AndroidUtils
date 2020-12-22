@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.fragment;
+package com.lyric.android.app.ui;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import java.util.Random;
 /**
  * view fragment
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ViewFragment extends BaseFragment {
     private final int[] mRedGradientColors = {0xffff0000, 0xffff6f43, 0xffff0000};
@@ -167,5 +167,4 @@ public class ViewFragment extends BaseFragment {
         String[] radioTexts = {homeRadioString, flatRadioString, awayRadioString};
         horizontalRatioBar.setRatios(ratios, ratioColors, radioTexts);
     }
-
 }

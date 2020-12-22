@@ -13,7 +13,7 @@ import com.lyric.android.app.R;
 
 /**
  * 自定义水平比例图，比例值可自适应文字
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class HorizontalRatioBar extends View {
     private int mBackgroundColor;

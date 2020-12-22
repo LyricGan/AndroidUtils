@@ -15,8 +15,8 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * 截图工具类
- * @author lyricgan
- * @date 2017/11/23 11:36
+ * @author Lyric Gan
+ * @since 2017/11/23 11:36
  */
 public class SnapshotUtils {
 

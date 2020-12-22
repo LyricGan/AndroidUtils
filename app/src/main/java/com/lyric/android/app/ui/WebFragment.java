@@ -1,4 +1,4 @@
-package com.lyric.android.app.ui.fragment;
+package com.lyric.android.app.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,7 +21,7 @@ import com.lyric.android.app.widget.web.WebViewCompat;
 /**
  * web fragment
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class WebFragment extends BaseFragment {
     private WebViewCompat mWebView;

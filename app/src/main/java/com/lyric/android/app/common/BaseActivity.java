@@ -18,7 +18,7 @@ import com.lyric.android.app.R;
 /**
  * base activity
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBaseListener, IMessageProcessor, ILoadingListener, View.OnClickListener {
     protected final String TAG = getClass().getSimpleName();

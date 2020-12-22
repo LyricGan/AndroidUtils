@@ -16,7 +16,7 @@ import com.lyric.android.app.R;
 /**
  * base fragment
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BaseFragment extends Fragment implements IBaseListener, IMessageProcessor, ILoadingListener, View.OnClickListener {
     protected final String TAG = getClass().getName();

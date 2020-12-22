@@ -3,7 +3,7 @@ package com.lyric.android.app.common;
 import android.view.View;
 
 /**
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface IControllerCallback<E> {
 

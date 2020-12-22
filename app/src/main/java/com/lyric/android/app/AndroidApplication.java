@@ -9,7 +9,7 @@ import com.lyric.android.app.utils.LogUtils;
 
 /**
  * application for initialized
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class AndroidApplication extends Application {
     private static AndroidApplication mInstance;

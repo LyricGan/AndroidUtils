@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 /**
  * ViewHolder工具类
- * @author lyricgan
- * @date 2017/8/11 10:41
+ * @author Lyric Gan
+ * @since 2017/8/11 10:41
  */
 public class ViewHolderUtils {
 

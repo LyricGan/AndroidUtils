@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 /**
  * 重写LinearLayoutManager，用于ScrollView嵌套RecyclerView
- * @author lyricgan
- * @time 2016/10/26 11:19
+ * @author Lyric Gan
+ * @since 2016/10/26 11:19
  */
 public class FullyLinearLayoutManager extends LinearLayoutManager {
     private static final String TAG = FullyLinearLayoutManager.class.getSimpleName();

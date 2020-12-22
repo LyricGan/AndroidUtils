@@ -5,7 +5,7 @@ import android.view.View;
 /**
  * base title bar
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class BaseTitleBar {
     private View mTitleView;

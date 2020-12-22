@@ -12,8 +12,8 @@ import java.util.Locale;
 
 /**
  * 页面跳转工具类
- * @author lyricgan
- * @time 2016/1/20 14:41
+ * @author Lyric Gan
+ * @since 2016/1/20 14:41
  */
 public class ActivityUtils {
     

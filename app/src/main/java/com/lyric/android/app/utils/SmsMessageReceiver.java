@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 /**
  * 短信监听广播，需要注册权限android.permission.RECEIVE_SMS和android.permission.READ_SMS
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class SmsMessageReceiver extends BroadcastReceiver {
     private static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";

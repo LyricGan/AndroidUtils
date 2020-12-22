@@ -18,7 +18,7 @@ import java.io.File;
 /**
  * image loader with glide
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ImageLoader {
 

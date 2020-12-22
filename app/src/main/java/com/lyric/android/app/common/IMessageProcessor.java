@@ -5,7 +5,7 @@ import android.os.Message;
 
 /**
  * 消息事件处理接口
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface IMessageProcessor {
 

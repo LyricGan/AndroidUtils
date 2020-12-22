@@ -10,7 +10,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 /**
- * @author lyricgan
+ * @author Lyric Gan
  * @since 2018/9/18 下午2:08
  */
 public class HttpCookieManager {

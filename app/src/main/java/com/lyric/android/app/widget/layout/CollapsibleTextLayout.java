@@ -12,8 +12,8 @@ import com.lyric.android.app.R;
 
 /**
  * 可折叠文字布局，全文、收起
- * @author lyricgan
- * @date 2017/12/5 14:21
+ * @author Lyric Gan
+ * @since 2017/12/5 14:21
  */
 public class CollapsibleTextLayout extends RelativeLayout implements View.OnClickListener {
     // 默认不显示

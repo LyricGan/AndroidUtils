@@ -13,8 +13,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * @author lyricgan
- * @time 2016/6/24 10:56
+ * @author Lyric Gan
+ * @since 2016/6/24 10:56
  */
 public class ClazzUtils {
 

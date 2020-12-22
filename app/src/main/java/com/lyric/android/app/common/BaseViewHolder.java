@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 /**
  * 适配器ViewHolder
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class BaseViewHolder {
     private Context mContext;

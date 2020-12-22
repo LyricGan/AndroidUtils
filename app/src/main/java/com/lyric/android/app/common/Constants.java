@@ -5,7 +5,7 @@ import com.lyric.android.app.BuildConfig;
 /**
  * constants
  * 
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface Constants {
     boolean DEBUG = BuildConfig.LOG_DEBUG;

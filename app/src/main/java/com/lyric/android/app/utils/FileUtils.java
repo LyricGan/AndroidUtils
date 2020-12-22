@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * 文件工具类
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class FileUtils {
     public final static String FILE_EXTENSION_SEPARATOR = ".";

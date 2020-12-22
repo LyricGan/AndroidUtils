@@ -12,8 +12,8 @@ import com.lyric.android.app.R;
 
 /**
  * 左右对阵图，分为左右两部分，可自定义颜色，监听视图变化。添加了线程同步，为线程安全控件
- * @author lyricgan
- * @date 2017/10/16 10:02
+ * @author Lyric Gan
+ * @since 2017/10/16 10:02
  */
 public class ClashBar extends View {
     private static final int DEFAULT_LEFT_COLOR = Color.RED;

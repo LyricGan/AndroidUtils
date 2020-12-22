@@ -5,7 +5,7 @@ import android.widget.AbsListView;
 
 /**
  * 列表滑动监听器
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class OnAbsListViewScrollListener implements AbsListView.OnScrollListener {
     private int mLastVisiblePosition = 0;

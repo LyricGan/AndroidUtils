@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * 视图缓存类，将视图添加到缓存列表，取视图时移除引用，回收内存
- * @author lyricgan
- * @date 2017/12/4 13:22
+ * @author Lyric Gan
+ * @since 2017/12/4 13:22
  */
 public class ViewRecycler<T extends View> {
     private List<WeakReference<T>> mCacheList;

@@ -10,7 +10,7 @@ import okhttp3.HttpUrl;
 
 /**
  * cookie管理实现类
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class CookieJarImpl implements CookieJar {
     private CookieStore cookieStore;

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lyricgan
- * @time 2017/6/12 14:04
+ * @author Lyric Gan
+ * @since 2017/6/12 14:04
  */
 public class TabDigitLayout extends LinearLayout {
     private List<Integer> mTargetNumbers = new ArrayList<>();

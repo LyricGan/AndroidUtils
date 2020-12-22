@@ -56,7 +56,7 @@ import java.util.Map;
 /**
  * WebView Compat
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class WebViewCompat extends WebView {
     private static final String[] FILTER_METHODS = { "getClass", "hashCode", "notify", "notifyAll", "equals", "toString", "wait" };

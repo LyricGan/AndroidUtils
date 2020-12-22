@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 /**
- * @author lyricgan
- * @date 2018/8/16 下午1:01
+ * @author Lyric Gan
+ * @since 2018/8/16 下午1:01
  */
 public class FragmentUtils {
 

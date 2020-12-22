@@ -8,7 +8,7 @@ import android.telephony.TelephonyManager;
 /**
  * 网络工具类
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class NetworkUtils {
 

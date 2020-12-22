@@ -18,8 +18,8 @@ import okio.Source;
 
 /**
  * 文件响应类
- * @author lyricgan
- * @date 17/12/30 下午9:55
+ * @author Lyric Gan
+ * @since 17/12/30 下午9:55
  */
 public class FileResponseBody extends ResponseBody {
     private ResponseBody responseBody;

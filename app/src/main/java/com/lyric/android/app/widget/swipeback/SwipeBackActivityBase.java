@@ -3,7 +3,7 @@ package com.lyric.android.app.widget.swipeback;
 /**
  * 滑动关闭接口
  * 
- * @author lyricgan
+ * @author Lyric Gan
  *
  */
 public interface SwipeBackActivityBase {

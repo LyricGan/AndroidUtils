@@ -16,7 +16,7 @@ import okhttp3.Request;
  * Http manager with OkHttp
  * https://github.com/square/okhttp
  * 
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class HttpManager {
     private OkHttpClient mHttpClient;

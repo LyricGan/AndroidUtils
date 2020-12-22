@@ -2,7 +2,7 @@ package com.lyric.android.app.common;
 
 /**
  * 加载监听接口
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface ILoadingListener {
 

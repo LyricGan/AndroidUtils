@@ -26,8 +26,8 @@ import okhttp3.Response;
 /**
  * 网络请求包装类
  *
- * @author lyricgan
- * @date 2017/12/28 10:30
+ * @author Lyric Gan
+ * @since 2017/12/28 10:30
  */
 public class HttpRequest {
     public static final MediaType MEDIA_TYPE_PLAIN = MediaType.parse("text/plain;charset=utf-8");

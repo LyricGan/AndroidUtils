@@ -20,7 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 /**
  * custom image loader component
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 @GlideModule
 public class ImageModule extends AppGlideModule {

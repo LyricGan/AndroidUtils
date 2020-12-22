@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Json parse with gson
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class JsonParser {
     private Gson mParser;

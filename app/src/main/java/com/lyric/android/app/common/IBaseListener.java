@@ -6,7 +6,7 @@ import android.view.View;
 /**
  * 基础接口类
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface IBaseListener {
 

@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 /**
  * SharedPreferences helper
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class PreferencesHelper {
 

@@ -16,8 +16,8 @@ import android.widget.AutoCompleteTextView;
 
 /**
  * 带清除功能的EditText
- * @author lyricgan
- * @time 2016/1/29 10:58
+ * @author Lyric Gan
+ * @since 2016/1/29 10:58
  */
 public class ClearEditText extends AutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
     private Drawable mClearDrawable;

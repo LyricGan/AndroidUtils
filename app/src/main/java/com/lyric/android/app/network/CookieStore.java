@@ -7,7 +7,7 @@ import okhttp3.HttpUrl;
 
 /**
  * cookie存储类
- * @author lyricgan
+ * @author Lyric Gan
  */
 public interface CookieStore {
 

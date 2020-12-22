@@ -9,8 +9,8 @@ import java.util.Locale;
 /**
  * Calendar utils
  *
- * @author lyricgan
- * @date 2018/8/17 下午2:07
+ * @author Lyric Gan
+ * @since 2018/8/17 下午2:07
  */
 public class CalendarUtils {
     public static final int ONE_SECOND = 1000;

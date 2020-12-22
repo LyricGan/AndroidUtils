@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * RecyclerView适配器基类
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;

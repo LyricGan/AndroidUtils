@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * fragments pager adapter with state
  *
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> mFragments;

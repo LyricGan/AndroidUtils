@@ -13,7 +13,7 @@ import com.lyric.android.app.R;
 import com.lyric.android.app.utils.DisplayUtils;
 
 /**
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class MovedCircleView extends View {
     private static final int DEFAULT_COLOR = 0xff007eff;

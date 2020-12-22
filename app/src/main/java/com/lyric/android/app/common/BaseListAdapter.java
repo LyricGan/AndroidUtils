@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 适配器基类{@link BaseAdapter}
- * @author lyricgan
+ * @author Lyric Gan
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
     private List<T> mDataList;

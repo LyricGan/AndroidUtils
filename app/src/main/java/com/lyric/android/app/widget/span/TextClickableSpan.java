@@ -6,7 +6,7 @@ import android.view.View;
 
 /**
  * 可点击文本
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class TextClickableSpan extends ClickableSpan {
     private int mColor;

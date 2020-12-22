@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 /**
  * 重写GridLayoutManager，用于ScrollView嵌套RecyclerView
- * @author lyricgan
- * @time 2016/10/26 11:22
+ * @author Lyric Gan
+ * @since 2016/10/26 11:22
  */
 public class FullyGridLayoutManager extends GridLayoutManager {
     private int mWidth = 0;

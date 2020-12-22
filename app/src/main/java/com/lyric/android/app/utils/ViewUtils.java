@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 /**
  * view utils
  * 
- * @author lyricgan
+ * @author Lyric Gan
  */
 public class ViewUtils {
     /** 上一次操作时间 */

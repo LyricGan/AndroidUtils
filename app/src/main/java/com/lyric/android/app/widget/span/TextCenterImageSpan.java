@@ -9,8 +9,8 @@ import android.text.style.ImageSpan;
 
 /**
  * 解决TextView设置行间距导致与ImageSpan不对齐的问题
- * @author lyricgan
- * @time 2016/6/16 15:39
+ * @author Lyric Gan
+ * @since 2016/6/16 15:39
  */
 public class TextCenterImageSpan extends ImageSpan {
 

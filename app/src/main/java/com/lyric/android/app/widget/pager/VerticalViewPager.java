@@ -7,8 +7,8 @@ import android.view.MotionEvent;
 
 /**
  * 自定义ViewPager，转换x，y坐标实现竖直切换效果
- * @author lyricgan
- * @time 2017/2/28 11:46
+ * @author Lyric Gan
+ * @since 2017/2/28 11:46
  */
 public class VerticalViewPager extends ViewPager {
 
