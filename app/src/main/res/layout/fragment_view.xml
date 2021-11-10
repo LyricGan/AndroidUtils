@@ -16,12 +16,12 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/line_progress"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/solid_progress"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -29,7 +29,7 @@
                 app:progress_stroke_width="3dp"
                 app:style="solid" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -40,7 +40,7 @@
                 app:progress_text_color="@color/holo_blue_light"
                 app:style="line" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -59,7 +59,7 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -70,7 +70,7 @@
                 app:progress_text_size="@dimen/progress_text_size"
                 app:style="line" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -83,7 +83,7 @@
                 app:progress_text_color="@color/holo_purple"
                 app:style="line" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -95,7 +95,7 @@
                 app:progress_text_color="@color/holo_green_light"
                 app:style="solid" />
 
-            <com.lyric.android.app.widget.CircleProgressBar
+            <com.lyricgan.demo.util.widget.CircleProgressBar
                 android:id="@+id/custom_progress6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -107,7 +107,7 @@
                 app:style="line" />
         </LinearLayout>
 
-        <com.lyric.android.app.widget.PieView
+        <com.lyricgan.demo.util.widget.PieView
             android:id="@+id/pie_view"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -121,7 +121,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <com.lyric.android.app.widget.RingProgressBar
+            <com.lyricgan.demo.util.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_1"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -133,7 +133,7 @@
                 app:rpb_textColor="@color/black"
                 app:rpb_textSize="16sp" />
 
-            <com.lyric.android.app.widget.RingProgressBar
+            <com.lyricgan.demo.util.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_2"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -146,7 +146,7 @@
                 app:rpb_textColor="@color/black"
                 app:rpb_textSize="16sp" />
 
-            <com.lyric.android.app.widget.RingProgressBar
+            <com.lyricgan.demo.util.widget.RingProgressBar
                 android:id="@+id/ring_progress_bar_3"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -160,7 +160,7 @@
                 app:rpb_textSize="16sp" />
         </LinearLayout>
 
-        <com.lyric.android.app.widget.ClashBar
+        <com.lyricgan.demo.util.widget.ClashBar
             android:id="@+id/clash_bar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -170,7 +170,7 @@
             app:clash_bar_left_color="@color/holo_blue_light"
             app:clash_bar_right_color="@color/holo_green_light" />
 
-        <com.lyric.android.app.widget.HorizontalRatioBar
+        <com.lyricgan.demo.util.widget.HorizontalRatioBar
             android:id="@+id/horizontal_radio_bar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -191,7 +191,7 @@
             android:layout_marginTop="2dp"
             android:text="刷新" />
 
-        <com.lyric.android.app.widget.layout.TabDigitLayout
+        <com.lyricgan.demo.util.widget.layout.TabDigitLayout
             android:id="@+id/tab_digit_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
 
     </LinearLayout>
 
-    <com.lyric.android.app.widget.MovedCircleView
+    <com.lyricgan.demo.util.widget.MovedCircleView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:mcv_color="@color/colorPrimary"
