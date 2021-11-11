@@ -1,6 +1,7 @@
 package com.lyricgan.util;
 
 import android.app.Application;
+import android.content.Context;
 
 import java.lang.reflect.Field;
 
@@ -23,6 +24,10 @@ public class ApplicationUtils {
             setApplication(getApplicationByReflect());
         }
         return sApplication;
+    }
+
+    public static Context getContext() {
+        return getApplication();
     }
 
     private static Application getApplicationByReflect() {
