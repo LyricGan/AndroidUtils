@@ -12,11 +12,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lyricgan.demo.util.R;
-import com.lyricgan.demo.util.utils.ActivityUtils;
-import com.lyricgan.demo.util.widget.refresh.RefreshLayout;
-import com.lyricgan.demo.util.widget.refresh.OnRefreshListener;
 import com.lyricgan.demo.util.common.BaseFragment;
 import com.lyricgan.demo.util.common.BaseRecyclerAdapter;
+import com.lyricgan.demo.util.widget.refresh.OnRefreshListener;
+import com.lyricgan.demo.util.widget.refresh.RefreshLayout;
+import com.lyricgan.util.ActivityUtils;
 
 /**
  * 列表页面

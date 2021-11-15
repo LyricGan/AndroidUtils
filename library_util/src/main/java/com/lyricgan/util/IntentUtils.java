@@ -1,97 +1,40 @@
-package com.lyricgan.demo.util.utils;
+package com.lyricgan.util;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Build;
 
 import java.io.File;
 import java.util.Locale;
 
 /**
- * 页面跳转工具类
+ * Intent工具类
  * @author Lyric Gan
- * @since 2016/1/20 14:41
  */
-public class ActivityUtils {
-    
-    private ActivityUtils() {
-    }
+public class IntentUtils {
 
-    public static void startActivity(Context context, Class<? extends Activity> cls) {
-        startActivity(context, cls, null);
-    }
-
-    public static void startActivity(Context context, Class<? extends Activity> cls, Bundle bundle) {
-        Intent intent = new Intent(context, cls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(context, intent);
-    }
-
-    public static void startActivity(Context context, String action) {
-        Intent intent = new Intent(action);
-        startActivity(context, intent);
-    }
-
-    public static void startActivity(Context context, String action, Uri uri) {
-        Intent intent = new Intent(action, uri);
-        startActivity(context, intent);
-    }
-
-    public static void startActivity(Context context, String action, Bundle bundle) {
-        Intent intent = new Intent(action);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(context, intent);
-    }
-
-    public static void startActivity(Context context, Intent intent) {
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
-    }
-
-    public static void startActivityForResult(Activity activity, Class<? extends Activity> cls, int requestCode) {
-        startActivityForResult(activity, cls, requestCode, null);
-    }
-
-    public static void startActivityForResult(Activity activity, Class<? extends Activity> cls, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(activity, cls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivityForResult(activity, intent, requestCode);
-    }
-
-    public static void startActivityForResult(Activity activity, Intent intent, int requestCode) {
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startActivityForResult(Fragment fragment, Class<? extends Activity> cls, int requestCode) {
-        startActivityForResult(fragment, cls, requestCode, null);
-    }
-
-    public static void startActivityForResult(Fragment fragment, Class<? extends Activity> cls, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(fragment.getContext(), cls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivityForResult(fragment, intent, requestCode);
-    }
-
-    public static void startActivityForResult(Fragment fragment, Intent intent, int requestCode) {
-        fragment.startActivityForResult(intent, requestCode);
+    private IntentUtils() {
     }
 
     public static Intent getIntent(String action, String uriString) {
         Intent intent = new Intent(action);
         intent.setData(Uri.parse(uriString));
+        return intent;
+    }
+
+    /**
+     * 获取应用安装意图
+     * @param uri 安装文件Uri
+     * @return 应用安装意图
+     */
+    public static Intent getInstallIntent(Uri uri) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
         return intent;
     }
 
@@ -117,7 +60,7 @@ public class ActivityUtils {
      */
     public static Intent getFileIntent(String filePath) {
         // 获取扩展名
-        String end = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length()).toLowerCase(Locale.getDefault());
+        String end = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase(Locale.getDefault());
         /* 依扩展名的类型决定MimeType */
         if (end.equals("m4a") || end.equals("mp3") || end.equals("mid") || end.equals("xmf") || end.equals("ogg") || end.equals("wav")) {
             return getAudioFileIntent(filePath);
@@ -147,6 +90,7 @@ public class ActivityUtils {
             return getDefaultFileIntent(filePath);
         }
     }
+
     /**
      * 获取用于打开APK文件的Intent
      * @param filePath 文件路径

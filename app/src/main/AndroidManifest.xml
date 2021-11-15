@@ -20,8 +20,10 @@
         android:theme="@style/AppTheme.Default">
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +38,6 @@
                 <data android:scheme="utils" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.MainDetailsActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />

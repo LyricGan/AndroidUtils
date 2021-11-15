@@ -9,10 +9,8 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 /**
- * 软键盘工具类
- *
+ * 键盘工具类
  * @author Lyric Gan
- * @since 2016/4/6 11:14
  */
 public class InputMethodUtils {
 

@@ -5,9 +5,8 @@ import android.util.Log;
 import java.util.Hashtable;
 
 /**
- * 日志打印工具类
+ * 日志工具类
  * @author Lyric Gan
- * @since 2016/1/19 18:13
  */
 public class LogUtils {
     private static final String TAG = LogUtils.class.getSimpleName();

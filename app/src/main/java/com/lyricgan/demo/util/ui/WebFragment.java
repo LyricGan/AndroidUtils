@@ -2,7 +2,6 @@ package com.lyricgan.demo.util.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,8 +14,8 @@ import com.lyricgan.demo.util.DemoApplication;
 import com.lyricgan.demo.util.R;
 import com.lyricgan.demo.util.common.BaseFragment;
 import com.lyricgan.demo.util.common.Constants;
-import com.lyricgan.util.ToastUtils;
 import com.lyricgan.demo.util.widget.web.WebViewCompat;
+import com.lyricgan.util.ToastUtils;
 
 /**
  * web fragment
@@ -142,19 +141,11 @@ public class WebFragment extends BaseFragment {
     private void showDialog(final String imageUrl) {
         Dialog dialog = new AlertDialog.Builder(getActivity())
                 .setMessage("确定保存图片到本地")
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                .setPositiveButton(R.string.ok, (dialog1, which) -> {
+                    dialog1.dismiss();
 
-                        ToastUtils.show(DemoApplication.getContext(), "图片地址为" + imageUrl);
-                    }
-                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+                    ToastUtils.showToast(DemoApplication.getContext(), "图片地址为" + imageUrl);
+                }).setNegativeButton(R.string.cancel, (dialog12, which) -> dialog12.dismiss()).create();
         dialog.show();
     }
 }

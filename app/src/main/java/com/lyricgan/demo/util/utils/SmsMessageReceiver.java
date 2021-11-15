@@ -1,4 +1,4 @@
-package com.lyricgan.util;
+package com.lyricgan.demo.util.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class SmsMessageReceiver extends BroadcastReceiver {
     private static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
-    private String mSmsTag;
+    private final String mSmsTag;
 
     public SmsMessageReceiver(String smsTag) {
         this.mSmsTag = smsTag;

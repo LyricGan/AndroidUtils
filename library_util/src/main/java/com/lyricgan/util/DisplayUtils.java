@@ -15,11 +15,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * resource display utils
- *
+ * 页面展示工具类
  * @author Lyric Gan
  */
 public class DisplayUtils {
+
+    private DisplayUtils() {
+    }
 
     public static Resources getResources(Context context) {
         return context.getResources();

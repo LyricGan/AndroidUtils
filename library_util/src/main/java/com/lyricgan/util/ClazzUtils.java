@@ -13,12 +13,15 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
+ * Class工具类
  * @author Lyric Gan
- * @since 2016/6/24 10:56
  */
 public class ClazzUtils {
 
-    public static ParameterizedType type(final Class raw, final Type... args) {
+    private ClazzUtils() {
+    }
+
+    public static ParameterizedType type(final Class<?> raw, final Type... args) {
         return new ParameterizedType() {
             public Type getRawType() {
                 return raw;
@@ -55,8 +58,7 @@ public class ClazzUtils {
         }
         Type[] types = clazz.getGenericInterfaces();
         if (types != null) {
-            for (int i = 0; i < types.length; i++) {
-                Type t = types[i];
+            for (Type t : types) {
                 if (t instanceof ParameterizedType) {
                     Class<?> cls = (Class<?>) ((ParameterizedType) t).getRawType();
                     if (declaredClass.isAssignableFrom(cls)) {
@@ -100,24 +102,26 @@ public class ClazzUtils {
 
     /**
      * 查找接口下的所有实现类
+     *
      * @param clazz 接口
      * @return 接口下的所有实现类
      */
-    public static List<Class> getAllClassByInterface(Class<?> clazz) {
-        List<Class> resultList = new ArrayList<>();
+    public static List<Class<?>> getAllClassByInterface(Class<?> clazz) {
+        List<Class<?>> resultList = new ArrayList<>();
         if (clazz.isInterface()) {
             String packageName = clazz.getPackage().getName();
             try {
-                List<Class> classList = getClasses(packageName);
+                List<Class<?>> classList = getClasses(packageName);
+                if (classList == null) {
+                    return resultList;
+                }
                 for (int i = 0; i < classList.size(); i++) {
                     Class<?> cls = classList.get(i);
                     if (clazz.isAssignableFrom(cls) && !clazz.equals(cls)) {
                         resultList.add(cls);
                     }
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -126,13 +130,17 @@ public class ClazzUtils {
 
     /**
      * 从一个包中查找出所有的类，在jar包中不能查找
+     *
      * @param packageName 包名
      * @return 当前包下以及子包下的所有类
      * @throws ClassNotFoundException ClassNotFoundException
-     * @throws IOException IOException
+     * @throws IOException            IOException
      */
-    private static List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
+    private static List<Class<?>> getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null) {
+            return null;
+        }
         String path = packageName.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
         List<File> dirs = new ArrayList<>();
@@ -140,19 +148,22 @@ public class ClazzUtils {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        ArrayList<Class> classes = new ArrayList<>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
         return classes;
     }
 
-    private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<>();
+    private static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
+        List<Class<?>> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }
         File[] files = directory.listFiles();
+        if (files == null) {
+            return classes;
+        }
         for (File file : files) {
             if (file.isDirectory()) {
                 if (file.getName().contains(".")) {

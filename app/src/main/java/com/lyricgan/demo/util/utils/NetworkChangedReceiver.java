@@ -1,4 +1,4 @@
-package com.lyricgan.util;
+package com.lyricgan.demo.util.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,7 +20,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
     private static final String TAG = NetworkChangedReceiver.class.getSimpleName();
     private static final IntentFilter NETWORK_INTENT_FILTER = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
     private static NetworkChangedReceiver mInstance;
-    private List<NetStateChangedListener> mListeners;
+    private final List<NetStateChangedListener> mListeners;
 
     private NetworkChangedReceiver() {
         mListeners = new ArrayList<>();

@@ -1,24 +1,24 @@
 package com.lyricgan.util;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -26,6 +26,8 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
+import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,33 +40,159 @@ import java.io.InputStream;
 
 /**
  * 图片工具类
- * 
  * @author Lyric Gan
  */
 public class ImageUtils {
+    private static final Rect EMPTY_RECT = new Rect();
 
-	private ImageUtils() {
-	}
-	
-	/**
-	 * 从字节数组中获取图片
-	 * @param bytes 字节数组
-	 * @return Bitmap
-	 */
-	public static Bitmap bytesToBitmap(byte[] bytes) {
-		if (bytes == null || bytes.length == 0) {
-			return null;
-		}
-		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-	}
-	
-	/**
-	 * 将Bitmap转换为字节数组
-	 * @param bitmap Bitmap
-	 * @param format 图片格式
-	 * @return byte[]
-	 */
-	public static byte[] bitmapToBytes(Bitmap bitmap, Bitmap.CompressFormat format) {
+    private ImageUtils() {
+    }
+
+    public static Bitmap decodeBitmap(Context context, Uri uri, int maxWidth, int maxHeight) {
+        try {
+            ContentResolver resolver = context.getContentResolver();
+            BitmapFactory.Options options = decodeImageForOption(resolver, uri);
+            int outputWidth = options.outWidth;
+            int outputHeight = options.outHeight;
+            if (outputWidth == -1 && outputHeight == -1) {
+                return null;
+            }
+            options.inSampleSize = calculateInSampleSize(outputWidth, outputHeight, maxWidth, maxHeight);
+            Bitmap bitmap = decodeImage(resolver, uri, options);
+            if (bitmap != null) {
+                return bitmap;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Decode image from uri using "inJustDecodeBounds" to get the image dimensions.
+     */
+    private static BitmapFactory.Options decodeImageForOption(ContentResolver resolver, Uri uri) throws FileNotFoundException {
+        InputStream stream = null;
+        try {
+            stream = resolver.openInputStream(uri);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(stream, EMPTY_RECT, options);
+            options.inJustDecodeBounds = false;
+            return options;
+        } finally {
+            closeSafe(stream);
+        }
+    }
+
+    /**
+     * Decode image from uri using given "inSampleSize", but if failed due to out-of-memory then raise
+     * the inSampleSize until success.
+     */
+    private static Bitmap decodeImage(ContentResolver resolver, Uri uri, BitmapFactory.Options options) throws FileNotFoundException {
+        do {
+            InputStream stream = null;
+            try {
+                stream = resolver.openInputStream(uri);
+                return BitmapFactory.decodeStream(stream, EMPTY_RECT, options);
+            } catch (OutOfMemoryError e) {
+                options.inSampleSize *= 2;
+            } finally {
+                closeSafe(stream);
+            }
+        } while (options.inSampleSize <= 512);
+        return null;
+    }
+
+    private static void closeSafe(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private static int calculateInSampleSize(int width, int height, int reqWidth, int reqHeight) {
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            while ((height / 2 / inSampleSize) >= reqHeight && (width / 2 / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, float degrees) {
+        if (bitmap == null) {
+            return null;
+        }
+        try {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degrees);
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public static Bitmap toOvalBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+
+        int color = Color.WHITE;
+        Paint paint = new Paint();
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+
+        RectF rect = new RectF(0, 0, width, height);
+        canvas.drawOval(rect, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+
+        bitmap.recycle();
+
+        return output;
+    }
+
+    public static Bitmap getBitmap(String base64) {
+        if (TextUtils.isEmpty(base64)) {
+            return null;
+        }
+        try {
+            byte[] bytes = Base64.decode(base64.split(",")[1], Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 从字节数组中获取图片
+     * @param bytes 字节数组
+     * @return Bitmap
+     */
+    public static Bitmap bytesToBitmap(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /**
+     * 将Bitmap转换为字节数组
+     * @param bitmap Bitmap
+     * @param format 图片格式
+     * @return byte[]
+     */
+    public static byte[] bitmapToBytes(Bitmap bitmap, Bitmap.CompressFormat format) {
         if (bitmap == null) {
             return null;
         }
@@ -72,57 +200,57 @@ public class ImageUtils {
         bitmap.compress(format, 100, outputStream);
         return outputStream.toByteArray();
     }
-	
-	/**
-	 * 从Drawable中获取图片
-	 * @param drawable Drawable
-	 * @return Bitmap
-	 */
-	public static Bitmap drawableToBitmap(Drawable drawable) {
-		if (drawable == null) {
-			return null;
-		}
-		return ((BitmapDrawable) drawable).getBitmap();
-	}
-	
-	/**
-	 * 将Bitmap转换为Drawable
-	 * @param bitmap Bitmap
-	 * @return Drawable
-	 */
-	public static Drawable bitmapToDrawable(Bitmap bitmap) {
+
+    /**
+     * 从Drawable中获取图片
+     * @param drawable Drawable
+     * @return Bitmap
+     */
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+        return ((BitmapDrawable) drawable).getBitmap();
+    }
+
+    /**
+     * 将Bitmap转换为Drawable
+     * @param bitmap Bitmap
+     * @return Drawable
+     */
+    public static Drawable bitmapToDrawable(Bitmap bitmap) {
         return bitmap == null ? null : new BitmapDrawable(bitmap);
     }
-	
-	/**
-	 * 将Bitmap转换为Drawable
-	 * @param context Context
-	 * @param bitmap Bitmap
-	 * @return Drawable
-	 */
-	public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
-		if (context == null) {
-			return null;
-		}
+
+    /**
+     * 将Bitmap转换为Drawable
+     * @param context Context
+     * @param bitmap Bitmap
+     * @return Drawable
+     */
+    public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
+        if (context == null) {
+            return null;
+        }
         return bitmap == null ? null : new BitmapDrawable(context.getResources(), bitmap);
     }
-	
-	/**
-	 * 将Drawable转换为字节数组
-	 * @param drawable Drawable
-	 * @param format 图片格式
-	 * @return byte[]
-	 */
-	public static byte[] drawableToBytes(Drawable drawable, Bitmap.CompressFormat format) {
+
+    /**
+     * 将Drawable转换为字节数组
+     * @param drawable Drawable
+     * @param format 图片格式
+     * @return byte[]
+     */
+    public static byte[] drawableToBytes(Drawable drawable, Bitmap.CompressFormat format) {
         return bitmapToBytes(drawableToBitmap(drawable), format);
     }
-	
-	/**
-	 * 将字节数组转换为Drawable
-	 * @param bytes byte[]
-	 * @return Drawable
-	 */
-	public static Drawable bytesToDrawable(byte[] bytes) {
+
+    /**
+     * 将字节数组转换为Drawable
+     * @param bytes byte[]
+     * @return Drawable
+     */
+    public static Drawable bytesToDrawable(byte[] bytes) {
         return bitmapToDrawable(bytesToBitmap(bytes));
     }
 
@@ -286,63 +414,36 @@ public class ImageUtils {
         return BitmapFactory.decodeStream(inputStream, null, null);
     }
 
-    /**
-     * 获取图片旋转角度
-     * @param imagePath 图片地址
-     * @return 图片旋转角度
-     */
-    public static int readImageDegree(String imagePath) {
-        int degree = 0;
-        try {
-            ExifInterface exifInterface = new ExifInterface(imagePath);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return degree;
-    }
-
     public static Bitmap rotateBitmap(Bitmap bitmap, int degree) {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
-	/**
-	 * 对图片做灰度处理
-	 * @param bitmap 需要修改的图片
-	 * @return 去色后的图片
+    /**
+     * 对图片做灰度处理
+     * @param bitmap 需要修改的图片
+     * @return 去色后的图片
      * @see Bitmap.Config#ALPHA_8
      * @see Bitmap.Config#RGB_565
      * @see Bitmap.Config#ARGB_4444
      * @see Bitmap.Config#ARGB_8888
-	 */
-	public static Bitmap getGrayScaleBitmap(Bitmap bitmap) {
+     */
+    public static Bitmap getGrayScaleBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
         }
-		Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.RGB_565);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(newBitmap);
         Paint paint = new Paint();
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
-		paint.setColorFilter(colorMatrixFilter);
-		canvas.drawBitmap(bitmap, 0, 0, paint);
-		
-		return newBitmap;
-	}
+        paint.setColorFilter(colorMatrixFilter);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+
+        return newBitmap;
+    }
 
     /**
      * 对图片做圆角处理
@@ -351,11 +452,11 @@ public class ImageUtils {
      * @param color 圆边颜色
      * @return 圆角图片
      */
-	public static Bitmap getRoundCornerBitmap(Bitmap bitmap, int pixels, int color) {
+    public static Bitmap getRoundCornerBitmap(Bitmap bitmap, int pixels, int color) {
         if (bitmap == null) {
             return null;
         }
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         RectF rectF = new RectF(rect);
         Paint paint = new Paint();
@@ -364,7 +465,7 @@ public class ImageUtils {
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
         canvas.drawRoundRect(rectF, pixels, pixels, paint);
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return newBitmap;

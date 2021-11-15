@@ -1,4 +1,4 @@
-package com.lyricgan.util;
+package com.lyricgan.demo.util.utils;
 
 import android.view.View;
 import android.view.ViewConfiguration;

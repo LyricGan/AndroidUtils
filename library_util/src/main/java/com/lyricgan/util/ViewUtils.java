@@ -8,17 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.text.Selection;
-import android.text.Spannable;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -27,18 +22,30 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * view utils
- * 
+ * 视图工具类
  * @author Lyric Gan
  */
 public class ViewUtils {
-    /** 上一次操作时间 */
-    private static long sLastOperateTime;
+    private static final long MAX_OPERATE_DELAY_TIME = 500L;
+    private static long sLastOperateTime;// 记录上一次操作时间
 
-    public static boolean isFastOperated(long maxDelayTimes) {
+    private ViewUtils() {
+    }
+
+    public static boolean isFastOperated() {
+        return isFastOperated(MAX_OPERATE_DELAY_TIME);
+    }
+
+    /**
+     * 判断是否快速操作
+     *
+     * @param delayTimes 操作间隔时间
+     * @return true or false
+     */
+    public static boolean isFastOperated(long delayTimes) {
         long time = System.currentTimeMillis();
         long dis = time - sLastOperateTime;
-        if (0 < dis && dis < maxDelayTimes) {
+        if (0 < dis && dis < delayTimes) {
             return true;
         }
         sLastOperateTime = time;
@@ -115,56 +122,6 @@ public class ViewUtils {
         height += view.getPaddingTop() + view.getPaddingBottom();
         return height;
     }
-    
-	/**
-	 * 隐藏软键盘
-	 * @param context Context
-	 * @param editText EditText
-	 */
-	public static void hideSoftKeyboard(Context context, EditText editText) {
-		InputMethodManager imm = null;
-		try {
-			imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		if (imm != null) {
-			imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-		}
-	}
-	
-	/**
-	 * 显示软键盘
-	 * @param context Context
-     * @param editText EditText
-	 */
-	public static void showSoftKeyboard(Context context, EditText editText) {
-		InputMethodManager imm = null;
-		try {
-			imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		if (imm != null) {
-			boolean isInputOpen = imm.isActive();
-			if (!isInputOpen) {
-				imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
-			}
-		}
-	}
-	
-	/**
-	 * 设置输入框光标停留在文字后面
-	 * @param context Context
-     * @param editText EditText
-	 */
-	public static void setTextCursor(Context context, EditText editText) {
-		CharSequence text = editText.getText();
-		if (text != null) {
-			Spannable spanText = (Spannable) text;
-			Selection.setSelection(spanText, text.length());
-		}
-	}
 	
     /**
      * 解决ScrollView嵌套导致的高度计算问题
@@ -197,33 +154,6 @@ public class ViewUtils {
             e.printStackTrace();
         }
         return statusBarHeight;
-    }
-
-    public static void setStatusBarColor(Activity activity, int color) {
-        setStatusBarColor(activity, color, false);
-    }
-
-    /**
-     * 设置状态栏颜色，需要在style文件加上<item name="android:fitsSystemWindows">true</item>
-     * @param activity Activity
-     * @param color 状态栏颜色
-     * @param isInjectNavigation 是否影响虚拟导航栏
-     */
-    public static void setStatusBarColor(Activity activity, int color, boolean isInjectNavigation) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (isInjectNavigation) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
-            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-            tintManager.setStatusBarTintColor(color);
-            tintManager.setStatusBarTintEnabled(true);
-            if (isInjectNavigation) {
-                tintManager.setNavigationBarTintColor(color);
-                tintManager.setNavigationBarTintEnabled(true);
-            }
-        }
     }
 
     public static void setStatusBarOverlay(Activity activity) {
