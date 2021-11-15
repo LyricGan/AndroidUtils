@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.text.TextUtils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -86,56 +84,25 @@ public class PackageManagerUtils {
      * @return 安装的应用程序列表
      */
     public static List<ApplicationInfo> getInstalledApplications(Context context, int flag) {
-        PackageManager packageManager = context.getPackageManager();
-        return packageManager.getInstalledApplications(flag);
+        return context.getPackageManager().getInstalledApplications(flag);
     }
 
     /**
-     * 获取应用签名信息
+     * 获取应用签名
      * @param context 上下文
      * @param packageName 应用包名
-     * @return 应用签名字符串
+     * @return 应用签名
      */
-    public static String getSignatureInfo(Context context, String packageName) {
+    public static Signature getSignature(Context context, String packageName) {
         if (TextUtils.isEmpty(packageName)) {
             return null;
         }
         PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(PackageManager.GET_SIGNATURES);
-        Iterator<PackageInfo> iterator = packageInfoList.iterator();
-        Signature[] signatureArray = null;
-        while (iterator.hasNext()) {
-            PackageInfo packageInfo = iterator.next();
-            // 判断包名是否相同
+        for (PackageInfo packageInfo : packageInfoList) {
             if (packageName.equals(packageInfo.packageName)) {
-                signatureArray = packageInfo.signatures;
+                return packageInfo.signatures[0];
             }
-        }
-        // 判断签名数组是否为空
-        if (signatureArray != null) {
-            StringBuilder builder = new StringBuilder();
-            for (Signature itemSignature : signatureArray) {
-                builder.append(itemSignature);
-            }
-            return builder.toString();
-        }
-        return null;
-    }
-
-    public static String getApkSignMd5(Context context, String packageName) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES);
-            } else {
-                packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
-            }
-            Signature[] signatures = packageInfo.signatures;
-            byte[] signBytes = signatures[0].toByteArray();
-            return Md5Utils.md5Encode(signBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -147,22 +114,8 @@ public class PackageManagerUtils {
      * @return true or false
      */
     public static boolean isAppInstalled(Context context, String packageName) {
-        PackageManager packageManager = context.getPackageManager();
-        // 获取所有已安装程序的包信息
-        List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
-        List<String> packageNameList = new ArrayList<>();
-        for (int i = 0; i < packageInfoList.size(); i++) {
-            String packName = packageInfoList.get(i).packageName;
-            packageNameList.add(packName);
-        }
-        // 判断包名列表中是否有目标程序的包名
-        return packageNameList.contains(packageName);
-    }
-
-    public static boolean isAppInstalled2(Context context, String packageName) {
-        PackageManager packageManager = context.getPackageManager();
         try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
             return (packageInfo != null);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
