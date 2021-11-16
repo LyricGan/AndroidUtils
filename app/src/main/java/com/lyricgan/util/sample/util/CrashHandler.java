@@ -6,9 +6,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,33 +20,27 @@ import java.util.Properties;
 import java.util.TreeSet;
 
 /**
- * crash handler
- *
+ * 崩溃处理工具
  * @author Lyric Gan
  */
-public class CrashHandler implements Thread.UncaughtExceptionHandler {
+public abstract class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String CRASH_REPORTER_EXTENSION = ".cr";
     private static final String VERSION_NAME = "version_name";
     private static final String VERSION_CODE = "version_code";
     private static final String STACK_TRACE = "stack_trace";
 
-    private Context mContext;
-    private Thread.UncaughtExceptionHandler mHandler;
+    private final Context mContext;
+    private final Thread.UncaughtExceptionHandler mHandler;
 
-    private Properties mCrashProperties = new Properties();
+    private final Properties mCrashProperties = new Properties();
 
     private CrashHandler(Context context) {
         this.mContext = context.getApplicationContext();
         this.mHandler = Thread.getDefaultUncaughtExceptionHandler();
     }
 
-    public static void init(Context context) {
-        CrashHandler handler = new CrashHandler(context);
-        Thread.setDefaultUncaughtExceptionHandler(handler);
-    }
-
     @Override
-    public void uncaughtException(Thread thread, Throwable ex) {
+    public void uncaughtException(@NonNull Thread thread, @NonNull Throwable ex) {
         Context context = mContext;
         collectCrashDeviceInfo(context);
 
@@ -54,10 +49,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             sendCrashReportFiles(context);
             return;
         }
-
         if (mHandler != null) {
             mHandler.uncaughtException(thread, ex);
         }
+    }
+
+    public static void init(CrashHandler handler) {
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
     private void collectCrashDeviceInfo(Context context) {
@@ -126,13 +124,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private String[] getCrashReportFiles(Context context) {
         File filesDir = context.getFilesDir();
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(CRASH_REPORTER_EXTENSION);
-            }
-        };
-        return filesDir.list(filter);
+        return filesDir.list((dir, name) -> name.endsWith(CRASH_REPORTER_EXTENSION));
     }
 
     private void sendCrashReportFiles(Context context) {
@@ -146,7 +138,5 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    public void sendCrashReportFile(File file) {
-
-    }
+    public abstract void sendCrashReportFile(File file);
 }
