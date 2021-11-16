@@ -1,6 +1,11 @@
 package com.lyricgan.util;
 
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 
@@ -274,5 +279,72 @@ public class IntentUtils {
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
+    }
+
+    /**
+     * 创建快捷方式
+     * @param context 上下文对象
+     * @param shortcutName 名称
+     * @param resourceId 快捷图标
+     * @param cls 快捷方式启动类
+     */
+    public static void createShortcut(Context context, String shortcutName, int resourceId, Class<?> cls) {
+        Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Intent.ShortcutIconResource.fromContext(context, resourceId));
+        // 设置为不允许重复创建
+        intent.putExtra("duplicate", false);
+
+        Intent launchIntent = new Intent(Intent.ACTION_MAIN);
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
+        launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        launchIntent.setClass(context, cls);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
+
+        context.sendBroadcast(intent);
+    }
+
+    /**
+     * 删除快捷方式
+     * @param context 上下文对象
+     * @param shortcutName 名称
+     * @param activity Activity
+     */
+    public static void deleteShortcut(Context context, String shortcutName, Activity activity) {
+        Intent shortCutIntent = new Intent("com.android.launcher.action.UNINSTALL_SHORTCUT");
+        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
+        String name = context.getPackageName();
+        String appClass = name + "." + activity.getLocalClassName();
+        ComponentName componentName = new ComponentName(name, appClass);
+        shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(Intent.ACTION_MAIN).setComponent(componentName));
+        context.sendBroadcast(shortCutIntent);
+    }
+
+    /**
+     * 判断应用快捷方式是否创建
+     * @param context 上下文对象
+     * @param shortcutName 名称
+     * @return 应用快捷方式是否创建
+     */
+    public static boolean isShortcutCreated(Context context, String shortcutName) {
+        boolean isShortCutCreated = false;
+        final ContentResolver cr = context.getContentResolver();
+        final String AUTHORITY = "com.android.launcher2.settings";
+        final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
+        Cursor cursor = null;
+        try {
+            cursor = cr.query(CONTENT_URI, new String[]{"title", "iconResource"}, "title=?",
+                    new String[]{shortcutName}, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 判断游标是否为空
+            if (cursor != null && cursor.getCount() > 0) {
+                isShortCutCreated = true;
+                cursor.close();
+            }
+        }
+        return isShortCutCreated;
     }
 }

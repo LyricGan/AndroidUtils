@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lyricgan.demo.util">
+    package="com.lyricgan.util.sample">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,39 +11,21 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".DemoApplication"
+        android:name=".SampleApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme.Default">
-
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="utils" />
-            </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.MainDetailsActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-
-        <meta-data
-            android:name="APP_CHANNEL"
-            android:value="${APP_CHANNEL_VALUE}" />
     </application>
 </manifest>
