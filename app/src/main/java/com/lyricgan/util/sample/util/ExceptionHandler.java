@@ -20,10 +20,10 @@ import java.util.Properties;
 import java.util.TreeSet;
 
 /**
- * 崩溃处理工具
+ * 异常处理工具
  * @author Lyric Gan
  */
-public abstract class CrashHandler implements Thread.UncaughtExceptionHandler {
+public abstract class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     private static final String CRASH_REPORTER_EXTENSION = ".cr";
     private static final String VERSION_NAME = "version_name";
     private static final String VERSION_CODE = "version_code";
@@ -34,7 +34,7 @@ public abstract class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private final Properties mCrashProperties = new Properties();
 
-    private CrashHandler(Context context) {
+    private ExceptionHandler(Context context) {
         this.mContext = context.getApplicationContext();
         this.mHandler = Thread.getDefaultUncaughtExceptionHandler();
     }
@@ -54,7 +54,7 @@ public abstract class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    public static void init(CrashHandler handler) {
+    public static void init(ExceptionHandler handler) {
         Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
