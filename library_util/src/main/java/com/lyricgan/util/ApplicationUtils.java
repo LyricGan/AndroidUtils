@@ -2,6 +2,7 @@ package com.lyricgan.util;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import java.lang.reflect.Field;
 
@@ -11,6 +12,10 @@ import java.lang.reflect.Field;
  */
 public class ApplicationUtils {
     private static Application sApplication;
+    /**
+     * 当前是否为调试模式标识
+     */
+    private static Boolean sDebugMode;
 
     private ApplicationUtils() {
     }
@@ -21,7 +26,7 @@ public class ApplicationUtils {
 
     public static Application getApplication() {
         if (sApplication == null) {
-            setApplication(getApplicationByReflect());
+            sApplication = getApplicationByReflect();
         }
         return sApplication;
     }
@@ -73,5 +78,25 @@ public class ApplicationUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 判断当前是否为调试模式
+     * @param context 上下文
+     * @return true or false
+     */
+    public static boolean isDebugMode(Context context) {
+        if (sDebugMode == null) {
+            sDebugMode = (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        }
+        return sDebugMode;
+    }
+
+    /**
+     * 设置当前是否为调试模式
+     * @param debugMode true or false
+     */
+    public static void setDebugMode(boolean debugMode) {
+        sDebugMode = debugMode;
     }
 }
