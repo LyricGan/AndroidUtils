@@ -8,6 +8,9 @@ import java.security.MessageDigest;
  */
 public class ShaUtils {
 
+    private ShaUtils() {
+    }
+
     public static String getSha1(String str, boolean upperCase) {
         char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'a', 'b', 'c', 'd', 'e', 'f'};

@@ -30,6 +30,9 @@ public class UriUtils {
     /** Data scheme for URIs */
     private static final String DATA_SCHEME = "data";
 
+    private UriUtils() {
+    }
+
     /**
      * Check if uri represents network resource
      *

@@ -31,6 +31,9 @@ public class RegexUtils {
      */
     public static final String REGEX_ID_CARD18     = "^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9Xx])$";
 
+    private RegexUtils() {
+    }
+
     public static boolean isMobileSimple(final CharSequence input) {
         return isMatch(REGEX_MOBILE_SIMPLE, input);
     }
