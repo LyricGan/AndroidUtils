@@ -1,9 +1,9 @@
 package com.lyricgan.util.sample;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.lyricgan.util.ToastUtils;
 
@@ -11,7 +11,7 @@ import com.lyricgan.util.ToastUtils;
  * 主页面
  * @author Lyric Gan
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

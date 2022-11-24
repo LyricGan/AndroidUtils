@@ -1,7 +1,7 @@
 AndroidUtils
 ===============
 
-轻量的工具库。
+Lite utils for Android.
 
 License
 -------

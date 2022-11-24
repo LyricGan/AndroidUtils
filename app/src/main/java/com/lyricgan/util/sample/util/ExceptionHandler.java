@@ -34,7 +34,7 @@ public abstract class ExceptionHandler implements Thread.UncaughtExceptionHandle
 
     private final Properties mCrashProperties = new Properties();
 
-    private ExceptionHandler(Context context) {
+    public ExceptionHandler(Context context) {
         this.mContext = context.getApplicationContext();
         this.mHandler = Thread.getDefaultUncaughtExceptionHandler();
     }

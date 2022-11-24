@@ -1,4 +1,4 @@
-package com.lyricgan.util.sample.util;
+package com.lyricgan.util;
 
 import android.view.View;
 import android.widget.AbsListView;

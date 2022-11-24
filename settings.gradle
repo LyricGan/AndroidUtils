@@ -1,2 +1,2 @@
 include ':app'
-include ':library_util'
+include ':util'

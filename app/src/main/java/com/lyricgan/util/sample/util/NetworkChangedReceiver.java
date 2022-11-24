@@ -59,13 +59,11 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
         if (listener == null) {
             return;
         }
-        if (mListeners.contains(listener)) {
-            mListeners.remove(listener);
-        }
+        mListeners.remove(listener);
     }
 
     public void clearNetStateChangeListeners() {
-        if (mListeners != null && !mListeners.isEmpty()) {
+        if (!mListeners.isEmpty()) {
             mListeners.clear();
         }
     }

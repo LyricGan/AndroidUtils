@@ -1,4 +1,4 @@
-package com.lyricgan.util;
+package com.lyricgan.util.sample.util;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -274,10 +274,8 @@ public class ViewUtils {
     public static void convertActivityFromTranslucent(Activity activity) {
         try {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent");
-            if (method != null) {
-                method.setAccessible(true);
-                method.invoke(activity);
-            }
+            method.setAccessible(true);
+            method.invoke(activity);
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -306,16 +304,12 @@ public class ViewUtils {
             }
             if (Build.VERSION.SDK_INT >= 21) {
                 Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerCls, ActivityOptions.class);
-                if (method != null) {
-                    method.setAccessible(true);
-                    method.invoke(activity, new Object[] { null, null });
-                }
+                method.setAccessible(true);
+                method.invoke(activity, new Object[] { null, null });
             } else {
                 Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerCls);
-                if (method != null) {
-                    method.setAccessible(true);
-                    method.invoke(activity, new Object[] { null });
-                }
+                method.setAccessible(true);
+                method.invoke(activity, new Object[] { null });
             }
         } catch (Throwable t) {
             t.printStackTrace();
